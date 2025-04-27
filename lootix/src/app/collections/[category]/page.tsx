@@ -18,15 +18,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata(
-  { params }: PageProps,
-  parent: ResolvingMetadata
-): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   return {
     title: `${params.category} Collection | Lootix`,
   };
 }
-
 export default function CollectionPage({ params }: PageProps) {
   const { category } = params;
   const filteredProducts = dummyProducts.filter(
