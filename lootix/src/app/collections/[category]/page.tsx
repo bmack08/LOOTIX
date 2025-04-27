@@ -43,7 +43,7 @@ export default function CollectionPage({ params }: Props) {
         {filteredProducts.map((product) => (
           <Link key={product.slug} href={`/product/${product.slug}`}>
             <div className="bg-zinc-800 p-4 rounded-lg hover:scale-105 transition">
-              <img
+              <Image
                 src={product.image}
                 alt={product.name}
                 className="w-full h-64 object-cover rounded mb-4"

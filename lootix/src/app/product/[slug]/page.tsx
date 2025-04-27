@@ -26,7 +26,7 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
   return (
     <main className="min-h-screen bg-zinc-950 text-white p-8">
       <div className="max-w-4xl mx-auto">
-        <img
+        <Image
           src={product.image}
           alt={product.name}
           className="rounded-lg mb-6 w-full h-auto object-cover"
