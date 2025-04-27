@@ -2,7 +2,7 @@ import { dummyProducts } from "@/data/dummyProducts";
 import Link from "next/link";
 import Image from "next/image"; // 🛠️ FIXED: import Image
 import { notFound } from "next/navigation";
-import { Metadata, ResolvingMetadata } from "next"; // 🛠️ NEXT built-in types
+import { Metadata } from "next"; // 🛠️ NEXT built-in types
 
 // 🛠️ FIXED: Correct typing from Next.js
 interface PageProps {
