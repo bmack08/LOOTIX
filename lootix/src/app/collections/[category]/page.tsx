@@ -1,5 +1,6 @@
 import { dummyProducts } from "@/data/dummyProducts";
 import Link from "next/link";
+import { notFound } from "next/navigation"; // for handling bad slugs
 
 export async function generateStaticParams() {
   const categories = ["fantasy", "luxe", "youth", "accessories"];
@@ -8,23 +9,21 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function CollectionPage({ params }: { params: { category: string } }) {
+// FIXED: Correct way to type params now
+interface CollectionPageProps {
+  params: {
+    category: string;
+  };
+}
+
+export default function CollectionPage({ params }: CollectionPageProps) {
   const { category } = params;
   const filteredProducts = dummyProducts.filter(
     (product) => product.category === category
   );
 
   if (filteredProducts.length === 0) {
-    return (
-      <div className="min-h-screen flex items-center justify-center text-center text-white">
-        <div>
-          <h1 className="text-3xl font-bold">No Products Found</h1>
-          <Link href="/" className="mt-4 inline-block text-blue-400">
-            ← Back to Home
-          </Link>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   return (
