@@ -1,15 +1,11 @@
 import { dummyProducts } from "@/data/dummyProducts";
 import Link from "next/link";
-import Image from "next/image"; // 🛠️ FIXED: import Image
+import Image from "next/image";
 import { notFound } from "next/navigation";
-import { Metadata } from "next"; // 🛠️ NEXT built-in types
+import { Metadata } from "next";
 
-// 🛠️ FIXED: Correct typing from Next.js
-interface PageProps {
-  params: {
-    category: string;
-  };
-}
+// ✅ REMOVE your old manual type PageProps
+// ✅ USE Next.js App Router dynamic typing
 
 export async function generateStaticParams() {
   const categories = ["fantasy", "luxe", "youth", "accessories"];
@@ -18,12 +14,17 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: { params: { category: string } }
+): Promise<Metadata> {
   return {
     title: `${params.category} Collection | Lootix`,
   };
 }
-export default function CollectionPage({ params }: PageProps) {
+
+export default function CollectionPage(
+  { params }: { params: { category: string } }
+) {
   const { category } = params;
   const filteredProducts = dummyProducts.filter(
     (product) => product.category === category
