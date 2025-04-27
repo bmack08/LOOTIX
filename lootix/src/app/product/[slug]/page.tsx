@@ -1,5 +1,6 @@
 import { dummyProducts } from "@/data/dummyProducts";
 import Link from "next/link";
+import Image from "next/image"; // 🛠️ FIXED: import Image
 
 export async function generateStaticParams() {
   return dummyProducts.map((product) => ({
