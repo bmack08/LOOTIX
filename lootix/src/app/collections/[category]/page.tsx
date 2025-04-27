@@ -4,8 +4,12 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
-// ✅ REMOVE your old manual type PageProps
-// ✅ USE Next.js App Router dynamic typing
+// ✅ THIS IS THE ONLY TYPE YOU NEED
+interface Params {
+  params: {
+    category: string;
+  };
+}
 
 export async function generateStaticParams() {
   const categories = ["fantasy", "luxe", "youth", "accessories"];
@@ -14,17 +18,13 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata(
-  { params }: { params: { category: string } }
-): Promise<Metadata> {
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
   return {
     title: `${params.category} Collection | Lootix`,
   };
 }
 
-export default function CollectionPage(
-  { params }: { params: { category: string } }
-) {
+export default function CollectionPage({ params }: Params) {
   const { category } = params;
   const filteredProducts = dummyProducts.filter(
     (product) => product.category === category
