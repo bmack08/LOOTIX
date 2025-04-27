@@ -1,6 +1,7 @@
 const products = [
     {
       id: 1,
+      
       name: "Shadowcloak Hoodie",
       tagline: "Stealth meets streetwear",
       price: 64.99,

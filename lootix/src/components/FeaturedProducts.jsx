@@ -1,4 +1,5 @@
-import products from "@/data/dummyProducts";
+import products from "@/app/data/dummyProducts";
+import Link from "next/link";
 
 export default function FeaturedProducts() {
   return (
@@ -17,3 +18,8 @@ export default function FeaturedProducts() {
     </section>
   );
 }
+
+<Link href={`/product/${product.slug}`}>
+  <img src={product.image} alt={product.name} />
+  <h2>{product.name}</h2>
+</Link>
