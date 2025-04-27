@@ -1,30 +1,26 @@
-const products = [
-    {
-      id: 1,
-      
-      name: "Shadowcloak Hoodie",
-      tagline: "Stealth meets streetwear",
-      price: 64.99,
-      slug: "shadowcloak-hoodie",
-      image: "/images/products/hoodie1.jpg",
-    },
-    {
-      id: 2,
-      name: "Arcane Sigil Tee",
-      tagline: "For modern-day mages",
-      price: 34.99,
-      slug: "arcane-sigil-tee",
-      image: "/images/products/tee1.jpg",
-    },
-    {
-      id: 3,
-      name: "Loot Pouch Slingbag",
-      tagline: "Carry your quests in style",
-      price: 49.99,
-      slug: "loot-pouch-sling",
-      image: "/images/products/bag1.jpg",
-    },
-  ];
-  
-  export default products;
-  
+export const dummyProducts = [
+  {
+    slug: "shadowcloak-hoodie",
+    name: "Shadowcloak Hoodie",
+    description: "Stealth meets streetwear",
+    price: 64.99,
+    image: "/images/products/hoodie1.jpg",
+    category: "fantasy",
+  },
+  {
+    slug: "arcane-sigil-tee",
+    name: "Arcane Sigil Tee",
+    description: "For modern-day mages",
+    price: 34.99,
+    image: "/images/products/tee1.jpg",
+    category: "luxe",
+  },
+  {
+    slug: "loot-pouch-slingbag",
+    name: "Loot Pouch Slingbag",
+    description: "Carry your quests in style",
+    price: 49.99,
+    image: "/images/products/bag1.jpg",
+    category: "accessories",
+  },
+];

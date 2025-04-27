@@ -1,4 +1,4 @@
-import { dummyProducts } from "@/app/data/dummyProducts";
+import { dummyProducts } from "@/data/dummyProducts";
 import Link from "next/link";
 
 export async function generateStaticParams() {
