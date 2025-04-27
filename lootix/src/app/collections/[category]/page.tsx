@@ -1,13 +1,15 @@
 import { dummyProducts } from "@/data/dummyProducts";
 import Link from "next/link";
+import Image from "next/image"; // 🛠️ FIXED: import Image
 import { notFound } from "next/navigation";
-import { Metadata } from "next";  // Optional for SEO
+import { Metadata, ResolvingMetadata } from "next"; // 🛠️ NEXT built-in types
 
-type Props = {
+// 🛠️ FIXED: Correct typing from Next.js
+interface PageProps {
   params: {
     category: string;
   };
-};
+}
 
 export async function generateStaticParams() {
   const categories = ["fantasy", "luxe", "youth", "accessories"];
@@ -16,15 +18,16 @@ export async function generateStaticParams() {
   }));
 }
 
-// Optional SEO metadata
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(
+  { params }: PageProps,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
   return {
     title: `${params.category} Collection | Lootix`,
   };
 }
 
-// REAL FIX RIGHT HERE ↓↓↓
-export default function CollectionPage({ params }: Props) {
+export default function CollectionPage({ params }: PageProps) {
   const { category } = params;
   const filteredProducts = dummyProducts.filter(
     (product) => product.category === category
@@ -46,6 +49,8 @@ export default function CollectionPage({ params }: Props) {
               <Image
                 src={product.image}
                 alt={product.name}
+                width={400}
+                height={400}
                 className="w-full h-64 object-cover rounded mb-4"
               />
               <h2 className="text-xl font-semibold">{product.name}</h2>
