@@ -1,6 +1,13 @@
 import { dummyProducts } from "@/data/dummyProducts";
 import Link from "next/link";
-import { notFound } from "next/navigation"; // for handling bad slugs
+import { notFound } from "next/navigation";
+import { Metadata } from "next";  // Optional for SEO
+
+type Props = {
+  params: {
+    category: string;
+  };
+};
 
 export async function generateStaticParams() {
   const categories = ["fantasy", "luxe", "youth", "accessories"];
@@ -9,14 +16,15 @@ export async function generateStaticParams() {
   }));
 }
 
-// FIXED: Correct way to type params now
-interface CollectionPageProps {
-  params: {
-    category: string;
+// Optional SEO metadata
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  return {
+    title: `${params.category} Collection | Lootix`,
   };
 }
 
-export default function CollectionPage({ params }: CollectionPageProps) {
+// REAL FIX RIGHT HERE ↓↓↓
+export default function CollectionPage({ params }: Props) {
   const { category } = params;
   const filteredProducts = dummyProducts.filter(
     (product) => product.category === category
