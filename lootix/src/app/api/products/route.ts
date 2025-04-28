@@ -3,7 +3,7 @@ import { getPrintfulProducts } from '@/utils/printful';
 
 export async function GET() {
   try {
-    console.log('API Key present:', !!process.env.NEXT_PUBLIC_PRINTFUL_API_KEY);
+    console.log('API Key present:', !!process.env.NEXT_PUBLIC_PRINTFUL_API);
     const products = await getPrintfulProducts();
     console.log('Number of products fetched:', products.length);
     console.log('Products:', JSON.stringify(products, null, 2));
