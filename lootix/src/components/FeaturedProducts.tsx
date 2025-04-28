@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/types";
-import { getPrintfulProducts } from "@/utils/printful";
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -14,11 +13,17 @@ export default function FeaturedProducts() {
   useEffect(() => {
     async function fetchProducts() {
       try {
-        const printfulProducts = await getPrintfulProducts();
+        console.log("Fetching products from Printful...");
+        const response = await fetch('/api/products');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const printfulProducts = await response.json();
+        console.log("Printful products received:", printfulProducts);
         setProducts(printfulProducts);
       } catch (err) {
+        console.error("Detailed error:", err);
         setError("Failed to load products");
-        console.error("Error fetching products:", err);
       } finally {
         setLoading(false);
       }

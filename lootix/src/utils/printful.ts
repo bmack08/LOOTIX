@@ -2,7 +2,7 @@ import { Product } from '@/types';
 import { PrintfulProduct, PrintfulResponse } from '@/types/printful';
 
 const PRINTFUL_API_URL = 'https://api.printful.com';
-const PRINTFUL_API_KEY = process.env.NEXT_PUBLIC_PRINTFUL_API_KEY;
+const PRINTFUL_API_KEY = process.env.NEXT_PUBLIC_PRINTFUL_API;
 
 if (!PRINTFUL_API_KEY) {
   throw new Error('Printful API key is not configured. Please add NEXT_PUBLIC_PRINTFUL_API_KEY to your environment variables.');
