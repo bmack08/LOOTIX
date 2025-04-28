@@ -8,14 +8,8 @@ export async function generateStaticParams() {
   }));
 }
 
-type Props = {
-  params: Promise<{ slug: string }>;
-  searchParams: { [key: string]: string | string[] | undefined };
-};
-
-export default async function ProductPage({ params }: Props) {
-  const resolvedParams = await params;
-  const product = dummyProducts.find((p) => p.slug === resolvedParams.slug);
+export default function ProductPage({ params }: { params: { slug: string } }) {
+  const product = dummyProducts.find((p) => p.slug === params.slug);
 
   if (!product) {
     return (
