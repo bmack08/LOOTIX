@@ -1,4 +1,5 @@
 import { Product } from '@/types';
+import { PrintfulProduct, PrintfulResponse } from '@/types/printful';
 
 const PRINTFUL_API_URL = 'https://api.printful.com';
 const PRINTFUL_API_KEY = process.env.NEXT_PUBLIC_PRINTFUL_API_KEY;
@@ -22,8 +23,8 @@ export async function getPrintfulProducts(): Promise<Product[]> {
       throw new Error(`Printful API error: ${response.statusText}`);
     }
 
-    const data = await response.json();
-    return data.result.map((product: any) => ({
+    const data: PrintfulResponse<PrintfulProduct[]> = await response.json();
+    return data.result.map((product) => ({
       id: product.id,
       name: product.name,
       description: product.description,
@@ -47,7 +48,7 @@ export async function getPrintfulProductById(id: string): Promise<Product | null
       throw new Error(`Printful API error: ${response.statusText}`);
     }
 
-    const data = await response.json();
+    const data: PrintfulResponse<PrintfulProduct> = await response.json();
     const product = data.result;
     
     return {
