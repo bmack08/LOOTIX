@@ -8,7 +8,14 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
+type Props = {
+  params: {
+    slug: string;
+  };
+  searchParams: { [key: string]: string | string[] | undefined };
+};
+
+export default function ProductPage({ params }: Props) {
   const product = dummyProducts.find((p) => p.slug === params.slug);
 
   if (!product) {
