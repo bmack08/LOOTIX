@@ -4,12 +4,8 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
-// ✅ THIS IS THE ONLY TYPE YOU NEED
-interface Params {
-  params: {
-    category: string;
-  };
-}
+// ❗ ❗ REAL FIX: Import Next's PageProps interface
+import type { PageProps } from "../../../.next/types/app/collections/[category]/page";
 
 export async function generateStaticParams() {
   const categories = ["fantasy", "luxe", "youth", "accessories"];
@@ -18,13 +14,13 @@ export async function generateStaticParams() {
   }));
 }
 
-export async function generateMetadata({ params }: Params): Promise<Metadata> {
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   return {
     title: `${params.category} Collection | Lootix`,
   };
 }
 
-export default function CollectionPage({ params }: Params) {
+export default function CollectionPage({ params }: PageProps) {
   const { category } = params;
   const filteredProducts = dummyProducts.filter(
     (product) => product.category === category
