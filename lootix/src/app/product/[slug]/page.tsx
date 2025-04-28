@@ -1,15 +1,15 @@
-import { dummyProducts } from "@/data/dummyProducts";
+import { getPrintfulProductById } from "@/utils/printful";
 import Link from "next/link";
-import Image from "next/image"; // 🛠️ FIXED: import Image
+import Image from "next/image";
 
 export async function generateStaticParams() {
-  return dummyProducts.map((product) => ({
-    slug: product.slug,
-  }));
+  // Note: In a real implementation, you might want to fetch all product IDs from Printful
+  // For now, we'll return an empty array and handle dynamic routes
+  return [];
 }
 
-export default function ProductPage({ params }: { params: { slug: string } }) {
-  const product = dummyProducts.find((p) => p.slug === params.slug);
+export default async function ProductPage({ params }: { params: { slug: string } }) {
+  const product = await getPrintfulProductById(params.slug);
 
   if (!product) {
     return (
@@ -30,6 +30,8 @@ export default function ProductPage({ params }: { params: { slug: string } }) {
         <Image
           src={product.image}
           alt={product.name}
+          width={800}
+          height={800}
           className="rounded-lg mb-6 w-full h-auto object-cover"
         />
         <h1 className="text-4xl font-bold mb-4">{product.name}</h1>
