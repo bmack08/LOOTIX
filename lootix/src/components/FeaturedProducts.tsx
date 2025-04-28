@@ -14,13 +14,15 @@ export default function FeaturedProducts() {
     async function fetchProducts() {
       try {
         console.log("Fetching products from Printful...");
-        const response = await fetch('/api/products');
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
+        const response = await fetch('/src/app/api/products');
+        const data = await response.json();
+        
+        if (data.error) {
+          throw new Error(data.error);
         }
-        const printfulProducts = await response.json();
-        console.log("Printful products received:", printfulProducts);
-        setProducts(printfulProducts);
+        
+        console.log("Products received:", data);
+        setProducts(Array.isArray(data) ? data : []);
       } catch (err) {
         console.error("Detailed error:", err);
         setError("Failed to load products");
