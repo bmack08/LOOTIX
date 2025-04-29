@@ -18,7 +18,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
       <div className="min-h-screen flex items-center justify-center text-center text-white">
         <div>
           <h1 className="text-3xl font-bold mb-4">Product Not Found</h1>
-          <p className="text-gray-400 mb-6">The product you're looking for doesn't exist or has been removed.</p>
+          <p className="text-gray-400 mb-6">The product you&apos;re looking for doesn&apos;t exist or has been removed.</p>
           <Link href="/" className="mt-4 inline-block text-blue-400 hover:text-blue-300 transition">
             ← Back to Home
           </Link>
