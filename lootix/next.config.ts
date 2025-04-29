@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ['files.cdn.printful.com'],
+  },
 };
 
 export default nextConfig;

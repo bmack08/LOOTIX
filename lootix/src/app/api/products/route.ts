@@ -4,9 +4,9 @@ import { getPrintfulProducts } from '@/utils/printful';
 export async function GET() {
   try {
     console.log('API route called');
-    console.log('API Key present:', !!process.env.NEXT_PUBLIC_PRINTFUL_API);
+    console.log('API Key present:', !!process.env.PRINTFUL_API);
     
-    if (!process.env.NEXT_PUBLIC_PRINTFUL_API) {
+    if (!process.env.PRINTFUL_API) {
       throw new Error('Printful API key is not configured');
     }
 
