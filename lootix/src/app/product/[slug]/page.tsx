@@ -1,6 +1,7 @@
 import { getPrintfulProductById } from "@/utils/printful";
 import Link from "next/link";
 import Image from "next/image";
+import AddToCartButton from "@/components/AddToCartButton";
 
 export async function generateStaticParams() {
   // Note: In a real implementation, you might want to fetch all product IDs from Printful
@@ -37,14 +38,20 @@ export default async function ProductPage({ params }: { params: { slug: string }
         
         <div className="grid md:grid-cols-2 gap-8">
           <div>
-            <Image
-              src={product.image}
-              alt={product.name}
-              width={600}
-              height={600}
-              className="rounded-lg w-full h-auto object-cover"
-              priority
-            />
+            {product.image ? (
+              <Image
+                src={product.image}
+                alt={product.name}
+                width={600}
+                height={600}
+                className="rounded-lg w-full h-auto object-cover"
+                priority
+              />
+            ) : (
+              <div className="w-full aspect-square bg-zinc-800 rounded-lg flex items-center justify-center">
+                <span className="text-zinc-500">No image available</span>
+              </div>
+            )}
           </div>
           
           <div>
@@ -52,15 +59,7 @@ export default async function ProductPage({ params }: { params: { slug: string }
             <p className="text-gray-300 mb-6">{product.description}</p>
             <p className="text-3xl font-semibold mb-8">${product.price.toFixed(2)}</p>
 
-            <button
-              className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition"
-              onClick={() => {
-                // Add to cart functionality will go here
-                alert('Coming soon: Add to cart functionality!');
-              }}
-            >
-              Add to Cart
-            </button>
+            <AddToCartButton productId={product.id} />
           </div>
         </div>
       </div>

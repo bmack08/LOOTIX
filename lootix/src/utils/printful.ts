@@ -3,6 +3,7 @@ import { PrintfulProduct, PrintfulResponse } from '@/types/printful';
 
 const PRINTFUL_API_URL = 'https://api.printful.com';
 const PRINTFUL_API_KEY = process.env.PRINTFUL_API;
+const DEFAULT_PRODUCT_IMAGE = '/images/product-placeholder.jpg';
 
 if (!PRINTFUL_API_KEY) {
   throw new Error('Printful API key is not configured. Please add PRINTFUL_API to your environment variables.');
@@ -48,7 +49,7 @@ export async function getPrintfulProducts(): Promise<Product[]> {
       name: product.name || 'Untitled Product',
       description: product.description || '',
       price: product.variants?.[0]?.retail_price || 0,
-      image: product.thumbnail_url || '',
+      image: product.thumbnail_url || DEFAULT_PRODUCT_IMAGE,
       slug: (product.id || '0').toString(),
     }));
   } catch (error) {
@@ -93,7 +94,7 @@ export async function getPrintfulProductById(id: string): Promise<Product | null
       price: Array.isArray(product.variants) && product.variants[0]?.retail_price 
         ? product.variants[0].retail_price 
         : 0,
-      image: product.thumbnail_url || '',
+      image: product.thumbnail_url || DEFAULT_PRODUCT_IMAGE,
       slug: String(product.id || '0'),
     };
   } catch (error) {
