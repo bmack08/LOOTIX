@@ -28,10 +28,9 @@ const navLinks = [
   { label: 'BUNDLES', href: '/bundles' },
   { label: 'WOMENS', href: '/womens' },
   { label: 'YOUTH', href: '/youth' },
-  { label: 'AUTO DETAILING', href: '/auto-detailing' },
-  { label: 'CLEARANCE', href: '/clearance' },
-  { label: 'CURRENT GIVEAWAY', href: '/current-giveaway', className: 'border border-green-400 text-green-400 px-3 py-1 rounded hover:bg-green-400 hover:text-black transition' },
-  { label: 'PAST WINNERS', href: '/past-winners', className: 'border border-blue-400 text-blue-400 px-3 py-1 rounded hover:bg-blue-400 hover:text-black transition' },
+//  { label: 'CLEARANCE', href: '/clearance' },
+//  { label: 'CURRENT GIVEAWAY', href: '/current-giveaway', className: 'border border-green-400 text-green-400 px-3 py-1 rounded hover:bg-green-400 hover:text-black transition' },
+//  { label: 'PAST WINNERS', href: '/past-winners', className: 'border border-blue-400 text-blue-400 px-3 py-1 rounded hover:bg-blue-400 hover:text-black transition' },
 ];
 
 export default function Header() {
