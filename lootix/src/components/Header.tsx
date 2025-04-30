@@ -63,9 +63,9 @@ export default function Header() {
             <Image
               src="/images/lootix_logo.png"
               alt="LOOTIX Logo"
-              width={60}
-              height={60}
-              className="object-contain h-12 w-auto"
+              width={100}
+              height={100}
+              className="object-contain h-15 w-auto"
               priority
             />
           </Link>

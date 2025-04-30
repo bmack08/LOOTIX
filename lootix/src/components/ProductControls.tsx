@@ -35,7 +35,7 @@ export default function ProductControls({ productId, variants }: ProductControls
     <div className="space-y-6">
       {/* Size Selector */}
       <div>
-        <h3 className="text-sm font-medium mb-3">Select Size</h3>
+        <h3 className="text-sm font-medium text-zinc-900 mb-3">Select Size</h3>
         <div className="grid grid-cols-6 gap-2">
           {sizes.map((size) => {
             const variantForSize = variants.find(v => v.size === size);
@@ -47,9 +47,9 @@ export default function ProductControls({ productId, variants }: ProductControls
                 disabled={!isAvailable}
                 className={`border rounded py-2 px-3 text-sm font-medium transition-colors
                   ${selectedVariant?.size === size 
-                    ? 'border-blue-500 bg-blue-500/10 text-blue-400' 
-                    : 'border-zinc-700 hover:border-blue-500'}
-                  ${!isAvailable && 'opacity-50 cursor-not-allowed'}`}
+                    ? 'border-blue-600 bg-blue-50 text-blue-600' 
+                    : 'border-gray-200 hover:border-blue-600 text-zinc-900'}
+                  ${!isAvailable && 'opacity-50 cursor-not-allowed bg-gray-50'}`}
                 onClick={() => {
                   const variant = variants.find(v => v.size === size);
                   if (variant) setSelectedVariant(variant);
@@ -65,7 +65,7 @@ export default function ProductControls({ productId, variants }: ProductControls
       {/* Color Selector (if there are multiple colors) */}
       {colors.length > 1 && (
         <div>
-          <h3 className="text-sm font-medium mb-3">Select Color</h3>
+          <h3 className="text-sm font-medium text-zinc-900 mb-3">Select Color</h3>
           <div className="flex flex-wrap gap-2">
             {colors.map((color) => {
               const variantForColor = variants.find(v => v.color === color && v.size === selectedVariant?.size);
@@ -77,8 +77,8 @@ export default function ProductControls({ productId, variants }: ProductControls
                   disabled={!isAvailable}
                   className={`px-4 py-2 rounded text-sm font-medium transition-colors
                     ${selectedVariant?.color === color 
-                      ? 'bg-blue-500 text-white' 
-                      : 'bg-zinc-800 hover:bg-zinc-700'}
+                      ? 'bg-blue-600 text-white' 
+                      : 'bg-gray-100 hover:bg-gray-200 text-zinc-900'}
                     ${!isAvailable && 'opacity-50 cursor-not-allowed'}`}
                   onClick={() => {
                     const variant = variants.find(v => v.color === color && v.size === selectedVariant?.size);
@@ -95,18 +95,18 @@ export default function ProductControls({ productId, variants }: ProductControls
 
       {/* Quantity Selector */}
       <div>
-        <h3 className="text-sm font-medium mb-3">Quantity</h3>
+        <h3 className="text-sm font-medium text-zinc-900 mb-3">Quantity</h3>
         <div className="flex items-center space-x-3">
           <button 
-            className="w-8 h-8 rounded-full border border-zinc-700 flex items-center justify-center hover:border-blue-500 disabled:opacity-50"
+            className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:border-blue-600 disabled:opacity-50 text-zinc-900"
             onClick={decreaseQuantity}
             disabled={quantity <= 1}
           >
             -
           </button>
-          <span className="text-lg font-medium w-8 text-center">{quantity}</span>
+          <span className="text-lg font-medium w-8 text-center text-zinc-900">{quantity}</span>
           <button 
-            className="w-8 h-8 rounded-full border border-zinc-700 flex items-center justify-center hover:border-blue-500 disabled:opacity-50"
+            className="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:border-blue-600 disabled:opacity-50 text-zinc-900"
             onClick={increaseQuantity}
             disabled={quantity >= 10}
           >
@@ -117,8 +117,8 @@ export default function ProductControls({ productId, variants }: ProductControls
 
       {/* Selected Variant Price */}
       {selectedVariant && (
-        <div className="text-lg font-semibold">
-          Price: ${selectedVariant.price.toFixed(2)}
+        <div className="text-lg font-semibold text-zinc-900">
+          Price: ${typeof selectedVariant.price === 'number' ? selectedVariant.price.toFixed(2) : selectedVariant.price}
         </div>
       )}
 
@@ -132,7 +132,7 @@ export default function ProductControls({ productId, variants }: ProductControls
 
       {/* Stock Status */}
       {selectedVariant && !selectedVariant.inStock && (
-        <p className="text-red-500 text-sm">This variant is currently out of stock</p>
+        <p className="text-red-600 text-sm">This variant is currently out of stock</p>
       )}
     </div>
   );

@@ -1,11 +1,3 @@
-export interface ProductVariant {
-  id: number;
-  size: string;
-  color: string;
-  price: number;
-  inStock: boolean;
-}
-
 export interface Product {
   id: number;
   name: string;
@@ -20,4 +12,12 @@ export interface Product {
   slug: string;
   currency: string;
   isDiscontinued: boolean;
+}
+
+export interface ProductVariant {
+  id: number;
+  size: string;
+  color: string;
+  price: number;
+  inStock: boolean;
 } 

@@ -2,6 +2,92 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Unica+One&family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@layer base {
+  :root {
+    --background: 0 0% 6%;
+    --foreground: 0 0% 100%;
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 100%;
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 100%;
+    --primary: 45 70% 52%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 0 0% 75%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 50%;
+    --accent: 160 100% 50%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    --ring: 45 70% 52%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-lootix-silver/20;
+  }
+  body {
+    @apply bg-lootix-black text-text-primary;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer components {
+  .container {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+  
+  .btn {
+    @apply inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lootix-gold focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-lootix-black;
+  }
+  
+  .btn-primary {
+    @apply bg-lootix-gold text-lootix-black hover:bg-lootix-gold/90;
+  }
+  
+  .btn-secondary {
+    @apply bg-lootix-silver text-lootix-black hover:bg-lootix-silver/80;
+  }
+  
+  .btn-accent {
+    @apply bg-lootix-neon text-lootix-black hover:bg-lootix-neon/90;
+  }
+  
+  .btn-outline {
+    @apply border border-lootix-silver hover:bg-lootix-neon hover:text-lootix-black;
+  }
+  
+  .card {
+    @apply rounded-lg border border-lootix-silver/20 bg-surface text-text-primary shadow-sm;
+  }
+  
+  .heading-1 {
+    @apply font-orbitron text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight;
+  }
+  
+  .heading-2 {
+    @apply font-orbitron text-3xl md:text-4xl font-bold tracking-tight;
+  }
+  
+  .heading-3 {
+    @apply font-orbitron text-2xl md:text-3xl font-bold tracking-tight;
+  }
+  
+  .body-text {
+    @apply font-inter text-base text-text-primary;
+  }
+  
+  .body-text-secondary {
+    @apply font-inter text-sm text-text-secondary;
+  }
+}
+
 .bg-hero-pattern {
     background-image: url('/images/hero-bg.jpg');
   }

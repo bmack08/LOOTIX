@@ -1,0 +1,118 @@
+Project Specification Document: LOOTIX Platform
+
+Overview
+LOOTIX is a fantasy-meets-streetwear apparel brand and raffle-driven eCommerce platform. It is designed to engage audiences through highly visual merchandising, immersive digital experiences, and gamified marketing loops including giveaways, limited drops, and subscriptions.
+The goal is to create a highly dynamic and engaging fashion-tech platform integrating with Printful for POD merchandise, while offering seamless UX, stunning visual UI, and robust backend automation for inventory, user subscriptions, raffles, and email marketing.
+
+I. Website Vision & Theme
+A. Brand Identity
+* Style: Bold, streetwear-meets-high-fantasy (e.g. Arcane x Hypebeast).
+* Color Palette: Deep blacks (#0f0f0f), muted silvers, metallic golds, glowing accent neons.
+* Typography:
+o Headlines: Orbitron or Unica One (bold, tech/fantasy aesthetic).
+o Body: Inter or Poppins (readable, modern sans-serif).
+* Logo Placement: Top-left, minimal variant in nav, full visual on hero.
+* Animations:
+o Hero image zoom/fade-on-load.
+o Parallax product transitions.
+o Smooth scroll between sections.
+o Raffle wheel spin / confetti burst for winner announcement.
+
+II. Page Structure & Requirements
+1. Homepage
+* Full-screen hero banner with CTA (Shop / Raffle Now).
+* Header overlays hero with transparent background (darkens on scroll).
+* Featured products carousel (autofetch from /api/products).
+* Animated text blurbs and category icons.
+* Embedded promotional video.
+* Live raffle countdown with visual prize images.
+* Footer: Terms, contact, social links, newsletter opt-in.
+2. Products Page
+* Grid of all products with filters (category, price, new drops).
+* Lazy-loaded with Printful product sync.
+* Clicking a product links to /product/[slug].
+3. Product Detail Page
+* Image gallery.
+* Product description.
+* Size chart modal.
+* Printful checkout integration or cart flow.
+* "Enter raffle with this item" toggle.
+4. Collections Page
+* Dynamic by category: /collections/[fantasy|luxe|youth|accessories]
+* Same grid style as product page.
+5. Raffle Page
+* Spinning wheel component or scratch-to-reveal UI.
+* Entry logic tied to email/phone verification.
+* Display # of total entries and remaining slots.
+* Backend selects winner randomly (CRON job).
+6. Subscription Page
+* Tiers: Free / Silver / Gold.
+* Benefits: early access, free shipping, exclusive raffles.
+* Stripe integration for recurring billing.
+* Subscription status shown in user dashboard.
+7. Dashboard (for Admin)
+* CRUD for raffles, Printful sync status, orders.
+* Email analytics.
+* User data + subscriptions.
+
+III. Technical Requirements
+A. Frontend (Next.js 15 App Router)
+* Framework: Next.js 15 + App Router.
+* Styling: TailwindCSS (dark theme default).
+* State: Zustand for cart/subs.
+* SEO: Dynamic <Metadata> on every page.
+* Image Handling: Next/Image.
+B. Backend / API
+* Product API: /api/products ? Uses utils/printful.ts to fetch and transform.
+* Single Product API: /api/product/[id]
+* Raffle API: /api/raffle/enter and /api/raffle/results
+* Subscription API: /api/subscriptions/[start|status]
+* Webhook Handler: /api/printful/webhook
+C. CMS (optional)
+* Sanity or Contentful (for non-product content like banner text, blog, etc.)
+D. Hosting / Build
+* Platform: Vercel
+* CDN: Default (Vercel Edge Network)
+* Env Vars:
+o NEXT_PUBLIC_PRINTFUL_API_KEY
+o STRIPE_SECRET_KEY
+o SENDGRID_API_KEY
+o PRINTFUL_STORE_ID
+
+IV. 3rd Party Integrations
+PlatformPurposeEndpoint/UsagePrintfulProduct data, order syncREST API / WebhookStripeSubscription paymentsCheckout session & webhookSendGridMarketing emails/api/newsletter/signup ? SendGrid ListsGoogle FontsCustom font embedding<link> in _document.tsx
+V. Email & Marketing Setup
+A. Email Capture
+* Home footer & modal popup for newsletter opt-in.
+* Route: /api/newsletter/signup ? SendGrid contact list.
+B. Raffle Email Flow
+* User enters with email ? Confirm entry ? Notify winner.
+* Scheduled jobs (e.g. CRON every Friday @5pm).
+C. Subscription Nurturing
+* Weekly emails for Gold users with early drops.
+* Auto-sent welcome email post-subscription.
+
+VI. Printful Product Management
+Flow:
+1. Create products inside Printful.
+2. API /store/products fetches product catalog.
+3. Products stored in in-memory or cached (for preview).
+4. Clicking item routes to /product/[id] which dynamically loads product detail from /store/products/{id}.
+5. Checkout ? redirect to Printful checkout or place order via custom API proxy.
+
+VII. Developer Notes
+* Avoid hydration mismatches: no Math.random() or Date.now() in initial renders.
+* Validate all Printful payloads.
+* Animate on scroll via framer-motion or GSAP.
+* Keep components modular (components/ui, components/store, etc.).
+* Wrap all fetches in try/catch and log.
+
+VIII. Future Features
+* Loyalty system (XP for each order).
+* AI Outfit Styler (upload image ? matches merch).
+* Discord integration.
+
+Summary
+This document provides all necessary guidance to execute LOOTIX as a fully integrated, fantasy-streetwear brand with merch, raffles, and marketing automation. Developers should reference this spec for API usage, styling rules, page design, and backend logic.
+Delivery can be modular but must retain performance, SEO, and UX at scale.
+
