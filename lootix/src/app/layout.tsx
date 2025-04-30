@@ -2,8 +2,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import '../styles/globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
-import Header from "@/components/header";
-import Footer from "@/components/footer";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,15 +20,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.className} bg-white text-zinc-900`}>
-        <div className="min-h-screen flex flex-col isolate">
-          <ThemeProvider defaultTheme="light">
+        <ThemeProvider defaultTheme="light">
+          <div className="min-h-screen flex flex-col">
             <Header />
             <main className="flex-grow">
               {children}
             </main>
             <Footer />
-          </ThemeProvider>
-        </div>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
