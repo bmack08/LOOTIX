@@ -16,48 +16,42 @@ type ThemeProviderState = {
 };
 
 const initialState: ThemeProviderState = {
-  theme: 'dark',
+  theme: 'light',
   setTheme: () => null,
 };
 
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
-function getStorageTheme(key: string, fallback: Theme): Theme {
-  if (typeof window === 'undefined') return fallback;
-  try {
-    const theme = localStorage.getItem(key) as Theme;
-    return theme || fallback;
-  } catch (e) {
-    // In case of any localStorage errors
-    return fallback;
-  }
-}
-
 export function ThemeProvider({
   children,
-  defaultTheme = 'dark',
+  defaultTheme = 'light',
   storageKey = 'lootix-ui-theme',
   ...props
 }: ThemeProviderProps) {
+  const [mounted, setMounted] = useState(false);
   const [theme, setTheme] = useState<Theme>(defaultTheme);
 
   useEffect(() => {
-    // Get theme from localStorage when component mounts (client-side only)
-    const savedTheme = getStorageTheme(storageKey, defaultTheme);
-    setTheme(savedTheme);
-  }, [defaultTheme, storageKey]);
+    setMounted(true);
+    const savedTheme = localStorage.getItem(storageKey) as Theme;
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, [storageKey]);
 
   useEffect(() => {
-    const root = window.document.documentElement;
-    root.classList.remove('light', 'dark');
-    root.classList.add(theme);
-  }, [theme]);
+    if (mounted) {
+      const root = window.document.documentElement;
+      root.classList.remove('light', 'dark');
+      root.classList.add(theme);
+      localStorage.setItem(storageKey, theme);
+    }
+  }, [theme, mounted, storageKey]);
 
   const value = {
     theme,
-    setTheme: (theme: Theme) => {
-      localStorage?.setItem(storageKey, theme);
-      setTheme(theme);
+    setTheme: (newTheme: Theme) => {
+      setTheme(newTheme);
     },
   };
 

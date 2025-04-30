@@ -8,41 +8,57 @@ export const metadata = {
   description: 'Shop the latest fantasy-meets-streetwear drops from LOOTIX.',
 };
 
+export const revalidate = 3600; // Revalidate every hour
+
 export default async function ProductsPage() {
-  const products = await getPrintfulProducts();
+  try {
+    const products = await getPrintfulProducts();
 
-  return (
-    <div className="min-h-screen py-20">
-      <div className="container">
-        <div className="flex flex-col md:flex-row gap-8">
-          {/* Filters Sidebar */}
-          <aside className="w-full md:w-64 flex-shrink-0">
-            <div className="sticky top-24">
-              <ProductFilters />
-            </div>
-          </aside>
-
-          {/* Products Grid */}
-          <main className="flex-1">
-            <div className="flex justify-between items-center mb-8">
-              <h1 className="heading-2">All Products</h1>
-              <div className="flex items-center gap-4">
-                <select className="bg-surface border border-lootix-silver/20 rounded-md px-3 py-2 text-sm">
-                  <option value="newest">Newest</option>
-                  <option value="price-low">Price: Low to High</option>
-                  <option value="price-high">Price: High to Low</option>
-                </select>
+    return (
+      <div className="min-h-screen py-20">
+        <div className="container">
+          <div className="flex flex-col md:flex-row gap-8">
+            {/* Filters Sidebar */}
+            <aside className="w-full md:w-64 flex-shrink-0">
+              <div className="sticky top-24">
+                <ProductFilters />
               </div>
-            </div>
+            </aside>
 
-            <Suspense fallback={<ProductGridSkeleton />}>
-              <ProductGrid products={products} />
-            </Suspense>
-          </main>
+            {/* Products Grid */}
+            <main className="flex-1">
+              <div className="flex justify-between items-center mb-8">
+                <h1 className="heading-2">All Products</h1>
+                <div className="flex items-center gap-4">
+                  <select className="bg-surface border border-lootix-silver/20 rounded-md px-3 py-2 text-sm">
+                    <option value="newest">Newest</option>
+                    <option value="price-low">Price: Low to High</option>
+                    <option value="price-high">Price: High to Low</option>
+                  </select>
+                </div>
+              </div>
+
+              <Suspense fallback={<ProductGridSkeleton />}>
+                <ProductGrid products={products} />
+              </Suspense>
+            </main>
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } catch (error) {
+    console.error('Error in ProductsPage:', error);
+    return (
+      <div className="min-h-screen py-20">
+        <div className="container">
+          <div className="text-center">
+            <h1 className="heading-2 mb-4">Error Loading Products</h1>
+            <p className="text-zinc-600">We're having trouble loading our products. Please try again later.</p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 function ProductGridSkeleton() {

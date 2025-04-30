@@ -3,11 +3,13 @@ import { PrintfulProduct, PrintfulResponse, PrintfulFile, PrintfulSyncVariant } 
 
 const PRINTFUL_API_URL = 'https://api.printful.com';
 const PRINTFUL_API_KEY = process.env.PRINTFUL_API;
+const PRINTFUL_STORE_ID = process.env.PRINTFUL_STORE_ID || 'default';
 const DEFAULT_PRODUCT_IMAGE = '/images/product-placeholder.jpg';
 
 // Debug logging for API key
 console.log('Printful API Key present:', !!PRINTFUL_API_KEY);
 console.log('Printful API Key length:', PRINTFUL_API_KEY?.length);
+console.log('Using store ID:', PRINTFUL_STORE_ID);
 
 if (!PRINTFUL_API_KEY) {
   throw new Error('Printful API key is not configured. Please add PRINTFUL_API to your environment variables.');
@@ -15,7 +17,8 @@ if (!PRINTFUL_API_KEY) {
 
 const headers = {
   'Authorization': `Bearer ${PRINTFUL_API_KEY}`,
-  'Content-Type': 'application/json'
+  'Content-Type': 'application/json',
+  'X-PF-Store-ID': PRINTFUL_STORE_ID
 };
 
 // Function to get store information
@@ -43,27 +46,14 @@ async function getStoreId() {
 
 export async function getPrintfulProducts(): Promise<Product[]> {
   try {
-    // Get store ID
-    const storeId = await getStoreId();
-    console.log('Using store ID:', storeId);
-    
-    if (!storeId) {
-      throw new Error('Could not determine store ID');
-    }
-
-    const requestHeaders = {
-      ...headers,
-      'X-PF-Store-ID': String(storeId)
-    };
-
     console.log('Making request to Printful API...');
     console.log('API URL:', `${PRINTFUL_API_URL}/store/products`);
-    console.log('Headers:', requestHeaders);
+    console.log('Headers:', headers);
 
     const response = await fetch(`${PRINTFUL_API_URL}/store/products`, {
       method: 'GET',
-      headers: requestHeaders,
-      cache: 'no-store',
+      headers,
+      next: { revalidate: 3600 } // Cache for 1 hour
     });
 
     console.log('Response status:', response.status);
@@ -100,15 +90,15 @@ export async function getPrintfulProducts(): Promise<Product[]> {
           })) || []
         ) || [],
         variants: product.sync_variants?.map(variant => ({
-          id: variant.id,
-          size: variant.size,
-          color: variant.color,
-          price: parseFloat(variant.retail_price || '0'),
-          inStock: variant.is_enabled
+          id: variant.id || 0,
+          size: variant.size || '',
+          color: variant.color || '',
+          price: variant.retail_price ? parseFloat(variant.retail_price) : 0,
+          inStock: variant.in_stock || false
         })) || [],
-        slug: (product.id || '0').toString(),
-        currency: firstVariant?.currency || 'USD',
-        isDiscontinued: product.is_discontinued || false
+        slug: product.id?.toString() || '0',
+        currency: 'USD',
+        isDiscontinued: false
       };
     });
   } catch (error) {
