@@ -2,9 +2,10 @@
 
 interface AddToCartButtonProps {
   productId: number;
+  disabled?: boolean;
 }
 
-export default function AddToCartButton({ productId }: AddToCartButtonProps) {
+export default function AddToCartButton({ productId, disabled }: AddToCartButtonProps) {
   const handleAddToCart = () => {
     console.log(`Adding product ${productId} to cart`);
     alert('Coming soon: Add to cart functionality!');
@@ -12,10 +13,15 @@ export default function AddToCartButton({ productId }: AddToCartButtonProps) {
 
   return (
     <button
-      className="w-full bg-blue-500 text-white py-3 px-6 rounded-lg hover:bg-blue-600 transition"
+      className={`w-full py-3 px-6 rounded-lg transition
+        ${disabled 
+          ? 'bg-zinc-600 cursor-not-allowed' 
+          : 'bg-blue-500 hover:bg-blue-600'} 
+        text-white`}
       onClick={handleAddToCart}
+      disabled={disabled}
     >
-      Add to Cart
+      {disabled ? 'Select options' : 'Add to Cart'}
     </button>
   );
 } 

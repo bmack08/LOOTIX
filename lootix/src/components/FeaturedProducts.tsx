@@ -17,22 +17,28 @@ export default function FeaturedProducts() {
         const response = await fetch('/api/products');
         
         if (!response.ok) {
-          const errorText = await response.text();
-          console.error('API Response:', errorText);
-          throw new Error(`API error: ${response.status} ${response.statusText}`);
+          const errorData = await response.json().catch(() => null);
+          console.error('API Response:', errorData || response.statusText);
+          throw new Error(
+            errorData?.details || 
+            errorData?.error || 
+            `API error: ${response.status} ${response.statusText}`
+          );
         }
 
         const data = await response.json();
         console.log("Products received:", data);
         
-        if (data.error) {
-          throw new Error(data.error);
+        if (!Array.isArray(data)) {
+          throw new Error("Invalid response format");
         }
         
-        setProducts(Array.isArray(data) ? data : []);
+        setProducts(data);
+        setError(null);
       } catch (err) {
-        console.error("Detailed error:", err);
-        setError("Failed to load products");
+        console.error("Error fetching products:", err);
+        setError(err instanceof Error ? err.message : "Failed to load products");
+        setProducts([]);
       } finally {
         setLoading(false);
       }
@@ -48,10 +54,10 @@ export default function FeaturedProducts() {
           <h2 className="text-3xl font-bold mb-8 text-center">Latest Drops</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
             {[...Array(3)].map((_, index) => (
-              <div key={index} className="bg-zinc-800 p-6 rounded-lg animate-pulse">
-                <div className="w-full h-48 bg-zinc-700 rounded mb-4"></div>
-                <div className="h-6 bg-zinc-700 rounded w-3/4 mb-2"></div>
-                <div className="h-4 bg-zinc-700 rounded w-1/4"></div>
+              <div key={index} className="bg-zinc-800/50 p-6 rounded-lg animate-pulse">
+                <div className="w-full aspect-square bg-zinc-700/50 rounded mb-4"></div>
+                <div className="h-6 bg-zinc-700/50 rounded w-3/4 mb-2"></div>
+                <div className="h-4 bg-zinc-700/50 rounded w-1/4"></div>
               </div>
             ))}
           </div>
@@ -63,9 +69,25 @@ export default function FeaturedProducts() {
   if (error) {
     return (
       <section className="py-12 bg-zinc-950 text-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold mb-8 text-center">Latest Drops</h2>
+          <div className="max-w-md mx-auto text-center">
+            <div className="bg-red-900/20 border border-red-500 rounded-lg p-4">
+              <p className="text-red-400 mb-2">Failed to load products</p>
+              <p className="text-sm text-red-300/70">{error}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (products.length === 0) {
+    return (
+      <section className="py-12 bg-zinc-950 text-white">
         <div className="container mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-8">Latest Drops</h2>
-          <p className="text-red-500">{error}</p>
+          <p className="text-zinc-400">No products available at the moment.</p>
         </div>
       </section>
     );
@@ -76,18 +98,23 @@ export default function FeaturedProducts() {
       <div className="container mx-auto px-4">
         <h2 className="text-3xl font-bold mb-8 text-center">Latest Drops</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <Link key={product.slug} href={`/product/${product.slug}`}>
-              <div className="bg-zinc-800 p-6 rounded-lg hover:scale-105 transition transform">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={400}
-                  height={400}
-                  className="w-full h-48 object-cover mb-4 rounded"
-                />
-                <h3 className="text-xl font-semibold">{product.name}</h3>
-                <p className="text-gray-400">${product.price}</p>
+          {products.slice(0, 8).map((product) => (
+            <Link 
+              key={product.slug} 
+              href={`/product/${product.slug}`}
+              className="block group"
+            >
+              <div className="bg-zinc-800 p-6 rounded-lg group-hover:scale-105 transition transform">
+                <div className="aspect-square relative mb-4 rounded overflow-hidden bg-zinc-900">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold truncate">{product.name}</h3>
+                <p className="text-gray-400">${product.price.toFixed(2)}</p>
               </div>
             </Link>
           ))}

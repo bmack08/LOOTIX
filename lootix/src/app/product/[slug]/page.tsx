@@ -23,8 +23,6 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-const SIZES = ["XS", "S", "M", "L", "XL", "2XL"];
-
 export default async function ProductPage({ params }: Props) {
   const product = await getPrintfulProductById(params.slug);
 
@@ -54,20 +52,31 @@ export default async function ProductPage({ params }: Props) {
                 priority
               />
             </div>
-            {/* Additional product images would go here */}
-            <div className="grid grid-cols-4 gap-4">
-              {/* Placeholder for additional product images */}
-            </div>
+            {/* Additional product images */}
+            {product.images.length > 0 && (
+              <div className="grid grid-cols-4 gap-4">
+                {product.images.map((img, index) => (
+                  <div key={index} className="aspect-square relative overflow-hidden rounded-lg bg-zinc-900">
+                    <Image
+                      src={img.preview_url}
+                      alt={`${product.name} view ${index + 1}`}
+                      fill
+                      className="object-cover object-center hover:scale-105 transition-transform duration-300"
+                    />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Product Details Section */}
           <div className="space-y-6">
             <div>
               <h1 className="text-3xl font-bold">{product.name}</h1>
-              <p className="text-2xl font-semibold mt-2">${product.price.toFixed(2)}</p>
+              <p className="text-2xl font-semibold mt-2">${product.price.toFixed(2)} {product.currency}</p>
             </div>
 
-            <ProductControls productId={product.id} sizes={SIZES} />
+            <ProductControls productId={product.id} variants={product.variants} />
 
             {/* Product Description */}
             <div className="pt-6 border-t border-zinc-800">
@@ -87,6 +96,13 @@ export default async function ProductPage({ params }: Props) {
                 <li>100% satisfaction guaranteed</li>
               </ul>
             </div>
+
+            {/* Discontinued Notice */}
+            {product.isDiscontinued && (
+              <div className="mt-4 p-4 bg-red-900/20 border border-red-500 rounded-lg">
+                <p className="text-red-400">This product has been discontinued and may not be available for purchase.</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -50,7 +50,20 @@ export async function getPrintfulProducts(): Promise<Product[]> {
       description: product.description || '',
       price: product.variants?.[0]?.retail_price || 0,
       image: product.thumbnail_url || DEFAULT_PRODUCT_IMAGE,
+      images: product.images?.map(img => ({
+        url: img.url || '',
+        preview_url: img.preview_url || ''
+      })) || [],
+      variants: product.variants?.map(variant => ({
+        id: variant.id,
+        size: variant.size,
+        color: variant.color,
+        price: variant.retail_price,
+        inStock: variant.in_stock
+      })) || [],
       slug: (product.id || '0').toString(),
+      currency: product.currency || 'USD',
+      isDiscontinued: product.is_discontinued || false
     }));
   } catch (error) {
     console.error('Detailed error fetching Printful products:', error);
@@ -91,11 +104,22 @@ export async function getPrintfulProductById(id: string): Promise<Product | null
       id: typeof product.id === 'number' ? product.id : 0,
       name: product.name || 'Untitled Product',
       description: product.description || '',
-      price: Array.isArray(product.variants) && product.variants[0]?.retail_price 
-        ? product.variants[0].retail_price 
-        : 0,
+      price: product.variants?.[0]?.retail_price || 0,
       image: product.thumbnail_url || DEFAULT_PRODUCT_IMAGE,
+      images: product.images?.map(img => ({
+        url: img.url || '',
+        preview_url: img.preview_url || ''
+      })) || [],
+      variants: product.variants?.map(variant => ({
+        id: variant.id,
+        size: variant.size,
+        color: variant.color,
+        price: variant.retail_price,
+        inStock: variant.in_stock
+      })) || [],
       slug: String(product.id || '0'),
+      currency: product.currency || 'USD',
+      isDiscontinued: product.is_discontinued || false
     };
   } catch (error) {
     console.error('Error fetching Printful product:', error);
