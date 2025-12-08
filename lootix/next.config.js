@@ -13,6 +13,9 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ['files.cdn.printful.com'],
+  },
 };
 
 module.exports = nextConfig; 

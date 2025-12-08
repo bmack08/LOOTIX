@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Image from 'next/image';
 import Link from 'next/link';
 import { getFeaturedProducts } from '@/utils/printful';
@@ -29,9 +30,17 @@ export default async function Home() {
     currency: product.currency,
     isDiscontinued: product.is_discontinued
   }));
+=======
+import HeroSection from "@/components/HeroSection";
+import FeaturedPrizes from "@/components/FeaturedPrizes";
+import HowItWorks from "@/components/HowItWorks";
+import RecentWinners from "@/components/RecentWinners";
+import Stats from "@/components/Stats";
+>>>>>>> 13414a3 (Update Lootix UX/UI and membership/quick entries pages)
 
   return (
     <div className="min-h-screen">
+<<<<<<< HEAD
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -133,6 +142,22 @@ export default async function Home() {
           </div>
         </div>
       </section>
+=======
+      {/* Hero Section with Countdown */}
+      <HeroSection />
+
+      {/* Stats Section */}
+      <Stats />
+
+      {/* Featured Prizes */}
+      <FeaturedPrizes />
+
+      {/* How It Works */}
+      <HowItWorks />
+
+      {/* Recent Winners */}
+      <RecentWinners />
+>>>>>>> 13414a3 (Update Lootix UX/UI and membership/quick entries pages)
     </div>
   );
 } 
