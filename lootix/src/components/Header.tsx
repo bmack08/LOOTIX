@@ -22,14 +22,6 @@ const navLinks = [
     { label: 'Kids Shirts', href: '/youth/shirts' },
     { label: 'Kids Hoodies', href: '/youth/hoodies' },
   ] },
-<<<<<<< HEAD
-  { label: 'BUNDLES', href: '/bundles' },
-  { label: 'WOMENS', href: '/womens' },
-  { label: 'YOUTH', href: '/youth' },
-//  { label: 'CLEARANCE', href: '/clearance' },
-//  { label: 'CURRENT GIVEAWAY', href: '/current-giveaway', className: 'border border-green-400 text-green-400 px-3 py-1 rounded hover:bg-green-400 hover:text-black transition' },
-//  { label: 'PAST WINNERS', href: '/past-winners', className: 'border border-blue-400 text-blue-400 px-3 py-1 rounded hover:bg-blue-400 hover:text-black transition' },
-=======
   { label: 'QUICK ENTRIES', href: '/quick-entries' },
   { label: 'MEMBERSHIP', href: '/membership' },
   // Hidden for now - will add when vendors are ready
@@ -39,8 +31,7 @@ const navLinks = [
   // { label: 'COLLECTIBLES', href: '/collectibles' },
   // { label: 'MYSTERY BOXES', href: '/mystery-boxes' },
   { label: 'ENTER NOW', href: '/current-giveaway', className: 'border-2 border-primary text-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-all duration-300 font-bold whitespace-nowrap' },
-  { label: 'WINNERS', href: '/past-winners', className: 'border-2 border-primary/50 text-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-all duration-300 font-bold whitespace-nowrap' },
->>>>>>> 13414a3 (Update Lootix UX/UI and membership/quick entries pages)
+  { label: 'WINNERS', href: '/past-winners', className: 'border-2 border-primary/50 text-primary px-4 py-2 rounded-lg hover:bg-primary hover:text-white transition-all duration-300 font-bold whitespace-nowrap' }
 ];
 
 export default function Header() {

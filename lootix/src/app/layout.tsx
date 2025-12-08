@@ -1,21 +1,9 @@
-import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import '../styles/globals.css';
-import { ThemeProvider } from '@/components/theme-provider';
 import Header from "@/components/Header";
-import Footer from "@/components/footer";
 
-<<<<<<< HEAD
-const inter = Inter({ subsets: ['latin'] });
-
-export const metadata: Metadata = {
-  title: 'LOOTIX - Fantasy Streetwear & Raffles',
-  description: 'Fantasy-meets-streetwear apparel brand and raffle-driven eCommerce platform',
-=======
 export const metadata = {
   title: 'Lootix | Win Epic Prizes & Support Small Business',
   description: 'Enter giveaways for gift cards, games, D&D dice, and more. Free entry, weekly drawings, supporting small businesses.',
->>>>>>> 13414a3 (Update Lootix UX/UI and membership/quick entries pages)
 };
 
 export default function RootLayout({
@@ -24,19 +12,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-<<<<<<< HEAD
-    <html lang="en" suppressHydrationWarning>
-      <body className={`${inter.className} bg-white text-zinc-900`}>
-        <ThemeProvider defaultTheme="light">
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-grow">
-              {children}
-            </main>
-            <Footer />
-          </div>
-        </ThemeProvider>
-=======
     <html lang="en" className="scroll-smooth">
       <body suppressHydrationWarning={true}>
         <Header />
@@ -112,7 +87,6 @@ export default function RootLayout({
             </div>
           </div>
         </footer>
->>>>>>> 13414a3 (Update Lootix UX/UI and membership/quick entries pages)
       </body>
     </html>
   );

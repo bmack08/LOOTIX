@@ -1,21 +1,25 @@
-/** @type {import('next').NextConfig} */  
+/** @type {import('next').NextConfig} */
 const nextConfig = {
   /* config options here */
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
-    domains: ['files.cdn.printful.com'], // for Printful images
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'files.cdn.printful.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.dicebear.com',
+      },
     ],
-  },
-  typescript: {
-    ignoreBuildErrors: true,
-  },
-  images: {
-    domains: ['files.cdn.printful.com'],
   },
 };
 
-module.exports = nextConfig; 
+module.exports = nextConfig;
