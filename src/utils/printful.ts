@@ -6,20 +6,29 @@ const PRINTFUL_API_KEY = process.env.PRINTFUL_API;
 const PRINTFUL_STORE_ID = process.env.PRINTFUL_STORE_ID || 'default';
 const DEFAULT_PRODUCT_IMAGE = '/images/product-placeholder.jpg';
 
-// Debug logging for API key
-console.log('Printful API Key present:', !!PRINTFUL_API_KEY);
-console.log('Printful API Key length:', PRINTFUL_API_KEY?.length);
-console.log('Using store ID:', PRINTFUL_STORE_ID);
+// Check if API key is configured (don't throw at module load time to allow build to succeed)
+const isConfigured = !!PRINTFUL_API_KEY;
 
-if (!PRINTFUL_API_KEY) {
-  throw new Error('Printful API key is not configured. Please add PRINTFUL_API to your environment variables.');
+// Only log in development
+if (process.env.NODE_ENV === 'development') {
+  console.log('Printful API Key present:', isConfigured);
+  console.log('Using store ID:', PRINTFUL_STORE_ID);
 }
 
-const headers = {
+const headers = PRINTFUL_API_KEY ? {
   'Authorization': `Bearer ${PRINTFUL_API_KEY}`,
   'Content-Type': 'application/json',
   'X-PF-Store-ID': PRINTFUL_STORE_ID
-};
+} : {};
+
+// Helper to check if Printful is configured before making API calls
+function ensureConfigured() {
+  if (!PRINTFUL_API_KEY) {
+    console.warn('Printful API key is not configured. Products will not be available.');
+    return false;
+  }
+  return true;
+}
 
 // Function to get store information
 async function getStoreId() {
@@ -45,10 +54,15 @@ async function getStoreId() {
 }
 
 export async function getPrintfulProducts(): Promise<Product[]> {
+  if (!ensureConfigured()) {
+    return []; // Return empty array if not configured
+  }
+
   try {
-    console.log('Making request to Printful API...');
-    console.log('API URL:', `${PRINTFUL_API_URL}/store/products`);
-    console.log('Headers:', headers);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Making request to Printful API...');
+      console.log('API URL:', `${PRINTFUL_API_URL}/store/products`);
+    }
 
     const response = await fetch(`${PRINTFUL_API_URL}/store/products`, {
       method: 'GET',
@@ -108,13 +122,19 @@ export async function getPrintfulProducts(): Promise<Product[]> {
 }
 
 export async function getPrintfulProductById(id: string): Promise<Product | null> {
+  if (!ensureConfigured()) {
+    return null; // Return null if not configured
+  }
+
   try {
     if (!id || isNaN(Number(id))) {
       console.log('Invalid product ID provided:', id);
       return null;
     }
 
-    console.log('Fetching product by ID:', id);
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Fetching product by ID:', id);
+    }
     const response = await fetch(`${PRINTFUL_API_URL}/store/products/${id}`, {
       method: 'GET',
       headers,
@@ -178,8 +198,14 @@ export async function getPrintfulProductById(id: string): Promise<Product | null
 }
 
 export async function getFeaturedProducts(): Promise<PrintfulProduct[]> {
+  if (!ensureConfigured()) {
+    return []; // Return empty array if not configured
+  }
+
   try {
-    console.log('Fetching featured products from Printful...');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Fetching featured products from Printful...');
+    }
     const response = await fetch(`${PRINTFUL_API_URL}/store/products`, {
       method: 'GET',
       headers,

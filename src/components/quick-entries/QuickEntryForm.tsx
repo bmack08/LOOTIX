@@ -58,22 +58,15 @@ const QuickEntryForm: FC<QuickEntryFormProps> = ({ giveaway, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <div className="relative bg-dark-800 border-2 border-primary/30 rounded-xl p-8 max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div className="relative bg-bg-secondary border border-accent-earth/30 rounded-md p-8 max-w-md w-full max-h-[90vh] overflow-y-auto shadow-lg">
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+          className="absolute top-4 right-4 text-text-muted hover:text-text-primary transition-colors"
+          aria-label="Close modal"
         >
-          <svg
-            className="w-6 h-6"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path d="M6 18L18 6M6 6l12 12"></path>
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
 
@@ -81,20 +74,20 @@ const QuickEntryForm: FC<QuickEntryFormProps> = ({ giveaway, onClose }) => {
           <>
             {/* Header */}
             <div className="mb-6">
-              <h3 className="text-2xl font-display font-bold text-white mb-2">
+              <h3 className="font-display font-bold text-2xl text-text-primary uppercase mb-4">
                 Enter to Win
               </h3>
-              <div className="bg-dark-900/50 border border-primary/30 rounded-lg p-4 mb-4">
-                <p className="text-sm text-gray-400 mb-1">Prize:</p>
-                <p className="text-lg font-bold text-white">{giveaway.title}</p>
-                <p className="text-primary font-bold text-xl mt-1">{giveaway.value}</p>
+              <div className="bg-bg-dark border border-accent-earth/20 rounded-md p-4 mb-4">
+                <p className="text-sm text-text-muted mb-1">Prize:</p>
+                <p className="text-lg font-bold text-text-primary">{giveaway.title}</p>
+                <p className="font-display font-bold text-xl text-cta-primary mt-1">{giveaway.value}</p>
               </div>
             </div>
 
             {/* Form */}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label htmlFor="entry-email" className="block text-sm font-semibold text-gray-300 mb-2">
+                <label htmlFor="entry-email" className="block text-sm font-semibold text-text-secondary mb-2">
                   Email Address *
                 </label>
                 <input
@@ -103,17 +96,15 @@ const QuickEntryForm: FC<QuickEntryFormProps> = ({ giveaway, onClose }) => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="your@email.com"
-                  className={`w-full px-4 py-3 bg-dark-900 border-2 ${
-                    errors.email ? 'border-red-500' : 'border-primary/30'
-                  } rounded-lg text-white placeholder:text-gray-500 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300`}
+                  className={`input ${errors.email ? 'border-urgency' : ''}`}
                 />
                 {errors.email && (
-                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                  <p className="text-urgency text-sm mt-1">{errors.email}</p>
                 )}
               </div>
 
               <div>
-                <label htmlFor="entry-name" className="block text-sm font-semibold text-gray-300 mb-2">
+                <label htmlFor="entry-name" className="block text-sm font-semibold text-text-secondary mb-2">
                   Name (Optional)
                 </label>
                 <input
@@ -122,7 +113,7 @@ const QuickEntryForm: FC<QuickEntryFormProps> = ({ giveaway, onClose }) => {
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Your name"
-                  className="w-full px-4 py-3 bg-dark-900 border-2 border-primary/30 rounded-lg text-white placeholder:text-gray-500 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300"
+                  className="input"
                 />
               </div>
 
@@ -132,28 +123,25 @@ const QuickEntryForm: FC<QuickEntryFormProps> = ({ giveaway, onClose }) => {
                   id="agree-rules"
                   checked={agreedToRules}
                   onChange={(e) => setAgreedToRules(e.target.checked)}
-                  className="mt-1 w-4 h-4 rounded border-primary/30 bg-dark-900 text-primary focus:ring-primary focus:ring-offset-0"
+                  className="mt-1 w-4 h-4 rounded border-accent-earth/30 bg-bg-dark text-cta-primary focus:ring-cta-primary focus:ring-offset-0"
                 />
-                <label htmlFor="agree-rules" className="text-sm text-gray-400">
+                <label htmlFor="agree-rules" className="text-sm text-text-secondary">
                   I agree to the{' '}
-                  <a href="/rules" className="text-primary hover:underline">
+                  <a href="/official-rules" className="text-cta-primary hover:underline">
                     official rules
                   </a>{' '}
                   and confirm I am 18 years or older.
                 </label>
               </div>
               {errors.rules && (
-                <p className="text-red-500 text-sm">{errors.rules}</p>
+                <p className="text-urgency text-sm">{errors.rules}</p>
               )}
 
-              <button
-                type="submit"
-                className="w-full px-6 py-3 bg-primary hover:bg-primary/90 rounded-lg font-bold uppercase tracking-wide transition-all duration-300 hover:scale-105 text-white shadow-neon-purple"
-              >
-                Submit Entry
+              <button type="submit" className="btn-primary w-full justify-center">
+                SUBMIT ENTRY
               </button>
 
-              <p className="text-xs text-gray-500 text-center">
+              <p className="text-xs text-text-muted text-center">
                 Free to enter. No purchase necessary.
               </p>
             </form>
@@ -161,16 +149,16 @@ const QuickEntryForm: FC<QuickEntryFormProps> = ({ giveaway, onClose }) => {
         ) : (
           /* Success Message */
           <div className="text-center py-8">
-            <div className="w-16 h-16 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4">
-              <span className="text-4xl">✓</span>
+            <div className="w-16 h-16 bg-success/20 rounded-full flex items-center justify-center mx-auto mb-4">
+              <span className="text-success text-4xl">✓</span>
             </div>
-            <h3 className="text-2xl font-display font-bold text-white mb-2">
+            <h3 className="font-display font-bold text-2xl text-text-primary uppercase mb-2">
               Entry Confirmed!
             </h3>
-            <p className="text-gray-400 mb-4">
+            <p className="text-text-secondary mb-4">
               Good luck in the {giveaway.title} giveaway!
             </p>
-            <p className="text-sm text-primary">
+            <p className="text-sm text-cta-primary">
               Check your email for confirmation
             </p>
           </div>

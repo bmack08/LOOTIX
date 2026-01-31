@@ -11,6 +11,13 @@ export default function Footer() {
             <p className="text-zinc-400">
               Fantasy-meets-streetwear apparel brand and raffle-driven eCommerce platform.
             </p>
+            {/* Physical Address - Required for sweepstakes legitimacy */}
+            <div className="text-zinc-500 text-sm mt-4">
+              <p className="font-semibold text-zinc-400">Lootix LLC</p>
+              <p>[Street Address]</p>
+              <p>[City, State ZIP]</p>
+              <p className="mt-2">Contact: hello@getlootix.com</p>
+            </div>
           </div>
 
           {/* Quick Links */}
@@ -80,7 +87,7 @@ export default function Footer() {
         {/* Bottom Bar */}
         <div className="mt-12 pt-8 border-t border-zinc-800">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-zinc-400">© 2024 LOOTIX. All rights reserved.</p>
+            <p className="text-zinc-400">© {new Date().getFullYear()} LOOTIX. All rights reserved.</p>
             <div className="flex gap-6">
               <Link href="/privacy" className="text-zinc-400 hover:text-white transition">
                 Privacy Policy

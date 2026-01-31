@@ -1,0 +1,253 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* CSS Custom Properties from Brief Section 3.1-3.5 */
+:root {
+  /* Primary Backgrounds */
+  --bg-primary: #1A1A2E;
+  --bg-secondary: #16213E;
+  --bg-dark: #0F0F1A;
+
+  /* Earth Tone Accents */
+  --accent-forest: #2D5016;
+  --accent-earth: #8B4513;
+  --accent-rust: #A0522D;
+  --accent-stone: #708090;
+
+  /* Action Colors */
+  --cta-primary: #D97706;
+  --cta-hover: #B45309;
+  --urgency: #DC2626;
+  --trust: #1D4ED8;
+  --success: #16A34A;
+
+  /* Text Colors */
+  --text-primary: #F5F5F5;
+  --text-secondary: #B8B8B8;
+  --text-muted: #6B7280;
+
+  /* Fonts */
+  --font-display: 'Oswald', 'Bebas Neue', sans-serif;
+  --font-body: 'Inter', 'Roboto', sans-serif;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --space-4xl: 96px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.4);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.5);
+  --shadow-glow: 0 0 20px rgba(217,119,6,0.3);
+}
+
+@layer base {
+  body {
+    @apply bg-bg-primary text-text-primary antialiased;
+    font-family: var(--font-body);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Focus states - accessibility requirement */
+  *:focus-visible {
+    outline: 2px solid var(--cta-primary);
+    outline-offset: 2px;
+  }
+}
+
+@layer components {
+  /* Primary CTA Button - Section 4.1 */
+  .btn-primary {
+    @apply inline-flex items-center justify-center;
+    @apply px-8 py-4 min-h-[48px];
+    @apply bg-cta-primary hover:bg-cta-hover;
+    @apply text-white font-semibold uppercase tracking-wider;
+    @apply rounded-sm;
+    @apply transition-all duration-200;
+    @apply cursor-pointer;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-primary:hover {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .btn-primary:active {
+    @apply bg-amber-800;
+    transform: scale(0.98);
+  }
+
+  .btn-primary:disabled {
+    @apply bg-accent-stone cursor-not-allowed opacity-60;
+  }
+
+  /* Secondary Button - Section 4.2 */
+  .btn-secondary {
+    @apply inline-flex items-center justify-center;
+    @apply px-8 py-4 min-h-[48px];
+    @apply bg-transparent border-2 border-cta-primary;
+    @apply text-cta-primary font-semibold uppercase tracking-wider;
+    @apply rounded-sm;
+    @apply transition-all duration-200;
+    @apply cursor-pointer;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+  }
+
+  .btn-secondary:hover {
+    @apply bg-cta-primary/10 border-cta-hover;
+  }
+
+  .btn-secondary:active {
+    @apply bg-cta-primary/20;
+  }
+
+  .btn-secondary:disabled {
+    @apply border-accent-stone text-accent-stone opacity-60;
+  }
+
+  /* Card Styles - Section 4.4 */
+  .card {
+    @apply bg-bg-secondary;
+    @apply border border-accent-earth/30;
+    @apply rounded-md;
+    @apply overflow-hidden;
+    @apply transition-all duration-200;
+    @apply cursor-pointer;
+  }
+
+  .card:hover {
+    @apply border-accent-earth;
+    box-shadow: var(--shadow-md);
+  }
+
+  /* Entry Multiplier Badge */
+  .badge-entry {
+    @apply absolute top-3 right-3;
+    @apply bg-cta-primary text-white;
+    @apply text-xs font-bold uppercase;
+    @apply px-2 py-1 rounded-sm;
+    letter-spacing: 0.05em;
+  }
+
+  /* Value Badge (for prizes) */
+  .badge-value {
+    @apply absolute top-4 left-4;
+    @apply bg-urgency text-white;
+    @apply text-lg font-display font-bold;
+    @apply px-4 py-2 rounded-md;
+  }
+
+  /* Input Styles */
+  .input {
+    @apply w-full px-4 py-3;
+    @apply bg-bg-secondary border border-accent-earth/30;
+    @apply rounded-md text-text-primary;
+    @apply placeholder:text-text-muted;
+    @apply focus:border-cta-primary focus:outline-none focus:ring-2 focus:ring-cta-primary/20;
+    @apply transition-all duration-200;
+  }
+
+  /* Entry Calculator - Section 4.7 */
+  .entry-calculator {
+    @apply bg-cta-primary/10 border border-cta-primary/30;
+    @apply rounded-md p-4 text-center;
+  }
+
+  .entry-calculator-text {
+    @apply text-cta-primary font-semibold;
+    font-size: 16px;
+  }
+
+  /* Section Title Styles */
+  .section-title {
+    @apply font-display font-bold text-text-primary uppercase;
+    @apply text-section-mobile md:text-section;
+  }
+
+  .section-subtitle {
+    @apply text-lg text-text-secondary;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-bg-dark;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-accent-earth rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-accent-rust;
+  }
+}
+
+@layer utilities {
+  /* Urgency Pulse Animation */
+  .animate-urgency {
+    animation: urgency-pulse 1.5s ease-in-out infinite;
+  }
+
+  @keyframes urgency-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+
+  /* Float Animation */
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+
+  /* Bounce Animation for scroll indicator */
+  .animate-bounce-scroll {
+    animation: bounce-scroll 1.5s ease-in-out infinite;
+  }
+
+  @keyframes bounce-scroll {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(8px); }
+  }
+
+  /* Skip to main content link - accessibility */
+  .skip-link {
+    @apply absolute -top-10 left-0 bg-cta-primary text-white px-4 py-2 z-50;
+    @apply focus:top-0 transition-all;
+  }
+}
+
+/* Hero Background Pattern Fallback */
+.bg-hero-pattern {
+  background-image: url('/images/hero-bg.jpg');
+}
+
+/* Earth-tone Hero Gradient (fallback when no image) */
+.bg-hero-gradient {
+  background: linear-gradient(180deg, #0F0F1A 0%, #1A1A2E 50%, rgba(45,80,22,0.3) 100%);
+}
