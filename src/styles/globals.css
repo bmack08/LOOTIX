@@ -186,6 +186,83 @@
     @apply text-lg text-text-secondary;
   }
 
+  /* Product Card - Just Arrived Section */
+  .product-card {
+    @apply bg-bg-secondary;
+    @apply border border-accent-earth/30;
+    @apply rounded-md overflow-hidden;
+    @apply transition-all duration-300;
+    @apply cursor-pointer;
+  }
+
+  .product-card:hover {
+    @apply border-accent-earth;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Product Badge (NEW/SALE) */
+  .product-badge {
+    @apply absolute top-3 left-3;
+    @apply text-white text-xs font-bold uppercase;
+    @apply px-2 py-1;
+    letter-spacing: 0.05em;
+  }
+
+  .product-badge-new {
+    @apply bg-cta-primary;
+  }
+
+  .product-badge-sale {
+    @apply bg-urgency;
+  }
+
+  /* Quick View Overlay */
+  .quick-view-overlay {
+    @apply absolute inset-0;
+    @apply bg-bg-dark/80;
+    @apply flex items-center justify-center;
+    @apply transition-opacity duration-300;
+  }
+
+  .quick-view-btn {
+    @apply border border-cta-primary text-cta-primary;
+    @apply bg-transparent;
+    @apply px-6 py-2;
+    @apply text-xs font-bold uppercase tracking-wider;
+    @apply cursor-pointer;
+    @apply transition-all duration-200;
+  }
+
+  .quick-view-btn:hover {
+    @apply bg-cta-primary text-white;
+  }
+
+  /* Category Card */
+  .category-card {
+    @apply relative aspect-square overflow-hidden rounded-md;
+    @apply cursor-pointer;
+  }
+
+  .category-card img {
+    @apply w-full h-full object-cover;
+    @apply transition-transform duration-500;
+  }
+
+  .category-card:hover img {
+    transform: scale(1.1);
+  }
+
+  .category-overlay {
+    @apply absolute inset-0;
+    background: linear-gradient(to top, rgba(15,15,26,1), rgba(15,15,26,0.4), transparent);
+  }
+
+  .category-name {
+    @apply absolute bottom-4 left-4;
+    @apply text-lg font-display font-bold text-text-primary;
+  }
+
   /* Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 10px;
@@ -205,6 +282,25 @@
 }
 
 @layer utilities {
+  /* Blink Animation - for section title underscores */
+  .animate-blink {
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  /* Slow Pulse Animation - for emojis */
+  .animate-pulse-slow {
+    animation: pulse-slow 2s infinite;
+  }
+
+  @keyframes pulse-slow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+  }
+
   /* Urgency Pulse Animation */
   .animate-urgency {
     animation: urgency-pulse 1.5s ease-in-out infinite;

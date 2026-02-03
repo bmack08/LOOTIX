@@ -1,9 +1,11 @@
 // lootix/src/app/page.tsx
-// Homepage layout per Section 5.1 of the design brief
+// Homepage layout matching Lootix Interactive Prototype
 
 import HeroSection from "@/components/HeroSection";
 import TrustBar from "@/components/TrustBar";
+import JustArrivedSection from "@/components/JustArrivedSection";
 import FeaturedPrizes from "@/components/FeaturedPrizes";
+import CategoryGrid from "@/components/CategoryGrid";
 import HowItWorks from "@/components/HowItWorks";
 import RecentWinners from "@/components/RecentWinners";
 import EmailSignup from "@/components/EmailSignup";
@@ -11,22 +13,28 @@ import EmailSignup from "@/components/EmailSignup";
 export default function Home() {
   return (
     <div className="min-h-screen">
-      {/* 1. Hero Section with Countdown */}
+      {/* 1. Hero Slideshow with Countdown */}
       <HeroSection />
 
-      {/* 2. Trust Bar */}
+      {/* 2. Trust Stats Bar */}
       <TrustBar />
 
-      {/* 3. Current Giveaway Feature */}
+      {/* 3. Just Arrived Products */}
+      <JustArrivedSection />
+
+      {/* 4. Current Giveaway Feature */}
       <FeaturedPrizes />
 
-      {/* 4. How It Works */}
+      {/* 5. Shop by Category */}
+      <CategoryGrid />
+
+      {/* 6. How It Works */}
       <HowItWorks />
 
-      {/* 5. Winners Section (Pre-Launch) */}
+      {/* 7. Winners Section (Pre-Launch) */}
       <RecentWinners />
 
-      {/* 6. Email Signup */}
+      {/* 8. Email Signup */}
       <EmailSignup />
     </div>
   );

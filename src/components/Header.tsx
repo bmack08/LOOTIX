@@ -5,29 +5,14 @@ import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
 const navLinks = [
-  { label: 'NEW DROPS', href: '/new-drops' },
-  { label: 'MENS', href: '/mens', dropdown: [
-    { label: 'Shirts', href: '/mens/shirts' },
-    { label: 'Hoodies', href: '/mens/hoodies' },
-    { label: 'Sweatpants', href: '/mens/sweatpants' },
-    { label: 'Tank Tops', href: '/mens/tank-tops' },
-  ] },
-  { label: 'WOMENS', href: '/womens', dropdown: [
-    { label: 'Shirts', href: '/womens/shirts' },
-    { label: 'Hoodies', href: '/womens/hoodies' },
-    { label: 'Leggings', href: '/womens/leggings' },
-    { label: 'Tank Tops', href: '/womens/tank-tops' },
-  ] },
-  { label: 'YOUTH', href: '/youth', dropdown: [
-    { label: 'Kids Shirts', href: '/youth/shirts' },
-    { label: 'Kids Hoodies', href: '/youth/hoodies' },
-  ] },
+  { label: 'JUST ARRIVED', href: '/shop', highlight: true },
+  { label: 'MENS', href: '/mens' },
+  { label: 'WOMENS', href: '/womens' },
+  { label: 'ACCESSORIES', href: '/collections/accessories' },
   { label: 'QUICK ENTRIES', href: '/quick-entries' },
-  { label: 'MEMBERSHIP', href: '/membership' },
 ];
 
 export default function Header() {
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -54,13 +39,13 @@ export default function Header() {
 
   return (
     <>
-      {/* Header - Section 4.5 specs */}
+      {/* Header - Sticky Navigation */}
       <header
-        className={`w-full fixed top-0 left-0 z-50 transition-all duration-300 h-[72px] lg:h-[72px]
+        className={`w-full sticky top-0 z-50 transition-all duration-300 h-16
           ${isScrolled
             ? 'bg-bg-dark/95 border-accent-earth/30 shadow-md'
-            : 'bg-bg-dark/90 border-accent-earth/20'
-          } backdrop-blur-lg border-b`}
+            : 'bg-bg-dark'
+          } backdrop-blur-[12px] border-b border-accent-earth/20`}
       >
         <div className="max-w-container mx-auto px-4 lg:px-8 h-full">
           <nav className="flex items-center justify-between h-full">
@@ -82,58 +67,17 @@ export default function Header() {
             {/* Desktop Navigation Links */}
             <ul className="hidden lg:flex gap-8 items-center">
               {navLinks.map((link) => (
-                <li key={link.label} className="relative">
-                  {link.dropdown ? (
-                    <div
-                      onMouseEnter={() => setOpenDropdown(link.label)}
-                      onMouseLeave={() => setOpenDropdown(null)}
-                    >
-                      <button
-                        className="uppercase text-text-secondary font-medium tracking-wider transition-colors duration-200 text-sm flex items-center gap-1 hover:text-text-primary"
-                        style={{ letterSpacing: '0.05em' }}
-                      >
-                        {link.label}
-                        <svg
-                          className={`w-3 h-3 ml-1 transition-transform duration-200 ${
-                            openDropdown === link.label ? 'rotate-180' : ''
-                          }`}
-                          fill="none"
-                          stroke="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                      </button>
-
-                      {/* Dropdown Menu */}
-                      <div
-                        className={`absolute left-1/2 -translate-x-1/2 top-full mt-2
-                          bg-bg-secondary border border-accent-earth/30 rounded-md shadow-lg
-                          py-2 min-w-[180px] z-50 transition-all duration-200
-                          ${openDropdown === link.label
-                            ? 'opacity-100 translate-y-0 visible'
-                            : 'opacity-0 -translate-y-2 invisible'}`}
-                      >
-                        {link.dropdown.map((item) => (
-                          <Link
-                            key={item.label}
-                            href={item.href}
-                            className="block px-4 py-2 text-text-secondary hover:bg-accent-earth/10 hover:text-text-primary text-sm transition-colors duration-200"
-                          >
-                            {item.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  ) : (
-                    <Link
-                      href={link.href}
-                      className="uppercase text-text-secondary font-medium tracking-wider transition-colors duration-200 text-sm hover:text-text-primary"
-                      style={{ letterSpacing: '0.05em' }}
-                    >
-                      {link.label}
-                    </Link>
-                  )}
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className={`uppercase font-semibold tracking-wider transition-colors duration-200 text-[13px] ${
+                      link.highlight ? 'text-cta-primary' : 'text-text-secondary hover:text-text-primary'
+                    }`}
+                    style={{ letterSpacing: '0.05em' }}
+                  >
+                    {link.label}
+                    {link.highlight && <span className="animate-blink">_</span>}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -196,50 +140,16 @@ export default function Header() {
           <ul className="flex flex-col gap-2">
             {navLinks.map((link) => (
               <li key={link.label}>
-                {link.dropdown ? (
-                  <div>
-                    <button
-                      className="w-full flex items-center justify-between py-4 text-text-primary font-medium text-lg uppercase tracking-wider border-b border-accent-earth/20"
-                      onClick={() => setOpenDropdown(openDropdown === link.label ? null : link.label)}
-                    >
-                      {link.label}
-                      <svg
-                        className={`w-4 h-4 transition-transform duration-200 ${
-                          openDropdown === link.label ? 'rotate-180' : ''
-                        }`}
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </button>
-                    <div
-                      className={`overflow-hidden transition-all duration-200 ${
-                        openDropdown === link.label ? 'max-h-96' : 'max-h-0'
-                      }`}
-                    >
-                      {link.dropdown.map((item) => (
-                        <Link
-                          key={item.label}
-                          href={item.href}
-                          className="block py-3 pl-4 text-text-secondary hover:text-text-primary transition-colors"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          {item.label}
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                ) : (
-                  <Link
-                    href={link.href}
-                    className="block py-4 text-text-primary font-medium text-lg uppercase tracking-wider border-b border-accent-earth/20"
-                    onClick={() => setIsMobileMenuOpen(false)}
-                  >
-                    {link.label}
-                  </Link>
-                )}
+                <Link
+                  href={link.href}
+                  className={`block py-4 font-medium text-lg uppercase tracking-wider border-b border-accent-earth/20 ${
+                    link.highlight ? 'text-cta-primary' : 'text-text-primary'
+                  }`}
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {link.label}
+                  {link.highlight && <span className="animate-blink">_</span>}
+                </Link>
               </li>
             ))}
           </ul>
@@ -257,8 +167,6 @@ export default function Header() {
         </nav>
       </div>
 
-      {/* Spacer for fixed header */}
-      <div className="h-[72px]" />
     </>
   );
 }

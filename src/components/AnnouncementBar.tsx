@@ -24,9 +24,11 @@ const AnnouncementBar: FC = () => {
   return (
     <div className="bg-cta-primary text-white h-10 flex items-center justify-center relative overflow-hidden">
       <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider">
+        <span className="animate-pulse-slow">🔥</span>
         <span>{ENTRY_MULTIPLIER}X ENTRIES ON ALL ORDERS</span>
         <span className="hidden sm:inline">—</span>
         <span className="hidden sm:inline">FREE SHIPPING OVER $75</span>
+        <span className="animate-pulse-slow">🔥</span>
       </div>
 
       {/* Close button */}

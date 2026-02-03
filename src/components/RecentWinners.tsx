@@ -4,11 +4,11 @@ import { FC } from 'react';
 
 const RecentWinners: FC = () => {
   return (
-    <section className="py-16 md:py-20 px-6 bg-bg-secondary">
-      <div className="max-w-4xl mx-auto text-center">
+    <section className="py-16 px-4 bg-bg-dark text-center">
+      <div className="max-w-[600px] mx-auto">
         {/* Section Header */}
-        <h2 className="font-display font-bold text-section-mobile md:text-section text-text-primary uppercase mb-6">
-          BE OUR FIRST WINNER
+        <h2 className="text-[28px] font-display font-bold text-text-primary mb-4">
+          BE OUR FIRST WINNER<span className="text-cta-primary animate-blink">_</span>
         </h2>
 
         <p className="text-lg md:text-xl text-text-secondary mb-8 max-w-2xl mx-auto leading-relaxed">

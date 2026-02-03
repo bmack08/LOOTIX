@@ -10,7 +10,37 @@ interface TimeLeft {
   seconds: number;
 }
 
+interface HeroSlide {
+  image: string;
+  title: string;
+  highlight?: string;
+  subtitle: string;
+}
+
+const heroSlides: HeroSlide[] = [
+  {
+    image: 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=1920&q=80',
+    title: 'LOOT',
+    highlight: 'LEGENDARY',
+    subtitle: 'GEAR UP. LEVEL UP.',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=1920&q=80',
+    title: 'WIN EPIC',
+    highlight: 'PRIZES',
+    subtitle: 'Every purchase earns entries.',
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80',
+    title: 'ADVENTURE',
+    highlight: 'AWAITS',
+    subtitle: '$5,000 Gaming PC Giveaway',
+  },
+];
+
 const HeroSection: FC = () => {
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [timeLeft, setTimeLeft] = useState<TimeLeft>({
     days: 0,
     hours: 0,
@@ -20,6 +50,16 @@ const HeroSection: FC = () => {
   const [isUrgent, setIsUrgent] = useState(false);
   const [isExpired, setIsExpired] = useState(false);
 
+  // Slideshow auto-rotation
+  useEffect(() => {
+    if (!isPlaying) return;
+    const timer = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [isPlaying]);
+
+  // Countdown timer
   useEffect(() => {
     const updateTimer = () => {
       const remaining = getTimeRemaining(currentGiveaway.endDate);
@@ -35,131 +75,139 @@ const HeroSection: FC = () => {
 
     updateTimer();
     const timer = setInterval(updateTimer, 1000);
-
     return () => clearInterval(timer);
   }, []);
 
-  return (
-    <section className="relative min-h-screen flex flex-col justify-center items-center text-center overflow-hidden">
-      {/* Background - Earth tone gradient per brief */}
-      <div className="absolute inset-0 bg-gradient-to-b from-bg-dark via-bg-primary to-bg-primary"></div>
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent-forest/10 via-transparent to-transparent"></div>
+  const pad = (n: number) => String(n).padStart(2, '0');
 
-      {/* Subtle floating elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-accent-forest/20 rounded-full blur-xl animate-float"></div>
-      <div className="absolute bottom-20 right-10 w-32 h-32 bg-cta-primary/10 rounded-full blur-xl animate-float" style={{ animationDelay: '2s' }}></div>
+  return (
+    <section className="relative h-screen min-h-[600px] overflow-hidden">
+      {/* Slideshow Backgrounds */}
+      {heroSlides.map((slide, index) => (
+        <div
+          key={index}
+          className="absolute inset-0 transition-opacity duration-1000"
+          style={{
+            opacity: index === currentSlide ? 1 : 0,
+            zIndex: index === currentSlide ? 1 : 0,
+          }}
+        >
+          {/* Background Image with Ken Burns zoom */}
+          <div
+            className="absolute inset-0 bg-cover bg-center transition-transform duration-[6000ms] ease-out"
+            style={{
+              backgroundImage: `url(${slide.image})`,
+              transform: index === currentSlide ? 'scale(1.1)' : 'scale(1)',
+            }}
+          />
+          {/* Gradient Overlay */}
+          <div
+            className="absolute inset-0"
+            style={{
+              background: 'linear-gradient(180deg, rgba(15,15,26,0.5) 0%, rgba(15,15,26,0.6) 50%, rgba(26,26,46,1) 100%)',
+            }}
+          />
+        </div>
+      ))}
 
       {/* Content */}
-      <div className="relative z-10 max-w-4xl px-6 py-20">
-        {/* Main Heading - Oswald display font */}
-        <h1 className="font-display font-bold text-hero-mobile md:text-hero text-text-primary uppercase mb-2">
-          LOOT <span className="text-cta-primary">LEGENDARY</span>
+      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-4">
+        {/* Main Heading */}
+        <h1 className="font-display font-bold text-[clamp(40px,8vw,80px)] text-text-primary uppercase mb-4 tracking-tight">
+          {heroSlides[currentSlide].title}{' '}
+          <span className="text-cta-primary">{heroSlides[currentSlide].highlight}</span>
         </h1>
-        <h2 className="font-display font-bold text-2xl md:text-4xl text-text-primary uppercase tracking-wide mb-6">
-          LIVE BOLD
-        </h2>
-
-        <p className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed mb-10">
-          Enter for a chance to win <span className="text-cta-primary font-semibold">epic gaming prizes</span>.
-          Free entry available, or multiply your chances with every purchase.
+        <p className="text-[clamp(18px,3vw,24px)] text-text-secondary mb-8 tracking-wide">
+          {heroSlides[currentSlide].subtitle}
         </p>
 
-        {/* Countdown Timer - Section 4.3 specs */}
-        <div className="mb-10">
-          {/* End Date Label */}
-          <p className="text-sm uppercase tracking-widest text-text-muted mb-4" style={{ letterSpacing: '0.05em' }}>
+        {/* Countdown Timer */}
+        <div className="mb-8">
+          <p className="text-xs text-text-muted uppercase tracking-[0.2em] mb-4">
             Giveaway Ends {formatEndDate(currentGiveaway.endDate)}
           </p>
 
-          {isExpired ? (
-            <div className="text-2xl font-display font-bold text-urgency uppercase">
-              GIVEAWAY ENDED
-            </div>
-          ) : (
-            <>
-              {/* Urgency message */}
-              {isUrgent && (
-                <p className="text-sm uppercase tracking-widest text-urgency font-bold mb-4 animate-urgency">
-                  LAST CHANCE — ENDS TODAY!
-                </p>
-              )}
-
-              {/* Timer blocks */}
-              <div className="flex justify-center gap-3 md:gap-4">
-                {[
-                  { label: 'DAYS', value: timeLeft.days },
-                  { label: 'HOURS', value: timeLeft.hours },
-                  { label: 'MINS', value: timeLeft.minutes },
-                  { label: 'SECS', value: timeLeft.seconds },
-                ].map((item) => (
-                  <div
-                    key={item.label}
-                    className={`bg-bg-secondary rounded-md flex flex-col items-center justify-center
-                      w-[60px] h-[60px] md:w-[80px] md:h-[80px]
-                      ${isUrgent ? 'animate-urgency' : ''}`}
-                  >
-                    <div
-                      className={`font-display font-bold text-2xl md:text-4xl
-                        ${isUrgent ? 'text-urgency' : 'text-text-primary'}`}
-                    >
-                      {String(item.value).padStart(2, '0')}
-                    </div>
-                    <div
-                      className="text-xs text-text-muted uppercase mt-1"
-                      style={{ letterSpacing: '0.1em' }}
-                    >
-                      {item.label}
-                    </div>
+          {!isExpired && (
+            <div className="flex justify-center gap-3">
+              {[
+                { value: timeLeft.days, label: 'DAYS' },
+                { value: timeLeft.hours, label: 'HOURS' },
+                { value: timeLeft.minutes, label: 'MINS' },
+                { value: timeLeft.seconds, label: 'SECS' },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="bg-bg-secondary/80 backdrop-blur-sm rounded-md p-4 min-w-[70px]"
+                >
+                  <div className={`font-display font-bold text-[32px] ${isUrgent ? 'text-urgency' : 'text-text-primary'}`}>
+                    {pad(item.value)}
                   </div>
-                ))}
-              </div>
-            </>
+                  <div className="text-[10px] text-text-muted tracking-[0.2em] mt-1">
+                    {item.label}
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
         </div>
 
-        {/* CTA Buttons - Section 4.1 & 4.2 specs */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
-          <a
-            href="/current-giveaway"
-            className="btn-primary w-full sm:w-auto"
-          >
+        {/* CTA Buttons */}
+        <div className="flex flex-wrap gap-4 justify-center mb-8">
+          <a href="/current-giveaway" className="btn-primary">
             ENTER NOW
           </a>
-          <a
-            href="/shop"
-            className="btn-secondary w-full sm:w-auto"
-          >
-            BROWSE GEAR
+          <a href="/shop" className="btn-secondary">
+            SHOP GEAR
           </a>
         </div>
 
-        {/* Trust Indicators */}
-        <div className="flex flex-wrap justify-center gap-6 md:gap-8 text-sm text-text-muted">
-          <div className="flex items-center gap-2">
-            <span className="text-cta-primary">✓</span>
-            <span>Free Entry</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-cta-primary">✓</span>
-            <span>Weekly Drawings</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-cta-primary">✓</span>
-            <span>Ships Worldwide</span>
-          </div>
+        {/* Trust Badges */}
+        <div className="flex flex-wrap justify-center gap-6 text-sm text-text-muted">
+          {['Free Entry', 'Weekly Drawings', 'Ships Worldwide'].map((badge) => (
+            <span key={badge} className="flex items-center gap-2">
+              <svg className="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+              </svg>
+              {badge}
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* Scroll Indicator */}
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-scroll">
-        <svg
-          className="w-8 h-8 text-text-muted"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+      {/* Slide Controls */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 flex items-center gap-4">
+        {/* Play/Pause Button */}
+        <button
+          onClick={() => setIsPlaying(!isPlaying)}
+          className="text-text-muted hover:text-text-primary transition-colors p-1"
+          aria-label={isPlaying ? 'Pause slideshow' : 'Play slideshow'}
         >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-        </svg>
+          {isPlaying ? (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zM7 8a1 1 0 012 0v4a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v4a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+          ) : (
+            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
+            </svg>
+          )}
+        </button>
+
+        {/* Dot Navigation */}
+        <div className="flex gap-2">
+          {heroSlides.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentSlide(index)}
+              className={`h-2 rounded-full transition-all duration-300 ${
+                index === currentSlide
+                  ? 'w-8 bg-cta-primary'
+                  : 'w-2 bg-text-muted hover:bg-text-secondary'
+              }`}
+              aria-label={`Go to slide ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );
