@@ -3,12 +3,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
+import { ENTRY_MULTIPLIER } from "@/config/giveaway";
 
-// ❗ ❗ REAL FIX: Import Next's PageProps interface
 import type { PageProps } from "../../../.next/types/app/collections/[category]/page";
 
 export async function generateStaticParams() {
-  const categories = ["fantasy", "luxe", "youth", "accessories"];
+  const categories = ["streetwear", "premium", "essentials", "accessories"];
   return categories.map((category) => ({
     category,
   }));
@@ -31,26 +31,33 @@ export default function CollectionPage({ params }: PageProps) {
   }
 
   return (
-    <main className="min-h-screen bg-zinc-950 text-white p-8">
-      <h1 className="text-4xl font-bold mb-10 capitalize text-center">
-        {category} Collection
-      </h1>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
-        {filteredProducts.map((product) => (
-          <Link key={product.slug} href={`/product/${product.slug}`}>
-            <div className="bg-zinc-800 p-4 rounded-lg hover:scale-105 transition">
-              <Image
-                src={product.image}
-                alt={product.name}
-                width={400}
-                height={400}
-                className="w-full h-64 object-cover rounded mb-4"
-              />
-              <h2 className="text-xl font-semibold">{product.name}</h2>
-              <p className="text-gray-400">${product.price}</p>
-            </div>
-          </Link>
-        ))}
+    <main className="min-h-screen bg-bg-primary text-text-primary p-8">
+      <div className="max-w-container mx-auto">
+        <h1 className="font-display font-bold text-hero-mobile md:text-hero uppercase text-center mb-10">
+          <span className="text-cta-primary">{category}</span> Collection
+        </h1>
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {filteredProducts.map((product) => (
+            <Link key={product.slug} href={`/product/${product.slug}`}>
+              <div className="product-card group">
+                <div className="relative aspect-square overflow-hidden">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={400}
+                    height={400}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  />
+                  <span className="badge-entry">{ENTRY_MULTIPLIER}X</span>
+                </div>
+                <div className="p-4">
+                  <h2 className="text-lg font-semibold text-text-primary truncate">{product.name}</h2>
+                  <p className="text-cta-primary font-display font-bold">${product.price}</p>
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
     </main>
   );

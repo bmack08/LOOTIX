@@ -23,7 +23,7 @@ interface Giveaway {
   endDate: Date;
 }
 
-// Mock giveaway data - dates are dynamically calculated
+// Mock giveaway data - updated to match brand positioning (gaming, not tabletop)
 const getActiveGiveaways = (): Giveaway[] => [
   {
     id: 1,
@@ -37,19 +37,19 @@ const getActiveGiveaways = (): Giveaway[] => [
   },
   {
     id: 2,
-    title: 'Luxury Dice Set Collection',
-    description: 'Premium metal dice sets for D&D, Pathfinder, and other tabletop RPGs.',
+    title: 'Gaming Peripherals Pack',
+    description: 'Premium mechanical keyboard, wireless gaming mouse, and studio-quality headset.',
     value: '$250',
-    image: 'https://images.unsplash.com/photo-1516975080664-ed2fc6a32937',
+    image: 'https://images.unsplash.com/photo-1593152167544-085d3b9c4938',
     link: '/current-giveaway',
     endDate: getEndDate(27),
   },
   {
     id: 3,
-    title: 'Board Game Bundle',
-    description: 'Top-rated modern board games including Wingspan, Catan, and Ticket to Ride.',
-    value: '$300',
-    image: 'https://images.unsplash.com/photo-1566694271453-390536dd1f0d',
+    title: 'Console Bundle',
+    description: 'Next-gen console with two controllers and three top-rated games of your choice.',
+    value: '$600',
+    image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3',
     link: '/current-giveaway',
     endDate: getEndDate(33),
   },

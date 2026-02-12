@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 
 export const metadata = {
   title: 'Products | LOOTIX',
-  description: 'Shop the latest fantasy-meets-streetwear drops from LOOTIX.',
+  description: 'Shop the latest premium streetwear drops from LOOTIX. Every purchase earns giveaway entries.',
 };
 
 export const revalidate = 3600; // Revalidate every hour
@@ -53,7 +53,7 @@ export default async function ProductsPage() {
         <div className="container">
           <div className="text-center">
             <h1 className="heading-2 mb-4">Error Loading Products</h1>
-            <p className="text-zinc-600">We're having trouble loading our products. Please try again later.</p>
+            <p className="text-text-secondary">We're having trouble loading our products. Please try again later.</p>
           </div>
         </div>
       </div>

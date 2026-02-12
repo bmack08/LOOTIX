@@ -1,11 +1,16 @@
 'use client';
 
+import { ENTRY_MULTIPLIER } from '@/config/giveaway';
+
 interface AddToCartButtonProps {
   productId: number;
   disabled?: boolean;
+  price?: number;
 }
 
-export default function AddToCartButton({ productId, disabled }: AddToCartButtonProps) {
+export default function AddToCartButton({ productId, disabled, price }: AddToCartButtonProps) {
+  const entries = price ? Math.floor(price * ENTRY_MULTIPLIER) : 0;
+
   const handleAddToCart = () => {
     console.log(`Adding product ${productId} to cart`);
     alert('Coming soon: Add to cart functionality!');
@@ -13,15 +18,17 @@ export default function AddToCartButton({ productId, disabled }: AddToCartButton
 
   return (
     <button
-      className={`w-full py-3 px-6 rounded-lg transition
-        ${disabled 
-          ? 'bg-zinc-600 cursor-not-allowed' 
-          : 'bg-blue-500 hover:bg-blue-600'} 
-        text-white`}
+      className={`btn-primary w-full justify-center ${
+        disabled ? '!bg-accent-stone !cursor-not-allowed !opacity-60' : ''
+      }`}
       onClick={handleAddToCart}
       disabled={disabled}
     >
-      {disabled ? 'Select options' : 'Add to Cart'}
+      {disabled
+        ? 'SELECT OPTIONS'
+        : entries > 0
+          ? `ADD TO CART — EARN ${entries.toLocaleString()} ENTRIES`
+          : 'ADD TO CART'}
     </button>
   );
-} 
+}

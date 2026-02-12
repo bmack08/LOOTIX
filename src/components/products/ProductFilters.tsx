@@ -4,9 +4,9 @@ import { useState } from 'react';
 
 const categories = [
   { id: 'all', name: 'All Products' },
-  { id: 'fantasy', name: 'Fantasy Collection' },
-  { id: 'luxe', name: 'Luxe Edition' },
-  { id: 'youth', name: 'Youth Series' },
+  { id: 'streetwear', name: 'Streetwear' },
+  { id: 'premium', name: 'Premium Edition' },
+  { id: 'essentials', name: 'Essentials' },
   { id: 'accessories', name: 'Accessories' },
 ];
 
