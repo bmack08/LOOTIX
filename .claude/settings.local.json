@@ -1,16 +1,36 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cat:*)",
+      "Read",
+      "Glob",
+      "Grep",
+      "WebFetch",
+      "WebSearch",
+      "Bash(ls:*)",
+      "Bash(npm run build)",
+      "Bash(npm run dev)",
+      "Bash(npm run lint)",
+      "Bash(npm install:*)",
+      "Bash(npx next:*)",
+      "Bash(npx prettier --write:*)",
+      "Bash(curl:*)",
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
       "Bash(find:*)",
-      "Bash(timeout /t 5)",
-      "Bash(findstr:*)",
-      "Bash(npm run dev:*)",
-      "Bash(git add:*)",
-      "Bash(git push)",
-      "Bash(npm run build:*)"
-    ],
-    "deny": [],
-    "ask": []
+      "Bash(node -e:*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=\"$CLAUDE_TOOL_FILE_PATH\"; if [[ \"$FILE\" == *.ts || \"$FILE\" == *.tsx || \"$FILE\" == *.js || \"$FILE\" == *.jsx ]]; then npx prettier --write \"$FILE\" 2>/dev/null || true; fi"
+          }
+        ]
+      }
+    ]
   }
 }

@@ -1,0 +1,16 @@
+{
+  "description": "Auto-format files after editing (Black for Python, Prettier for JS/JSX/TS)",
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=\"$CLAUDE_TOOL_FILE_PATH\"; if [[ \"$FILE\" == *.py ]]; then python -m black \"$FILE\" 2>/dev/null || true; elif [[ \"$FILE\" == *.jsx || \"$FILE\" == *.js || \"$FILE\" == *.ts || \"$FILE\" == *.tsx ]]; then npx prettier --write \"$FILE\" 2>/dev/null || true; fi"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -83,8 +83,7 @@ export default function RootLayout({
                 {/* Physical Address - Required for sweepstakes legitimacy */}
                 <div className="text-text-muted text-sm">
                   <p className="font-semibold text-text-secondary">Lootix LLC</p>
-                  <p>[Street Address]</p>
-                  <p>[City, State ZIP]</p>
+                  <p>Maryland, USA</p>
                   <p className="mt-2">hello@getlootix.com</p>
                 </div>
               </div>
