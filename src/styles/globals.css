@@ -409,4 +409,19 @@
   @media (prefers-reduced-motion: reduce) {
     .animate-rise, .animate-rise-slow, .animate-marquee { animation: none !important; }
   }
+
+  /* Rich-text prose in the obsidian & gold theme (content + legal pages) */
+  .lx-prose { @apply font-archivo text-[#B7B2A8] text-[16px] leading-[1.7]; }
+  .lx-prose h2 { @apply font-archivo font-black uppercase text-cream text-[26px] tracking-[-.01em] mt-12 mb-4; }
+  .lx-prose h3 { @apply font-archivo font-extrabold uppercase text-cream text-[18px] tracking-[.01em] mt-8 mb-3; }
+  .lx-prose p { @apply my-4; }
+  .lx-prose a { @apply text-gold-label underline underline-offset-2 hover:text-gold-bright transition-colors; }
+  .lx-prose strong { @apply text-cream font-bold; }
+  .lx-prose ul { @apply list-disc pl-5 my-4 flex flex-col gap-2; }
+  .lx-prose ol { @apply list-decimal pl-5 my-4 flex flex-col gap-2; }
+  .lx-prose li { @apply text-[#B7B2A8]; }
+  .lx-prose li::marker { color: #C9A94A; }
+  .lx-prose hr { @apply my-8; border: 0; border-top: 1px solid rgba(255,255,255,.08); }
+  .lx-prose .lead { @apply text-[18px] text-muted; }
+  .lx-prose blockquote { @apply border-l-2 pl-4 my-5 text-muted italic; border-color: rgba(212,175,55,.4); }
 }
