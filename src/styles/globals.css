@@ -347,3 +347,66 @@
 .bg-hero-gradient {
   background: linear-gradient(180deg, #0F0F1A 0%, #1A1A2E 50%, rgba(45,80,22,0.3) 100%);
 }
+
+/* ══════════════════════════════════════════════════════════════
+   LOOTIX Obsidian & Gold redesign — component classes
+   (additive; used by the new homepage + src/components/lootix/*)
+   ══════════════════════════════════════════════════════════════ */
+@layer base {
+  ::selection { background: #D4AF37; color: #0A0A0B; }
+}
+
+@layer components {
+  .lx-container { @apply max-w-site mx-auto px-6 md:px-10; }
+
+  .lx-eyebrow { @apply font-mono uppercase text-gold tracking-eyebrow; font-size: 12px; }
+
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2.5 font-archivo font-extrabold
+           uppercase text-obsidian bg-gold-gradient rounded-btn shadow-gold-btn
+           transition-transform duration-200 hover:-translate-y-0.5;
+    font-size: 14px; letter-spacing: .08em; padding: 17px 30px;
+  }
+  .btn-ghost {
+    @apply inline-flex items-center justify-center gap-2.5 font-archivo font-extrabold
+           uppercase text-cream rounded-btn transition-colors duration-200;
+    font-size: 14px; letter-spacing: .08em; padding: 17px 28px;
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.16);
+  }
+  .btn-ghost:hover { background: rgba(255,255,255,.07); }
+  .btn-outline-gold {
+    @apply inline-flex items-center justify-center gap-2.5 font-archivo font-extrabold
+           uppercase text-cream rounded-btn transition-colors duration-200;
+    font-size: 13px; letter-spacing: .08em; padding: 13px 24px;
+    border: 1px solid rgba(212,175,55,.5);
+  }
+  .btn-outline-gold:hover { background: rgba(212,175,55,.08); }
+  .link-gold {
+    @apply font-archivo font-bold uppercase text-gold-label;
+    font-size: 13px; letter-spacing: .1em; padding-bottom: 4px;
+    border-bottom: 1px solid rgba(212,175,55,.4);
+  }
+
+  .badge-solid {
+    @apply inline-flex items-center font-mono font-bold uppercase text-obsidian bg-gold-gradient;
+    font-size: 10.5px; letter-spacing: .2em; padding: 6px 12px; border-radius: 4px;
+  }
+  .badge-glass {
+    @apply inline-flex items-center gap-1.5 font-mono font-bold uppercase text-gold-soft;
+    font-size: 10px; letter-spacing: .14em; padding: 6px 12px; border-radius: 4px;
+    background: rgba(10,10,11,.7); border: 1px solid rgba(212,175,55,.4);
+  }
+  .badge-pill {
+    @apply inline-flex items-center font-mono uppercase text-gold-soft;
+    font-size: 10px; letter-spacing: .1em; padding: 6px 12px; border-radius: 4px; font-weight: 700;
+    background: rgba(10,10,11,.6); border: 1px solid rgba(212,175,55,.38);
+  }
+
+  .lx-card { @apply bg-panel border border-white/[.08] rounded-card overflow-hidden; }
+  .lx-panel-warm { @apply bg-panel-warm-soft border border-white/[.08] rounded-card; }
+  .lx-section { @apply max-w-site mx-auto px-6 md:px-10 py-[104px]; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-rise, .animate-rise-slow, .animate-marquee { animation: none !important; }
+  }
+}
