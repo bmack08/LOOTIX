@@ -43,11 +43,12 @@ export const MARQUEE_ITEMS = [
   `${MULT_LABEL} ENTRIES ON ALL ORDERS`,
 ];
 
+// Launch-honest stats (no fabricated track record before the first draw).
 export const STATS = [
-  { value: '$240K+', label: 'Prizes Awarded', gold: true },
-  { value: '38', label: 'Winners Paid', gold: false },
-  { value: '3,800+', label: '5-Star Reviews', gold: false },
-  { value: MULT_LABEL, label: 'Entries / Order', gold: true },
+  { value: '$250', label: 'Launch Grand Prize', gold: true },
+  { value: MULT_LABEL, label: 'Entries / Order', gold: false },
+  { value: 'FREE', label: 'Entry Available', gold: false },
+  { value: 'LIVE', label: 'Independent Draw', gold: true },
 ];
 
 export const VAULT = {
@@ -111,8 +112,34 @@ export const MILESTONES = [
   },
 ];
 
+export const COMPANY = {
+  legalName: 'Lootix LLC',
+  location: 'Maryland, USA',
+  email: 'hello@getlootix.com',
+  socials: {
+    instagram: 'https://instagram.com/getlootix',
+    tiktok: 'https://tiktok.com/@getlootix',
+    discord: 'https://discord.gg/lootix',
+  },
+};
+
 export const FOOTER_COLS = [
-  { title: 'Shop', links: ['New Drops', 'Hoodies', 'Tees', 'Accessories'] },
-  { title: 'Giveaways', links: ['Current Vault', 'How It Works', 'Past Winners', 'Official Rules'] },
-  { title: 'Company', links: ['About', 'Contact', 'Shipping & Returns', 'Privacy & Terms'] },
+  { title: 'Shop', links: [
+    { label: 'New Drops', href: '/new-drops' },
+    { label: 'Shop All', href: '/shop' },
+    { label: 'Mens', href: '/mens' },
+    { label: 'Womens', href: '/womens' },
+  ] },
+  { title: 'Giveaways', links: [
+    { label: 'Current Giveaway', href: '/current-giveaway' },
+    { label: 'How It Works', href: '/how-it-works' },
+    { label: 'Past Winners', href: '/past-winners' },
+    { label: 'Official Rules', href: '/official-rules' },
+  ] },
+  { title: 'Company', links: [
+    { label: 'About', href: '/about' },
+    { label: 'FAQ', href: '/faq' },
+    { label: 'Privacy', href: '/privacy' },
+    { label: 'Terms', href: '/terms' },
+  ] },
 ];

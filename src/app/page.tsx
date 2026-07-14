@@ -75,7 +75,7 @@ export default async function Home() {
               <a href="#how" className="btn-ghost">How It Works</a>
             </div>
             <div className="flex items-center gap-6 flex-wrap font-archivo text-[13px] text-muted-2">
-              <span className="inline-flex items-center gap-[7px]"><span className="text-gold-bright tracking-[1px]">★★★★★</span> 4.9 · 3,800+ reviews</span>
+              <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Winner drawn live &amp; independent</span>
               <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> No purchase necessary</span>
               <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Ships worldwide</span>
             </div>

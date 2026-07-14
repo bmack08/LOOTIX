@@ -129,35 +129,43 @@ export type Draw = {
   created_at: string;
 };
 
-// ── Weighted random draw across all entries ──
-export async function runDraw(prize: string, rng: () => number = Math.random): Promise<Draw | { error: string }> {
+// ── Record a winner produced by an INDEPENDENT / third-party draw ──
+// Per the Official Rules, the winner is selected by an unaffiliated party
+// (or third-party random service). The admin records that result here; we
+// verify the winner is a real entrant, then log it as the auditable draw.
+export async function recordExternalDraw(
+  prize: string,
+  winnerEmail: string,
+  method: string,
+  note?: string,
+): Promise<Draw | { error: string }> {
+  const email = (winnerEmail || '').trim().toLowerCase();
+  if (!email) return { error: 'Enter the winner email from your independent draw.' };
+
   const totals = await getEntrantTotals();
   const totalEntries = totals.reduce((s, t) => s + t.entries, 0);
-  if (!totals.length || totalEntries <= 0) return { error: 'No entries yet — nobody to draw.' };
+  if (!totals.length || totalEntries <= 0) return { error: 'No entries yet — nothing to record.' };
 
-  let ticket = Math.floor(rng() * totalEntries);
-  let winner = totals[0].email;
-  for (const t of totals) {
-    if (ticket < t.entries) { winner = t.email; break; }
-    ticket -= t.entries;
-  }
+  const match = totals.find((t) => t.email === email);
+  if (!match) return { error: `"${email}" is not in the entrant list. The winner must be a verified entrant.` };
 
   const draw: Draw = {
     prize,
-    winner_email: winner,
+    winner_email: email,
     total_entries: totalEntries,
     entrant_count: totals.length,
     created_at: new Date().toISOString(),
   };
+  const record = { ...draw, method: method || 'third-party', note: note || null };
 
   if (usingSupabase()) {
     await sbFetch('draws', {
       method: 'POST',
       headers: { Prefer: 'return=minimal' },
-      body: JSON.stringify({ ...draw, method: 'weighted-random' }),
+      body: JSON.stringify(record),
     });
   } else {
-    await appendJsonl(FILES.draws, { ...draw, method: 'weighted-random' });
+    await appendJsonl(FILES.draws, record);
   }
   return draw;
 }

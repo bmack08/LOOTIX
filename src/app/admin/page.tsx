@@ -1,7 +1,7 @@
 import { isAuthed } from '@/lib/admin';
 import { getStats, getEntrantTotals, listDraws, usingSupabase } from '@/lib/raffle';
 import AdminLogin from '@/components/lootix/AdminLogin';
-import RunDrawButton from '@/components/lootix/RunDrawButton';
+import RecordWinnerForm from '@/components/lootix/RecordWinnerForm';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Lootix Admin', robots: { index: false, follow: false } };
@@ -38,13 +38,15 @@ export default async function AdminPage() {
         <Stat label="Total Entries" value={stats.totalEntries.toLocaleString()} />
       </div>
 
-      {/* Draw control */}
+      {/* Draw control — third-party / independent draw */}
       <div className="rounded-card p-7 mb-10" style={{ background: 'linear-gradient(165deg,#1a1610,#0d0d0e)', border: '1px solid rgba(212,175,55,.3)' }}>
-        <h2 className="font-archivo font-extrabold uppercase text-cream text-[20px] mb-2">Run the launch draw</h2>
-        <p className="font-archivo text-[14px] text-muted mb-5 max-w-[520px]">
-          Picks one winner at random, weighted by each entrant&rsquo;s entry count. Records the draw and emails the winner. The homepage vault auto-unlocks with the result.
+        <h2 className="font-archivo font-extrabold uppercase text-cream text-[20px] mb-2">Record the independent draw</h2>
+        <p className="font-archivo text-[14px] text-muted mb-5 max-w-[560px]">
+          Per your Official Rules, the winner must be chosen by an <strong className="text-cream">independent third party</strong> — not from here.
+          Download the entrant list, have your independent drawer / random service pick the winner (weight by entry count),
+          then record their result below. It logs the draw with your proof note, emails the winner, and unlocks the homepage vault.
         </p>
-        <RunDrawButton disabled={stats.totalEntries <= 0} />
+        <RecordWinnerForm entrants={entrants} />
       </div>
 
       {/* Past draws */}
