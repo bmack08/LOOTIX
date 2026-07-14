@@ -28,10 +28,10 @@ export const COUNTDOWN_EXTRA = { hours: 14, minutes: 22 };
 export const SHOW_SCARCITY = true;
 
 export const NAV_LINKS = [
-  { label: 'Shop', href: '#shop' },
-  { label: 'Giveaways', href: '#giveaways' },
-  { label: 'How It Works', href: '#how' },
-  { label: 'Winners', href: '#winners' },
+  { label: 'Shop', href: '/shop' },
+  { label: 'Giveaways', href: '/giveaways' },
+  { label: 'How It Works', href: '/how-it-works' },
+  { label: 'Winners', href: '/winners' },
 ];
 
 export const MARQUEE_ITEMS = [
@@ -131,9 +131,9 @@ export const FOOTER_COLS = [
     { label: 'Womens', href: '/womens' },
   ] },
   { title: 'Giveaways', links: [
-    { label: 'Current Giveaway', href: '/current-giveaway' },
+    { label: 'Current Giveaway', href: '/giveaways' },
     { label: 'How It Works', href: '/how-it-works' },
-    { label: 'Past Winners', href: '/past-winners' },
+    { label: 'Past Winners', href: '/winners' },
     { label: 'Official Rules', href: '/official-rules' },
   ] },
   { title: 'Company', links: [

@@ -65,7 +65,7 @@ export default function MobileMenu() {
       </nav>
 
       <div className="px-6 mt-8">
-        <a href="#giveaways" onClick={() => setOpen(false)} className="btn-gold w-full !py-[18px] !text-[15px]">
+        <a href="/giveaways" onClick={() => setOpen(false)} className="btn-gold w-full !py-[18px] !text-[15px]">
           Enter to Win — $250 + Merch
         </a>
         <div className="mt-6 flex items-center justify-center gap-2 font-mono text-[11px] tracking-[.16em] uppercase text-muted">

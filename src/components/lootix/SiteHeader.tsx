@@ -61,7 +61,7 @@ export default function SiteHeader() {
                 2
               </span>
             </a>
-            <a href="#giveaways" className="btn-gold whitespace-nowrap hidden md:inline-flex !px-5 !py-[11px] !text-[12.5px] !tracking-[.1em] shadow-gold-btn-sm">
+            <a href="/giveaways" className="btn-gold whitespace-nowrap hidden md:inline-flex !px-5 !py-[11px] !text-[12.5px] !tracking-[.1em] shadow-gold-btn-sm">
               Enter to Win
             </a>
             <MobileMenu />
