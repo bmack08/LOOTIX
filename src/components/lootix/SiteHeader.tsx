@@ -41,16 +41,27 @@ export default function SiteHeader() {
       >
         <div className="max-w-site mx-auto px-6 md:px-10 h-[74px] flex items-center justify-between gap-6">
           <Wordmark />
-          <nav className="hidden md:flex items-center gap-[34px]">
-            {NAV_LINKS.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                className="font-archivo font-bold text-[12.5px] tracking-[.14em] uppercase text-[#C9C4BA] no-underline transition-colors hover:text-gold"
-              >
-                {l.label}
-              </a>
-            ))}
+          <nav className="hidden md:flex items-center gap-[22px]">
+            {NAV_LINKS.map((l) =>
+              l.boxed ? (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  className="font-archivo font-bold text-[12.5px] tracking-[.14em] uppercase text-gold-label no-underline rounded-[5px] px-[14px] py-[8px] transition-colors hover:text-obsidian hover:bg-gold-bright"
+                  style={{ border: '1px solid rgba(212,175,55,.5)' }}
+                >
+                  {l.label}
+                </a>
+              ) : (
+                <a
+                  key={l.href}
+                  href={l.href}
+                  className="font-archivo font-bold text-[12.5px] tracking-[.14em] uppercase text-[#C9C4BA] no-underline transition-colors hover:text-gold"
+                >
+                  {l.label}
+                </a>
+              ),
+            )}
           </nav>
           <div className="flex items-center gap-[18px]">
             <a href="#" aria-label="Cart" className="relative text-[#C9C4BA] flex">

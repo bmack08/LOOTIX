@@ -2,6 +2,7 @@ import Reveal from './Reveal';
 import VaultCountdown from './VaultCountdown';
 import EmailCapture from './EmailCapture';
 import ClaimEntryButton from './ClaimEntryButton';
+import WinnerCard from './WinnerCard';
 import type { Draw } from '@/lib/raffle';
 import {
   MULT_LABEL, SHOW_SCARCITY, STATS, VAULT, ENTRY_TIERS,
@@ -165,6 +166,28 @@ export function HowItWorks() {
   );
 }
 
+// ═══════════════ GIVEAWAY STATUS BAR (prize + live countdown next to CTA) ═══════════════
+export function GiveawayBar() {
+  return (
+    <section style={{ background: 'linear-gradient(90deg,#0c0c0d,#151009,#0c0c0d)', borderBottom: '1px solid rgba(212,175,55,.22)' }}>
+      <div className="max-w-site mx-auto px-6 md:px-10 py-6 flex items-center justify-between gap-6 flex-wrap">
+        <div className="flex items-center gap-5 flex-wrap">
+          <div>
+            <div className="font-mono text-[10.5px] tracking-[.2em] uppercase text-gold-label">Launch Giveaway</div>
+            <div className="font-archivo font-black text-cream text-[26px] leading-none tracking-[-.02em]">{VAULT.value} <span className="text-muted text-[14px] font-bold align-middle">+ merch</span></div>
+          </div>
+          <div className="hidden sm:block w-px h-10" style={{ background: 'rgba(255,255,255,.1)' }} />
+          <div className="min-w-[230px]"><VaultCountdown /></div>
+        </div>
+        <div className="flex flex-col items-start md:items-end gap-2">
+          <a href="/shop" className="btn-gold !py-[13px]">Enter to Win <ArrowRight /></a>
+          <span className="font-mono text-[10px] tracking-[.08em] uppercase text-muted-2">No purchase necessary · free entry available</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // ═══════════════ GRAND PRIZE SHOWCASE ═══════════════
 export function GrandPrizeShowcase() {
   return (
@@ -197,6 +220,13 @@ export function GrandPrizeShowcase() {
             <a href="/shop" className="btn-gold">Enter &amp; Shop <ArrowRight /></a>
             <span className="font-mono text-[12px] text-muted tracking-[.06em]">Bigger packs, better odds</span>
           </div>
+          {/* Sweepstakes compliance — surfaced on the giveaway section, not just the footer */}
+          <p className="font-mono text-[11px] tracking-[.08em] text-gold-label uppercase mt-6">
+            No purchase necessary
+            <span className="text-muted normal-case tracking-normal"> — a purchase does not increase your chances of winning. Free entry via the </span>
+            <a href="/official-rules" className="text-gold-label underline hover:text-gold-bright transition-colors normal-case tracking-normal">Official Rules</a>
+            <span className="text-muted normal-case tracking-normal">. 18+.</span>
+          </p>
         </Reveal>
       </div>
     </section>
@@ -288,6 +318,14 @@ export function WinnersVault({ winner }: { winner: Draw | null }) {
             : 'No one has won yet. The first Loot Vault drop is still locked — and the first name in it could be yours.'}
         </p>
       </Reveal>
+
+      {winner && (
+        <Reveal>
+          {/* Featured winner with a battlestation image slot (Higgsfield-ready) */}
+          <WinnerCard winner={winner} />
+        </Reveal>
+      )}
+
       <div className="grid gap-6 md:grid-cols-3">
         {MILESTONES.map((m, i) => {
           const isNext = m.state === 'next';

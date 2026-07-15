@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { GrandPrizeShowcase, PrizeVault, TrustStrip, EmailSection } from '@/components/lootix/sections';
+import { GiveawayBar, GrandPrizeShowcase, PrizeVault, TrustStrip, EmailSection } from '@/components/lootix/sections';
 
 export const metadata: Metadata = {
   title: 'Giveaways — Lootix',
@@ -9,6 +9,7 @@ export const metadata: Metadata = {
 export default function GiveawaysPage() {
   return (
     <>
+      <GiveawayBar />
       <GrandPrizeShowcase />
       <PrizeVault />
       <TrustStrip />

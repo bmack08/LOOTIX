@@ -27,11 +27,13 @@ export const COUNTDOWN_EXTRA = { hours: 14, minutes: 22 };
 /** Show the "entries claimed" scarcity bar on the vault card. */
 export const SHOW_SCARCITY = true;
 
+// `boxed` = outlined/emphasized nav tab (draws the eye to conversion pages,
+// per the 80Eighty pattern of boxing the giveaway tabs).
 export const NAV_LINKS = [
-  { label: 'Shop', href: '/shop' },
-  { label: 'Giveaways', href: '/giveaways' },
-  { label: 'How It Works', href: '/how-it-works' },
-  { label: 'Winners', href: '/winners' },
+  { label: 'Shop', href: '/shop', boxed: false },
+  { label: 'Giveaways', href: '/giveaways', boxed: true },
+  { label: 'How It Works', href: '/how-it-works', boxed: false },
+  { label: 'Winners', href: '/winners', boxed: true },
 ];
 
 export const MARQUEE_ITEMS = [
