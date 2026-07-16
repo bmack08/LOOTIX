@@ -411,47 +411,51 @@
   }
 
   /* ══════════════════════════════════════════════════════════════
-     LOOTIX v2 — "Forged" system. Sharp corners (NO radius), no
-     shadows, hierarchy via hairline borders + background steps.
+     LOOTIX v2 — "Earn it. Wear it. Loot it."
+     Archivo 900 display · IBM Plex Mono labels · 2–4px radius
      ══════════════════════════════════════════════════════════════ */
-  .v2-container { @apply max-w-v2 mx-auto; padding-left: 32px; padding-right: 32px; }
-  .v2-section { @apply py-[88px]; }
-
   .v2-eyebrow {
-    @apply font-archivo uppercase text-brass;
-    font-size: 11px; font-weight: 600; letter-spacing: .2em;
+    @apply font-plex uppercase text-brass;
+    font-size: 12px; letter-spacing: .18em;
   }
-  .v2-h1 { @apply font-cinzel text-parchment; font-weight: 700; line-height: 1.08; letter-spacing: .01em; }
-  .v2-h2 { @apply font-cinzel text-parchment; font-weight: 600; font-size: 32px; line-height: 1.2; }
-  .v2-body { @apply font-archivo text-sand; font-size: 14.5px; line-height: 1.8; }
+  .v2-h2 {
+    @apply font-archivo uppercase text-parchment;
+    font-size: 46px; font-weight: 900; letter-spacing: -.01em; margin: 0;
+  }
 
-  /* Buttons — gold fill + ghost outline. No radius. */
+  /* Buttons — gold fill + ghost outline, 2px radius */
   .btn-brass {
     @apply inline-flex items-center justify-center gap-2 font-archivo uppercase bg-brass text-brass-fg transition-colors duration-200;
-    font-size: 12.5px; font-weight: 700; letter-spacing: .14em; padding: 15px 30px;
+    font-size: 14px; font-weight: 800; letter-spacing: .12em; padding: 17px 34px; border-radius: 2px;
   }
-  .btn-brass:hover { background: #E8DCC2; }
+  .btn-brass:hover { background: #E6C57E; color: #0C0A07; }
   .btn-ghost-v2 {
-    @apply inline-flex items-center justify-center gap-2 font-archivo uppercase text-linen transition-colors duration-200;
-    font-size: 12.5px; font-weight: 700; letter-spacing: .14em; padding: 15px 30px;
-    border: 1px solid rgba(201,164,92,.45);
+    @apply inline-flex items-center justify-center gap-2 font-archivo uppercase text-parchment transition-colors duration-200;
+    font-size: 14px; font-weight: 700; letter-spacing: .12em; padding: 16px 30px; border-radius: 2px;
+    border: 1px solid rgba(198,161,91,.45);
   }
-  .btn-ghost-v2:hover { border-color: #C9A45C; background: rgba(201,164,92,.08); }
+  .btn-ghost-v2:hover { border-color: #C6A15B; color: #E6C57E; }
 
-  /* Cards — hairline border, hover lift */
+  /* Cards — hairline border, gold-lift on hover */
   .v2-card {
-    @apply bg-ink-card transition-all duration-[250ms];
-    border: 1px solid rgba(201,164,92,.14);
+    @apply bg-ink-card transition-colors duration-200;
+    border: 1px solid rgba(198,161,91,.16); border-radius: 4px;
   }
-  .v2-card:hover { border-color: rgba(201,164,92,.45); transform: translateY(-3px); }
-  .v2-hairline { border-color: rgba(201,164,92,.14); }
+  .v2-card:hover { border-color: rgba(198,161,91,.5); }
 
-  /* Entry chip (⛨ Earns N entries) */
+  /* Entry chip — ◆ N ENTRIES */
   .v2-chip {
-    @apply inline-flex items-center gap-1.5 font-archivo uppercase text-brass;
-    font-size: 10px; font-weight: 700; letter-spacing: .14em; padding: 5px 9px;
-    background: rgba(8,6,4,.82); border: 1px solid rgba(201,164,92,.3);
+    @apply inline-flex items-center font-plex text-brass-lit;
+    font-size: 11px; font-weight: 600; letter-spacing: .08em; padding: 5px 10px; border-radius: 2px;
+    background: #0C0A07; border: 1px solid rgba(198,161,91,.5);
   }
+}
+
+@layer utilities {
+  /* Gold announcement ticker */
+  @keyframes lootix-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .animate-ticker { animation: lootix-marquee 28s linear infinite; will-change: transform; }
+  @media (prefers-reduced-motion: reduce) { .animate-ticker { animation: none; } }
 }
 
 @layer base {

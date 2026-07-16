@@ -4,24 +4,22 @@ import { useEffect, useState } from 'react';
 import { GIVEAWAY } from '@/lib/site';
 
 const pad = (n: number) => String(Math.max(0, Math.floor(n))).padStart(2, '0');
-type Parts = { d: string; h: string; m: string; s: string };
+type Parts = { dd: string; hh: string; mm: string; ss: string };
 
-/**
- * Live draw countdown. Ticks every second to the giveaway close datetime,
- * zero-padded, floors at 00. `size`: sm = home hero (52px cells),
- * lg = Giveaway page hero (84px cells).
- */
+/** Live draw countdown — ticks every second to the draw date, zero-padded, floors at 00. */
 export default function Countdown({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
   const [p, setP] = useState<Parts | null>(null);
 
   useEffect(() => {
-    const target = new Date(GIVEAWAY.closesAtISO).getTime();
+    const end = new Date(GIVEAWAY.drawDateISO).getTime();
     const tick = () => {
-      let d = Math.max(0, target - Date.now()) / 1000;
-      const days = Math.floor(d / 86400); d -= days * 86400;
-      const hrs = Math.floor(d / 3600); d -= hrs * 3600;
-      const min = Math.floor(d / 60); d -= min * 60;
-      setP({ d: pad(days), h: pad(hrs), m: pad(min), s: pad(d) });
+      const diff = Math.max(0, end - Date.now());
+      setP({
+        dd: pad(diff / 86400000),
+        hh: pad((diff / 3600000) % 24),
+        mm: pad((diff / 60000) % 60),
+        ss: pad((diff / 1000) % 60),
+      });
     };
     tick();
     const t = setInterval(tick, 1000);
@@ -29,34 +27,21 @@ export default function Countdown({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
   }, []);
 
   const lg = size === 'lg';
-  const cells: { k: keyof Parts; label: string; accent?: boolean }[] = [
-    { k: 'd', label: 'Days' },
-    { k: 'h', label: 'Hrs' },
-    { k: 'm', label: 'Min' },
-    { k: 's', label: 'Sec', accent: true },
+  const cells: { k: keyof Parts; label: string }[] = [
+    { k: 'dd', label: 'Days' },
+    { k: 'hh', label: 'Hrs' },
+    { k: 'mm', label: 'Min' },
+    { k: 'ss', label: 'Sec' },
   ];
 
   return (
-    <div className="flex" style={{ gap: lg ? 12 : 8 }} aria-label="Countdown to draw">
-      {cells.map(({ k, label, accent }) => (
-        <div
-          key={k}
-          className="text-center"
-          style={{
-            border: '1px solid rgba(201,164,92,.3)',
-            padding: lg ? '18px 0' : '8px 0',
-            width: lg ? 84 : 52,
-          }}
-        >
-          <div
-            className="font-cinzel"
-            style={{ fontSize: lg ? 38 : 19, fontWeight: 700, color: accent ? '#C9A45C' : '#F0E6CE', lineHeight: 1 }}
-          >
+    <div className="grid grid-cols-4 gap-2 text-center" aria-label="Countdown to draw">
+      {cells.map(({ k, label }) => (
+        <div key={k} style={{ background: '#131009', border: '1px solid rgba(198,161,91,0.2)', borderRadius: 3, padding: lg ? '18px 0' : '10px 0' }}>
+          <div className="font-plex text-brass-lit" style={{ fontSize: lg ? 40 : 22, fontWeight: 600, lineHeight: 1 }}>
             {p ? p[k] : '--'}
           </div>
-          <div className="uppercase text-stone" style={{ fontSize: lg ? 10 : 9, letterSpacing: '.16em', marginTop: lg ? 6 : 2 }}>
-            {label}
-          </div>
+          <div className="uppercase text-stone" style={{ fontSize: 10, letterSpacing: '0.14em', marginTop: lg ? 6 : 2 }}>{label}</div>
         </div>
       ))}
     </div>

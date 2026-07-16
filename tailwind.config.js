@@ -25,19 +25,26 @@ module.exports = {
         secondary: '#8B4513',
         dark: { 900: '#0F0F1A', 800: '#16213E', 700: '#1A1A2E', 600: '#23232f' },
 
-        // ══ LOOTIX v2 — "Forged" design system (design_handoff_lootix_site) ══
-        // Sharp corners, no shadows, hairline borders, Cinzel display.
-        ink: '#0D0B08',        // page background
-        'ink-alt': '#0A0806',  // alt sections / panels
-        'ink-card': '#100D08', // cards
-        'ink-deep': '#080604', // announce bar / footer
-        brass: '#C9A45C',      // gold accent (CTA fill, chips, rules)
-        'brass-fg': '#14100A', // text on gold
-        parchment: '#F0E6CE',  // cream headline
-        linen: '#E8DCC2',      // cream text
-        sand: '#A79878',       // body text
-        stone: '#8F8168',      // muted
-        ash: '#6E6250',        // dim
+        // ══ LOOTIX v2 — "Earn it. Wear it. Loot it." (GetLootix Website Evaluation) ══
+        // Archivo 900 display + IBM Plex Mono labels, 2–4px radius, gold ticker.
+        ink: '#0C0A07',        // page background
+        'ink-alt': '#0F0C08',  // alt sections
+        'ink-card': '#131009', // cards / inputs
+        'ink-deep': '#0C0A07', // footer
+        brass: '#C6A15B',      // gold accent
+        'brass-lit': '#E6C57E', // gold hover / bright numerals
+        'brass-fg': '#0C0A07', // text on gold
+        parchment: '#EFE5CF',  // cream headline
+        linen: '#EFE5CF',      // cream text
+        sand: '#B4A88C',       // body text
+        stone: '#8A7D5F',      // muted
+        ash: '#5E543E',        // dim
+        // Guild signup — inverted cream section
+        guild: '#E4D5B4',
+        'guild-ink': '#171208',
+        'guild-body': '#4A3D22',
+        'guild-eyebrow': '#7A6231',
+        'guild-input': '#F2E9D2',
 
         // ── LOOTIX Obsidian & Gold (v1 — being replaced) ──
         obsidian: '#0A0A0B',
@@ -75,8 +82,8 @@ module.exports = {
         // redesign fonts (explicitly used by new components)
         archivo: ['var(--font-archivo)', 'Archivo', 'sans-serif'],
         mono: ['var(--font-space-mono)', 'Space Mono', 'monospace'],
-        // v2 display face — all headings, prices, countdown digits, stat numbers
-        cinzel: ['var(--font-cinzel)', 'Cinzel', 'Georgia', 'serif'],
+        // v2 — labels, prices, countdown digits, eyebrows
+        plex: ['var(--font-plex-mono)', 'IBM Plex Mono', 'monospace'],
       },
       fontSize: {
         'hero': ['64px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],

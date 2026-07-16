@@ -1,72 +1,81 @@
 // ─────────────────────────────────────────────────────────────
-// LOOTIX v2 — site content config ("Forged" design system)
-// Single source of truth for nav, giveaway data, products, copy.
+// LOOTIX v2 — "Earn it. Wear it. Loot it."
+// Content config mirroring the GetLootix Website Evaluation designs.
 // ─────────────────────────────────────────────────────────────
 
-export const ANNOUNCE = 'Launch Vault: $250 + full merch bundle';
+export const TICKER = [
+  '◆ Every order earns entries',
+  'Drop 001 · Live now',
+  '◆ Win $250 + free merch bundle',
+  'No purchase necessary',
+  '◆ Winner drawn live & independent',
+  'Ships worldwide',
+];
 
 export const NAV = [
   { label: 'Shop', href: '/shop' },
-  { label: 'Giveaway', href: '/giveaway' },
-  { label: 'How It Works', href: '/how-it-works' },
+  { label: 'Giveaways', href: '/giveaways', live: true },
   { label: 'Winners', href: '/winners' },
+  { label: 'About', href: '/about' },
   { label: 'FAQ', href: '/faq' },
 ];
 
 /** Live giveaway — drives countdown + progress everywhere. */
 export const GIVEAWAY = {
-  prize: '$250 + full merch bundle',
-  prizeShort: '$250 Cash',
-  /** Draw close: Aug 15, 2026 8:00 PM ET (ET = UTC-4 in August/EDT). */
-  closesAtISO: '2026-08-16T00:00:00.000Z',
-  closesLabel: 'Aug 15, 2026 · 8:00 PM ET',
+  /** Draw close datetime (local ET). */
+  drawDateISO: '2026-08-01T20:00:00',
   entriesClaimed: 312,
   entriesGoal: 1000,
 };
 
 export const STATS = [
   { value: '$250', label: 'Launch grand prize' },
-  { value: '60×', label: 'Entries per tee' },
-  { value: 'Free', label: 'Entry always available' },
-  { value: 'Live', label: 'Independent draw' },
+  { value: '100+', label: 'Entries per item, printed on every card' },
+  { value: 'FREE', label: 'Entry method · equal odds' },
+  { value: 'LIVE', label: 'Independent recorded draw' },
 ];
 
-/** Products — name, price, fixed entry count, category, tag. */
 export type Product = {
-  slug: string;
   name: string;
-  price: number;
+  sub: string;
+  price: string;
   entries: number;
-  category: 'Tees' | 'Hoodies' | 'Quick loot' | 'Bundles';
-  tag?: string;
-  edition?: string;
-  img?: string;
+  edition: string;
+  img: string;
 };
 
+/** Drop 001 — real brand photography. */
 export const PRODUCTS: Product[] = [
-  { slug: 'lord-of-flame-tee', name: 'Lord of Flame Tee', price: 42, entries: 60, category: 'Tees', tag: 'Best seller', edition: 'Limited run of 200', img: '/brand/products/lord-of-flame.png' },
-  { slug: 'nat-20-tee', name: 'Nat 20 Tee', price: 38, entries: 60, category: 'Tees', img: '/brand/products/tees-2up.png' },
-  { slug: 'hoard-dragon-tee', name: 'Hoard Dragon Tee', price: 44, entries: 60, category: 'Tees', img: '/brand/products/tees-2up.png' },
-  { slug: 'emberwitch-hoodie', name: 'Emberwitch Hoodie', price: 75, entries: 150, category: 'Hoodies', tag: 'Most entries', img: '/brand/ref-fantasy-3.jpg' },
-  { slug: 'guild-hoodie', name: 'Guild Heavyweight Hoodie', price: 78, entries: 150, category: 'Hoodies', img: '/brand/ref-fantasy-1.jpg' },
-  { slug: 'legend-vault-bundle', name: 'Legend Vault Bundle', price: 150, entries: 350, category: 'Bundles', tag: 'Best odds', img: '/brand/ref-fantasy-2.jpg' },
-  { slug: 'sticker-pack', name: 'Sigil Sticker Pack', price: 8, entries: 10, category: 'Quick loot', img: '/brand/site/wrap.png' },
-  { slug: 'hang-tag-set', name: 'Hang Tag Keyring', price: 14, entries: 20, category: 'Quick loot', img: '/brand/site/tags.png' },
+  { name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', entries: 150, edition: 'ED. 500', img: '/brand/v2/model-back.png' },
+  { name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', entries: 150, edition: 'ED. 500', img: '/brand/v2/model-front.png' },
+  { name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', entries: 300, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png' },
+  { name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', entries: 100, edition: 'ED. 500', img: '/brand/v2/unboxing.png' },
 ];
 
-export const CATEGORIES = ['All', 'Tees', 'Hoodies', 'Bundles', 'Quick loot'] as const;
+export const QUICKIES = [
+  { name: 'Guild Sticker Pack', price: '$8', entries: 15 },
+  { name: 'Crest Patch', price: '$12', entries: 25 },
+  { name: 'Looter Beanie', price: '$28', entries: 50 },
+  { name: 'Snap Cap', price: '$32', entries: 60 },
+];
 
-/** Entry packs shown on Home + Giveaway. */
-export const ENTRY_PACKS = [
-  { name: 'Starter Tee', desc: '1 tee · ships free over $75', price: 42, entries: 60, popular: false },
-  { name: 'Hero Bundle', desc: 'Hoodie + tee · free shipping', price: 75, entries: 150, popular: true },
-  { name: 'Legend Vault', desc: 'Full fit + accessories', price: 150, entries: 350, popular: false },
+export const PACKS = [
+  { name: 'Starter Pack', sub: '1 tee · ships free over $75', price: '$35', entries: 60, popular: false },
+  { name: 'Hero Bundle', sub: 'Hoodie + tee · free shipping', price: '$75', entries: 150, popular: true },
+  { name: 'Legend Vault', sub: 'Full fit + accessories · best odds', price: '$150', entries: 350, popular: false },
 ];
 
 export const HOW_STEPS = [
-  { n: '01', title: 'Shop the drop', body: 'Pick your gear from limited fantasy-streetwear runs. Every item shows exactly how many entries it earns.' },
-  { n: '02', title: 'Earn entries', body: 'Entries are attached to the product, not the dollar. A tee earns 60, a hoodie 150, the Legend Vault 350, quick loot 10–45.' },
-  { n: '03', title: 'Win the vault', body: 'The draw is recorded live and independently administered. Winner announced publicly and paid fast.' },
+  { n: '01', title: 'Shop the drop', body: 'Cop limited fantasy-streetwear from the current drop. Every piece is numbered — never mass produced.' },
+  { n: '02', title: 'Stack entries', body: 'Every item carries a flat entry count, printed on the card. Your total shows at checkout and in your confirmation email.' },
+  { n: '03', title: 'Win the loot', body: 'An independent third party draws the winner live on stream. Paid fast, announced publicly, verified always.' },
+];
+
+export const PROOF = [
+  { icon: '⚖', title: 'Independent draw', body: 'A third-party administrator runs the random draw — never us.' },
+  { icon: '◉', title: 'Recorded live', body: 'Every draw streams live and stays archived on our channels.' },
+  { icon: '◆', title: 'Winners published', body: 'Every winner is named on the Winners page and socials, with payout proof.' },
+  { icon: '✉', title: 'Free entry, equal odds', body: 'The mail-in method in the Official Rules carries the same odds as any order.' },
 ];
 
 export const COMPANY = {
@@ -84,20 +93,19 @@ export const FOOTER_COLS = [
   {
     title: 'Shop',
     links: [
-      { label: 'New drops', href: '/shop' },
-      { label: 'Shop all', href: '/shop' },
-      { label: 'Quick loot', href: '/shop' },
-      { label: 'Featured tee', href: '/product/lord-of-flame-tee' },
+      { label: 'Drop 001', href: '/shop' },
+      { label: 'Shop All', href: '/shop' },
+      { label: 'Quick Entries', href: '/shop' },
+      { label: 'Accessories', href: '/shop' },
     ],
   },
   {
-    title: 'Giveaway',
+    title: 'Giveaways',
     links: [
-      { label: 'Current giveaway', href: '/giveaway' },
-      { label: 'How it works', href: '/how-it-works' },
+      { label: 'Current Giveaway', href: '/giveaways' },
+      { label: 'How It Works', href: '/about' },
       { label: 'Winners', href: '/winners' },
-      { label: 'Official rules', href: '/official-rules' },
-      { label: 'Free entry method', href: '/official-rules' },
+      { label: 'Official Rules', href: '/official-rules' },
     ],
   },
   {
@@ -105,9 +113,9 @@ export const FOOTER_COLS = [
     links: [
       { label: 'About', href: '/about' },
       { label: 'FAQ', href: '/faq' },
-      { label: 'Shipping & returns', href: '/shipping' },
-      { label: 'Privacy', href: '/privacy' },
-      { label: 'Terms', href: '/terms' },
+      { label: 'Shipping & Returns', href: '/faq' },
+      { label: 'Contact', href: '/faq' },
+      { label: 'Privacy & Terms', href: '/official-rules' },
     ],
   },
 ];
