@@ -33,6 +33,16 @@ const nextConfig = {
       { source: '/new-drops', destination: '/shop', permanent: true },
       { source: '/collections/:category', destination: '/shop', permanent: true },
       { source: '/product/:slug', destination: '/shop', permanent: true },
+      // v2 has 7 routes: / /shop /giveaways /winners /about /faq /official-rules.
+      // Everything else folds into its v2 equivalent.
+      { source: '/giveaway', destination: '/giveaways', permanent: true },
+      { source: '/how-it-works', destination: '/about', permanent: true },
+      { source: '/privacy', destination: '/official-rules', permanent: true },
+      { source: '/terms', destination: '/official-rules', permanent: true },
+      { source: '/returns', destination: '/faq', permanent: true },
+      { source: '/shipping', destination: '/faq', permanent: true },
+      { source: '/contact', destination: '/faq', permanent: true },
+      { source: '/cart', destination: '/shop', permanent: true },
     ];
   },
 };

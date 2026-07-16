@@ -52,6 +52,22 @@ export const PRODUCTS: Product[] = [
   { name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', entries: 100, edition: 'ED. 500', img: '/brand/v2/unboxing.png' },
 ];
 
+/** Shop grid — Drop 001. `soldPct` renders the claimed bar when present. */
+export type ShopProduct = Product & { category: string; soldPct?: string };
+
+export const SHOP_CATEGORIES = ['All', 'Hoodies', 'Tees', 'Footwear', 'Quick Entries'] as const;
+
+export const SHOP_PRODUCTS: ShopProduct[] = [
+  { name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', entries: 150, edition: 'ED. 500', img: '/brand/v2/model-back.png', category: 'Hoodies', soldPct: '62%' },
+  { name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', entries: 150, edition: 'ED. 500', img: '/brand/v2/model-front.png', category: 'Hoodies', soldPct: '48%' },
+  { name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', entries: 300, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png', category: 'Footwear', soldPct: '81%' },
+  { name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', entries: 100, edition: 'ED. 500', img: '/brand/v2/unboxing.png', category: 'Tees' },
+  { name: 'Lord of Flame Tee', sub: 'Heavyweight tee · Back print', price: '$42', entries: 100, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
+  { name: 'Nat 20 Tee', sub: 'Regular fit · Front print', price: '$38', entries: 80, edition: 'ED. 500', img: '/brand/v2/tags.png', category: 'Tees' },
+  { name: 'Hoard Dragon Tee', sub: 'Heavyweight · Camo', price: '$44', entries: 100, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
+  { name: 'Guild Sticker Pack', sub: 'Quick entries · 6 stickers', price: '$8', entries: 15, edition: 'OPEN', img: '/brand/v2/tags.png', category: 'Quick Entries' },
+];
+
 export const QUICKIES = [
   { name: 'Guild Sticker Pack', price: '$8', entries: 15 },
   { name: 'Crest Patch', price: '$12', entries: 25 },
@@ -60,9 +76,16 @@ export const QUICKIES = [
 ];
 
 export const PACKS = [
-  { name: 'Starter Pack', sub: '1 tee · ships free over $75', price: '$35', entries: 60, popular: false },
-  { name: 'Hero Bundle', sub: 'Hoodie + tee · free shipping', price: '$75', entries: 150, popular: true },
-  { name: 'Legend Vault', sub: 'Full fit + accessories · best odds', price: '$150', entries: 350, popular: false },
+  { name: 'Starter Pack', sub: '1 tee · ships free over $75', price: '$35', entries: 60, popular: false, cta: 'Grab Starter' },
+  { name: 'Hero Bundle', sub: 'Hoodie + tee · free shipping', price: '$75', entries: 150, popular: true, cta: 'Grab Hero' },
+  { name: 'Legend Vault', sub: 'Full fit + accessories · best odds', price: '$150', entries: 350, popular: false, cta: 'Grab Legend' },
+];
+
+/** Future vaults — unlock only after the current one pays out. No fake countdowns. */
+export const UPCOMING = [
+  { tag: 'Vault 002', name: '$1,000 Cash Drop', status: 'Unlocks next', desc: 'Opens after the Launch Vault winner is drawn and paid. Every Drop 002 order will enter.' },
+  { tag: 'Vault 003', name: 'Battlestation PC', status: 'Locked', desc: 'A full custom build. Unlocks once the guild passes 1,000 members.' },
+  { tag: 'Vault 004', name: 'Tokyo Trip for 2', status: 'Locked', desc: 'Flights + hotel. The endgame vault — unlocks at 100 verified winners paid.' },
 ];
 
 export const HOW_STEPS = [

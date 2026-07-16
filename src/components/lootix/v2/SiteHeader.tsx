@@ -98,7 +98,12 @@ export default function SiteHeader() {
         </div>
 
         <div className="flex items-center gap-5 flex-none">
-          <Link href="/shop" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Shop Drop 001</Link>
+          {/* CTA is contextual, per the designs: Shop page pushes the giveaway, everywhere else pushes the drop */}
+          {pathname.startsWith('/shop') ? (
+            <Link href="/giveaways" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Enter Giveaway</Link>
+          ) : (
+            <Link href="/shop" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Shop Drop 001</Link>
+          )}
           <Link href="/shop" aria-label="Cart" className="relative text-parchment hover:text-brass-lit transition-colors" style={{ fontSize: 20 }}>
             ⌾
             <span
