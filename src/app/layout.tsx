@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { Archivo, Space_Mono } from 'next/font/google';
+import { Archivo, Space_Mono, Cinzel } from 'next/font/google';
 import '../styles/globals.css';
-import SiteHeader from '@/components/lootix/SiteHeader';
-import SiteFooter from '@/components/lootix/SiteFooter';
+import SiteHeader from '@/components/lootix/v2/SiteHeader';
+import SiteFooter from '@/components/lootix/v2/SiteFooter';
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -18,10 +18,18 @@ const spaceMono = Space_Mono({
   display: 'swap',
 });
 
+// v2 display face — headings, prices, countdown digits, stat numbers
+const cinzel = Cinzel({
+  subsets: ['latin'],
+  weight: ['500', '600', '700'],
+  variable: '--font-cinzel',
+  display: 'swap',
+});
+
 export const metadata: Metadata = {
-  title: 'LOOTIX — Cop the Gear. Win the Vault.',
+  title: 'Lootix — Earn it. Wear it. Loot it.',
   description:
-    'Legendary fantasy streetwear, forged for the fearless. Every order earns entries into the launch giveaway — $250 cash + a free merch bundle. No purchase necessary.',
+    'Fantasy streetwear, forged for the fearless. Every order earns entries into the live-drawn Loot Vault — $250 + a full merch bundle. No purchase necessary.',
 };
 
 export default function RootLayout({
@@ -31,18 +39,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="scroll-smooth">
-      <head>
-        {/* Existing pages still use Oswald (display) + Inter (body) */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
       <body
         suppressHydrationWarning
-        className={`${archivo.variable} ${spaceMono.variable} bg-obsidian text-cream font-archivo`}
+        className={`${archivo.variable} ${spaceMono.variable} ${cinzel.variable} bg-ink text-sand font-archivo`}
         style={{ overflowX: 'hidden' }}
       >
         <a href="#main-content" className="skip-link">Skip to main content</a>

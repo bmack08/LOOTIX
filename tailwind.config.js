@@ -25,7 +25,21 @@ module.exports = {
         secondary: '#8B4513',
         dark: { 900: '#0F0F1A', 800: '#16213E', 700: '#1A1A2E', 600: '#23232f' },
 
-        // ── LOOTIX Obsidian & Gold (redesign — homepage + new components) ──
+        // ══ LOOTIX v2 — "Forged" design system (design_handoff_lootix_site) ══
+        // Sharp corners, no shadows, hairline borders, Cinzel display.
+        ink: '#0D0B08',        // page background
+        'ink-alt': '#0A0806',  // alt sections / panels
+        'ink-card': '#100D08', // cards
+        'ink-deep': '#080604', // announce bar / footer
+        brass: '#C9A45C',      // gold accent (CTA fill, chips, rules)
+        'brass-fg': '#14100A', // text on gold
+        parchment: '#F0E6CE',  // cream headline
+        linen: '#E8DCC2',      // cream text
+        sand: '#A79878',       // body text
+        stone: '#8F8168',      // muted
+        ash: '#6E6250',        // dim
+
+        // ── LOOTIX Obsidian & Gold (v1 — being replaced) ──
         obsidian: '#0A0A0B',
         panel: '#111113',
         'panel-warm': '#1A1610',
@@ -61,6 +75,8 @@ module.exports = {
         // redesign fonts (explicitly used by new components)
         archivo: ['var(--font-archivo)', 'Archivo', 'sans-serif'],
         mono: ['var(--font-space-mono)', 'Space Mono', 'monospace'],
+        // v2 display face — all headings, prices, countdown digits, stat numbers
+        cinzel: ['var(--font-cinzel)', 'Cinzel', 'Georgia', 'serif'],
       },
       fontSize: {
         'hero': ['64px', { lineHeight: '1.1', letterSpacing: '-0.02em', fontWeight: '700' }],
@@ -90,6 +106,7 @@ module.exports = {
         'container': '1280px',
         site: '1320px',
         prose: '1100px',
+        v2: '1360px', // v2 max content width
       },
       boxShadow: {
         'sm': '0 1px 2px rgba(0,0,0,0.3)',

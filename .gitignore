@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Design handoff bundles (reference only, not app code)
+/design_handoff
+/GetLootix Website Evaluation
