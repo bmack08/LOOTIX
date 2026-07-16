@@ -28,7 +28,7 @@ export default function AboutPage() {
       {/* STORY HERO */}
       <section className="grid lg:grid-cols-2" style={{ borderBottom: HAIR }}>
         <div className="relative overflow-hidden" style={{ minHeight: 440 }}>
-          <img src="/brand/v2/hero-duo.png" alt="Lootix Drop 001" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
+          <img src="/brand/v2/hero-duo.png" alt="Lootix Drop 1" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(270deg, #0C0A07 0%, rgba(12,10,7,0) 32%)' }} />
         </div>
         <div className="flex flex-col justify-center gap-6" style={{ padding: '80px 24px' }}>
@@ -83,14 +83,14 @@ export default function AboutPage() {
       <section className="flex items-center justify-between gap-8 flex-wrap" style={{ padding: '48px 24px', background: '#E4D5B4', color: '#171208' }}>
         <div className="flex flex-col gap-1.5">
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Ready to earn your loot?</span>
-          <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>DROP 001 IS LIVE · LAUNCH VAULT CLOSES AUG 1</span>
+          <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>Drop 1 IS LIVE · LAUNCH VAULT CLOSES AUG 1</span>
         </div>
         <Link
           href="/shop"
           className="uppercase transition-colors whitespace-nowrap"
           style={{ background: '#171208', color: '#E4D5B4', padding: '16px 32px', fontSize: 13, fontWeight: 800, letterSpacing: '0.12em', borderRadius: 2 }}
         >
-          Shop Drop 001 →
+          Shop Drop 1 →
         </Link>
       </section>
     </div>

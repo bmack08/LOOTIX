@@ -47,7 +47,7 @@ export default async function WinnersPage() {
           <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 17, lineHeight: 1.65 }}>
             {winner
               ? 'We have our first winner. The next vault resets when Drop 002 opens — every order is a shot at it.'
-              : "No one has won yet — Lootix launched with Drop 001 and the first draw hasn't closed. The first name etched here could be yours."}
+              : "No one has won yet — Lootix launched with Drop 1 and the first draw hasn't closed. The first name etched here could be yours."}
           </p>
           <Link href="/shop" className="btn-brass" style={{ marginTop: 10 }}>Claim It First</Link>
         </div>
@@ -74,7 +74,7 @@ export default async function WinnersPage() {
             <p className="m-0 text-stone" style={{ fontSize: 14, lineHeight: 1.6 }}>
               {winner
                 ? `Drawn ${new Date(winner.created_at).toLocaleDateString()} from ${winner.total_entries.toLocaleString()} entries by an independent third party.`
-                : 'The first name ever etched into the Loot Vault. Every Drop 001 order is a shot at it.'}
+                : 'The first name ever etched into the Loot Vault. Every Drop 1 order is a shot at it.'}
             </p>
           </div>
 
@@ -132,7 +132,7 @@ export default async function WinnersPage() {
           className="uppercase transition-colors whitespace-nowrap"
           style={{ background: '#171208', color: '#E4D5B4', padding: '16px 32px', fontSize: 13, fontWeight: 800, letterSpacing: '0.12em', borderRadius: 2 }}
         >
-          Shop Drop 001 →
+          Shop Drop 1 →
         </Link>
       </section>
     </div>

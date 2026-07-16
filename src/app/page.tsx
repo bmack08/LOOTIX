@@ -16,13 +16,13 @@ export default function Home() {
         <div className="flex flex-col justify-center gap-7" style={{ padding: '72px 24px' }}>
           <div className="flex items-center gap-3 font-plex uppercase text-brass" style={{ fontSize: 12, letterSpacing: '0.18em' }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#C6A15B', boxShadow: '0 0 10px #C6A15B' }} />
-            Live Giveaway · Drop 001 · Ends {drawShort}
+            Live Giveaway · Drop 1 · Ends {drawShort}
           </div>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(52px,7vw,88px)', lineHeight: 0.95, fontWeight: 900, letterSpacing: '-0.02em' }}>
             Earn it.<br />Wear it.<br /><span className="text-brass">Loot it.</span>
           </h1>
           <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 17, lineHeight: 1.65 }}>
-            Legendary streetwear, forged for the fearless. Every piece you cop from Drop 001 stacks entries toward the Launch Vault — <strong className="text-parchment">$250 cash + a full merch bundle</strong>, drawn live by an independent third party.
+            Legendary streetwear, forged for the fearless. Every piece you cop from Drop 1 stacks entries toward the Launch Vault — <strong className="text-parchment">$250 cash + a full merch bundle</strong>, drawn live by an independent third party.
           </p>
           <div className="flex items-center gap-4 flex-wrap">
             <Link href="/shop" className="btn-brass">Shop the Drop</Link>
@@ -36,7 +36,7 @@ export default function Home() {
         </div>
 
         <div className="relative overflow-hidden" style={{ minHeight: 440 }}>
-          <img src="/brand/v2/hero-duo.png" alt="Lootix Drop 001 hoodies" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
+          <img src="/brand/v2/hero-duo.png" alt="Lootix Drop 1 hoodies" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, #0C0A07 0%, rgba(12,10,7,0) 22%)' }} />
           {/* Giveaway card overlay */}
           <div
@@ -86,7 +86,7 @@ export default function Home() {
       <section style={{ padding: '88px 24px', borderBottom: HAIR }}>
         <div className="flex justify-between items-end gap-6 flex-wrap" style={{ marginBottom: 44 }}>
           <div className="flex flex-col gap-2.5">
-            <span className="v2-eyebrow">Drop 001 · Summon the Loot</span>
+            <span className="v2-eyebrow">Drop 1 · Summon the Loot</span>
             <h2 className="v2-h2">Gear worth winning in</h2>
           </div>
           <Link href="/shop" className="uppercase text-brass hover:text-brass-lit transition-colors" style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', borderBottom: '1px solid rgba(198,161,91,0.45)', paddingBottom: 4 }}>
@@ -175,7 +175,7 @@ export default function Home() {
           <span className="v2-eyebrow">Launch Giveaway · $250 + Free Merch</span>
           <h2 className="v2-h2">The Launch Vault</h2>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
-            One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">full Lootix merch bundle</strong> — their pick from Drop 001. Grab an entry pack — bigger packs, better odds, free shipping.
+            One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">full Lootix merch bundle</strong> — their pick from Drop 1. Grab an entry pack — bigger packs, better odds, free shipping.
           </p>
           <div className="flex flex-col gap-3">
             {PACKS.map((pk) => (
@@ -237,7 +237,7 @@ export default function Home() {
           <span className="v2-eyebrow">The Winners Vault</span>
           <h2 className="v2-h2">The vault is unclaimed</h2>
           <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 16, lineHeight: 1.65 }}>
-            No one has won yet. The first name ever etched into the Loot Vault is still open — and every order from Drop 001 is a shot at it.
+            No one has won yet. The first name ever etched into the Loot Vault is still open — and every order from Drop 1 is a shot at it.
           </p>
           <Link href="/winners" className="btn-ghost-v2 self-start" style={{ fontSize: 13, padding: '15px 28px' }}>Visit the Winners Vault</Link>
         </div>
@@ -248,7 +248,7 @@ export default function Home() {
           >
             <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.2em' }}>◆ First Winner ◆</span>
             <span className="text-parchment" style={{ fontSize: 32, fontWeight: 900, letterSpacing: '0.04em' }}>— YOUR NAME —</span>
-            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Drop 001 · The Launch Vault</span>
+            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Drop 1 · The Launch Vault</span>
             <div style={{ height: 1, background: 'rgba(198,161,91,0.25)', margin: '6px 0' }} />
             <span className="text-sand" style={{ fontSize: 13, lineHeight: 1.6 }}>The first name ever etched into the Loot Vault. It could be yours.</span>
           </div>

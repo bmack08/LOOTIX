@@ -28,11 +28,11 @@ export default function GiveawaysPage() {
         </div>
 
         <div className="flex flex-col justify-center gap-6" style={{ padding: '64px 24px' }}>
-          <span className="v2-eyebrow">Launch Giveaway · Drop 001</span>
+          <span className="v2-eyebrow">Launch Giveaway · Drop 1</span>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,60px)', fontWeight: 900, letterSpacing: '-0.01em', lineHeight: 1 }}>The Launch Vault</h1>
           <div className="flex items-baseline gap-3 flex-wrap">
             <span className="text-brass-lit" style={{ fontSize: 52, fontWeight: 900 }}>$250</span>
-            <span className="text-sand" style={{ fontSize: 16 }}>cash + full merch bundle · winner&rsquo;s pick from Drop 001</span>
+            <span className="text-sand" style={{ fontSize: 16 }}>cash + full merch bundle · winner&rsquo;s pick from Drop 1</span>
           </div>
           <div style={{ maxWidth: 420 }}><Countdown size="lg" /></div>
           <div style={{ maxWidth: 420 }}>

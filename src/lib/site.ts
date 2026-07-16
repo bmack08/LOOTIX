@@ -5,7 +5,7 @@
 
 export const TICKER = [
   '◆ Every order earns entries',
-  'Drop 001 · Live now',
+  'Drop 1 · Live now',
   '◆ Win $250 + free merch bundle',
   'No purchase necessary',
   '◆ Winner drawn live & independent',
@@ -44,7 +44,7 @@ export type Product = {
   img: string;
 };
 
-/** Drop 001 — real brand photography. */
+/** Drop 1 — real brand photography. */
 export const PRODUCTS: Product[] = [
   { name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', entries: 150, edition: 'ED. 500', img: '/brand/v2/model-back.png' },
   { name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', entries: 150, edition: 'ED. 500', img: '/brand/v2/model-front.png' },
@@ -52,7 +52,7 @@ export const PRODUCTS: Product[] = [
   { name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', entries: 100, edition: 'ED. 500', img: '/brand/v2/unboxing.png' },
 ];
 
-/** Shop grid — Drop 001. `soldPct` renders the claimed bar when present. */
+/** Shop grid — Drop 1. `soldPct` renders the claimed bar when present. */
 export type ShopProduct = Product & { category: string; soldPct?: string };
 
 export const SHOP_CATEGORIES = ['All', 'Hoodies', 'Tees', 'Footwear', 'Quick Entries'] as const;
@@ -116,7 +116,7 @@ export const FOOTER_COLS = [
   {
     title: 'Shop',
     links: [
-      { label: 'Drop 001', href: '/shop' },
+      { label: 'Drop 1', href: '/shop' },
       { label: 'Shop All', href: '/shop' },
       { label: 'Quick Entries', href: '/shop' },
       { label: 'Accessories', href: '/shop' },

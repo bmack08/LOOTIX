@@ -15,7 +15,7 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
       { q: 'How do the giveaways work?', a: 'Every order earns a flat number of entries into the current giveaway — the count is printed on each product card. When the draw closes, an independent third party selects one winner, live on stream. You keep your gear either way.' },
       { q: 'Do I have to buy anything to enter?', a: <>No. There is always a free mail-in entry method with exactly the same odds as a purchase entry — see the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the address and instructions. No purchase is necessary to enter or win, and buying does not increase your chances.</> },
       { q: 'How are entry counts decided?', a: 'One flat number per item, printed on the card — no multipliers, no math. Bigger items and bundles carry more entries. Your total shows at checkout and in your confirmation email.' },
-      { q: 'What is the current prize?', a: 'The Launch Vault: $250 cash plus a full Lootix merch bundle — the winner picks from Drop 001. Future vaults unlock after the current one pays out.' },
+      { q: 'What is the current prize?', a: 'The Launch Vault: $250 cash plus a full Lootix merch bundle — the winner picks from Drop 1. Future vaults unlock after the current one pays out.' },
     ],
   },
   {

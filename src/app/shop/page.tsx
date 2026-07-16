@@ -18,7 +18,7 @@ export default function ShopPage() {
       {/* PAGE HEADER */}
       <header className="flex justify-between items-end gap-8 flex-wrap" style={{ padding: '72px 24px 44px', borderBottom: HAIR }}>
         <div className="flex flex-col gap-3">
-          <span className="v2-eyebrow">Drop 001 · Summon the Loot · Limited to 500</span>
+          <span className="v2-eyebrow">Drop 1 · Summon the Loot · Limited to 500</span>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Shop the drop</h1>
           <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
             Every item carries a flat entry count into the live giveaway — printed right on the card. You keep the gear either way.

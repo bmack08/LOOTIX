@@ -68,7 +68,7 @@ export default function SiteHeader() {
         ))}
       </nav>
       <div className="px-6 mt-8">
-        <Link href="/shop" onClick={() => setOpen(false)} className="btn-brass w-full">Shop Drop 001</Link>
+        <Link href="/shop" onClick={() => setOpen(false)} className="btn-brass w-full">Shop Drop 1</Link>
       </div>
     </div>
   );
@@ -102,7 +102,7 @@ export default function SiteHeader() {
           {pathname.startsWith('/shop') ? (
             <Link href="/giveaways" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Enter Giveaway</Link>
           ) : (
-            <Link href="/shop" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Shop Drop 001</Link>
+            <Link href="/shop" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Shop Drop 1</Link>
           )}
           <Link href="/shop" aria-label="Cart" className="relative text-parchment hover:text-brass-lit transition-colors" style={{ fontSize: 20 }}>
             ⌾
