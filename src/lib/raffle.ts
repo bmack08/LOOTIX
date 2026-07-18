@@ -89,6 +89,44 @@ export async function grantSubscription(email: string, source: string) {
   return { ok: true, granted: already ? 0 : grant };
 }
 
+/**
+ * Grant entries unconditionally (used for purchases — unlike signup, every
+ * order earns its own entries, so no first-time-only guard here).
+ * `meta` records the Stripe session id for auditability.
+ */
+export async function grantEntries(
+  email: string,
+  count: number,
+  source: string,
+  meta?: Record<string, unknown>,
+) {
+  const addr = email.trim().toLowerCase();
+  const now = new Date().toISOString();
+  if (!addr || count <= 0) return { ok: false };
+
+  if (usingSupabase()) {
+    // make sure they exist as a subscriber too
+    await sbFetch('subscribers', {
+      method: 'POST',
+      headers: { Prefer: 'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ email: addr, source, created_at: now }),
+    });
+    await sbFetch('entries', {
+      method: 'POST',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({ email: addr, count, source, meta: meta ?? null, created_at: now }),
+    });
+    return { ok: true, granted: count };
+  }
+
+  const subs = await readJsonl<{ email: string }>(FILES.subscribers);
+  if (!subs.some((s) => s.email === addr)) {
+    await appendJsonl(FILES.subscribers, { email: addr, source, created_at: now });
+  }
+  await appendJsonl(FILES.entries, { email: addr, count, source, meta: meta ?? null, created_at: now });
+  return { ok: true, granted: count };
+}
+
 export type EntrantTotals = { email: string; entries: number };
 
 // ── Aggregate entries per email ──

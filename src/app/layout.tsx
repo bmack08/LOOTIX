@@ -3,6 +3,7 @@ import { Archivo, Space_Mono, IBM_Plex_Mono } from 'next/font/google';
 import '../styles/globals.css';
 import SiteHeader from '@/components/lootix/v2/SiteHeader';
 import SiteFooter from '@/components/lootix/v2/SiteFooter';
+import { CartProvider } from '@/components/lootix/v2/CartContext';
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -45,9 +46,11 @@ export default function RootLayout({
         style={{ overflowX: 'hidden' }}
       >
         <a href="#main-content" className="skip-link">Skip to main content</a>
-        <SiteHeader />
-        <main id="main-content">{children}</main>
-        <SiteFooter />
+        <CartProvider>
+          <SiteHeader />
+          <main id="main-content">{children}</main>
+          <SiteFooter />
+        </CartProvider>
       </body>
     </html>
   );

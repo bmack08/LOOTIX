@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { NAV, TICKER } from '@/lib/site';
+import { useCart } from './CartContext';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -23,6 +24,7 @@ function Ticker() {
 
 export default function SiteHeader() {
   const pathname = usePathname() || '/';
+  const { count } = useCart();
   const [open, setOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -104,14 +106,16 @@ export default function SiteHeader() {
           ) : (
             <Link href="/shop" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Shop Drop 1</Link>
           )}
-          <Link href="/shop" aria-label="Cart" className="relative text-parchment hover:text-brass-lit transition-colors" style={{ fontSize: 20 }}>
+          <Link href="/cart" aria-label={`Cart (${count} items)`} className="relative text-parchment hover:text-brass-lit transition-colors" style={{ fontSize: 20 }}>
             ⌾
-            <span
-              className="font-plex absolute grid place-items-center"
-              style={{ top: -6, right: -10, background: '#C6A15B', color: '#0C0A07', fontSize: 10, fontWeight: 600, width: 16, height: 16, borderRadius: '50%' }}
-            >
-              2
-            </span>
+            {mounted && count > 0 && (
+              <span
+                className="font-plex absolute grid place-items-center"
+                style={{ top: -6, right: -10, background: '#C6A15B', color: '#0C0A07', fontSize: 10, fontWeight: 600, width: 16, height: 16, borderRadius: '50%' }}
+              >
+                {count}
+              </span>
+            )}
           </Link>
           <button type="button" aria-label="Open menu" onClick={() => setOpen(true)} className="lg:hidden flex text-parchment p-1 -mr-1">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" /></svg>
