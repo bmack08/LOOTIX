@@ -42,7 +42,6 @@ const nextConfig = {
       { source: '/returns', destination: '/faq', permanent: true },
       { source: '/shipping', destination: '/faq', permanent: true },
       { source: '/contact', destination: '/faq', permanent: true },
-      { source: '/cart', destination: '/shop', permanent: true },
     ];
   },
 };

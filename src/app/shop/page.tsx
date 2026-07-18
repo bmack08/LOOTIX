@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { SHOP_CATEGORIES, SHOP_PRODUCTS } from '@/lib/site';
+import AddToCart from '@/components/lootix/v2/AddToCart';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -86,6 +87,7 @@ export default function ShopPage() {
                   <span className="font-plex text-brass-lit" style={{ fontSize: 15, fontWeight: 600 }}>{p.price}</span>
                 </div>
                 <span className="uppercase text-stone" style={{ fontSize: 12, letterSpacing: '0.06em' }}>{p.sub}</span>
+                <div style={{ marginTop: 10 }}><AddToCart product={p} full /></div>
               </div>
             </Link>
           ))}
