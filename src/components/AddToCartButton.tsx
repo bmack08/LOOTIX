@@ -1,16 +1,14 @@
 'use client';
 
-import { ENTRY_MULTIPLIER } from '@/config/giveaway';
-
 interface AddToCartButtonProps {
   productId: number;
   disabled?: boolean;
   price?: number;
 }
 
-export default function AddToCartButton({ productId, disabled, price }: AddToCartButtonProps) {
-  const entries = price ? Math.floor(price * ENTRY_MULTIPLIER) : 0;
-
+// Makes no entry claim: one completed order earns one entry regardless of what
+// is in the cart, so a per-item "earn N entries" label would be false.
+export default function AddToCartButton({ productId, disabled }: AddToCartButtonProps) {
   const handleAddToCart = () => {
     console.log(`Adding product ${productId} to cart`);
     alert('Coming soon: Add to cart functionality!');
@@ -24,11 +22,7 @@ export default function AddToCartButton({ productId, disabled, price }: AddToCar
       onClick={handleAddToCart}
       disabled={disabled}
     >
-      {disabled
-        ? 'SELECT OPTIONS'
-        : entries > 0
-          ? `ADD TO CART — EARN ${entries.toLocaleString()} ENTRIES`
-          : 'ADD TO CART'}
+      {disabled ? 'SELECT OPTIONS' : 'ADD TO CART'}
     </button>
   );
 }

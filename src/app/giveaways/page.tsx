@@ -57,10 +57,10 @@ export default function GiveawaysPage() {
       {/* ENTRY PACKS */}
       <section style={{ padding: '80px 24px', borderBottom: HAIR }}>
         <div className="flex flex-col gap-2.5 items-center text-center" style={{ marginBottom: 48 }}>
-          <span className="v2-eyebrow">Entry packs</span>
+          <span className="v2-eyebrow">Merch bundles</span>
           <h2 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(30px,4.5vw,44px)', fontWeight: 900 }}>Pick your pack</h2>
           <p className="m-0 text-sand" style={{ maxWidth: 520, fontSize: 16, lineHeight: 1.6 }}>
-            Real gear, flat entry counts. Bigger packs stack more entries and ship free.
+            Real gear, one entry per order. Bigger packs get you more merch and free shipping — never extra entries.
           </p>
         </div>
         <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mx-auto" style={{ maxWidth: 1080 }}>
@@ -80,7 +80,7 @@ export default function GiveawaysPage() {
               )}
               <span className="uppercase text-parchment" style={{ fontSize: 20, fontWeight: 800 }}>{pk.name}</span>
               <span className="text-brass-lit" style={{ fontSize: 44, fontWeight: 900 }}>{pk.price}</span>
-              <span className="font-plex text-brass" style={{ fontSize: 13, letterSpacing: '0.08em' }}>◆ {pk.entries} ENTRIES</span>
+              <span className="font-plex text-brass" style={{ fontSize: 13, letterSpacing: '0.08em' }}>◆ 1 ENTRY PER ORDER</span>
               <span className="text-stone" style={{ fontSize: 14, lineHeight: 1.6 }}>{pk.sub}</span>
               <Link
                 href="/shop"

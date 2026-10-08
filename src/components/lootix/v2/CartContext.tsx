@@ -6,7 +6,6 @@ export type CartLine = {
   slug: string;
   name: string;
   price: number;   // dollars
-  entries: number; // flat entry count per unit
   img: string;
   qty: number;
 };
@@ -17,14 +16,17 @@ type CartCtx = {
   remove: (slug: string) => void;
   setQty: (slug: string, qty: number) => void;
   clear: () => void;
-  count: number;        // total units
-  subtotal: number;     // dollars
-  totalEntries: number; // ← the whole point: entries stack
+  count: number;    // total units
+  subtotal: number; // dollars
   ready: boolean;
 };
 
+// NOTE: the cart intentionally tracks no entry count. One completed order
+// earns exactly one entry (src/lib/sweepstakes.ts), granted server-side by
+// the Stripe webhook — never computed or stacked in the browser.
 const Ctx = createContext<CartCtx | null>(null);
-const KEY = 'lootix.cart.v1';
+// v2 key: v1 carts stored a per-line `entries` field that no longer exists.
+const KEY = 'lootix.cart.v2';
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
@@ -46,13 +48,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const api = useMemo<CartCtx>(() => {
     const count = lines.reduce((n, l) => n + l.qty, 0);
     const subtotal = lines.reduce((n, l) => n + l.price * l.qty, 0);
-    const totalEntries = lines.reduce((n, l) => n + l.entries * l.qty, 0);
 
     return {
       lines,
       count,
       subtotal,
-      totalEntries,
       ready,
       add: (item, qty = 1) =>
         setLines((cur) => {

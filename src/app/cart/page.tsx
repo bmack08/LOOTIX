@@ -3,11 +3,13 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useCart } from '@/components/lootix/v2/CartContext';
+import NoPurchaseNotice from '@/components/lootix/v2/NoPurchaseNotice';
+import { ENTRIES_PER_ORDER, entryLabel } from '@/lib/sweepstakes';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 export default function CartPage() {
-  const { lines, setQty, remove, subtotal, totalEntries, count, ready } = useCart();
+  const { lines, setQty, remove, subtotal, count, ready } = useCart();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
 
@@ -42,9 +44,10 @@ export default function CartPage() {
           <span className="v2-eyebrow">Your cart</span>
           <h1 className="m-0 uppercase" style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: 900 }}>Nothing looted yet</h1>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
-            Every item you add stacks entries toward the Launch Vault — $250 cash + a full merch bundle.
+            Any completed order earns one entry into the Launch Vault — $250 cash + a full merch bundle.
           </p>
           <Link href="/shop" className="btn-brass">Shop Drop 1</Link>
+          <NoPurchaseNotice className="text-center" style={{ marginTop: 8 }} />
         </div>
       </div>
     );
@@ -72,8 +75,8 @@ export default function CartPage() {
                 </div>
                 <div className="flex-1 min-w-0">
                   <div style={{ fontSize: 15, fontWeight: 700 }}>{l.name}</div>
-                  <div className="font-plex text-brass" style={{ fontSize: 11, letterSpacing: '0.06em', marginTop: 3 }}>
-                    ◆ {l.entries * l.qty} ENTRIES
+                  <div className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.06em', marginTop: 3 }}>
+                    ${l.price.toFixed(0)} each
                   </div>
                   <button onClick={() => remove(l.slug)} className="font-plex text-stone hover:text-brass-lit transition-colors" style={{ fontSize: 11, marginTop: 6, background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}>
                     Remove
@@ -100,10 +103,13 @@ export default function CartPage() {
               <span className="font-plex text-parchment" style={{ fontSize: 22, fontWeight: 600 }}>${subtotal.toFixed(0)}</span>
             </div>
 
-            {/* the whole point */}
+            {/* One order = one entry. Never scales with cart size. */}
             <div style={{ borderTop: HAIR, borderBottom: HAIR, padding: '16px 0', textAlign: 'center' }}>
-              <div className="font-plex uppercase text-stone" style={{ fontSize: 10.5, letterSpacing: '0.16em' }}>Entries into the Launch Vault</div>
-              <div className="text-brass-lit" style={{ fontSize: 40, fontWeight: 900, lineHeight: 1.15 }}>{totalEntries.toLocaleString()}</div>
+              <div className="font-plex uppercase text-stone" style={{ fontSize: 10.5, letterSpacing: '0.16em' }}>Entry into the Launch Vault</div>
+              <div className="text-brass-lit" style={{ fontSize: 40, fontWeight: 900, lineHeight: 1.15 }}>{ENTRIES_PER_ORDER}</div>
+              <div className="font-plex text-stone" style={{ fontSize: 10.5, lineHeight: 1.6 }}>
+                {entryLabel(ENTRIES_PER_ORDER)} per order — buying more does not add entries
+              </div>
             </div>
 
             <button onClick={checkout} disabled={busy} className="btn-brass w-full disabled:opacity-70" style={{ cursor: busy ? 'default' : 'pointer' }}>
@@ -112,9 +118,9 @@ export default function CartPage() {
             {err && <p className="font-plex m-0" style={{ fontSize: 11.5, color: '#e08a6b' }} role="alert">{err}</p>}
 
             <p className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>
-              Payments secured by Stripe. Entries are added automatically once payment completes. No purchase necessary to enter — see the{' '}
-              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free method with equal odds.
+              Payments secured by Stripe. Your entry is added automatically once payment completes.
             </p>
+            <NoPurchaseNotice />
           </aside>
         </div>
       </section>

@@ -22,7 +22,7 @@ export default function Home() {
             Earn it.<br />Wear it.<br /><span className="text-brass">Loot it.</span>
           </h1>
           <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 17, lineHeight: 1.65 }}>
-            Legendary streetwear, forged for the fearless. Every piece you cop from Drop 1 stacks entries toward the Launch Vault — <strong className="text-parchment">$250 cash + a full merch bundle</strong>, drawn live by an independent third party.
+            Legendary streetwear, forged for the fearless. Any order from Drop 1 earns one entry into the Launch Vault — <strong className="text-parchment">$250 cash + a full merch bundle</strong>, drawn live by an independent third party.
           </p>
           <div className="flex items-center gap-4 flex-wrap">
             <Link href="/shop" className="btn-brass">Shop the Drop</Link>
@@ -98,7 +98,6 @@ export default function Home() {
             <Link key={p.name} href="/shop" className="v2-card flex flex-col overflow-hidden text-parchment">
               <div className="relative overflow-hidden" style={{ aspectRatio: '4/4.4' }}>
                 <img src={p.img} alt={p.name} className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
-                <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ {p.entries} ENTRIES</span>
                 <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span>
               </div>
               <div className="flex flex-col gap-1.5" style={{ padding: 18 }}>
@@ -112,7 +111,7 @@ export default function Home() {
           ))}
         </div>
         <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em' }}>
-          Entry counts are printed on every product — one flat number, no math.
+          One entry per completed order — however much you buy. No purchase necessary; free mail-in entry has equal odds.
         </p>
       </section>
 
@@ -121,7 +120,7 @@ export default function Home() {
         <div className="flex justify-between items-center gap-4 flex-wrap" style={{ marginBottom: 32 }}>
           <div className="flex items-center gap-4 flex-wrap">
             <h3 className="m-0 uppercase text-parchment" style={{ fontSize: 26, fontWeight: 900 }}>Quick entries</h3>
-            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.12em' }}>Small loot · fast stacks</span>
+            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.12em' }}>Small loot · low entry price</span>
           </div>
           <Link href="/shop" className="uppercase text-brass hover:text-brass-lit transition-colors" style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em' }}>View all →</Link>
         </div>
@@ -130,7 +129,7 @@ export default function Home() {
             <Link key={q.name} href="/shop" className="v2-card flex items-center justify-between gap-3 text-parchment" style={{ padding: '18px 20px' }}>
               <div className="flex flex-col gap-1">
                 <span style={{ fontSize: 15, fontWeight: 700 }}>{q.name}</span>
-                <span className="font-plex text-brass" style={{ fontSize: 11, letterSpacing: '0.06em' }}>◆ {q.entries} ENTRIES</span>
+                <span className="font-plex text-brass" style={{ fontSize: 11, letterSpacing: '0.06em' }}>◆ 1 ENTRY PER ORDER</span>
               </div>
               <span className="font-plex text-brass-lit" style={{ fontSize: 15, fontWeight: 600 }}>{q.price}</span>
             </Link>
@@ -175,7 +174,7 @@ export default function Home() {
           <span className="v2-eyebrow">Launch Giveaway · $250 + Free Merch</span>
           <h2 className="v2-h2">The Launch Vault</h2>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
-            One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">full Lootix merch bundle</strong> — their pick from Drop 1. Grab an entry pack — bigger packs, better odds, free shipping.
+            One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">full Lootix merch bundle</strong> — their pick from Drop 1. Any order earns one entry; bigger bundles just get you more gear and free shipping.
           </p>
           <div className="flex flex-col gap-3">
             {PACKS.map((pk) => (
@@ -195,7 +194,7 @@ export default function Home() {
                   <span className="text-stone" style={{ fontSize: 12 }}>{pk.sub}</span>
                 </div>
                 <div className="flex items-center gap-5">
-                  <span className="font-plex text-brass hidden sm:inline" style={{ fontSize: 12 }}>◆ {pk.entries} ENTRIES</span>
+                  <span className="font-plex text-brass hidden sm:inline" style={{ fontSize: 12 }}>◆ 1 ENTRY</span>
                   <span className="font-plex text-brass-lit" style={{ fontSize: 18, fontWeight: 600 }}>{pk.price}</span>
                 </div>
               </Link>

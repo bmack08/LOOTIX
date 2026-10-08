@@ -4,7 +4,13 @@ import { useState } from 'react';
 import { useCart } from './CartContext';
 import type { ShopProduct } from '@/lib/site';
 
-/** Add-to-cart with confirmation flip: "Add to cart" → "✓ N entries secured". */
+/**
+ * Add-to-cart with confirmation flip: "Add to cart" → "✓ Added to cart".
+ *
+ * Deliberately makes NO entry claim. One order = one entry, so a per-item
+ * "N entries secured" message would be false. The surrounding page carries
+ * the "No purchase necessary" disclosure (see NoPurchaseNotice).
+ */
 export default function AddToCart({ product, full = false }: { product: ShopProduct; full?: boolean }) {
   const { add } = useCart();
   const [added, setAdded] = useState(false);
@@ -16,7 +22,6 @@ export default function AddToCart({ product, full = false }: { product: ShopProd
       slug: product.slug,
       name: product.name,
       price: product.priceValue,
-      entries: product.entries,
       img: product.img,
     });
     setAdded(true);
@@ -40,7 +45,7 @@ export default function AddToCart({ product, full = false }: { product: ShopProd
         whiteSpace: 'nowrap',
       }}
     >
-      {added ? `✓ ${product.entries} entries secured` : `Add to cart — ${product.price}`}
+      {added ? '✓ Added to cart' : `Add to cart — ${product.price}`}
     </button>
   );
 }

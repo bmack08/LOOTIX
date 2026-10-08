@@ -4,17 +4,26 @@
 // components read from this file so copy/data changes never touch JSX.
 // ─────────────────────────────────────────────────────────────
 
-/** Entries earned per order (drives the "60×" multiplier label everywhere). */
-export const ENTRY_MULTIPLIER = 60;
+import { ENTRIES_PER_MAIL_IN, ENTRIES_PER_ORDER } from './sweepstakes';
+
+/**
+ * Legacy multiplier label, retained only so the remaining v1 sections keep
+ * compiling. There is no purchase multiplier: one order earns one entry.
+ */
+export const ENTRY_MULTIPLIER = ENTRIES_PER_ORDER;
 export const MULT_LABEL = `${ENTRY_MULTIPLIER}×`;
 
-/** Free entries granted per action. Email signup is the "no purchase necessary" path. */
+/**
+ * Entries granted per action. The mail-in (AMOE) and purchase paths MUST stay
+ * equal — that equality is what makes the sweepstakes lawful.
+ * See src/lib/sweepstakes.ts.
+ */
 export const ENTRY_GRANTS: Record<string, number> = {
   newsletter: 25,
   'giveaway-first-winner': 25,
   'enter-to-win': 25,
-  'mail-in': 25,
-  order: ENTRY_MULTIPLIER, // × quantity, applied at checkout (Phase 4)
+  'mail-in': ENTRIES_PER_MAIL_IN, // one card = one entry
+  order: ENTRIES_PER_ORDER, // one completed order = one entry
 };
 
 /** The prize label recorded on a draw / shown when the vault unlocks. */

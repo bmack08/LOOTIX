@@ -1,7 +1,8 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { grantEntries } from '@/lib/raffle';
+import { grantOrderEntry } from '@/lib/raffle';
 import { sendWelcome } from '@/lib/email';
+import { decideOrderEntry } from '@/lib/stripe-entries';
 
 export const runtime = 'nodejs';
 
@@ -12,8 +13,14 @@ export const runtime = 'nodejs';
  * so a random POST to this URL can't award itself entries. Fires on
  * `checkout.session.completed` (payment actually succeeded).
  *
+ * Entry rules enforced here (see src/lib/sweepstakes.ts):
+ *   · one completed, PAID order → exactly 1 entry, never per item or per dollar
+ *   · entry only for eligible US residents (merch still sells elsewhere)
+ *   · idempotent on the Stripe session id, so retries never double-grant
+ *   · no per-person cap — repeat orders each earn their own entry
+ *
  * Setup: Stripe Dashboard → Developers → Webhooks → add endpoint
- *   https://www.getlootix.com/api/stripe/webhook
+ *   https://getlootix.com/api/stripe/webhook
  *   event: checkout.session.completed
  * then copy the signing secret into STRIPE_WEBHOOK_SECRET.
  */
@@ -41,19 +48,27 @@ export async function POST(req: Request) {
 
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session;
-    const email = (session.customer_details?.email || session.customer_email || '').toLowerCase();
-    const entries = parseInt(session.metadata?.totalEntries || '0', 10);
+    const decision = decideOrderEntry(session);
 
-    if (email && entries > 0) {
-      try {
-        await grantEntries(email, entries, 'order', { session_id: session.id });
-        await sendWelcome(email, entries);
-        console.log(`Granted ${entries} entries to ${email} (order ${session.id})`);
-      } catch (e) {
-        // Return 500 so Stripe retries — never silently lose someone's entries
-        console.error('Failed to grant entries', e);
-        return NextResponse.json({ ok: false }, { status: 500 });
+    if (!decision.grant) {
+      // Not an error — an ineligible or unpaid order is still a valid sale.
+      console.log(`Order ${session.id}: no entry granted (${decision.reason})`);
+      return NextResponse.json({ received: true });
+    }
+
+    try {
+      const result = await grantOrderEntry(decision.email, session.id, { country: decision.country });
+      if (result.duplicate) {
+        console.log(`Order ${session.id} already granted its entry; skipping replay`);
+      } else {
+        console.log(`Granted ${result.granted} entry to ${decision.email} (order ${session.id}, ${decision.country})`);
+        // Only email on a first grant, so retries don't spam the customer.
+        await sendWelcome(decision.email, result.granted);
       }
+    } catch (e) {
+      // Return 500 so Stripe retries — never silently lose someone's entry
+      console.error('Failed to grant entry', e);
+      return NextResponse.json({ ok: false }, { status: 500 });
     }
   }
 

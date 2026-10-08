@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { SHOP_CATEGORIES, SHOP_PRODUCTS } from '@/lib/site';
 import AddToCart from '@/components/lootix/v2/AddToCart';
+import NoPurchaseNotice from '@/components/lootix/v2/NoPurchaseNotice';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -22,7 +23,7 @@ export default function ShopPage() {
           <span className="v2-eyebrow">Drop 1 · Summon the Loot · Limited to 500</span>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Shop the drop</h1>
           <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
-            Every item carries a flat entry count into the live giveaway — printed right on the card. You keep the gear either way.
+            Any completed order earns one entry into the live giveaway — one per order, however much you buy. You keep the gear either way.
           </p>
         </div>
         <div className="flex flex-col items-start md:items-end gap-2 font-plex text-stone" style={{ fontSize: 12, letterSpacing: '0.08em' }}>
@@ -68,7 +69,6 @@ export default function ShopPage() {
             <Link key={p.name} href="/shop" className="v2-card flex flex-col overflow-hidden text-parchment">
               <div className="relative overflow-hidden" style={{ aspectRatio: '4/4.4', background: '#17130C' }}>
                 <img src={p.img} alt={p.name} className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
-                <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ {p.entries} ENTRIES</span>
                 <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span>
                 {p.soldPct && (
                   <div className="absolute" style={{ left: 12, right: 12, bottom: 12, background: 'rgba(12,10,7,0.85)', borderRadius: 3, padding: '8px 10px' }}>
@@ -92,17 +92,15 @@ export default function ShopPage() {
             </Link>
           ))}
         </div>
-        <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em' }}>
-          No purchase necessary to enter the giveaway; see <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-        </p>
+        <NoPurchaseNotice style={{ margin: '28px 0 0' }} />
       </section>
 
       {/* ENTRY BANNER (inverted cream) */}
       <section className="flex items-center justify-between gap-8 flex-wrap" style={{ padding: '40px 24px', background: '#E4D5B4', color: '#171208' }}>
         <div className="flex flex-col gap-1.5">
-          <span className="uppercase" style={{ fontSize: 24, fontWeight: 900 }}>Every cart is a ticket to the vault</span>
+          <span className="uppercase" style={{ fontSize: 24, fontWeight: 900 }}>Every order is a ticket to the vault</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
-            YOUR ENTRY TOTAL SHOWS AT CHECKOUT · WINNER DRAWN LIVE AUG 1
+            ONE ENTRY PER ORDER · FREE MAIL-IN ENTRY · WINNER DRAWN LIVE AUG 1
           </span>
         </div>
         <Link

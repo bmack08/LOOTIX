@@ -1,5 +1,7 @@
 // Centralized giveaway configuration
-// Update this file to manage giveaway dates and multipliers
+// Update this file to manage giveaway dates.
+
+import { ENTRIES_PER_ORDER } from '@/lib/sweepstakes';
 
 export interface GiveawayConfig {
   id: string;
@@ -27,16 +29,19 @@ export const currentGiveaway: GiveawayConfig = {
   ],
   // Set end date 30 days from deployment - adjust as needed
   endDate: new Date('2026-03-15T23:59:59'),
-  entryMultiplier: 60,
+  entryMultiplier: ENTRIES_PER_ORDER,
   isActive: true,
 };
 
-// Entry multiplier for purchases
-export const ENTRY_MULTIPLIER = 60;
+// There is NO purchase multiplier any more: one completed order earns exactly
+// one entry, no matter the item or the amount spent. Kept as a named export
+// only so the remaining legacy v1 pages keep compiling — see
+// src/lib/sweepstakes.ts for the real rule.
+export const ENTRY_MULTIPLIER = ENTRIES_PER_ORDER;
 
-// Calculate entries from purchase amount
-export function calculateEntries(purchaseAmount: number): number {
-  return Math.floor(purchaseAmount * ENTRY_MULTIPLIER);
+// Entries earned by a purchase — flat, independent of the amount spent.
+export function calculateEntries(_purchaseAmount?: number): number {
+  return ENTRIES_PER_ORDER;
 }
 
 // Format entry count with commas

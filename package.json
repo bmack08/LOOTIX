@@ -6,7 +6,9 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "test:entries": "tsc src/lib/sweepstakes.ts src/lib/stripe-entries.ts --outDir .tmp-test --module commonjs --moduleResolution node --target es2020 --skipLibCheck --esModuleInterop && node --test scripts/test-entry-rules.cjs"
   },
   "dependencies": {
     "next": "^16.0.7",

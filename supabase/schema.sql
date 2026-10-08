@@ -27,6 +27,14 @@ create table if not exists entries (
 );
 create index if not exists entries_email_idx on entries (email);
 
+-- Idempotency for purchased entries: Stripe delivers checkout.session.completed
+-- at least once (plus manual resends), and one order is worth exactly one entry,
+-- so a replay must not be able to insert a second row for the same session.
+-- grantOrderEntry() treats the resulting 409 as "already granted".
+create unique index if not exists entries_order_session_idx
+  on entries ((meta->>'session_id'))
+  where source = 'order';
+
 -- Every draw we run (the winner + an audit trail)
 create table if not exists draws (
   id            uuid primary key default uuid_generate_v4(),
