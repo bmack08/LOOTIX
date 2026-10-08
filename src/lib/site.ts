@@ -139,6 +139,7 @@ export const FOOTER_COLS = [
       { label: 'Shipping & Returns', href: '/faq' },
       { label: 'Contact', href: '/faq' },
       { label: 'Privacy & Terms', href: '/official-rules' },
+      { label: 'DMCA / Copyright', href: '/dmca' },
     ],
   },
 ];
