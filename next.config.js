@@ -33,16 +33,16 @@ const nextConfig = {
       { source: '/new-drops', destination: '/shop', permanent: true },
       { source: '/collections/:category', destination: '/shop', permanent: true },
       { source: '/product/:slug', destination: '/shop', permanent: true },
-      // v2 has 7 routes: / /shop /giveaways /winners /about /faq /official-rules.
-      // Everything else folds into its v2 equivalent.
+      // Superseded one-off routes fold into their v2 equivalent.
       { source: '/giveaway', destination: '/giveaways', permanent: true },
       { source: '/how-it-works', destination: '/about', permanent: true },
-      { source: '/privacy', destination: '/official-rules', permanent: true },
-      { source: '/terms', destination: '/official-rules', permanent: true },
-      { source: '/returns', destination: '/faq', permanent: true },
-      { source: '/shipping', destination: '/faq', permanent: true },
-      { source: '/contact', destination: '/faq', permanent: true },
       { source: '/cart', destination: '/shop', permanent: true },
+      // NOT redirected: /privacy, /terms, /returns, /shipping, /contact.
+      // Each has its own standalone page and must serve directly. Folding the
+      // legal and policy pages into /official-rules and /faq left the site with
+      // no reachable Terms, Privacy, Returns, Shipping or Contact document —
+      // and these are permanent (301) redirects, which browsers and crawlers
+      // cache hard. Do not reintroduce them.
     ];
   },
 };
