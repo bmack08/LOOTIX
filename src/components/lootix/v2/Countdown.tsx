@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { GIVEAWAY } from '@/lib/site';
+import { etWallClockToEpochMs } from '@/lib/time';
 
 const pad = (n: number) => String(Math.max(0, Math.floor(n))).padStart(2, '0');
 type Parts = { dd: string; hh: string; mm: string; ss: string };
@@ -11,7 +12,9 @@ export default function Countdown({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
   const [p, setP] = useState<Parts | null>(null);
 
   useEffect(() => {
-    const end = new Date(GIVEAWAY.drawDateISO).getTime();
+    // Pinned to ET — a naive `new Date(...)` here would end the countdown at
+    // 8:00 PM in whatever zone the visitor's browser happens to be in.
+    const end = etWallClockToEpochMs(GIVEAWAY.drawDateISO);
     const tick = () => {
       const diff = Math.max(0, end - Date.now());
       setP({

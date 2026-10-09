@@ -22,7 +22,12 @@ export const NAV = [
 
 /** Live giveaway — drives countdown + progress everywhere. */
 export const GIVEAWAY = {
-  /** Draw close datetime (local ET). */
+  /**
+   * Draw close, as a naive wall-clock time in Eastern Time — the zone the
+   * Official Rules name as the official timekeeper. Never add an offset or a
+   * trailing "Z" here; read it through `etWallClockToEpochMs` in @/lib/time,
+   * which resolves it against America/New_York (EDT/EST) for every viewer.
+   */
   drawDateISO: '2026-08-01T20:00:00',
   entriesClaimed: 312,
   entriesGoal: 1000,

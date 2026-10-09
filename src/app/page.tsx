@@ -2,10 +2,13 @@ import Link from 'next/link';
 import Countdown from '@/components/lootix/v2/Countdown';
 import EmailCapture from '@/components/lootix/v2/EmailCapture';
 import { GIVEAWAY, STATS, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, PROOF } from '@/lib/site';
+import { etWallClockToEpochMs, formatInET } from '@/lib/time';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
-const drawShort = new Date(GIVEAWAY.drawDateISO).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+// Formatted in ET: this renders on the server (UTC on Vercel), where a naive
+// parse of an 8:00 PM ET close would print the following day's date.
+const drawShort = formatInET(etWallClockToEpochMs(GIVEAWAY.drawDateISO), { month: 'short', day: 'numeric' });
 const pct = Math.min(100, Math.round((GIVEAWAY.entriesClaimed / GIVEAWAY.entriesGoal) * 100));
 
 export default function Home() {
