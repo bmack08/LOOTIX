@@ -2,6 +2,8 @@ import 'server-only';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { ENTRY_GRANTS } from './lootix';
+import { ENTRIES_PER_ORDER } from './sweepstakes';
+import { isDuplicateOrderEntry, type LedgerRow } from './stripe-entries';
 
 // ─────────────────────────────────────────────────────────────
 // Raffle data layer. Uses Supabase REST when SUPABASE_URL +
@@ -87,6 +89,129 @@ export async function grantSubscription(email: string, source: string) {
     await appendJsonl(FILES.entries, { email, count: grant, source, created_at: now });
   }
   return { ok: true, granted: already ? 0 : grant };
+}
+
+/**
+ * Grant entries unconditionally. `meta` records provenance for auditability.
+ *
+ * Throws if the write fails, so callers (the Stripe webhook) can return a
+ * non-2xx and let Stripe retry rather than silently losing someone's entry.
+ */
+export async function grantEntries(
+  email: string,
+  count: number,
+  source: string,
+  meta?: Record<string, unknown>,
+) {
+  const addr = email.trim().toLowerCase();
+  const now = new Date().toISOString();
+  if (!addr || count <= 0) return { ok: false, granted: 0 };
+
+  if (usingSupabase()) {
+    // make sure they exist as a subscriber too
+    await sbFetch('subscribers', {
+      method: 'POST',
+      headers: { Prefer: 'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ email: addr, source, created_at: now }),
+    });
+    const res = await sbFetch('entries', {
+      method: 'POST',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify({ email: addr, count, source, meta: meta ?? null, created_at: now }),
+    });
+    if (!res.ok) {
+      throw new Error(`Supabase entry insert failed (${res.status}): ${await res.text()}`);
+    }
+    return { ok: true, granted: count };
+  }
+
+  const subs = await readJsonl<{ email: string }>(FILES.subscribers);
+  if (!subs.some((s) => s.email === addr)) {
+    await appendJsonl(FILES.subscribers, { email: addr, source, created_at: now });
+  }
+  await appendJsonl(FILES.entries, { email: addr, count, source, meta: meta ?? null, created_at: now });
+  return { ok: true, granted: count };
+}
+
+export type OrderGrant = {
+  ok: boolean;
+  granted: number;
+  /** true when this Stripe session had already been granted its entry */
+  duplicate: boolean;
+};
+
+/**
+ * Grant the single entry earned by one completed order — IDEMPOTENT.
+ *
+ * Stripe can deliver `checkout.session.completed` more than once (at-least-once
+ * delivery plus manual resends). Because an order is worth exactly one entry,
+ * a replay must not add a second one, so we key off the Stripe session id.
+ *
+ * Belt and braces:
+ *   1. look for an existing `order` entry carrying this session id
+ *   2. rely on the unique index in supabase/schema.sql, treating the resulting
+ *      409 as "already granted" rather than an error
+ *
+ * Throws on any other write failure so the webhook can 500 and Stripe retries.
+ */
+export async function grantOrderEntry(
+  email: string,
+  sessionId: string,
+  meta?: Record<string, unknown>,
+): Promise<OrderGrant> {
+  const addr = email.trim().toLowerCase();
+  const now = new Date().toISOString();
+  if (!addr || !sessionId) return { ok: false, granted: 0, duplicate: false };
+
+  const record = {
+    email: addr,
+    count: ENTRIES_PER_ORDER,
+    source: 'order',
+    meta: { ...(meta ?? {}), session_id: sessionId },
+    created_at: now,
+  };
+
+  if (usingSupabase()) {
+    // 1. already granted for this session?
+    const existing = await sbFetch(
+      `entries?select=id&source=eq.order&meta->>session_id=eq.${encodeURIComponent(sessionId)}&limit=1`,
+    );
+    if (existing.ok) {
+      const rows = (await existing.json()) as unknown[];
+      if (rows.length) return { ok: true, granted: 0, duplicate: true };
+    }
+    // A failed lookup is not fatal — the unique index below is the real guard.
+
+    await sbFetch('subscribers', {
+      method: 'POST',
+      headers: { Prefer: 'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ email: addr, source: 'order', created_at: now }),
+    });
+
+    const res = await sbFetch('entries', {
+      method: 'POST',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify(record),
+    });
+    // 2. unique index on (meta->>'session_id') rejected a replay
+    if (res.status === 409) return { ok: true, granted: 0, duplicate: true };
+    if (!res.ok) {
+      throw new Error(`Supabase order entry insert failed (${res.status}): ${await res.text()}`);
+    }
+    return { ok: true, granted: ENTRIES_PER_ORDER, duplicate: false };
+  }
+
+  // dev fallback
+  const ents = await readJsonl<LedgerRow>(FILES.entries);
+  if (isDuplicateOrderEntry(ents, sessionId)) {
+    return { ok: true, granted: 0, duplicate: true };
+  }
+  const subs = await readJsonl<{ email: string }>(FILES.subscribers);
+  if (!subs.some((s) => s.email === addr)) {
+    await appendJsonl(FILES.subscribers, { email: addr, source: 'order', created_at: now });
+  }
+  await appendJsonl(FILES.entries, record);
+  return { ok: true, granted: ENTRIES_PER_ORDER, duplicate: false };
 }
 
 export type EntrantTotals = { email: string; entries: number };

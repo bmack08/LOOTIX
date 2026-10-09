@@ -43,3 +43,6 @@ next-env.d.ts
 # Design handoff bundles (reference only, not app code)
 /design_handoff
 /GetLootix Website Evaluation
+
+# unit-test build output
+.tmp-test/

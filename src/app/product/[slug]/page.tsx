@@ -1,9 +1,10 @@
 import { getPrintfulProductById } from "@/utils/printful";
-import { ENTRY_MULTIPLIER, calculateEntries, formatEntries } from "@/config/giveaway";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import ProductControls from "@/components/ProductControls";
+import NoPurchaseNotice from "@/components/lootix/v2/NoPurchaseNotice";
+import { ENTRIES_PER_ORDER, entryLabel } from "@/lib/sweepstakes";
 
 type Props = {
   params: {
@@ -20,7 +21,7 @@ export async function generateMetadata({ params }: Props) {
 
   return {
     title: `${product.name} | Lootix`,
-    description: product.description || `Shop ${product.name} and earn giveaway entries with your purchase.`,
+    description: product.description || `Shop ${product.name}. Any completed order earns one giveaway entry. No purchase necessary to enter.`,
   };
 }
 
@@ -30,8 +31,6 @@ export default async function ProductPage({ params }: Props) {
   if (!product) {
     notFound();
   }
-
-  const entries = calculateEntries(product.price);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary py-8 px-4 sm:px-6 lg:px-8">
@@ -60,8 +59,8 @@ export default async function ProductPage({ params }: Props) {
                 className="object-cover object-center hover:scale-105 transition-transform duration-300"
                 priority
               />
-              {/* Entry Badge */}
-              <span className="badge-entry">{ENTRY_MULTIPLIER}X ENTRIES</span>
+              {/* Entry Badge — flat, never a multiplier */}
+              <span className="badge-entry">1 ENTRY PER ORDER</span>
             </div>
             {/* Additional product images */}
             {product.images.length > 0 && (
@@ -100,18 +99,20 @@ export default async function ProductPage({ params }: Props) {
               </span>
             </div>
 
-            {/* Entry Calculator */}
+            {/* Entry disclosure — one order, one entry, whatever you spend */}
             <div className="entry-calculator">
               <p className="entry-calculator-text">
-                This purchase = {formatEntries(entries)} entries
+                Any completed order = {entryLabel(ENTRIES_PER_ORDER)} into the live giveaway
               </p>
               <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm tracking-wider">
-                {ENTRY_MULTIPLIER}X ACTIVE
+                One per order
               </span>
             </div>
 
             {/* Variant Controls */}
             <ProductControls productId={product.id} variants={product.variants} />
+
+            <NoPurchaseNotice />
 
             {/* Product Description */}
             {product.description && (
