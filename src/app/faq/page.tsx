@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SWEEPSTAKES_OPEN } from '@/config/sweepstakes';
 
 export const metadata: Metadata = {
   title: 'FAQ — Lootix',
@@ -12,17 +13,18 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
   {
     title: 'Giveaways & Entries',
     items: [
-      { q: 'How do the giveaways work?', a: 'Every order earns a flat number of entries into the current giveaway — the count is printed on each product card. When the draw closes, an independent third party selects one winner, live on stream. You keep your gear either way.' },
-      { q: 'Do I have to buy anything to enter?', a: <>No. There is always a free mail-in entry method with exactly the same odds as a purchase entry — see the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the address and instructions. No purchase is necessary to enter or win, and buying does not increase your chances.</> },
-      { q: 'How are entry counts decided?', a: 'One flat number per item, printed on the card — no multipliers, no math. Bigger items and bundles carry more entries. Your total shows at checkout and in your confirmation email.' },
-      { q: 'What is the current prize?', a: 'The Launch Vault: $250 cash plus a full Lootix merch bundle — the winner picks from Drop 1. Future vaults unlock after the current one pays out.' },
+      { q: 'Is a giveaway running right now?', a: 'No. The Launch Vault sweepstakes has not started yet — it is coming soon. Nothing you buy today earns sweepstakes entries, and the Official Rules will be posted before it opens.' },
+      { q: 'How will the giveaways work?', a: 'Once it opens, every order will earn a flat number of entries into the current giveaway — the count printed on each product card. When the draw closes, an independent third party selects one winner, live on stream. You keep your gear either way.' },
+      { q: 'Will I have to buy anything to enter?', a: <>No. There will always be a free mail-in entry method with exactly the same odds as a purchase entry; the address and instructions will be published in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> before the sweepstakes opens. No purchase will be necessary to enter or win, and buying will not increase your chances.</> },
+      { q: 'How are entry counts decided?', a: 'One flat number per item, printed on the card — no multipliers, no math. Bigger items and bundles will carry more entries, and your total will show at checkout and in your confirmation email once the giveaway opens.' },
+      { q: 'What is the prize?', a: 'The Launch Vault: $250 cash plus a full Lootix merch bundle — the winner picks from Drop 1. Future vaults unlock after the first one pays out.' },
     ],
   },
   {
     title: 'The Draw',
     items: [
       { q: 'How is the winner chosen?', a: 'By an independent third-party administrator using a random draw across all eligible entries — purchase and free entries pooled together. We never touch the draw.' },
-      { q: 'When is the draw?', a: <>Each giveaway runs to the close date shown on the <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">Giveaways page</Link> countdown. Entries apply to the giveaway live at the time of your order.</> },
+      { q: 'When is the draw?', a: <>There is no draw scheduled yet — the sweepstakes has not started. Start and close dates will be published in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> and on the <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">Giveaways page</Link> before it opens.</> },
       { q: 'How do I know it is legit?', a: <>Every draw is streamed live, archived publicly, and every winner is named on the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners page</Link> with proof of payout. The full process is committed in writing before the first draw.</> },
       { q: 'Who can enter?', a: <>Legal residents 18+ (or the age of majority in your area), void where prohibited. Full eligibility is in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.</> },
     ],
@@ -31,7 +33,7 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
     title: 'Orders & Shipping',
     items: [
       { q: 'How does shipping work?', a: 'Gear ships worldwide from the US. Domestic orders ship within 2–4 business days; international timelines vary by region. Free shipping on orders over $75 and on Hero and Legend packs.' },
-      { q: 'Can I return or exchange?', a: 'Unworn gear can be returned or exchanged within 30 days. Entries earned from a refunded order are voided per the Official Rules.' },
+      { q: 'Can I return or exchange?', a: 'Unworn gear can be returned or exchanged within 30 days. Once the giveaway opens, entries earned from a refunded order are voided per the Official Rules.' },
       { q: 'Is checkout secure?', a: 'Yes — payments run through Stripe. We never see or store your card details.' },
     ],
   },
@@ -86,7 +88,9 @@ export default function FaqPage() {
           <div className="flex flex-col gap-2">
             <span className="uppercase text-parchment" style={{ fontSize: 20, fontWeight: 800 }}>The full legal terms</span>
             <span className="text-stone" style={{ fontSize: 13.5, lineHeight: 1.6, maxWidth: 520 }}>
-              Eligibility, the free entry method with equal odds, prize details, winner selection, and publicity — all of it.
+              {SWEEPSTAKES_OPEN
+                ? 'Eligibility, the free entry method with equal odds, prize details, winner selection, and publicity — all of it.'
+                : 'Eligibility, the free entry method with equal odds, prize details, winner selection and publicity will all be published here before the sweepstakes opens.'}
             </span>
           </div>
           <Link href="/official-rules" className="btn-ghost-v2 whitespace-nowrap">Read Official Rules →</Link>

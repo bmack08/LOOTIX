@@ -3,24 +3,36 @@
 // Content config mirroring the GetLootix Website Evaluation designs.
 // ─────────────────────────────────────────────────────────────
 
+// The giveaway has not started — see @/config/sweepstakes. Nothing here may
+// claim entries are being earned or that a draw is running.
 export const TICKER = [
-  '◆ Every order earns entries',
-  'Drop 1 · Live now',
-  '◆ Win $250 + free merch bundle',
+  '◆ Giveaway coming soon',
+  'Drop 1 · Coming soon',
+  '◆ Official Rules posted before it opens',
   'No purchase necessary',
   '◆ Winner drawn live & independent',
   'Ships worldwide',
 ];
 
-export const NAV = [
+/** `soon` renders the "Coming soon" status badge beside the nav label. */
+export const NAV: { label: string; href: string; soon?: boolean }[] = [
   { label: 'Shop', href: '/shop' },
-  { label: 'Giveaways', href: '/giveaways', live: true },
+  { label: 'Giveaways', href: '/giveaways', soon: true },
   { label: 'Winners', href: '/winners' },
   { label: 'About', href: '/about' },
   { label: 'FAQ', href: '/faq' },
 ];
 
-/** Live giveaway — drives countdown + progress everywhere. */
+/**
+ * The giveaway. Unused while `SWEEPSTAKES_OPEN` is false — the countdown that
+ * reads `drawDateISO` is hidden until the sweepstakes actually opens, and the
+ * date below is a placeholder that must be reset from the finalized Official
+ * Rules before it is shown again.
+ *
+ * There is deliberately no entries-claimed / goal pair here any more: the old
+ * `entriesClaimed: 312` / `entriesGoal: 1000` were hard-coded constants, not a
+ * read of real entry data, so the progress bar they fed has been removed.
+ */
 export const GIVEAWAY = {
   /**
    * Draw close, as a naive wall-clock time in Eastern Time — the zone the
@@ -29,15 +41,14 @@ export const GIVEAWAY = {
    * which resolves it against America/New_York (EDT/EST) for every viewer.
    */
   drawDateISO: '2026-08-01T20:00:00',
-  entriesClaimed: 312,
-  entriesGoal: 1000,
 };
 
 export const STATS = [
   { value: '$250', label: 'Launch grand prize' },
-  { value: '100+', label: 'Entries per item, printed on every card' },
+  { value: 'SOON', label: 'Giveaway opens — entries not open yet' },
   { value: 'FREE', label: 'Entry method · equal odds' },
-  { value: 'LIVE', label: 'Independent recorded draw' },
+  // Not "LIVE": a bare LIVE badge reads as "the giveaway is running now".
+  { value: 'ON STREAM', label: 'Independent recorded draw' },
 ];
 
 export type Product = {
@@ -95,8 +106,8 @@ export const UPCOMING = [
 
 export const HOW_STEPS = [
   { n: '01', title: 'Shop the drop', body: 'Cop limited fantasy-streetwear from the current drop. Every piece is numbered — never mass produced.' },
-  { n: '02', title: 'Stack entries', body: 'Every item carries a flat entry count, printed on the card. Your total shows at checkout and in your confirmation email.' },
-  { n: '03', title: 'Win the loot', body: 'An independent third party draws the winner live on stream. Paid fast, announced publicly, verified always.' },
+  { n: '02', title: 'Stack entries', body: 'Once the giveaway opens, every item will carry a flat entry count printed on the card, and your total will show at checkout and in your confirmation email. No entries are being earned yet.' },
+  { n: '03', title: 'Win the loot', body: 'An independent third party will draw the winner live on stream. Paid fast, announced publicly, verified always.' },
 ];
 
 export const PROOF = [

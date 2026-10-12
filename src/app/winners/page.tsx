@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { getLatestWinner } from '@/lib/raffle';
+import { SWEEPSTAKES_OPEN } from '@/config/sweepstakes';
 
 export const dynamic = 'force-dynamic';
 
@@ -47,9 +48,11 @@ export default async function WinnersPage() {
           <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 17, lineHeight: 1.65 }}>
             {winner
               ? 'We have our first winner. The next vault resets when Drop 002 opens — every order is a shot at it.'
-              : "No one has won yet — Lootix launched with Drop 1 and the first draw hasn't closed. The first name etched here could be yours."}
+              : SWEEPSTAKES_OPEN
+                ? "No one has won yet — Lootix launched with Drop 1 and the first draw hasn't closed. The first name etched here could be yours."
+                : 'No one has won yet. The Launch Vault giveaway has not started — it is coming soon, and the Official Rules go up before it opens.'}
           </p>
-          <Link href="/shop" className="btn-brass" style={{ marginTop: 10 }}>Claim It First</Link>
+          <Link href="/shop" className="btn-brass" style={{ marginTop: 10 }}>{SWEEPSTAKES_OPEN ? 'Claim It First' : 'Shop the Drop'}</Link>
         </div>
       </header>
 
@@ -74,7 +77,9 @@ export default async function WinnersPage() {
             <p className="m-0 text-stone" style={{ fontSize: 14, lineHeight: 1.6 }}>
               {winner
                 ? `Drawn ${new Date(winner.created_at).toLocaleDateString()} from ${winner.total_entries.toLocaleString()} entries by an independent third party.`
-                : 'The first name ever etched into the Loot Vault. Every Drop 1 order is a shot at it.'}
+                : SWEEPSTAKES_OPEN
+                  ? 'The first name ever etched into the Loot Vault. Every Drop 1 order is a shot at it.'
+                  : 'The first name ever etched into the Loot Vault. The giveaway has not started yet — entries open when it does.'}
             </p>
           </div>
 
@@ -124,7 +129,9 @@ export default async function WinnersPage() {
         <div className="flex flex-col gap-1.5">
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Be the first name in the vault</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
-            LAUNCH VAULT · $250 + MERCH BUNDLE · DRAWN LIVE AUG 1
+            {SWEEPSTAKES_OPEN
+              ? 'LAUNCH VAULT · $250 + MERCH BUNDLE · DRAWN LIVE AUG 1'
+              : 'LAUNCH VAULT · $250 + MERCH BUNDLE · GIVEAWAY COMING SOON'}
           </span>
         </div>
         <Link

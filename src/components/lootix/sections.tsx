@@ -5,9 +5,10 @@ import ClaimEntryButton from './ClaimEntryButton';
 import WinnerCard from './WinnerCard';
 import type { Draw } from '@/lib/raffle';
 import {
-  MULT_LABEL, SHOW_SCARCITY, STATS, VAULT, ENTRY_TIERS,
+  MULT_LABEL, STATS, VAULT, ENTRY_TIERS,
   HOW_STEPS, DROPS, PRIZES, MILESTONES,
 } from '@/lib/lootix';
+import { SWEEPSTAKES_OPEN, COMING_SOON_LABEL } from '@/config/sweepstakes';
 
 // ── shared icons + helpers ──
 export function maskEmail(email: string) {
@@ -56,7 +57,6 @@ export function PageHero({ eyebrow, title, subtitle }: { eyebrow: string; title:
 
 // ═══════════════ HERO ═══════════════
 export function Hero() {
-  const scarcityPct = Math.min(100, Math.round((VAULT.scarcity.claimed / VAULT.scarcity.goal) * 100));
   return (
     <section className="relative overflow-hidden" style={{ borderBottom: '1px solid rgba(255,255,255,.06)' }}>
       <div className="absolute inset-0" style={{ backgroundImage: "url('/brand/ref-fantasy-1.jpg')", backgroundSize: 'cover', backgroundPosition: '75% 28%', opacity: 0.32 }} />
@@ -66,16 +66,18 @@ export function Hero() {
         <Reveal>
           <div className="inline-flex items-center gap-[9px] rounded-full px-[14px] py-[7px] mb-[26px]" style={{ border: '1px solid rgba(212,175,55,.3)', background: 'rgba(212,175,55,.05)' }}>
             <span className="w-[7px] h-[7px] rounded-full bg-gold" style={{ boxShadow: '0 0 8px rgba(212,175,55,.55)' }} />
-            <span className="font-mono text-[11px] tracking-[.22em] uppercase text-gold-label">Live Giveaway · Draw Ends Soon</span>
+            <span className="font-mono text-[11px] tracking-[.22em] uppercase text-gold-label">
+              {SWEEPSTAKES_OPEN ? 'Live Giveaway · Draw Ends Soon' : `Giveaway · ${COMING_SOON_LABEL}`}
+            </span>
           </div>
           <h1 className="font-archivo font-black uppercase text-cream m-0 mb-[22px]" style={{ fontSize: 'clamp(48px,6.6vw,92px)', lineHeight: 0.92, letterSpacing: '-.03em' }}>
             Cop the gear.<br />
             <span style={{ background: 'linear-gradient(180deg,#F6D87E,#C99B2C)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Win the vault.</span>
           </h1>
           <p className="font-archivo text-[18px] leading-[1.62] text-[#B7B2A8] max-w-[480px] m-0 mb-[34px]">
-            Legendary fantasy streetwear, forged for the fearless. Every order earns you up to{' '}
-            <strong className="text-gold-bright font-extrabold">{MULT_LABEL} entries</strong> into our launch giveaway —{' '}
-            <strong className="text-cream font-bold">$250 cash + a free merch bundle</strong>.
+            Legendary fantasy streetwear, forged for the fearless. Our launch giveaway —{' '}
+            <strong className="text-cream font-bold">$250 cash + a free merch bundle</strong> — is{' '}
+            <strong className="text-gold-bright font-extrabold">coming soon</strong>. It has not started yet, so no order is earning entries.
           </p>
           <div className="flex gap-[14px] flex-wrap mb-[30px]">
             <a href="/shop" className="btn-gold">Shop the Drop <ArrowRight /></a>
@@ -91,7 +93,9 @@ export function Hero() {
           <div className="rounded-card p-[26px] shadow-vault" style={{ background: 'linear-gradient(165deg,rgba(28,24,16,.96),rgba(14,13,12,.96))', border: '1px solid rgba(212,175,55,.34)' }}>
             <div className="flex items-center justify-between mb-[18px]">
               <span className="badge-solid">{VAULT.badge}</span>
-              <span className="inline-flex items-center gap-[7px] font-mono text-[11px] tracking-[.16em] uppercase text-gold-label"><span className="w-[6px] h-[6px] rounded-full bg-gold" />Live</span>
+              <span className="inline-flex items-center gap-[7px] font-mono text-[11px] tracking-[.16em] uppercase text-gold-label">
+                <span className="w-[6px] h-[6px] rounded-full bg-gold" />{SWEEPSTAKES_OPEN ? 'Live' : COMING_SOON_LABEL}
+              </span>
             </div>
             <div className="font-archivo font-black text-cream mb-1" style={{ fontSize: 58, lineHeight: 1, letterSpacing: '-.03em' }}>{VAULT.value}</div>
             <div className="font-mono text-[12px] tracking-[.18em] uppercase text-muted mb-5">{VAULT.subtitle}</div>
@@ -100,19 +104,12 @@ export function Hero() {
                 <div key={perk} className="flex items-center gap-[11px] font-archivo text-[14px] text-[#D7D2C8]"><Check /> {perk}</div>
               ))}
             </div>
-            {SHOW_SCARCITY && (
-              <div className="mb-5">
-                <div className="flex justify-between font-mono text-[11px] tracking-[.08em] text-muted mb-[7px]">
-                  <span className="text-gold-bright">{VAULT.scarcity.claimed.toLocaleString()} entries claimed</span>
-                  <span>Goal {VAULT.scarcity.goal.toLocaleString()}</span>
-                </div>
-                <div className="h-[7px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,.08)' }}>
-                  <div className="h-full rounded-full" style={{ width: `${scarcityPct}%`, background: 'linear-gradient(90deg,#C99B2C,#F6D87E)' }} />
-                </div>
-              </div>
-            )}
-            <div className="mb-[22px]"><VaultCountdown /></div>
-            <a href="/giveaways" className="btn-gold w-full !rounded-md">Enter This Giveaway</a>
+            {/* The "entries claimed / goal" bar was removed — hard-coded numbers, not real entry data. */}
+            {/* Countdown hidden until the sweepstakes opens. */}
+            {SWEEPSTAKES_OPEN && <div className="mb-[22px]"><VaultCountdown /></div>}
+            <a href="/giveaways" className="btn-gold w-full !rounded-md">
+              {SWEEPSTAKES_OPEN ? 'Enter This Giveaway' : 'See the Giveaway'}
+            </a>
           </div>
         </Reveal>
       </div>
@@ -177,11 +174,14 @@ export function GiveawayBar() {
             <div className="font-archivo font-black text-cream text-[26px] leading-none tracking-[-.02em]">{VAULT.value} <span className="text-muted text-[14px] font-bold align-middle">+ merch</span></div>
           </div>
           <div className="hidden sm:block w-px h-10" style={{ background: 'rgba(255,255,255,.1)' }} />
-          <div className="min-w-[230px]"><VaultCountdown /></div>
+          {/* Countdown hidden until the sweepstakes opens. */}
+          {SWEEPSTAKES_OPEN && <div className="min-w-[230px]"><VaultCountdown /></div>}
         </div>
         <div className="flex flex-col items-start md:items-end gap-2">
-          <a href="/shop" className="btn-gold !py-[13px]">Enter to Win <ArrowRight /></a>
-          <span className="font-mono text-[10px] tracking-[.08em] uppercase text-muted-2">No purchase necessary · free entry available</span>
+          <a href="/shop" className="btn-gold !py-[13px]">{SWEEPSTAKES_OPEN ? <>Enter to Win <ArrowRight /></> : <>Shop the Drop <ArrowRight /></>}</a>
+          <span className="font-mono text-[10px] tracking-[.08em] uppercase text-muted-2">
+            {SWEEPSTAKES_OPEN ? 'No purchase necessary · free entry available' : 'Giveaway not started · no entries yet'}
+          </span>
         </div>
       </div>
     </section>

@@ -1,15 +1,15 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Countdown from '@/components/lootix/v2/Countdown';
-import { GIVEAWAY, PACKS, UPCOMING } from '@/lib/site';
+import { PACKS, UPCOMING } from '@/lib/site';
+import { SWEEPSTAKES_OPEN, COMING_SOON_LABEL } from '@/config/sweepstakes';
 
 export const metadata: Metadata = {
   title: 'Giveaways — The Launch Vault | Lootix',
-  description: 'The Launch Vault: $250 cash + a full merch bundle, drawn live by an independent third party. No purchase necessary — free entry with equal odds.',
+  description: 'The Launch Vault: $250 cash + a full merch bundle, drawn live by an independent third party. Coming soon — the sweepstakes has not started yet.',
 };
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
-const pct = Math.min(100, Math.round((GIVEAWAY.entriesClaimed / GIVEAWAY.entriesGoal) * 100));
 
 export default function GiveawaysPage() {
   return (
@@ -23,38 +23,49 @@ export default function GiveawaysPage() {
             className="font-plex absolute flex items-center gap-2 uppercase"
             style={{ top: 24, left: 24, background: '#C6A15B', color: '#0C0A07', fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', padding: '6px 12px', borderRadius: 2 }}
           >
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0C0A07' }} />Live now
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0C0A07' }} />
+            {SWEEPSTAKES_OPEN ? 'Live now' : COMING_SOON_LABEL}
           </span>
         </div>
 
         <div className="flex flex-col justify-center gap-6" style={{ padding: '64px 24px' }}>
-          <span className="v2-eyebrow">Launch Giveaway · Drop 1</span>
+          <span className="v2-eyebrow">
+            {SWEEPSTAKES_OPEN ? 'Launch Giveaway · Drop 1' : `Launch Giveaway · Drop 1 · ${COMING_SOON_LABEL}`}
+          </span>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,60px)', fontWeight: 900, letterSpacing: '-0.01em', lineHeight: 1 }}>The Launch Vault</h1>
           <div className="flex items-baseline gap-3 flex-wrap">
             <span className="text-brass-lit" style={{ fontSize: 52, fontWeight: 900 }}>$250</span>
             <span className="text-sand" style={{ fontSize: 16 }}>cash + full merch bundle · winner&rsquo;s pick from Drop 1</span>
           </div>
-          <div style={{ maxWidth: 420 }}><Countdown size="lg" /></div>
-          <div style={{ maxWidth: 420 }}>
-            <div className="flex justify-between font-plex text-stone" style={{ fontSize: 11, marginBottom: 6 }}>
-              <span className="text-sand">{GIVEAWAY.entriesClaimed.toLocaleString()} entries claimed</span>
-              <span>Goal {GIVEAWAY.entriesGoal.toLocaleString()}</span>
+          {/* Countdown hidden until the sweepstakes opens. */}
+          {SWEEPSTAKES_OPEN && <div style={{ maxWidth: 420 }}><Countdown size="lg" /></div>}
+          {/* The hard-coded "entries claimed / goal" progress bar was removed — it was not real entry data. */}
+          {!SWEEPSTAKES_OPEN && (
+            <div style={{ maxWidth: 460, background: '#131009', border: '1px solid rgba(198,161,91,0.3)', borderRadius: 4, padding: '20px 22px' }}>
+              <span className="font-plex uppercase text-brass block" style={{ fontSize: 11, letterSpacing: '0.14em', marginBottom: 8 }}>
+                Not open yet
+              </span>
+              <p className="m-0 text-sand" style={{ fontSize: 14, lineHeight: 1.65 }}>
+                This sweepstakes has not started. There is nothing to enter yet and no entries are being
+                earned or claimed. The Official Rules will be posted before it opens.
+              </p>
             </div>
-            <div style={{ height: 6, background: '#131009', borderRadius: 3, overflow: 'hidden', border: '1px solid rgba(198,161,91,0.2)' }}>
-              <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg,#C6A15B,#E6C57E)' }} />
-            </div>
-          </div>
+          )}
           <div className="flex gap-3.5 flex-wrap">
-            <Link href="/shop" className="btn-brass">Enter &amp; Shop</Link>
-            <Link href="/official-rules" className="btn-ghost-v2">Free Entry Method</Link>
+            <Link href="/shop" className="btn-brass">{SWEEPSTAKES_OPEN ? <>Enter &amp; Shop</> : 'Shop the Drop'}</Link>
+            <Link href="/official-rules" className="btn-ghost-v2">{SWEEPSTAKES_OPEN ? 'Free Entry Method' : 'Official Rules'}</Link>
           </div>
           <span className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.08em' }}>
-            No purchase necessary · equal odds · 18+ · drawn live by an independent third party
+            {SWEEPSTAKES_OPEN
+              ? 'No purchase necessary · equal odds · 18+ · drawn live by an independent third party'
+              : 'Not started · no entries yet · no purchase will be necessary · 18+ · drawn live by an independent third party'}
           </span>
         </div>
       </section>
 
-      {/* ENTRY PACKS */}
+      {/* ENTRY PACKS — an entry flow, so the whole section is hidden until the
+          sweepstakes opens. Kept in the repo: it comes back with SWEEPSTAKES_OPEN. */}
+      {SWEEPSTAKES_OPEN && (
       <section style={{ padding: '80px 24px', borderBottom: HAIR }}>
         <div className="flex flex-col gap-2.5 items-center text-center" style={{ marginBottom: 48 }}>
           <span className="v2-eyebrow">Entry packs</span>
@@ -107,6 +118,7 @@ export default function GiveawaysPage() {
           <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>. 18+.
         </p>
       </section>
+      )}
 
       {/* UPCOMING VAULTS */}
       <section style={{ padding: '80px 24px', borderBottom: HAIR, background: '#0F0C08' }}>

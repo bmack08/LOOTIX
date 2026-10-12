@@ -24,8 +24,12 @@ export const GIVEAWAY_PRIZE = '$250 + Free Merch Bundle';
 export const COUNTDOWN_DAYS = 6;
 export const COUNTDOWN_EXTRA = { hours: 14, minutes: 22 };
 
-/** Show the "entries claimed" scarcity bar on the vault card. */
-export const SHOW_SCARCITY = true;
+/**
+ * The "entries claimed" scarcity bar is gone. It rendered `VAULT.scarcity`,
+ * which was a pair of hard-coded constants (`claimed: 312`, `goal: 1000`) and
+ * not a read of real entry data from @/lib/raffle — so it has been removed
+ * rather than switched off.
+ */
 
 // `boxed` = outlined/emphasized nav tab (draws the eye to conversion pages,
 // per the 80Eighty pattern of boxing the giveaway tabs).
@@ -62,7 +66,6 @@ export const VAULT = {
     'Full Lootix merch bundle',
     "Winner's pick from the launch drop",
   ],
-  scarcity: { claimed: 312, goal: 1000 },
 };
 
 export const ENTRY_TIERS = [

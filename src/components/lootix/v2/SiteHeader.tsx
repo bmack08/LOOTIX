@@ -5,6 +5,7 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { NAV, TICKER } from '@/lib/site';
+import { COMING_SOON_LABEL } from '@/config/sweepstakes';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -39,8 +40,11 @@ export default function SiteHeader() {
 
   const active = (href: string) => pathname === href || (href !== '/' && pathname.startsWith(href));
 
-  const LiveBadge = () => (
-    <span className="font-plex" style={{ background: '#C6A15B', color: '#0C0A07', fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 2 }}>LIVE</span>
+  // The giveaway has not started: the nav badge reads "Coming soon", never "LIVE".
+  const SoonBadge = () => (
+    <span className="font-plex whitespace-nowrap" style={{ background: '#C6A15B', color: '#0C0A07', fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 2 }}>
+      {COMING_SOON_LABEL.toUpperCase()}
+    </span>
   );
 
   const drawer = (
@@ -63,7 +67,7 @@ export default function SiteHeader() {
             className="flex items-center gap-3 uppercase text-parchment py-4 hover:text-brass-lit transition-colors"
             style={{ fontSize: 24, fontWeight: 900, borderBottom: HAIR }}
           >
-            {l.label} {l.live && <LiveBadge />}
+            {l.label} {l.soon && <SoonBadge />}
           </Link>
         ))}
       </nav>
@@ -92,7 +96,7 @@ export default function SiteHeader() {
               className="flex items-center gap-2 transition-colors hover:text-brass-lit"
               style={{ color: active(l.href) ? '#E6C57E' : '#EFE5CF' }}
             >
-              {l.label} {l.live && <LiveBadge />}
+              {l.label} {l.soon && <SoonBadge />}
             </Link>
           ))}
         </div>

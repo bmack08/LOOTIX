@@ -2,6 +2,7 @@ import 'server-only';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { ENTRY_GRANTS } from './lootix';
+import { SWEEPSTAKES_OPEN } from '@/config/sweepstakes';
 
 // ─────────────────────────────────────────────────────────────
 // Raffle data layer. Uses Supabase REST when SUPABASE_URL +
@@ -49,18 +50,32 @@ async function appendJsonl(file: string, record: unknown) {
   await fs.appendFile(file, JSON.stringify(record) + '\n', 'utf8');
 }
 
-// ── Grant a subscription + its free entries (idempotent-ish on email) ──
+// ── Record a subscription, and its free entries once the sweepstakes is open ──
+//
+// While SWEEPSTAKES_OPEN is false this records the subscriber and grants NO
+// entries: the sweepstakes has not started, so nothing may accrue entries into
+// it. `isNew` reports whether this email had not subscribed before, so the
+// caller can still send one welcome email without a repeat-submit sending more.
 export async function grantSubscription(email: string, source: string) {
   const grant = ENTRY_GRANTS[source] ?? 25;
   const now = new Date().toISOString();
 
   if (usingSupabase()) {
+    // Probed before the upsert below, which would otherwise hide whether this
+    // email is new.
+    const prior = await sbFetch(`subscribers?select=email&email=eq.${encodeURIComponent(email)}&limit=1`);
+    const priorRows = prior.ok ? await prior.json() : [];
+    const isNew = !priorRows.length;
+
     // upsert subscriber
     await sbFetch('subscribers', {
       method: 'POST',
       headers: { Prefer: 'resolution=merge-duplicates,return=minimal' },
       body: JSON.stringify({ email, source, created_at: now }),
     });
+
+    if (!SWEEPSTAKES_OPEN) return { ok: true, granted: 0, isNew };
+
     // only grant entries the first time we see this email for this source
     const existing = await sbFetch(
       `entries?select=id&email=eq.${encodeURIComponent(email)}&source=eq.${encodeURIComponent(source)}&limit=1`,
@@ -73,20 +88,24 @@ export async function grantSubscription(email: string, source: string) {
         body: JSON.stringify({ email, count: grant, source, created_at: now }),
       });
     }
-    return { ok: true, granted: rows.length ? 0 : grant };
+    return { ok: true, granted: rows.length ? 0 : grant, isNew };
   }
 
   // dev fallback
   const subs = await readJsonl<{ email: string }>(FILES.subscribers);
-  if (!subs.some((s) => s.email === email)) {
+  const isNew = !subs.some((s) => s.email === email);
+  if (isNew) {
     await appendJsonl(FILES.subscribers, { email, source, created_at: now });
   }
+
+  if (!SWEEPSTAKES_OPEN) return { ok: true, granted: 0, isNew };
+
   const ents = await readJsonl<{ email: string; source: string }>(FILES.entries);
   const already = ents.some((e) => e.email === email && e.source === source);
   if (!already) {
     await appendJsonl(FILES.entries, { email, count: grant, source, created_at: now });
   }
-  return { ok: true, granted: already ? 0 : grant };
+  return { ok: true, granted: already ? 0 : grant, isNew };
 }
 
 export type EntrantTotals = { email: string; entries: number };
