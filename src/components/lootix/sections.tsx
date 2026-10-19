@@ -386,9 +386,26 @@ export function EmailSection() {
       <div className="absolute inset-0" style={{ background: 'radial-gradient(70% 120% at 50% 0%,rgba(212,175,55,.12),transparent 60%)' }} />
       <div className="relative max-w-[760px] mx-auto px-6 md:px-10 py-24 text-center">
         <div className="lx-eyebrow mb-4">Join the Guild</div>
-        <h2 className="font-archivo font-black uppercase text-cream m-0 mb-4" style={{ fontSize: 'clamp(32px,4.4vw,52px)', lineHeight: 1, letterSpacing: '-.025em' }}>Get first access + bonus entries</h2>
-        <p className="font-archivo text-[16px] text-muted m-0 mb-[30px]">Drop alerts, early access to limited gear, and 25 free bonus entries on your first order.</p>
-        <EmailCapture source="newsletter" buttonLabel="Claim Entries" successMsg="You're in — 25 bonus entries locked. Check your inbox." className="max-w-[480px] mx-auto" />
+        <h2 className="font-archivo font-black uppercase text-cream m-0 mb-4" style={{ fontSize: 'clamp(32px,4.4vw,52px)', lineHeight: 1, letterSpacing: '-.025em' }}>
+          {SWEEPSTAKES_OPEN ? 'Get first access + bonus entries' : 'Get first access to every drop'}
+        </h2>
+        {/* The "25 free bonus entries" promise and the "25 bonus entries locked"
+            success message were ungated. While the sweepstakes is closed
+            `grantSubscription` grants 0, so claiming a signup locks in 25
+            entries was false. Both now only appear once it opens. */}
+        <p className="font-archivo text-[16px] text-muted m-0 mb-[30px]">
+          {SWEEPSTAKES_OPEN
+            ? 'Drop alerts, early access to limited gear, and 25 free bonus entries on your first order.'
+            : 'Drop alerts and early access to limited gear — plus first word when the giveaway opens.'}
+        </p>
+        <EmailCapture
+          source="newsletter"
+          buttonLabel={SWEEPSTAKES_OPEN ? 'Claim Entries' : 'Join the Guild'}
+          successMsg={SWEEPSTAKES_OPEN
+            ? "You're in — 25 bonus entries locked. Check your inbox."
+            : "You're on the list. Check your inbox — no sweepstakes is running yet, so this does not enter you in one."}
+          className="max-w-[480px] mx-auto"
+        />
       </div>
     </section>
   );

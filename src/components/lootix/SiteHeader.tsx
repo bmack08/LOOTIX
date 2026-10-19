@@ -68,9 +68,8 @@ export default function SiteHeader() {
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7">
                 <path d="M5 9h14l1 12H4L5 9z M16 11V7a4 4 0 00-8 0v4" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <span className="absolute -top-[7px] -right-[8px] bg-gold text-obsidian font-mono font-bold text-[10px] w-[17px] h-[17px] rounded-full grid place-items-center">
-                2
-              </span>
+              {/* No count badge — this held a hard-coded "2" items. There is no
+                  cart state in the app. Same fix as lootix/v2/SiteHeader. */}
             </a>
             <a href="/giveaways" className="btn-gold whitespace-nowrap hidden md:inline-flex !px-5 !py-[11px] !text-[12.5px] !tracking-[.1em] shadow-gold-btn-sm">
               Enter to Win

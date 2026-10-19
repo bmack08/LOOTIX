@@ -56,11 +56,13 @@ export const MARQUEE_ITEMS = [
 ];
 
 // Launch-honest stats (no fabricated track record before the first draw).
+// Note "ON STREAM" rather than a bare "LIVE", which reads as "the giveaway is
+// running right now" — the same correction already documented in @/lib/site.
 export const STATS = [
   { value: '$250', label: 'Launch Grand Prize', gold: true },
   { value: MULT_LABEL, label: 'Entries / Order', gold: false },
   { value: 'FREE', label: 'Entry Available', gold: false },
-  { value: 'LIVE', label: 'Independent Draw', gold: true },
+  { value: 'ON STREAM', label: 'Independent Draw', gold: true },
 ];
 
 export const VAULT = {
@@ -80,10 +82,15 @@ export const ENTRY_TIERS = [
   { name: 'Legend Vault', desc: 'Full fit + accessories · best odds', price: '$150', entries: '350 entries', popular: false },
 ];
 
+// Written so nothing claims a track record or a cadence that does not exist.
+// Step 03 previously read "Winners drawn live every month" — there has never
+// been a draw, and no monthly cadence is promised in the Official Rules. Step
+// 02 asserted in the present tense that every order "lands you" entries, which
+// is false while SWEEPSTAKES_OPEN is false.
 export const HOW_STEPS = [
-  { n: '01', title: 'Shop the drop', body: 'Pick your legendary gear from limited fantasy-streetwear collections. New drops land every month.', warm: false },
-  { n: '02', title: 'Earn entries', body: `Every order automatically lands you up to ${MULT_LABEL} entries. The more you cop, the bigger your odds.`, warm: true },
-  { n: '03', title: 'Win the loot', body: 'Winners drawn live every month. Cash, tech and trips — paid out fast and verified publicly.', warm: false },
+  { n: '01', title: 'Shop the drop', body: 'Pick your legendary gear from limited fantasy-streetwear collections. Every piece is numbered — never mass produced.', warm: false },
+  { n: '02', title: 'Earn entries', body: 'Once the giveaway opens, every item will carry a flat entry count printed on the card, and your total will show at checkout. The sweepstakes has not started yet, so no order is earning entries.', warm: true },
+  { n: '03', title: 'Win the loot', body: 'An independent third party will draw the winner live on stream. Paid fast, announced publicly, verified always.', warm: false },
 ];
 
 // Real Lootix product designs (from the MERCH folder). `well` sets the photo

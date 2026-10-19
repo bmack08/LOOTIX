@@ -14,42 +14,21 @@ interface Product {
   slug?: string;
 }
 
-// Fallback products in case Printful API is not configured
-const fallbackProducts: Product[] = [
-  {
-    id: 1,
-    name: 'Summit Hoodie',
-    price: 89,
-    image: 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&q=80',
-    badge: 'NEW',
-    slug: 'summit-hoodie',
-  },
-  {
-    id: 2,
-    name: 'Trail Runner Tee',
-    price: 45,
-    salePrice: 35,
-    image: 'https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?w=400&q=80',
-    badge: 'SALE',
-    slug: 'trail-runner-tee',
-  },
-  {
-    id: 3,
-    name: 'Explorer Joggers',
-    price: 75,
-    image: 'https://images.unsplash.com/photo-1552374196-1ab2a1c593e8?w=400&q=80',
-    badge: null,
-    slug: 'explorer-joggers',
-  },
-  {
-    id: 4,
-    name: 'Basecamp Cap',
-    price: 35,
-    image: 'https://images.unsplash.com/photo-1588850561407-ed78c282e89b?w=400&q=80',
-    badge: 'NEW',
-    slug: 'basecamp-cap',
-  },
-];
+/**
+ * No fallback products.
+ *
+ * This array held four invented items that are not in the Lootix catalogue —
+ * "Summit Hoodie" ($89), "Trail Runner Tee" ($45 struck through to $35 with a
+ * SALE badge), "Explorer Joggers" ($75) and "Basecamp Cap" ($35). The prices
+ * were made up and the SALE was a fake discount off a price nothing had ever
+ * been sold at. Worse, this was the *default* state and the fallback whenever
+ * `/api/products` returned nothing — and Printful is not configured in this
+ * deployment, so the fake catalogue is exactly what would have rendered.
+ *
+ * It now starts empty and only ever shows what `/api/products` actually
+ * returns. Do not re-add placeholder products to fill the grid.
+ */
+const fallbackProducts: Product[] = [];
 
 const JustArrivedSection: FC = () => {
   const [products, setProducts] = useState<Product[]>(fallbackProducts);
@@ -73,7 +52,7 @@ const JustArrivedSection: FC = () => {
               id: p.id,
               name: p.name,
               price: p.price,
-              image: p.images?.[0] || fallbackProducts[index]?.image || 'https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=400&q=80',
+              image: p.images?.[0] || '',
               badge: index === 0 ? 'NEW' : null,
               slug: p.slug || p.id.toString(),
             }));
@@ -117,6 +96,10 @@ const JustArrivedSection: FC = () => {
               </div>
             ))}
           </div>
+        ) : products.length === 0 ? (
+          <p className="text-text-muted text-sm">
+            New drops are loading from the store. Nothing to show yet.
+          </p>
         ) : (
           <div
             className="grid gap-6"
