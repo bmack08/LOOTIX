@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { COMPANY, FOOTER_COLS } from '@/lib/site';
+import { SWEEPSTAKES_OPEN } from '@/config/sweepstakes';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -39,8 +40,18 @@ export default function SiteFooter() {
       <div className="flex justify-between items-center gap-6 flex-wrap" style={{ paddingTop: 28 }}>
         <span className="font-plex text-ash" style={{ fontSize: 11 }}>© 2026 {COMPANY.legalName} · All rights reserved</span>
         <span className="text-ash" style={{ fontSize: 11, lineHeight: 1.7, maxWidth: 640 }}>
-          No purchase necessary. Void where prohibited. Open to legal residents 18+. Odds depend on number of entries. See{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free entry method &amp; full details.
+          {SWEEPSTAKES_OPEN ? (
+            <>
+              No purchase necessary. Void where prohibited. Open to legal residents 18+. Odds depend on number of entries. See{' '}
+              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free entry method &amp; full details.
+            </>
+          ) : (
+            <>
+              The Lootix sweepstakes has not started yet — no entries are being earned or claimed. No purchase will be
+              necessary. Void where prohibited. Open to legal residents 18+. The{' '}
+              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> will be posted before it opens.
+            </>
+          )}
         </span>
       </div>
     </footer>

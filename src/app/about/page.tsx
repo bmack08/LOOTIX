@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SWEEPSTAKES_OPEN } from '@/config/sweepstakes';
 
 export const metadata: Metadata = {
   title: 'About — This is your loot | Lootix',
@@ -15,10 +16,12 @@ const VALUES = [
   { icon: '⚖', title: 'Honest giveaways', body: 'Independent draws, free entry with equal odds, public winners.' },
 ];
 
+// Written in the future tense while the sweepstakes is closed: nothing here may
+// read as though entries are being earned today.
 const QUEST = [
-  { n: '01', title: 'Shop the drop', body: <>Each drop is a limited, numbered collection. When it&rsquo;s gone, it&rsquo;s gone. Every product card shows its flat entry count — what you see is what you stack.</> },
-  { n: '02', title: 'Stack entries', body: <>Entries total automatically at checkout and arrive in your confirmation email. Prefer not to buy? The free mail-in method in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> carries exactly the same odds.</> },
-  { n: '03', title: 'Watch the draw', body: <>When the countdown hits zero, an independent third party draws the winner live on our socials. The stream stays archived — no hidden draws, ever.</> },
+  { n: '01', title: 'Shop the drop', body: <>Each drop is a limited, numbered collection. When it&rsquo;s gone, it&rsquo;s gone. Once the giveaway opens, every product card will show its flat entry count — what you see is what you stack.</> },
+  { n: '02', title: 'Stack entries', body: <>When the giveaway opens, entries will total automatically at checkout and arrive in your confirmation email, and a free mail-in method with exactly the same odds will be published in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>. The sweepstakes has not started yet, so no entries are being earned.</> },
+  { n: '03', title: 'Watch the draw', body: <>When the giveaway closes, an independent third party draws the winner live on our socials. The stream stays archived — no hidden draws, ever.</> },
   { n: '04', title: 'Claim the loot', body: <>Cash is paid within days, merch ships immediately, and the winner&rsquo;s name is etched into the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners Vault</Link> with proof of payout — permanently.</> },
 ];
 
@@ -37,7 +40,7 @@ export default function AboutPage() {
             This isn&rsquo;t just streetwear.<br /><span className="text-brass">This is your loot.</span>
           </h1>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7, maxWidth: 520 }}>
-            Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every drop is limited, numbered, and never mass produced — and every order stacks entries toward a vault of real prizes, drawn live, in the open.
+            Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every drop is limited, numbered, and never mass produced — and a vault of real prizes, drawn live and in the open, is coming soon.
           </p>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7, maxWidth: 520 }}>
             We&rsquo;re a small crew out of Maryland — adventurers, gamers, collectors. We built the brand we wanted to exist: premium quality, built to last, designed for the fearless.
@@ -83,7 +86,9 @@ export default function AboutPage() {
       <section className="flex items-center justify-between gap-8 flex-wrap" style={{ padding: '48px 24px', background: '#E4D5B4', color: '#171208' }}>
         <div className="flex flex-col gap-1.5">
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Ready to earn your loot?</span>
-          <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>Drop 1 IS LIVE · LAUNCH VAULT CLOSES AUG 1</span>
+          <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
+            {SWEEPSTAKES_OPEN ? 'DROP 1 IS LIVE · LAUNCH VAULT CLOSES AUG 1' : 'DROP 1 IS LIVE · LAUNCH VAULT GIVEAWAY COMING SOON'}
+          </span>
         </div>
         <Link
           href="/shop"

@@ -1,4 +1,5 @@
 import 'server-only';
+import { SWEEPSTAKES_OPEN } from '@/config/sweepstakes';
 
 // Sends transactional email via Resend when RESEND_API_KEY is set.
 // No-ops (logs) otherwise, so the app works before email is provisioned.
@@ -36,6 +37,25 @@ const shell = (inner: string) => `
   </div>`;
 
 export function sendWelcome(to: string, entries: number) {
+  // The sweepstakes has not started: the welcome email must not tell a new
+  // subscriber they are entered or that they hold entries.
+  if (!SWEEPSTAKES_OPEN) {
+    return send(
+      to,
+      "You're in the Guild — Lootix",
+      shell(`
+        <h1 style="font-size:24px;font-weight:900;text-transform:uppercase;margin:0 0 12px">You're in the Guild.</h1>
+        <p style="color:#b7b2a8;font-size:15px;line-height:1.6;margin:0 0 16px">
+          You'll get drop alerts and early access to limited gear first. The Launch Vault giveaway
+          — <strong style="color:#f4f0e6">$250 cash + a free merch bundle</strong> — is coming soon;
+          it has not started yet, so this signup does not enter you in a sweepstakes. We'll email you
+          when it opens, and the Official Rules go up before it does.
+        </p>
+        <a href="https://getlootix.com/#shop" style="display:inline-block;background:#e0b83c;color:#0a0a0b;font-weight:800;text-decoration:none;padding:14px 24px;border-radius:5px;text-transform:uppercase;font-size:13px;letter-spacing:.06em">Shop the Drop</a>
+      `),
+    );
+  }
+
   return send(
     to,
     "You're entered — Lootix Loot Vault",

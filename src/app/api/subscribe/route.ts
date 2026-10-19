@@ -25,8 +25,10 @@ export async function POST(req: Request) {
 
   try {
     const result = await grantSubscription(email, source);
-    // Only welcome-email a brand-new grant (avoid spamming repeat submits)
-    if (result.granted > 0) {
+    // Welcome-email a brand-new subscriber or a brand-new grant, once only
+    // (avoid spamming repeat submits). While the sweepstakes is closed nothing
+    // is granted, so `isNew` is what gates the email.
+    if (result.granted > 0 || result.isNew) {
       await sendWelcome(email, ENTRY_GRANTS[source] ?? 25);
     }
     return NextResponse.json({ ok: true });

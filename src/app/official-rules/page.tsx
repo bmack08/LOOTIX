@@ -1,13 +1,18 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SWEEPSTAKES_OPEN, RULES_NOT_STARTED } from '@/config/sweepstakes';
 
 export const metadata: Metadata = {
   title: 'Official Rules — Launch Vault Sweepstakes | Lootix',
-  description: 'Official rules for the Lootix Launch Vault Sweepstakes. No purchase necessary to enter or win. Free entry method with equal odds.',
+  description: RULES_NOT_STARTED,
 };
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
+// DRAFT rules text. Deliberately kept in the repo but NOT rendered while
+// SWEEPSTAKES_OPEN is false — see @/config/sweepstakes. Before the sweepstakes
+// opens, a sweepstakes attorney must finalize every bracketed [value] and the
+// full legal language below, and only then may this be published.
 const SECTIONS: { num: string; title: string; paras: string[] }[] = [
   { num: '01', title: 'Sponsor', paras: ['This sweepstakes ("Sweepstakes") is sponsored by Lootix LLC, located in Maryland, USA [full street address] ("Sponsor").'] },
   { num: '02', title: 'Eligibility', paras: [
@@ -30,6 +35,21 @@ const SECTIONS: { num: string; title: string; paras: string[] }[] = [
 ];
 
 export default function OfficialRulesPage() {
+  // Before the sweepstakes opens this page shows one statement and nothing
+  // else: no rules, no prize terms, no dates, no entry methods.
+  if (!SWEEPSTAKES_OPEN) {
+    return (
+      <div className="text-parchment">
+        <header className="text-center" style={{ padding: '88px 24px 120px' }}>
+          <div className="flex flex-col gap-6 items-center mx-auto" style={{ maxWidth: 680 }}>
+            <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Official Rules</h1>
+            <p className="m-0 text-sand" style={{ fontSize: 18, lineHeight: 1.7 }}>{RULES_NOT_STARTED}</p>
+          </div>
+        </header>
+      </div>
+    );
+  }
+
   return (
     <div className="text-parchment">
       {/* HEADER */}

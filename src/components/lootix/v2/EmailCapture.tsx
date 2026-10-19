@@ -1,10 +1,14 @@
 'use client';
 
 import { useState } from 'react';
+import { SWEEPSTAKES_OPEN } from '@/config/sweepstakes';
 
 /**
  * Guild signup — lives on the inverted cream section.
- * Posts to /api/subscribe (Supabase-backed: grants entries + welcome email).
+ * Posts to /api/subscribe (Supabase-backed: records the signup + welcome email).
+ *
+ * While the sweepstakes is closed this is a drop-alert signup only: the button
+ * must not offer to "claim entries" for a giveaway that has not started.
  */
 export default function EmailCapture({ source = 'newsletter' }: { source?: string }) {
   const [email, setEmail] = useState('');
@@ -62,7 +66,11 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
             whiteSpace: 'nowrap',
           }}
         >
-          {state === 'done' ? '✓ In the Guild' : state === 'loading' ? 'Claiming…' : 'Claim Entries'}
+          {state === 'done'
+            ? '✓ In the Guild'
+            : state === 'loading'
+              ? SWEEPSTAKES_OPEN ? 'Claiming…' : 'Joining…'
+              : SWEEPSTAKES_OPEN ? 'Claim Entries' : 'Join the Guild'}
         </button>
       </div>
       {state === 'error' && <p className="font-plex mt-3" style={{ fontSize: 12, color: '#8a2c14' }} role="alert">{err}</p>}
