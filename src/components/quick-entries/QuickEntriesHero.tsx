@@ -20,21 +20,10 @@ const QuickEntriesHero: FC = () => {
           Free to enter, no purchase necessary.
         </p>
 
-        {/* Stats */}
-        <div className="flex flex-wrap justify-center gap-8 text-center">
-          <div>
-            <div className="font-display font-bold text-3xl text-cta-primary">5</div>
-            <div className="text-sm text-text-muted uppercase tracking-wider">Active Giveaways</div>
-          </div>
-          <div>
-            <div className="font-display font-bold text-3xl text-cta-primary">250+</div>
-            <div className="text-sm text-text-muted uppercase tracking-wider">Winners So Far</div>
-          </div>
-          <div>
-            <div className="font-display font-bold text-3xl text-cta-primary">$50K+</div>
-            <div className="text-sm text-text-muted uppercase tracking-wider">Total Prizes</div>
-          </div>
-        </div>
+        {/* The stat row was removed. It showed `5` Active Giveaways, `250+`
+            Winners So Far and `$50K+` Total Prizes — all three invented. No
+            giveaway has run, there are no winners, and no giveaway count is
+            read from anywhere. Do not restore these without a real source. */}
       </div>
     </section>
   );

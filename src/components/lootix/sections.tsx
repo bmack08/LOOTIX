@@ -255,9 +255,10 @@ export function FeaturedDrops({ full = false }: { full?: boolean }) {
               <div className="p-5">
                 <div className="font-archivo font-extrabold text-[18px] uppercase text-cream tracking-[-.01em] mb-[5px]">{d.name}</div>
                 <div className="font-archivo text-[13px] text-muted-2 mb-[14px]">{d.meta}</div>
+                {/* No star rating: there is no review system to average, and the
+                    old hard-coded 4.8–5.0 values were invented. */}
                 <div className="flex items-center justify-between">
                   <span className="font-mono font-bold text-[17px] text-gold-bright">{d.price}</span>
-                  <span className="font-archivo text-[12px] text-muted-2">★ {d.rating}</span>
                 </div>
               </div>
             </a>
@@ -276,7 +277,7 @@ export function PrizeVault() {
         <Reveal className="text-center mb-14">
           <div className="lx-eyebrow mb-[14px]">The Prize Vault</div>
           <h2 className="font-archivo font-black uppercase text-cream m-0 mb-[14px]" style={{ fontSize: 'clamp(34px,4.6vw,56px)', lineHeight: 1, letterSpacing: '-.025em' }}>More ways to win</h2>
-          <p className="font-archivo text-[17px] text-muted max-w-[520px] mx-auto">Every order enters you across all live giveaways. Stack your entries, chase the loot you want.</p>
+          <p className="font-archivo text-[17px] text-muted max-w-[520px] mx-auto">Future vaults unlock as the guild grows. None of them is open yet — one giveaway at a time, run properly.</p>
         </Reveal>
         <div className="grid gap-6 md:grid-cols-3">
           {PRIZES.map((p, i) => (
@@ -289,9 +290,9 @@ export function PrizeVault() {
                 <div className="p-[22px]">
                   <div className="font-mono text-[11px] tracking-[.16em] uppercase text-muted-2 mb-2">{p.kind}</div>
                   <div className="font-archivo font-black text-[26px] text-cream tracking-[-.02em] mb-4">{p.title}</div>
-                  <div className="flex justify-between font-mono text-[11px] text-muted mb-[18px]">
-                    <span className="text-gold-label">{p.meta}</span><span>{p.ends}</span>
-                  </div>
+                  {/* No entrant count and no "ends in N days": these vaults have
+                      not opened, and the old counts/deadlines were invented. */}
+                  <p className="font-archivo text-[13px] leading-[1.55] text-muted m-0 mb-[18px]">{p.desc}</p>
                   <a href="/shop" className={p.primary ? 'btn-gold w-full !py-[13px] !text-[13px]' : 'btn-outline-gold w-full !py-[13px]'}>{p.cta}</a>
                 </div>
               </div>

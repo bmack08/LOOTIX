@@ -77,16 +77,10 @@ export default function ShopPage() {
                   {SWEEPSTAKES_OPEN ? `◆ ${p.entries} ENTRIES` : '◆ ENTRIES COMING SOON'}
                 </span>
                 <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span>
-                {p.soldPct && (
-                  <div className="absolute" style={{ left: 12, right: 12, bottom: 12, background: 'rgba(12,10,7,0.85)', borderRadius: 3, padding: '8px 10px' }}>
-                    <div className="flex justify-between font-plex text-stone" style={{ fontSize: 10, marginBottom: 4 }}>
-                      <span className="text-brass-lit">{p.soldPct} claimed</span><span>{p.edition}</span>
-                    </div>
-                    <div style={{ height: 4, background: '#1E1810', borderRadius: 2, overflow: 'hidden' }}>
-                      <div style={{ height: '100%', background: '#C6A15B', width: p.soldPct }} />
-                    </div>
-                  </div>
-                )}
+                {/* The "% claimed" progress bar was removed. It rendered a
+                    hard-coded `soldPct` string per product, not a read of real
+                    stock or order data. Nothing here may imply units sold or
+                    remaining until there is an inventory source to read. */}
               </div>
               <div className="flex flex-col gap-1.5" style={{ padding: 18 }}>
                 <div className="flex justify-between items-baseline gap-2">

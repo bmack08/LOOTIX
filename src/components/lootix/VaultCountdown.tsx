@@ -1,25 +1,29 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { COUNTDOWN_DAYS, COUNTDOWN_EXTRA } from '@/lib/lootix';
+import { GIVEAWAY } from '@/lib/site';
+import { etWallClockToEpochMs } from '@/lib/time';
 
 const pad = (n: number) => String(Math.max(0, n)).padStart(2, '0');
 
 type Parts = { d: string; h: string; m: string; s: string };
 
 /**
- * Live draw countdown. Target is fixed on mount (days + extra offset from
- * first load) so server/client render agree until hydration ticks in.
+ * Live draw countdown to the configured draw date.
+ *
+ * This used to count down to `Date.now() + COUNTDOWN_DAYS + COUNTDOWN_EXTRA`
+ * — a fixed offset from whenever the page was loaded. That was a fake clock:
+ * every visitor saw "6 days 14:22" regardless of when they arrived, and it
+ * never actually ran out. It now resolves the real `GIVEAWAY.drawDateISO`
+ * through `etWallClockToEpochMs`, the same source the v2 countdown reads, so
+ * every visitor counts to the same instant. Callers keep this behind
+ * `SWEEPSTAKES_OPEN`, so nothing renders until the giveaway actually opens.
  */
 export default function VaultCountdown() {
   const [parts, setParts] = useState<Parts | null>(null);
 
   useEffect(() => {
-    const target =
-      Date.now() +
-      COUNTDOWN_DAYS * 86400000 +
-      COUNTDOWN_EXTRA.hours * 3600000 +
-      COUNTDOWN_EXTRA.minutes * 60000;
+    const target = etWallClockToEpochMs(GIVEAWAY.drawDateISO);
 
     const tick = () => {
       let ms = Math.max(0, target - Date.now());

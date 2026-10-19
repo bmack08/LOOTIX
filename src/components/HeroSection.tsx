@@ -1,14 +1,7 @@
 'use client';
 
 import { FC, useState, useEffect } from 'react';
-import { currentGiveaway, getTimeRemaining, formatEndDate } from '@/config/giveaway';
-
-interface TimeLeft {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
+import { SWEEPSTAKES_OPEN, COMING_SOON_LABEL } from '@/config/sweepstakes';
 
 interface HeroSlide {
   image: string;
@@ -34,21 +27,15 @@ const heroSlides: HeroSlide[] = [
     image: 'https://images.unsplash.com/photo-1519681393784-d120267933ba?w=1920&q=80',
     title: 'ADVENTURE',
     highlight: 'AWAITS',
-    subtitle: '$5,000 Gaming PC Giveaway',
+    // Was '$5,000 Gaming PC Giveaway' — a prize that does not exist. The real
+    // Launch Vault is $250 + a merch bundle, and it has not started.
+    subtitle: SWEEPSTAKES_OPEN ? 'The Launch Vault is open' : `The Launch Vault · ${COMING_SOON_LABEL}`,
   },
 ];
 
 const HeroSection: FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [timeLeft, setTimeLeft] = useState<TimeLeft>({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0,
-  });
-  const [isUrgent, setIsUrgent] = useState(false);
-  const [isExpired, setIsExpired] = useState(false);
 
   // Slideshow auto-rotation
   useEffect(() => {
@@ -58,27 +45,6 @@ const HeroSection: FC = () => {
     }, 5000);
     return () => clearInterval(timer);
   }, [isPlaying]);
-
-  // Countdown timer
-  useEffect(() => {
-    const updateTimer = () => {
-      const remaining = getTimeRemaining(currentGiveaway.endDate);
-      setTimeLeft({
-        days: remaining.days,
-        hours: remaining.hours,
-        minutes: remaining.minutes,
-        seconds: remaining.seconds,
-      });
-      setIsUrgent(remaining.isUrgent);
-      setIsExpired(remaining.isExpired);
-    };
-
-    updateTimer();
-    const timer = setInterval(updateTimer, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const pad = (n: number) => String(n).padStart(2, '0');
 
   return (
     <section className="relative h-screen min-h-[600px] overflow-hidden">
@@ -121,49 +87,32 @@ const HeroSection: FC = () => {
           {heroSlides[currentSlide].subtitle}
         </p>
 
-        {/* Countdown Timer */}
+        {/* The countdown was removed. It ticked down to `currentGiveaway.endDate`
+            — an invented 2026-03-15 date — above the line "Giveaway Ends
+            March 15, 2026". There is no published close date until the
+            sweepstakes opens, so there is nothing to count to. */}
         <div className="mb-8">
-          <p className="text-xs text-text-muted uppercase tracking-[0.2em] mb-4">
-            Giveaway Ends {formatEndDate(currentGiveaway.endDate)}
+          <p className="text-xs text-text-muted uppercase tracking-[0.2em]">
+            {SWEEPSTAKES_OPEN
+              ? 'See the Official Rules for the draw date'
+              : `Launch Vault giveaway · ${COMING_SOON_LABEL} · not started`}
           </p>
-
-          {!isExpired && (
-            <div className="flex justify-center gap-3">
-              {[
-                { value: timeLeft.days, label: 'DAYS' },
-                { value: timeLeft.hours, label: 'HOURS' },
-                { value: timeLeft.minutes, label: 'MINS' },
-                { value: timeLeft.seconds, label: 'SECS' },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="bg-bg-secondary/80 backdrop-blur-sm rounded-md p-4 min-w-[70px]"
-                >
-                  <div className={`font-display font-bold text-[32px] ${isUrgent ? 'text-urgency' : 'text-text-primary'}`}>
-                    {pad(item.value)}
-                  </div>
-                  <div className="text-[10px] text-text-muted tracking-[0.2em] mt-1">
-                    {item.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          )}
         </div>
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-4 justify-center mb-8">
-          <a href="/current-giveaway" className="btn-primary">
-            ENTER NOW
+          <a href="/giveaways" className="btn-primary">
+            {SWEEPSTAKES_OPEN ? 'ENTER NOW' : 'SEE THE GIVEAWAY'}
           </a>
           <a href="/shop" className="btn-secondary">
             SHOP GEAR
           </a>
         </div>
 
-        {/* Trust Badges */}
+        {/* Trust Badges — "Weekly Drawings" was removed: no draw has ever run
+            and no cadence is promised anywhere in the Official Rules. */}
         <div className="flex flex-wrap justify-center gap-6 text-sm text-text-muted">
-          {['Free Entry', 'Weekly Drawings', 'Ships Worldwide'].map((badge) => (
+          {['Free Entry', 'Independent Live Draw', 'Ships Worldwide'].map((badge) => (
             <span key={badge} className="flex items-center gap-2">
               <svg className="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />

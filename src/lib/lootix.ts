@@ -20,9 +20,15 @@ export const ENTRY_GRANTS: Record<string, number> = {
 /** The prize label recorded on a draw / shown when the vault unlocks. */
 export const GIVEAWAY_PRIZE = '$250 + Free Merch Bundle';
 
-/** Days from first load until the current draw closes (client countdown). */
-export const COUNTDOWN_DAYS = 6;
-export const COUNTDOWN_EXTRA = { hours: 14, minutes: 22 };
+/**
+ * There is deliberately no countdown offset here any more. `COUNTDOWN_DAYS = 6`
+ * and `COUNTDOWN_EXTRA = { hours: 14, minutes: 22 }` were invented constants
+ * measured from whenever the visitor happened to load the page, so every
+ * visitor saw a different "draw closes in" clock and it never reached zero.
+ * The real draw date lives in `GIVEAWAY.drawDateISO` (@/lib/site) and is read
+ * through `etWallClockToEpochMs`; the countdown stays hidden until
+ * `SWEEPSTAKES_OPEN` is true.
+ */
 
 /**
  * The "entries claimed" scarcity bar is gone. It rendered `VAULT.scarcity`,
@@ -82,16 +88,28 @@ export const HOW_STEPS = [
 
 // Real Lootix product designs (from the MERCH folder). `well` sets the photo
 // backdrop tone; `size`/`pos` crop the source (the tee mockups share one 2-up image).
+//
+// No `rating` field: the old `'4.9'` / `'5.0'` / `'4.8'` star ratings were
+// invented. There is no review system and no order history to average, so the
+// star line they fed has been removed rather than given a placeholder value.
 export const DROPS = [
-  { name: 'Lord of Flame', meta: 'Fantasy Streetwear · Heavyweight Tee', price: '$42', rating: '4.9', entries: `+${MULT_LABEL} entries`, img: '/brand/products/lord-of-flame.png', well: 'dark', size: 'cover', pos: 'center' },
-  { name: 'Nat 20 Tee', meta: 'Fantasy Streetwear · Regular Fit', price: '$38', rating: '5.0', entries: '+150 entries', img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '24% 42%' },
-  { name: 'Hoard Dragon Tee', meta: 'Fantasy Streetwear · Camo', price: '$44', rating: '4.8', entries: `+${MULT_LABEL} entries`, img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '77% 42%' },
+  { name: 'Lord of Flame', meta: 'Fantasy Streetwear · Heavyweight Tee', price: '$42', entries: `+${MULT_LABEL} entries`, img: '/brand/products/lord-of-flame.png', well: 'dark', size: 'cover', pos: 'center' },
+  { name: 'Nat 20 Tee', meta: 'Fantasy Streetwear · Regular Fit', price: '$38', entries: '+150 entries', img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '24% 42%' },
+  { name: 'Hoard Dragon Tee', meta: 'Fantasy Streetwear · Camo', price: '$44', entries: `+${MULT_LABEL} entries`, img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '77% 42%' },
 ];
 
+/**
+ * Future vaults. None of these is running, so none carries an entrant count or
+ * a closing date: the old rows claimed `'3,420 entered'` / `'1,890 entered'`
+ * and `'Ends in 4 days'` / `'Ends in 9 days'` on giveaways badged "Live" that
+ * had never opened. Those strings were invented — there is no entries table to
+ * count — so the status is now the honest lock state and the entrant/deadline
+ * fields are gone. Mirrors `UPCOMING` in @/lib/site.
+ */
 export const PRIZES = [
-  { kind: 'Cash', title: '$5,000 Cash Drop', status: 'Live', meta: '3,420 entered', ends: 'Ends in 4 days', cta: 'Enter Now', primary: false, img: '/brand/ref-street-1.jpg' },
-  { kind: 'Tech', title: 'Battlestation PC', status: 'Live', meta: '1,890 entered', ends: 'Ends in 9 days', cta: 'Enter Now', primary: false, img: '/brand/cg-1247.png' },
-  { kind: 'Travel', title: 'Tokyo Trip for 2', status: 'Soon', meta: 'Opens July 1', ends: 'Get notified', cta: 'Notify Me', primary: true, img: '/brand/cg-1309.png' },
+  { kind: 'Cash', title: '$1,000 Cash Drop', status: 'Unlocks next', desc: 'Opens after the Launch Vault winner is drawn and paid.', cta: 'See the Giveaway', primary: false, img: '/brand/ref-street-1.jpg' },
+  { kind: 'Tech', title: 'Battlestation PC', status: 'Locked', desc: 'A full custom build. Unlocks once the guild passes 1,000 members.', cta: 'See the Giveaway', primary: false, img: '/brand/cg-1247.png' },
+  { kind: 'Travel', title: 'Tokyo Trip for 2', status: 'Locked', desc: 'Flights + hotel. The endgame vault — unlocks at 100 verified winners paid.', cta: 'Notify Me', primary: true, img: '/brand/cg-1309.png' },
 ];
 
 // Locked "achievement" milestones — the Winners Vault hasn't been unlocked yet.

@@ -68,15 +68,23 @@ export const PRODUCTS: Product[] = [
   { name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', entries: 100, edition: 'ED. 500', img: '/brand/v2/unboxing.png' },
 ];
 
-/** Shop grid — Drop 1. `soldPct` renders the claimed bar when present. */
-export type ShopProduct = Product & { category: string; soldPct?: string };
+/**
+ * Shop grid — Drop 1.
+ *
+ * There is deliberately no `soldPct` here any more. It used to carry
+ * hard-coded strings (`'62%'`, `'48%'`, `'81%'`) that rendered a "% claimed"
+ * scarcity bar on the shop cards. Nothing read real stock or order data — the
+ * percentages were invented — so the field and the bar it fed are both gone.
+ * Do not reintroduce a claimed/sold percentage without a real inventory source.
+ */
+export type ShopProduct = Product & { category: string };
 
 export const SHOP_CATEGORIES = ['All', 'Hoodies', 'Tees', 'Footwear', 'Quick Entries'] as const;
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
-  { name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', entries: 150, edition: 'ED. 500', img: '/brand/v2/model-back.png', category: 'Hoodies', soldPct: '62%' },
-  { name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', entries: 150, edition: 'ED. 500', img: '/brand/v2/model-front.png', category: 'Hoodies', soldPct: '48%' },
-  { name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', entries: 300, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png', category: 'Footwear', soldPct: '81%' },
+  { name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', entries: 150, edition: 'ED. 500', img: '/brand/v2/model-back.png', category: 'Hoodies' },
+  { name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', entries: 150, edition: 'ED. 500', img: '/brand/v2/model-front.png', category: 'Hoodies' },
+  { name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', entries: 300, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png', category: 'Footwear' },
   { name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', entries: 100, edition: 'ED. 500', img: '/brand/v2/unboxing.png', category: 'Tees' },
   { name: 'Lord of Flame Tee', sub: 'Heavyweight tee · Back print', price: '$42', entries: 100, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
   { name: 'Nat 20 Tee', sub: 'Regular fit · Front print', price: '$38', entries: 80, edition: 'ED. 500', img: '/brand/v2/tags.png', category: 'Tees' },

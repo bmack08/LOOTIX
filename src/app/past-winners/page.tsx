@@ -34,7 +34,8 @@ export default function PastWinnersPage() {
             Our First Winner is <span className="text-cta-primary">Coming Soon</span>
           </h2>
           <p className="text-text-secondary text-lg leading-relaxed mb-4">
-            We're running our inaugural giveaway right now. Once the drawing is complete, our first winner will be announced here with their name, prize, and photo.
+            The Launch Vault giveaway has not started yet. Once it opens and the drawing is complete,
+            our first winner will be announced here with their name, prize, and photo.
           </p>
           <p className="text-text-muted text-sm mb-8">
             Every winner is verified, publicly announced, and celebrated. No fake winners, no staged photos — real people winning real prizes.
@@ -66,8 +67,8 @@ export default function PastWinnersPage() {
           </div>
 
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/current-giveaway" className="btn-primary">
-              ENTER CURRENT GIVEAWAY
+            <Link href="/giveaways" className="btn-primary">
+              SEE THE GIVEAWAY
             </Link>
             <Link href="/official-rules" className="btn-secondary">
               VIEW OFFICIAL RULES
@@ -79,11 +80,10 @@ export default function PastWinnersPage() {
       {/* Trust Bar */}
       <section className="py-12 px-6 bg-bg-secondary">
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <p className="font-display font-bold text-3xl text-cta-primary">100%</p>
-              <p className="text-text-muted text-sm uppercase tracking-wider">Verified Winners</p>
-            </div>
+          {/* The "100% / Verified Winners" tile was removed: there are no
+              winners yet, so a 100% verification rate is a percentage of
+              nothing. The remaining tiles are policy statements, not counts. */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
             <div>
               <p className="font-display font-bold text-3xl text-cta-primary">FREE</p>
               <p className="text-text-muted text-sm uppercase tracking-wider">Entry Available</p>

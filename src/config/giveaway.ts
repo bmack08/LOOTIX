@@ -7,32 +7,48 @@ export interface GiveawayConfig {
   description: string;
   prizeValue: number;
   prizeDetails: string[];
-  endDate: Date;
+  /**
+   * Undefined until a close date is published in the finalized Official Rules.
+   * Never put a placeholder date here: anything set is treated as a real
+   * deadline and drives a visible countdown.
+   */
+  endDate?: Date;
   entryMultiplier: number;
   isActive: boolean;
 }
 
-// Current active giveaway - UPDATE THIS FOR NEW GIVEAWAYS
-export const currentGiveaway: GiveawayConfig = {
-  id: 'giveaway-2026-02',
-  title: 'Custom Gaming PC Build',
-  description: 'Win a fully loaded custom gaming PC worth over $5,000. Built with the latest components for maximum performance.',
-  prizeValue: 5000,
-  prizeDetails: [
-    'RTX 4080 Super Graphics Card',
-    'AMD Ryzen 9 7950X Processor',
-    '64GB DDR5 RAM',
-    '2TB NVMe SSD Storage',
-    'Custom RGB Case & Cooling',
-  ],
-  // Set end date 30 days from deployment - adjust as needed
-  endDate: new Date('2026-03-15T23:59:59'),
-  entryMultiplier: 60,
-  isActive: true,
-};
-
 // Entry multiplier for purchases
 export const ENTRY_MULTIPLIER = 60;
+
+/**
+ * The real giveaway — the Launch Vault, which has NOT started.
+ *
+ * This previously described a "Custom Gaming PC Build" worth "over $5,000",
+ * with an invented five-line spec list (RTX 4080 Super, Ryzen 9 7950X, 64GB
+ * DDR5, 2TB NVMe, custom RGB), `prizeValue: 5000`, `isActive: true` and an
+ * `endDate` of 2026-03-15 that drove a live ticking countdown. No such
+ * giveaway exists or ever ran. The prize below is the Launch Vault as stated
+ * everywhere else on the site (see `VAULT` / `GIVEAWAY_PRIZE` in @/lib/lootix).
+ *
+ * Site-wide status lives in @/config/sweepstakes — `SWEEPSTAKES_OPEN` is the
+ * switch that gates every entry flow and countdown.
+ */
+export const currentGiveaway: GiveawayConfig = {
+  id: 'launch-vault',
+  title: 'The Launch Vault',
+  description:
+    'The Launch Vault: $250 cash plus a full Lootix merch bundle, drawn live by an independent third party. The sweepstakes has not started yet — no entries are being earned.',
+  prizeValue: 250,
+  prizeDetails: [
+    '$250 cash, paid instantly',
+    'Full Lootix merch bundle',
+    "Winner's pick from the launch drop",
+  ],
+  // No end date: the sweepstakes has not started and no close date is published.
+  endDate: undefined,
+  entryMultiplier: ENTRY_MULTIPLIER,
+  isActive: false,
+};
 
 // Calculate entries from purchase amount
 export function calculateEntries(purchaseAmount: number): number {

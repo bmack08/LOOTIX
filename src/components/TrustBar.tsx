@@ -7,11 +7,18 @@ interface StatItem {
   label: string;
 }
 
+// Only claims that are true before the first draw.
+//
+// Removed: `'$50K+' PRIZES GIVEN`, `'250+' WINNERS` and `'10K+' MEMBERS`.
+// Lootix has not run a giveaway yet — nothing has been awarded, there are no
+// winners and there is no member count to read — so all three were invented.
+// Do not add a figure here that is not read from real data.
+// Also note the wording: no bare "LIVE" badge, which reads as "the giveaway is
+// running now" — the same reason @/lib/site uses "ON STREAM".
 const stats: StatItem[] = [
-  { value: '$50K+', label: 'PRIZES GIVEN' },
-  { value: '250+', label: 'WINNERS' },
-  { value: '10K+', label: 'MEMBERS' },
   { value: 'FREE', label: 'TO ENTER' },
+  { value: 'ON STREAM', label: 'INDEPENDENT DRAW' },
+  { value: 'PUBLIC', label: 'WINNER ANNOUNCED' },
 ];
 
 const TrustBar: FC = () => {
