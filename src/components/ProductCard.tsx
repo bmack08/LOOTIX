@@ -3,7 +3,7 @@
 import { FC, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ENTRY_MULTIPLIER } from '@/config/giveaway';
+import { ENTRIES_PER_ORDER } from '@/lib/sweepstakes';
 
 interface ProductCardProps {
   id: string | number;
@@ -26,9 +26,10 @@ const ProductCard: FC<ProductCardProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Calculate entries based on price
+  // Entries are NOT derived from price. One completed order earns exactly one
+  // entry no matter the item or the cart total, so there is nothing per-product
+  // to compute — this used to render "42 entries" on a $42 tee.
   const displayPrice = salePrice || price;
-  const entries = Math.floor(displayPrice * ENTRY_MULTIPLIER);
 
   const href = slug ? `/product/${slug}` : `/product/${id}`;
 
@@ -61,8 +62,8 @@ const ProductCard: FC<ProductCardProps> = ({
             </span>
           )}
 
-          {/* Entry Multiplier Badge */}
-          <span className="badge-entry">{ENTRY_MULTIPLIER}X</span>
+          {/* One order = one entry, whatever is in the cart */}
+          <span className="badge-entry">1 ENTRY</span>
 
           {/* Quick View Overlay */}
           <div
@@ -93,7 +94,7 @@ const ProductCard: FC<ProductCardProps> = ({
               )}
             </div>
             <span className="text-xs text-text-muted">
-              {entries.toLocaleString()} entries
+              {ENTRIES_PER_ORDER} entry per order
             </span>
           </div>
         </div>

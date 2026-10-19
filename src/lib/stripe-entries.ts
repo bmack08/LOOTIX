@@ -1,5 +1,5 @@
 import type Stripe from 'stripe';
-import { isEntryEligibleCountry } from './sweepstakes';
+import { isEntryEligibleCountry, entryWindowState, entryWindowReason } from './sweepstakes';
 
 // ─────────────────────────────────────────────────────────────
 // Pure decision logic for "does this Stripe order earn an entry?"
@@ -48,8 +48,12 @@ export function resolveEmail(session: SessionLike): string {
  * Decide whether one completed checkout session earns its single entry.
  *
  * An ineligible order is still a valid merch sale — it simply earns no entry.
+ *
+ * `at` is the moment the order is being judged against the Sweepstakes Period;
+ * it is a parameter rather than a call to `new Date()` so the window rule is
+ * testable without freezing the clock.
  */
-export function decideOrderEntry(session: SessionLike): EntryDecision {
+export function decideOrderEntry(session: SessionLike, at: Date = new Date()): EntryDecision {
   if (session.payment_status !== 'paid') {
     return { grant: false, reason: `payment_status=${session.payment_status ?? 'unknown'}` };
   }
@@ -60,6 +64,13 @@ export function decideOrderEntry(session: SessionLike): EntryDecision {
   const country = resolveCountry(session);
   if (!isEntryEligibleCountry(country)) {
     return { grant: false, reason: `country ${country ?? 'unknown'} not entry-eligible` };
+  }
+
+  // Checked last so the reason reported is the most specific one: an order
+  // that is both non-US and late reads as non-US.
+  const window = entryWindowState(at);
+  if (window !== 'open') {
+    return { grant: false, reason: entryWindowReason(window) };
   }
 
   return { grant: true, email, country: country!.toUpperCase() };
