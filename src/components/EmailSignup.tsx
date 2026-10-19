@@ -8,8 +8,8 @@ const EmailSignup: FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrate with email service
-    console.log('Email submitted:', email);
+    // TODO: not wired up — POST to /api/subscribe to actually capture this.
+    // Deliberately does not log the address: see the no-PII-in-logs rule.
     setIsSubmitted(true);
     setEmail('');
   };

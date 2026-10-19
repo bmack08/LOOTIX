@@ -2,6 +2,7 @@ import { isAuthed } from '@/lib/admin';
 import { getStats, getEntrantTotals, listDraws, usingSupabase } from '@/lib/raffle';
 import AdminLogin from '@/components/lootix/AdminLogin';
 import RecordWinnerForm from '@/components/lootix/RecordWinnerForm';
+import MailInEntryForm from '@/components/lootix/MailInEntryForm';
 
 export const dynamic = 'force-dynamic';
 export const metadata = { title: 'Lootix Admin', robots: { index: false, follow: false } };
@@ -47,6 +48,30 @@ export default async function AdminPage() {
           then record their result below. It logs the draw with your proof note, emails the winner, and unlocks the homepage vault.
         </p>
         <RecordWinnerForm entrants={entrants} />
+      </div>
+
+      {/* Mail-in / AMOE entries — the free entry route in the Official Rules */}
+      <div className="rounded-card p-7 mb-10" style={{ background: '#111113', border: '1px solid rgba(255,255,255,.08)' }}>
+        <h2 className="font-archivo font-extrabold uppercase text-cream text-[20px] mb-2">Log a mail-in entry</h2>
+        <p className="font-archivo text-[14px] text-muted mb-5 max-w-[560px]">
+          One card is worth <strong className="text-cream">one entry</strong> — the same as one order, which is what
+          keeps the free entry route legally comparable to buying. Number the envelopes as you open them and enter
+          that reference below.
+        </p>
+        <MailInEntryForm />
+      </div>
+
+      {/* Exports */}
+      <div className="rounded-card p-7 mb-10" style={{ background: '#111113', border: '1px solid rgba(255,255,255,.08)' }}>
+        <h2 className="font-archivo font-extrabold uppercase text-cream text-[20px] mb-2">Exports</h2>
+        <p className="font-archivo text-[14px] text-muted mb-5 max-w-[560px]">
+          CSV only, and deliberately with no SSN or tax-ID column. Winner tax paperwork belongs in your tax records,
+          not in a file that gets emailed around.
+        </p>
+        <div className="flex gap-3 flex-wrap">
+          <a href="/api/admin/export?type=winners" className="btn-outline-gold !py-[11px]">⬇ Winners (CSV)</a>
+          <a href="/api/admin/export?type=entrants" className="btn-outline-gold !py-[11px]">⬇ Entrants (CSV)</a>
+        </div>
       </div>
 
       {/* Past draws */}

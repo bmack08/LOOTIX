@@ -11,18 +11,6 @@ export default function RecordWinnerForm({ entrants }: { entrants: Entrant[] }) 
   const [err, setErr] = useState('');
   const disabled = entrants.length === 0;
 
-  function downloadCsv() {
-    const rows = [['email', 'entries'], ...entrants.map((e) => [e.email, String(e.entries)])];
-    const csv = rows.map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(',')).join('\n');
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'lootix-entrants.csv';
-    a.click();
-    URL.revokeObjectURL(url);
-  }
-
   async function submit() {
     setState('saving');
     setErr('');
@@ -55,9 +43,14 @@ export default function RecordWinnerForm({ entrants }: { entrants: Entrant[] }) 
     <div className="flex flex-col gap-4">
       {/* Step 1: hand the list to the independent drawer */}
       <div className="flex items-center gap-3 flex-wrap">
-        <button onClick={downloadCsv} disabled={disabled} className="btn-outline-gold !py-[11px] disabled:opacity-50">
+        {/* Server route, not a browser-built CSV: it escapes cells that a
+            spreadsheet would otherwise run as a formula. */}
+        <a
+          href="/api/admin/export?type=entrants"
+          className={`btn-outline-gold !py-[11px] ${disabled ? 'pointer-events-none opacity-50' : ''}`}
+        >
           ⬇ Download entrant list (CSV)
-        </button>
+        </a>
         <span className="font-mono text-[11px] text-muted">Give this to your independent drawer / random service.</span>
       </div>
 

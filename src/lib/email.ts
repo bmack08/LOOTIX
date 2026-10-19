@@ -1,7 +1,11 @@
 import 'server-only';
+import { emailTag } from './redact';
 
 // Sends transactional email via Resend when RESEND_API_KEY is set.
 // No-ops (logs) otherwise, so the app works before email is provisioned.
+//
+// Recipient addresses are never logged — only a short correlation tag. See
+// src/lib/redact.ts.
 
 const KEY = process.env.RESEND_API_KEY;
 const FROM = process.env.EMAIL_FROM || 'Lootix <onboarding@resend.dev>';
@@ -9,7 +13,7 @@ const REPLY_TO = process.env.EMAIL_REPLY_TO || 'admin@getlootix.com';
 
 async function send(to: string, subject: string, html: string) {
   if (!KEY) {
-    console.log(`[email:dev] would send "${subject}" → ${to}`);
+    console.log(`[email:dev] would send "${subject}" → recipient ${emailTag(to)}`);
     return { ok: true, dev: true };
   }
   try {
@@ -18,7 +22,10 @@ async function send(to: string, subject: string, html: string) {
       headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ from: FROM, to, reply_to: REPLY_TO, subject, html }),
     });
-    if (!res.ok) console.error('Resend failed', res.status, await res.text());
+    // Status only: Resend echoes the recipient address back in its error
+    // bodies, and the status is what actually tells you what went wrong
+    // (401 bad key, 422 bad address, 429 rate limited).
+    if (!res.ok) console.error(`Resend failed (${res.status}) for recipient ${emailTag(to)}`);
     return { ok: res.ok };
   } catch (e) {
     console.error('Resend error', e);

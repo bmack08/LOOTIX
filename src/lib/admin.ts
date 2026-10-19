@@ -1,20 +1,37 @@
 import 'server-only';
 import { cookies } from 'next/headers';
+import {
+  isConfigured,
+  verifyPassword,
+  sessionToken,
+  verifySessionToken,
+} from './admin-credentials';
 
-// Simple password gate for the /admin dashboard. Set ADMIN_PASSWORD in env
-// (a strong value). Over HTTPS in production the httpOnly cookie is fine for MVP.
-const PW = process.env.ADMIN_PASSWORD || 'lootix-admin';
+// Password gate for the /admin dashboard.
+//
+// ADMIN_PASSWORD is REQUIRED — there is no default. See
+// src/lib/admin-credentials.ts for the logic and the reasoning; this module is
+// just the env + cookie wiring so the logic stays unit-testable.
+const PW = process.env.ADMIN_PASSWORD;
+
 export const ADMIN_COOKIE = 'lootix_admin';
 
-export function checkPassword(pw: string) {
-  return typeof pw === 'string' && pw.length > 0 && pw === PW;
+/** False when ADMIN_PASSWORD is missing or blank, so callers can fail closed. */
+export function adminConfigured(): boolean {
+  return isConfigured(PW);
 }
 
-export function cookieValue() {
-  return PW;
+export function checkPassword(pw: string): boolean {
+  return verifyPassword(PW, pw);
 }
 
-export async function isAuthed() {
+/** Derived session token — never the password itself. */
+export function cookieValue(): string {
+  return sessionToken(PW);
+}
+
+export async function isAuthed(): Promise<boolean> {
+  if (!adminConfigured()) return false;
   const store = await cookies();
-  return store.get(ADMIN_COOKIE)?.value === PW;
+  return verifySessionToken(PW, store.get(ADMIN_COOKIE)?.value);
 }

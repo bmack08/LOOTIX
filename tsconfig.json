@@ -15,6 +15,10 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    // Tests run on Node's built-in runner (`npm test`), which strips types
+    // natively and therefore requires the explicit .ts extension on relative
+    // imports. Safe here because noEmit is on — tsc only type-checks.
+    "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
     "incremental": true,
     "plugins": [

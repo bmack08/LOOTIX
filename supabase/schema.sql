@@ -27,6 +27,14 @@ create table if not exists entries (
 );
 create index if not exists entries_email_idx on entries (email);
 
+-- One mail-in (AMOE) card = one entry, enforced in the database as well as in
+-- the app. The app checks for an existing card_ref first, but two admins
+-- logging the same envelope at once would both pass that check; this index is
+-- what actually makes the grant idempotent.
+create unique index if not exists entries_mail_in_card_ref_idx
+  on entries ((meta->>'card_ref'))
+  where source = 'mail-in';
+
 -- Every draw we run (the winner + an audit trail)
 create table if not exists draws (
   id            uuid primary key default uuid_generate_v4(),

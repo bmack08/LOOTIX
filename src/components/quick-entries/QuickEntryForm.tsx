@@ -42,8 +42,9 @@ const QuickEntryForm: FC<QuickEntryFormProps> = ({ giveaway, onClose }) => {
       return;
     }
 
-    // TODO: POST to /api/entries
-    console.log('Entry submission:', { email, name, giveawayId: giveaway.id, agreedToRules });
+    // TODO: not wired up — this form never reached a server.
+    // Deliberately does not log the entrant's email or name: see the
+    // no-PII-in-logs rule.
     setIsSubmitted(true);
 
     // Reset after 2 seconds

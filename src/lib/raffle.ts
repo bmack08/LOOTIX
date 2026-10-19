@@ -89,6 +89,88 @@ export async function grantSubscription(email: string, source: string) {
   return { ok: true, granted: already ? 0 : grant };
 }
 
+export type MailInGrant = {
+  ok: boolean;
+  granted: number;
+  /** true when this card reference had already been logged */
+  duplicate: boolean;
+};
+
+/** One mail-in (AMOE) card is worth exactly one entry. */
+export const ENTRIES_PER_MAIL_IN = 1;
+
+/**
+ * Log a mail-in / AMOE entry — IDEMPOTENT on the card reference.
+ *
+ * The card reference is whatever the admin writes on the envelope when they
+ * open it (a sequence number, or a postmark + initials). Keying off it means
+ * re-typing the same card after a page refresh cannot award a second entry,
+ * which matters because mail-in entries are the free route and must stay
+ * exactly as valuable as a purchase entry — one each.
+ *
+ * Throws on an unexpected write failure so the caller can surface it instead
+ * of silently dropping someone's posted entry.
+ */
+export async function grantMailInEntry(
+  email: string,
+  cardRef: string,
+  meta?: Record<string, unknown>,
+): Promise<MailInGrant> {
+  const addr = email.trim().toLowerCase();
+  const ref = cardRef.trim();
+  const now = new Date().toISOString();
+  if (!addr || !ref) return { ok: false, granted: 0, duplicate: false };
+
+  const record = {
+    email: addr,
+    count: ENTRIES_PER_MAIL_IN,
+    source: 'mail-in',
+    meta: { ...(meta ?? {}), card_ref: ref },
+    created_at: now,
+  };
+
+  if (usingSupabase()) {
+    const existing = await sbFetch(
+      `entries?select=id&source=eq.mail-in&meta->>card_ref=eq.${encodeURIComponent(ref)}&limit=1`,
+    );
+    if (existing.ok) {
+      const rows = (await existing.json()) as unknown[];
+      if (rows.length) return { ok: true, granted: 0, duplicate: true };
+    }
+    // A failed lookup is not fatal — the unique index is the real guard.
+
+    await sbFetch('subscribers', {
+      method: 'POST',
+      headers: { Prefer: 'resolution=merge-duplicates,return=minimal' },
+      body: JSON.stringify({ email: addr, source: 'mail-in', created_at: now }),
+    });
+
+    const res = await sbFetch('entries', {
+      method: 'POST',
+      headers: { Prefer: 'return=minimal' },
+      body: JSON.stringify(record),
+    });
+    // unique index on (meta->>'card_ref') rejected a re-entry
+    if (res.status === 409) return { ok: true, granted: 0, duplicate: true };
+    if (!res.ok) {
+      throw new Error(`Supabase mail-in entry insert failed (${res.status}): ${await res.text()}`);
+    }
+    return { ok: true, granted: ENTRIES_PER_MAIL_IN, duplicate: false };
+  }
+
+  // dev fallback
+  const ents = await readJsonl<{ source?: string; meta?: { card_ref?: string } }>(FILES.entries);
+  if (ents.some((e) => e.source === 'mail-in' && e.meta?.card_ref === ref)) {
+    return { ok: true, granted: 0, duplicate: true };
+  }
+  const subs = await readJsonl<{ email: string }>(FILES.subscribers);
+  if (!subs.some((s) => s.email === addr)) {
+    await appendJsonl(FILES.subscribers, { email: addr, source: 'mail-in', created_at: now });
+  }
+  await appendJsonl(FILES.entries, record);
+  return { ok: true, granted: ENTRIES_PER_MAIL_IN, duplicate: false };
+}
+
 export type EntrantTotals = { email: string; entries: number };
 
 // ── Aggregate entries per email ──
