@@ -36,6 +36,12 @@
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "reference",
+    // The Playwright suite imports @playwright/test, which is intentionally not
+    // a dependency yet (adding one needs the owner's sign-off). Excluded so
+    // `npm run typecheck` stays meaningful until it is installed.
+    "e2e",
+    "playwright.config.ts"
   ]
 }

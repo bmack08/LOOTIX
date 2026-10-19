@@ -10,7 +10,8 @@
     "typecheck": "tsc --noEmit",
     "test:entries": "tsc src/lib/sweepstakes.ts src/lib/stripe-entries.ts --outDir .tmp-test --module commonjs --moduleResolution node --target es2020 --skipLibCheck --esModuleInterop && node --test scripts/test-entry-rules.cjs",
     "test:refunds": "tsc src/lib/refunds.ts --outDir .tmp-test --module commonjs --moduleResolution node --target es2020 --skipLibCheck --esModuleInterop && node --test scripts/test-refunds.cjs",
-    "test": "npm run test:entries && npm run test:refunds"
+    "test": "npm run test:entries && npm run test:refunds",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "next": "^16.0.7",

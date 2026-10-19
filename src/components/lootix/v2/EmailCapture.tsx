@@ -62,7 +62,8 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
             whiteSpace: 'nowrap',
           }}
         >
-          {state === 'done' ? '✓ In the Guild' : state === 'loading' ? 'Claiming…' : 'Claim Entries'}
+          {/* Singular: a sign-up is worth one entry, not a bundle of them. */}
+          {state === 'done' ? '✓ In the Guild' : state === 'loading' ? 'Claiming…' : 'Claim Entry'}
         </button>
       </div>
       {state === 'error' && <p className="font-plex mt-3" style={{ fontSize: 12, color: '#8a2c14' }} role="alert">{err}</p>}
