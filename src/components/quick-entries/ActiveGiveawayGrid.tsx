@@ -5,13 +5,6 @@ import Image from 'next/image';
 import QuickEntryForm from './QuickEntryForm';
 import { ENTRY_MULTIPLIER, formatEndDate } from '@/config/giveaway';
 
-// Helper to get a future date
-const getEndDate = (daysFromNow: number = 30) => {
-  const date = new Date();
-  date.setDate(date.getDate() + daysFromNow);
-  return date;
-};
-
 interface Giveaway {
   id: number;
   title: string;
@@ -20,49 +13,22 @@ interface Giveaway {
   image: string;
   link: string;
   featured?: boolean;
-  endDate: Date;
+  endDate?: Date;
 }
 
-// Mock giveaway data - updated to match brand positioning (gaming, not tabletop)
-const getActiveGiveaways = (): Giveaway[] => [
-  {
-    id: 1,
-    title: '$500 Gaming Gift Card Bundle',
-    description: 'Steam, PlayStation, Xbox, and Nintendo eShop gift cards included in this epic bundle!',
-    value: '$500',
-    image: 'https://images.unsplash.com/photo-1605902711622-cfb43c4437b5',
-    link: '/current-giveaway',
-    featured: true,
-    endDate: getEndDate(30),
-  },
-  {
-    id: 2,
-    title: 'Gaming Peripherals Pack',
-    description: 'Premium mechanical keyboard, wireless gaming mouse, and studio-quality headset.',
-    value: '$250',
-    image: 'https://images.unsplash.com/photo-1593152167544-085d3b9c4938',
-    link: '/current-giveaway',
-    endDate: getEndDate(27),
-  },
-  {
-    id: 3,
-    title: 'Console Bundle',
-    description: 'Next-gen console with two controllers and three top-rated games of your choice.',
-    value: '$600',
-    image: 'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3',
-    link: '/current-giveaway',
-    endDate: getEndDate(33),
-  },
-  {
-    id: 4,
-    title: 'Gaming Collectibles Pack',
-    description: 'Limited edition figurines, art prints, and memorabilia from popular franchises.',
-    value: '$400',
-    image: 'https://images.unsplash.com/photo-1600721391776-b5cd0e0048a9',
-    link: '/current-giveaway',
-    endDate: getEndDate(35),
-  },
-];
+/**
+ * No active giveaways — and nothing invented to fill the grid.
+ *
+ * This was explicitly labelled "Mock giveaway data": four giveaways that have
+ * never existed ($500 gift card bundle, $250 peripherals pack, $600 console
+ * bundle, $400 collectibles pack), each with a `getEndDate(27..35)` helper that
+ * generated a rolling "Ends:" date counted forward from whenever the page was
+ * loaded. None of it came from a real giveaway record, so all of it is gone.
+ *
+ * Populate this from real giveaway records once there is a source to read. Do
+ * not re-add placeholder rows to make the grid look full.
+ */
+const getActiveGiveaways = (): Giveaway[] => [];
 
 const ActiveGiveawayGrid: FC = () => {
   const activeGiveaways = useMemo(() => getActiveGiveaways(), []);
@@ -79,7 +45,9 @@ const ActiveGiveawayGrid: FC = () => {
           Active <span className="text-cta-primary">Giveaways</span>
         </h2>
         <p className="text-center text-text-secondary mb-12 max-w-2xl mx-auto">
-          Choose a giveaway below and enter with your email. Members get automatic entries!
+          {activeGiveaways.length === 0
+            ? 'No giveaway is running yet. The Launch Vault sweepstakes has not started — the Official Rules will be posted before it opens.'
+            : 'Choose a giveaway below and enter with your email.'}
         </p>
 
         {/* Giveaway Grid */}
@@ -117,8 +85,9 @@ const ActiveGiveawayGrid: FC = () => {
                   {giveaway.description}
                 </p>
                 <div className="flex items-center justify-between">
+                  {/* Only shows a close date if the record actually carries one. */}
                   <span className="text-text-muted text-sm">
-                    Ends: {formatEndDate(giveaway.endDate)}
+                    {giveaway.endDate ? `Ends: ${formatEndDate(giveaway.endDate)}` : ''}
                   </span>
                   <span className="btn-primary py-2 px-4 text-sm">
                     ENTER NOW

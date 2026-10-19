@@ -16,7 +16,9 @@ const steps = [
   {
     number: '02',
     title: 'ENTER',
-    description: 'Every $1 = 60 entries. Free entry also available.',
+    // Was 'Every $1 = 60 entries.' — present tense, but no order earns entries
+    // while the sweepstakes is closed.
+    description: 'Each item will carry a flat entry count once the giveaway opens. A free entry method with equal odds will always be available.',
     icon: (
       <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />
@@ -26,7 +28,9 @@ const steps = [
   {
     number: '03',
     title: 'WIN',
-    description: 'Winners drawn weekly. Prizes shipped worldwide.',
+    // Was 'Winners drawn weekly.' — an invented cadence. No draw has ever run
+    // and no weekly schedule is promised in the Official Rules.
+    description: 'The winner is drawn live by an independent third party. Prizes shipped worldwide.',
     icon: (
       <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />

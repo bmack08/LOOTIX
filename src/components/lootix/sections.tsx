@@ -255,9 +255,10 @@ export function FeaturedDrops({ full = false }: { full?: boolean }) {
               <div className="p-5">
                 <div className="font-archivo font-extrabold text-[18px] uppercase text-cream tracking-[-.01em] mb-[5px]">{d.name}</div>
                 <div className="font-archivo text-[13px] text-muted-2 mb-[14px]">{d.meta}</div>
+                {/* No star rating: there is no review system to average, and the
+                    old hard-coded 4.8–5.0 values were invented. */}
                 <div className="flex items-center justify-between">
                   <span className="font-mono font-bold text-[17px] text-gold-bright">{d.price}</span>
-                  <span className="font-archivo text-[12px] text-muted-2">★ {d.rating}</span>
                 </div>
               </div>
             </a>
@@ -276,7 +277,7 @@ export function PrizeVault() {
         <Reveal className="text-center mb-14">
           <div className="lx-eyebrow mb-[14px]">The Prize Vault</div>
           <h2 className="font-archivo font-black uppercase text-cream m-0 mb-[14px]" style={{ fontSize: 'clamp(34px,4.6vw,56px)', lineHeight: 1, letterSpacing: '-.025em' }}>More ways to win</h2>
-          <p className="font-archivo text-[17px] text-muted max-w-[520px] mx-auto">Every order enters you across all live giveaways. Stack your entries, chase the loot you want.</p>
+          <p className="font-archivo text-[17px] text-muted max-w-[520px] mx-auto">Future vaults unlock as the guild grows. None of them is open yet — one giveaway at a time, run properly.</p>
         </Reveal>
         <div className="grid gap-6 md:grid-cols-3">
           {PRIZES.map((p, i) => (
@@ -289,9 +290,9 @@ export function PrizeVault() {
                 <div className="p-[22px]">
                   <div className="font-mono text-[11px] tracking-[.16em] uppercase text-muted-2 mb-2">{p.kind}</div>
                   <div className="font-archivo font-black text-[26px] text-cream tracking-[-.02em] mb-4">{p.title}</div>
-                  <div className="flex justify-between font-mono text-[11px] text-muted mb-[18px]">
-                    <span className="text-gold-label">{p.meta}</span><span>{p.ends}</span>
-                  </div>
+                  {/* No entrant count and no "ends in N days": these vaults have
+                      not opened, and the old counts/deadlines were invented. */}
+                  <p className="font-archivo text-[13px] leading-[1.55] text-muted m-0 mb-[18px]">{p.desc}</p>
                   <a href="/shop" className={p.primary ? 'btn-gold w-full !py-[13px] !text-[13px]' : 'btn-outline-gold w-full !py-[13px]'}>{p.cta}</a>
                 </div>
               </div>
@@ -385,9 +386,26 @@ export function EmailSection() {
       <div className="absolute inset-0" style={{ background: 'radial-gradient(70% 120% at 50% 0%,rgba(212,175,55,.12),transparent 60%)' }} />
       <div className="relative max-w-[760px] mx-auto px-6 md:px-10 py-24 text-center">
         <div className="lx-eyebrow mb-4">Join the Guild</div>
-        <h2 className="font-archivo font-black uppercase text-cream m-0 mb-4" style={{ fontSize: 'clamp(32px,4.4vw,52px)', lineHeight: 1, letterSpacing: '-.025em' }}>Get first access + bonus entries</h2>
-        <p className="font-archivo text-[16px] text-muted m-0 mb-[30px]">Drop alerts, early access to limited gear, and 25 free bonus entries on your first order.</p>
-        <EmailCapture source="newsletter" buttonLabel="Claim Entries" successMsg="You're in — 25 bonus entries locked. Check your inbox." className="max-w-[480px] mx-auto" />
+        <h2 className="font-archivo font-black uppercase text-cream m-0 mb-4" style={{ fontSize: 'clamp(32px,4.4vw,52px)', lineHeight: 1, letterSpacing: '-.025em' }}>
+          {SWEEPSTAKES_OPEN ? 'Get first access + bonus entries' : 'Get first access to every drop'}
+        </h2>
+        {/* The "25 free bonus entries" promise and the "25 bonus entries locked"
+            success message were ungated. While the sweepstakes is closed
+            `grantSubscription` grants 0, so claiming a signup locks in 25
+            entries was false. Both now only appear once it opens. */}
+        <p className="font-archivo text-[16px] text-muted m-0 mb-[30px]">
+          {SWEEPSTAKES_OPEN
+            ? 'Drop alerts, early access to limited gear, and 25 free bonus entries on your first order.'
+            : 'Drop alerts and early access to limited gear — plus first word when the giveaway opens.'}
+        </p>
+        <EmailCapture
+          source="newsletter"
+          buttonLabel={SWEEPSTAKES_OPEN ? 'Claim Entries' : 'Join the Guild'}
+          successMsg={SWEEPSTAKES_OPEN
+            ? "You're in — 25 bonus entries locked. Check your inbox."
+            : "You're on the list. Check your inbox — no sweepstakes is running yet, so this does not enter you in one."}
+          className="max-w-[480px] mx-auto"
+        />
       </div>
     </section>
   );

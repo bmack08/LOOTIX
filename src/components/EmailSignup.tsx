@@ -1,6 +1,8 @@
 'use client';
 
 import { FC, useState } from 'react';
+import { SWEEPSTAKES_OPEN } from '@/config/sweepstakes';
+import { ENTRY_GRANTS } from '@/lib/lootix';
 
 const EmailSignup: FC = () => {
   const [email, setEmail] = useState('');
@@ -21,7 +23,9 @@ const EmailSignup: FC = () => {
           GET NOTIFIED<span className="animate-blink">_</span>
         </h2>
         <p className="text-white/90 mb-6">
-          Be first to know about new giveaways + get bonus entries.
+          {SWEEPSTAKES_OPEN
+            ? 'Be first to know about new giveaways + get bonus entries.'
+            : 'Be first to know when the giveaway opens. Signing up does not enter you in a sweepstakes — none is running yet.'}
         </p>
 
         {isSubmitted ? (
@@ -48,9 +52,15 @@ const EmailSignup: FC = () => {
                 JOIN
               </button>
             </form>
-            <p className="text-white/80 text-sm mt-4">
-              🎁 Get 500 BONUS ENTRIES just for signing up!
-            </p>
+            {/* Was "Get 500 BONUS ENTRIES just for signing up!" — invented, and
+                20x the repo's own grant constant (ENTRY_GRANTS.newsletter = 25).
+                While the sweepstakes is closed `grantSubscription` grants 0, so
+                no entry count is promised at all. */}
+            {SWEEPSTAKES_OPEN && (
+              <p className="text-white/80 text-sm mt-4">
+                🎁 Get {ENTRY_GRANTS.newsletter} bonus entries just for signing up!
+              </p>
+            )}
           </>
         )}
       </div>

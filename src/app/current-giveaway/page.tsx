@@ -1,29 +1,23 @@
-'use client';
-
-import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  currentGiveaway,
-  ENTRY_MULTIPLIER,
-  calculateEntries,
-  formatEntries,
-  getTimeRemaining,
-  formatEndDate,
-} from '@/config/giveaway';
+import { currentGiveaway, ENTRY_MULTIPLIER } from '@/config/giveaway';
+import { SWEEPSTAKES_OPEN, COMING_SOON_LABEL } from '@/config/sweepstakes';
 
+/**
+ * Legacy route — superseded by /giveaways and permanently redirected there in
+ * next.config.js. Kept so the redirect has something to point past, and kept
+ * honest so it cannot ship a fabricated giveaway if that redirect is lifted.
+ *
+ * What used to be here: a ticking countdown to an invented 2026-03-15 close
+ * date, a "$5,000" value badge for a gaming PC that does not exist, and an
+ * entry calculator badged "60X ACTIVE" while no order earns entries. All of it
+ * is gone — the countdown had no published draw date to count to, and the
+ * prize came from a config object that described a giveaway that never ran.
+ *
+ * This no longer needs client hooks: with the countdown removed there is
+ * nothing to tick.
+ */
 export default function CurrentGiveawayPage() {
-  const [timeRemaining, setTimeRemaining] = useState(getTimeRemaining(currentGiveaway.endDate));
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setTimeRemaining(getTimeRemaining(currentGiveaway.endDate));
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const pad = (n: number) => String(n).padStart(2, '0');
-
   return (
     <main className="min-h-screen bg-bg-primary">
       {/* Hero Section with Prize */}
@@ -49,7 +43,7 @@ export default function CurrentGiveawayPage() {
             <div className="space-y-6">
               <div>
                 <span className="text-sm font-semibold text-cta-primary uppercase tracking-widest">
-                  Current Giveaway
+                  {SWEEPSTAKES_OPEN ? 'Current Giveaway' : `Launch Giveaway · ${COMING_SOON_LABEL}`}
                 </span>
                 <h1 className="font-display font-bold text-hero-mobile md:text-hero text-text-primary uppercase mt-2">
                   {currentGiveaway.title}
@@ -63,7 +57,7 @@ export default function CurrentGiveawayPage() {
               {/* Prize Details List */}
               <div>
                 <h3 className="text-sm font-semibold text-text-primary uppercase tracking-wider mb-3">
-                  What's Included
+                  What&apos;s Included
                 </h3>
                 <ul className="space-y-2">
                   {currentGiveaway.prizeDetails.map((detail, i) => (
@@ -75,54 +69,26 @@ export default function CurrentGiveawayPage() {
                 </ul>
               </div>
 
-              {/* Countdown Timer */}
-              <div>
-                <p className="text-sm text-text-muted uppercase tracking-widest mb-3">
-                  Giveaway Ends {formatEndDate(currentGiveaway.endDate)}
+              {/* Status — no countdown. There is no published close date to
+                  count to until the sweepstakes opens. */}
+              <div className="bg-bg-secondary rounded-md p-4">
+                <p className="font-display font-bold text-lg text-text-primary uppercase mb-1">
+                  {SWEEPSTAKES_OPEN ? 'Giveaway open' : 'Not open yet'}
                 </p>
-                {!timeRemaining.isExpired ? (
-                  <div className="flex gap-3 md:gap-4">
-                    {[
-                      { value: timeRemaining.days, label: 'Days' },
-                      { value: timeRemaining.hours, label: 'Hours' },
-                      { value: timeRemaining.minutes, label: 'Mins' },
-                      { value: timeRemaining.seconds, label: 'Secs' },
-                    ].map((block) => (
-                      <div
-                        key={block.label}
-                        className="flex flex-col items-center justify-center w-[60px] h-[60px] md:w-[80px] md:h-[80px] bg-bg-secondary rounded-md"
-                      >
-                        <span
-                          className={`font-display font-bold text-2xl md:text-4xl ${
-                            timeRemaining.isUrgent
-                              ? 'text-urgency animate-urgency'
-                              : 'text-text-primary'
-                          }`}
-                        >
-                          {pad(block.value)}
-                        </span>
-                        <span className="text-text-muted text-[10px] md:text-xs uppercase tracking-widest mt-1">
-                          {block.label}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                ) : (
-                  <div className="bg-bg-secondary rounded-md p-4 text-center">
-                    <p className="font-display font-bold text-xl text-urgency uppercase">
-                      Giveaway Ended
-                    </p>
-                  </div>
-                )}
+                <p className="text-text-secondary text-sm leading-relaxed">
+                  {SWEEPSTAKES_OPEN
+                    ? 'See the Official Rules for the draw date and the free entry method.'
+                    : 'This sweepstakes has not started. There is nothing to enter yet and no entries are being earned. The Official Rules will be posted before it opens.'}
+                </p>
               </div>
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/quick-entries" className="btn-primary text-center">
-                  ENTER NOW — FREE
+                <Link href="/shop" className="btn-primary text-center">
+                  SHOP THE DROP
                 </Link>
-                <Link href="/shop" className="btn-secondary text-center">
-                  SHOP TO EARN MORE ENTRIES
+                <Link href="/giveaways" className="btn-secondary text-center">
+                  SEE THE GIVEAWAY
                 </Link>
               </div>
 
@@ -147,30 +113,23 @@ export default function CurrentGiveawayPage() {
               <div className="text-sm font-bold text-success uppercase tracking-wider mb-3">Free Entry</div>
               <h3 className="font-display font-bold text-xl text-text-primary mb-3">MAIL-IN METHOD</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Send a 3x5 postcard with your name, email, and "Lootix Giveaway Entry" to our mailing address. One entry per postcard, no purchase necessary.
+                A free mail-in entry method with exactly the same odds will be published in the Official
+                Rules before the sweepstakes opens. No purchase will ever be necessary to enter.
               </p>
-              <div className="mt-4 p-3 bg-bg-secondary rounded-sm text-text-muted text-xs">
-                <p className="font-semibold text-text-secondary mb-1">Lootix LLC</p>
-                <p>[Street Address]</p>
-                <p>[City, State ZIP]</p>
-              </div>
             </div>
 
             {/* Purchase Entry */}
             <div className="bg-bg-primary border border-cta-primary/30 rounded-md p-6">
               <div className="text-sm font-bold text-cta-primary uppercase tracking-wider mb-3">Bonus Entries</div>
               <h3 className="font-display font-bold text-xl text-text-primary mb-3">PURCHASE METHOD</h3>
-              <p className="text-text-secondary text-sm leading-relaxed mb-4">
-                Every $1 spent on Lootix gear earns you {ENTRY_MULTIPLIER} entries into the current giveaway. The more you shop, the better your odds.
+              <p className="text-text-secondary text-sm leading-relaxed">
+                {SWEEPSTAKES_OPEN
+                  ? `Every $1 spent on Lootix gear earns you ${ENTRY_MULTIPLIER} entries into the current giveaway.`
+                  : 'Once the giveaway opens, every order will carry a flat entry count shown at checkout and in your confirmation email. The sweepstakes has not started, so no order is earning entries and there is no entry total to calculate.'}
               </p>
-              <div className="entry-calculator">
-                <p className="entry-calculator-text">
-                  Example: $50 purchase = {formatEntries(calculateEntries(50))} entries
-                </p>
-                <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm">
-                  {ENTRY_MULTIPLIER}X ACTIVE
-                </span>
-              </div>
+              {/* The worked example ("$50 purchase = 3,000 entries") and the
+                  "60X ACTIVE" badge were removed: they advertised an active
+                  entry rate for a sweepstakes that has not started. */}
             </div>
           </div>
         </div>
@@ -183,10 +142,11 @@ export default function CurrentGiveawayPage() {
             BE OUR FIRST <span className="text-cta-primary">WINNER</span>
           </h2>
           <p className="text-text-secondary text-lg leading-relaxed mb-8">
-            We're launching soon! Enter our inaugural giveaway for your chance to make history as a Lootix winner. Real prizes. Real winners. Real soon.
+            No one has won yet. The Launch Vault giveaway is coming soon — the Official Rules go up
+            before it opens, and the first name in the Loot Vault is still unclaimed.
           </p>
-          <Link href="/quick-entries" className="btn-primary">
-            ENTER NOW
+          <Link href="/shop" className="btn-primary">
+            SHOP THE DROP
           </Link>
         </div>
       </section>

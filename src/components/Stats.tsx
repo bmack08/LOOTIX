@@ -2,34 +2,12 @@
 
 import { FC } from 'react';
 
+// Removed: `'$50K+' Prizes Given Away`, `'250+' Happy Winners` and
+// `'10K+' Active Members`. No giveaway has run yet — nothing has been awarded,
+// there are no winners, and there is no member count to read — so every one of
+// those figures was invented. Only the free-entry claim below is true today.
+// Do not add a figure here that is not read from real data.
 const stats = [
-  {
-    number: '$50K+',
-    label: 'Prizes Given Away',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
-  },
-  {
-    number: '250+',
-    label: 'Happy Winners',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-      </svg>
-    ),
-  },
-  {
-    number: '10K+',
-    label: 'Active Members',
-    icon: (
-      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-      </svg>
-    ),
-  },
   {
     number: '100%',
     label: 'Free to Enter',
@@ -45,8 +23,9 @@ const Stats: FC = () => {
   return (
     <section className="py-20 px-6 bg-gradient-to-b from-dark-800/50 to-transparent">
       <div className="max-w-7xl mx-auto">
-        {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        {/* Stats Grid — one honest tile, so it centers rather than sitting in a
+            4-column track with three empty cells. */}
+        <div className="flex flex-wrap justify-center gap-6">
           {stats.map((stat, index) => (
             <div
               key={index}
