@@ -30,7 +30,7 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
   {
     title: 'Orders & Shipping',
     items: [
-      { q: 'How does shipping work?', a: 'Gear ships worldwide from the US. Domestic orders ship within 2–4 business days; international timelines vary by region. Free shipping on orders over $75 and on Hero and Legend packs.' },
+      { q: 'How does shipping work?', a: 'We ship within the United States only — checkout will not accept a non-US delivery address. Orders ship within 2–4 business days, and orders over $100 ship free.' },
       { q: 'Can I return or exchange?', a: 'Unworn gear can be returned or exchanged within 30 days. Entries earned from a refunded order are voided per the Official Rules.' },
       { q: 'Is checkout secure?', a: 'Yes — payments run through Stripe. We never see or store your card details.' },
     ],

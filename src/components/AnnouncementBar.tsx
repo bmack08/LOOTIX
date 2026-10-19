@@ -27,7 +27,7 @@ const AnnouncementBar: FC = () => {
         <span className="animate-pulse-slow">🔥</span>
         <span>{ENTRY_MULTIPLIER}X ENTRIES ON ALL ORDERS</span>
         <span className="hidden sm:inline">—</span>
-        <span className="hidden sm:inline">FREE SHIPPING OVER $75</span>
+        <span className="hidden sm:inline">FREE SHIPPING OVER $100 · US ONLY</span>
         <span className="animate-pulse-slow">🔥</span>
       </div>
 

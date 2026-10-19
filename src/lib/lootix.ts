@@ -40,7 +40,7 @@ export const MARQUEE_ITEMS = [
   '★ EVERY ORDER = ENTRIES',
   'WIN $250 + FREE MERCH',
   '★ NO PURCHASE NECESSARY',
-  'SHIPS WORLDWIDE',
+  'SHIPS US-WIDE',
   '★ WINNER DRAWN LIVE',
   `${MULT_LABEL} ENTRIES ON ALL ORDERS`,
 ];
@@ -66,7 +66,7 @@ export const VAULT = {
 };
 
 export const ENTRY_TIERS = [
-  { name: 'Starter Pack', desc: '1 tee · ships free over $75', price: '$35', entries: '60 entries', popular: false },
+  { name: 'Starter Pack', desc: '1 tee · ships free over $100', price: '$35', entries: '60 entries', popular: false },
   { name: 'Hero Bundle', desc: 'Hoodie + tee · free shipping', price: '$75', entries: '150 entries', popular: true },
   { name: 'Legend Vault', desc: 'Full fit + accessories · best odds', price: '$150', entries: '350 entries', popular: false },
 ];

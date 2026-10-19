@@ -9,7 +9,7 @@ export const TICKER = [
   '◆ Win $250 + free merch bundle',
   'No purchase necessary',
   '◆ Winner drawn live & independent',
-  'Ships worldwide',
+  'Ships US-wide',
 ];
 
 export const NAV = [
@@ -81,7 +81,7 @@ export const QUICKIES = [
 ];
 
 export const PACKS = [
-  { name: 'Starter Pack', sub: '1 tee · ships free over $75', price: '$35', entries: 60, popular: false, cta: 'Grab Starter' },
+  { name: 'Starter Pack', sub: '1 tee · ships free over $100', price: '$35', entries: 60, popular: false, cta: 'Grab Starter' },
   { name: 'Hero Bundle', sub: 'Hoodie + tee · free shipping', price: '$75', entries: 150, popular: true, cta: 'Grab Hero' },
   { name: 'Legend Vault', sub: 'Full fit + accessories · best odds', price: '$150', entries: 350, popular: false, cta: 'Grab Legend' },
 ];

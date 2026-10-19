@@ -34,7 +34,7 @@ export default function Home() {
           <div className="flex gap-7 flex-wrap font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em', paddingTop: 8 }}>
             <span>✓ No purchase necessary</span>
             <span>✓ Independent live draw</span>
-            <span>✓ Ships worldwide</span>
+            <span>✓ Ships US-wide</span>
           </div>
         </div>
 
@@ -230,7 +230,7 @@ export default function Home() {
           <span>🔒 Secure Stripe checkout</span>
           <span>18+ · Play responsibly</span>
           <span>No purchase necessary</span>
-          <span>Ships worldwide</span>
+          <span>Ships US-wide</span>
         </div>
       </section>
 

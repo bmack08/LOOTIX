@@ -84,7 +84,7 @@ export function Hero() {
           <div className="flex items-center gap-6 flex-wrap font-archivo text-[13px] text-muted-2">
             <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Winner drawn live &amp; independent</span>
             <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> No purchase necessary</span>
-            <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Ships worldwide</span>
+            <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Ships US-wide</span>
           </div>
         </Reveal>
         <Reveal delay={120}>
@@ -367,7 +367,7 @@ export function TrustStrip() {
   return (
     <section style={{ background: '#0c0c0d', borderTop: '1px solid rgba(255,255,255,.06)', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
       <div className="max-w-site mx-auto px-6 md:px-10 py-10 grid grid-cols-2 md:grid-cols-5 gap-6">
-        {['Secure Stripe Checkout', '18+ · Play Responsibly', 'No Purchase Necessary', 'Ships Worldwide', 'Live, Verified Draws'].map((label, i) => (
+        {['Secure Stripe Checkout', '18+ · Play Responsibly', 'No Purchase Necessary', 'Ships US-Wide', 'Live, Verified Draws'].map((label, i) => (
           <div key={label} className="flex flex-col items-center text-center gap-[10px]" style={i > 0 ? { borderLeft: '1px solid rgba(255,255,255,.06)' } : undefined}>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.6"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" /></svg>
             <span className="font-archivo font-bold text-[12.5px] text-[#C9C4BA] tracking-[.02em]">{label}</span>
