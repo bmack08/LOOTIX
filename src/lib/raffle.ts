@@ -4,6 +4,7 @@ import path from 'path';
 import { ENTRY_GRANTS } from './lootix';
 import { ENTRIES_PER_ORDER } from './sweepstakes';
 import { isDuplicateOrderEntry, type LedgerRow } from './stripe-entries';
+import { findVoidableOrderRows, type VoidReason, type VoidableRow } from './refunds';
 
 // ─────────────────────────────────────────────────────────────
 // Raffle data layer. Uses Supabase REST when SUPABASE_URL +
@@ -214,16 +215,88 @@ export async function grantOrderEntry(
   return { ok: true, granted: ENTRIES_PER_ORDER, duplicate: false };
 }
 
+export type VoidResult = {
+  ok: boolean;
+  /** how many ledger rows this call actually voided (0 on a replay) */
+  voided: number;
+};
+
+/**
+ * Void the entries belonging to a refunded or charged-back order.
+ *
+ * Voids rather than deletes: a sweepstakes needs an audit trail showing why an
+ * entry stopped counting, and a deleted row cannot answer "was this person in
+ * the draw?" after the fact. Everything that counts entries filters on
+ * `voided_at is null`.
+ *
+ * Idempotent — already-voided rows are not matched, so Stripe's at-least-once
+ * delivery of `charge.refunded` cannot double-report or error.
+ *
+ * Throws if the write fails so the webhook can 500 and let Stripe retry; a
+ * silently un-voided entry is a refunded customer still in the draw.
+ */
+export async function voidOrderEntries(
+  match: { paymentIntent?: string | null; chargeId?: string | null; sessionId?: string | null },
+  reason: VoidReason,
+): Promise<VoidResult> {
+  const now = new Date().toISOString();
+  const { paymentIntent, chargeId, sessionId } = match;
+  if (!paymentIntent && !chargeId && !sessionId) return { ok: false, voided: 0 };
+
+  if (usingSupabase()) {
+    // PostgREST has no OR across jsonb keys in a readable form, so try each
+    // identifier in turn and stop at the first that matches something.
+    const filters: string[] = [];
+    if (paymentIntent) filters.push(`meta->>payment_intent=eq.${encodeURIComponent(paymentIntent)}`);
+    if (chargeId) filters.push(`meta->>charge_id=eq.${encodeURIComponent(chargeId)}`);
+    if (sessionId) filters.push(`meta->>session_id=eq.${encodeURIComponent(sessionId)}`);
+
+    for (const filter of filters) {
+      const res = await sbFetch(`entries?source=eq.order&voided_at=is.null&${filter}`, {
+        method: 'PATCH',
+        headers: { Prefer: 'return=representation' },
+        body: JSON.stringify({ voided_at: now, void_reason: reason }),
+      });
+      if (!res.ok) {
+        throw new Error(`Supabase void failed (${res.status}): ${await res.text()}`);
+      }
+      const rows = (await res.json()) as unknown[];
+      if (rows.length) return { ok: true, voided: rows.length };
+    }
+    return { ok: true, voided: 0 };
+  }
+
+  // dev fallback — rewrite the ledger with the matched rows marked void
+  const rows = await readJsonl<Record<string, unknown>>(FILES.entries);
+  const targets = findVoidableOrderRows(rows as VoidableRow[], match);
+  if (!targets.length) return { ok: true, voided: 0 };
+
+  const voided = new Set(targets as unknown as Record<string, unknown>[]);
+  const next = rows.map((r) =>
+    voided.has(r) ? { ...r, voided_at: now, void_reason: reason } : r,
+  );
+  await fs.mkdir(DATA_DIR, { recursive: true });
+  await fs.writeFile(
+    FILES.entries,
+    next.map((r) => JSON.stringify(r)).join('\n') + '\n',
+    'utf8',
+  );
+  return { ok: true, voided: targets.length };
+}
+
 export type EntrantTotals = { email: string; entries: number };
 
 // ── Aggregate entries per email ──
+// Voided rows (refunded orders, chargebacks) are excluded everywhere entries
+// are counted — that exclusion is the whole point of voiding.
 export async function getEntrantTotals(): Promise<EntrantTotals[]> {
-  let rows: { email: string; count: number }[] = [];
+  let rows: { email: string; count: number; voided_at?: string | null }[] = [];
   if (usingSupabase()) {
-    const res = await sbFetch('entries?select=email,count');
+    const res = await sbFetch('entries?select=email,count&voided_at=is.null');
     rows = res.ok ? await res.json() : [];
   } else {
-    rows = await readJsonl<{ email: string; count: number }>(FILES.entries);
+    rows = await readJsonl<{ email: string; count: number; voided_at?: string | null }>(FILES.entries);
+    rows = rows.filter((r) => !r.voided_at);
   }
   const map = new Map<string, number>();
   for (const r of rows) map.set(r.email, (map.get(r.email) ?? 0) + (r.count ?? 0));
