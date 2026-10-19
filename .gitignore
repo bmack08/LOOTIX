@@ -46,3 +46,8 @@ next-env.d.ts
 
 # unit-test build output
 .tmp-test/
+
+# Playwright output: HTML report, traces, and the MCP browser's page snapshots
+.playwright-report/
+.playwright-mcp/
+test-results/
