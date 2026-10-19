@@ -153,8 +153,9 @@ export const FOOTER_COLS = [
     links: [
       { label: 'About', href: '/about' },
       { label: 'FAQ', href: '/faq' },
-      { label: 'Shipping & Returns', href: '/faq' },
-      { label: 'Contact', href: '/faq' },
+      { label: 'Shipping', href: '/shipping' },
+      { label: 'Returns', href: '/returns' },
+      { label: 'Contact', href: '/contact' },
       { label: 'Terms', href: '/terms' },
       { label: 'Privacy', href: '/privacy' },
       { label: 'Accessibility', href: '/accessibility' },
