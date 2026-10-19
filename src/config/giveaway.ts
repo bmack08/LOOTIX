@@ -1,7 +1,7 @@
 // Centralized giveaway configuration
 // Update this file to manage giveaway dates.
 
-import { ENTRIES_PER_ORDER } from '@/lib/sweepstakes';
+import { ENTRIES_PER_ORDER, sweepstakesPeriod } from '@/lib/sweepstakes';
 
 export interface GiveawayConfig {
   id: string;
@@ -10,7 +10,6 @@ export interface GiveawayConfig {
   prizeValue: number;
   prizeDetails: string[];
   endDate: Date;
-  entryMultiplier: number;
   isActive: boolean;
 }
 
@@ -27,17 +26,18 @@ export const currentGiveaway: GiveawayConfig = {
     '2TB NVMe SSD Storage',
     'Custom RGB Case & Cooling',
   ],
-  // Set end date 30 days from deployment - adjust as needed
-  endDate: new Date('2026-03-15T23:59:59'),
-  entryMultiplier: ENTRIES_PER_ORDER,
+  // The authoritative close is SWEEPSTAKES_CLOSE_ET in src/lib/sweepstakes.ts
+  // (8:00 PM ET). This date only drives legacy v1 countdown display.
+  endDate: sweepstakesPeriod()?.close ?? new Date('2026-08-01T20:00:00Z'),
   isActive: true,
 };
 
-// There is NO purchase multiplier any more: one completed order earns exactly
-// one entry, no matter the item or the amount spent. Kept as a named export
-// only so the remaining legacy v1 pages keep compiling — see
-// src/lib/sweepstakes.ts for the real rule.
-export const ENTRY_MULTIPLIER = ENTRIES_PER_ORDER;
+// ENTRY_MULTIPLIER is deliberately GONE. There is no purchase multiplier and
+// no per-product entry count: one completed order earns exactly one entry, no
+// matter the item or the amount spent. It previously aliased to 1, which still
+// left callers doing `price * ENTRY_MULTIPLIER` and rendering "42 entries" on
+// a $42 tee. If you need the rule, import ENTRIES_PER_ORDER from
+// src/lib/sweepstakes.ts.
 
 // Entries earned by a purchase — flat, independent of the amount spent.
 export function calculateEntries(_purchaseAmount?: number): number {

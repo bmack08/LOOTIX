@@ -2,7 +2,7 @@ import 'server-only';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { ENTRY_GRANTS } from './lootix';
-import { ENTRIES_PER_ORDER } from './sweepstakes';
+import { ENTRIES_PER_ORDER, ENTRIES_PER_SIGNUP } from './sweepstakes';
 import { isDuplicateOrderEntry, type LedgerRow } from './stripe-entries';
 import { findVoidableOrderRows, type VoidReason, type VoidableRow } from './refunds';
 
@@ -52,9 +52,23 @@ async function appendJsonl(file: string, record: unknown) {
   await fs.appendFile(file, JSON.stringify(record) + '\n', 'utf8');
 }
 
-// ── Grant a subscription + its free entries (idempotent-ish on email) ──
-export async function grantSubscription(email: string, source: string) {
-  const grant = ENTRY_GRANTS[source] ?? 25;
+/**
+ * Record a subscriber and, optionally, the single entry the sign-up earns.
+ *
+ * `withEntry: false` records the subscriber but grants nothing — used outside
+ * the Sweepstakes Period, where someone signing up for drop alerts should
+ * still be added to the list even though there is no live draw to enter.
+ *
+ * The entry itself is idempotent per (email, source), so repeat submits of the
+ * same form do not stack entries.
+ */
+export async function grantSubscription(
+  email: string,
+  source: string,
+  opts: { withEntry?: boolean } = {},
+) {
+  const withEntry = opts.withEntry !== false;
+  const grant = ENTRY_GRANTS[source] ?? ENTRIES_PER_SIGNUP;
   const now = new Date().toISOString();
 
   if (usingSupabase()) {
@@ -64,6 +78,8 @@ export async function grantSubscription(email: string, source: string) {
       headers: { Prefer: 'resolution=merge-duplicates,return=minimal' },
       body: JSON.stringify({ email, source, created_at: now }),
     });
+    if (!withEntry) return { ok: true, granted: 0 };
+
     // only grant entries the first time we see this email for this source
     const existing = await sbFetch(
       `entries?select=id&email=eq.${encodeURIComponent(email)}&source=eq.${encodeURIComponent(source)}&limit=1`,
@@ -84,6 +100,8 @@ export async function grantSubscription(email: string, source: string) {
   if (!subs.some((s) => s.email === email)) {
     await appendJsonl(FILES.subscribers, { email, source, created_at: now });
   }
+  if (!withEntry) return { ok: true, granted: 0 };
+
   const ents = await readJsonl<{ email: string; source: string }>(FILES.entries);
   const already = ents.some((e) => e.email === email && e.source === source);
   if (!already) {

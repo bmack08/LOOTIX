@@ -3,6 +3,8 @@
 // Content config mirroring the GetLootix Website Evaluation designs.
 // ─────────────────────────────────────────────────────────────
 
+import { sweepstakesPeriod } from './sweepstakes';
+
 export const TICKER = [
   '◆ Every order earns 1 entry',
   'Drop 1 · Live now',
@@ -22,8 +24,16 @@ export const NAV = [
 
 /** Live giveaway — drives countdown + progress everywhere. */
 export const GIVEAWAY = {
-  /** Draw close datetime (local ET). */
-  drawDateISO: '2026-08-01T20:00:00',
+  /**
+   * Draw close, as a real UTC instant.
+   *
+   * Derived from SWEEPSTAKES_CLOSE_ET (8:00 PM ET) rather than written out by
+   * hand. The previous value, '2026-08-01T20:00:00', carried no offset, so
+   * `new Date()` read it as *local* time: 8 PM in the visitor's own zone, and
+   * 8 PM UTC — 4 PM ET — on the server. The countdown disagreed with the
+   * Official Rules for everyone outside Eastern time.
+   */
+  drawDateISO: (sweepstakesPeriod()?.close ?? new Date('2026-08-02T00:00:00Z')).toISOString(),
   entriesClaimed: 312,
   entriesGoal: 1000,
 };

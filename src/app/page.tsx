@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Countdown from '@/components/lootix/v2/Countdown';
 import EmailCapture from '@/components/lootix/v2/EmailCapture';
 import { GIVEAWAY, STATS, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, PROOF } from '@/lib/site';
+import { ENTRIES_PER_SIGNUP, entryLabel } from '@/lib/sweepstakes';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -258,15 +259,15 @@ export default function Home() {
       <section style={{ background: '#E4D5B4', color: '#171208', padding: '80px 24px' }}>
         <div className="mx-auto text-center flex flex-col gap-4 items-center" style={{ maxWidth: 820 }}>
           <span className="font-plex uppercase" style={{ fontSize: 12, letterSpacing: '0.18em', color: '#7A6231' }}>Join the Looters Guild</span>
-          <h2 className="m-0 uppercase" style={{ fontSize: 'clamp(30px,4.5vw,44px)', fontWeight: 900, letterSpacing: '-0.01em' }}>First access + 25 bonus entries</h2>
+          <h2 className="m-0 uppercase" style={{ fontSize: 'clamp(30px,4.5vw,44px)', fontWeight: 900, letterSpacing: '-0.01em' }}>First access + a free entry</h2>
           <p className="m-0" style={{ maxWidth: 540, fontSize: 16, lineHeight: 1.6, color: '#4A3D22' }}>
-            Drop alerts, early access to limited gear, and 25 free bonus entries on your first order.
+            Drop alerts, early access to limited gear, and {entryLabel(ENTRIES_PER_SIGNUP)} into the live giveaway for signing up.
           </p>
           <div className="w-full flex justify-center" style={{ marginTop: 8 }}>
             <EmailCapture source="newsletter" />
           </div>
           <span className="font-plex" style={{ fontSize: 10, letterSpacing: '0.08em', color: '#7A6231' }}>
-            No spam. Unsubscribe anytime. Bonus entries subject to Official Rules.
+            No spam. Unsubscribe anytime. Entries subject to Official Rules.
           </span>
         </div>
       </section>

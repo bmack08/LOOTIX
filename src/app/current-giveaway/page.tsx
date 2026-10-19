@@ -5,12 +5,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   currentGiveaway,
-  ENTRY_MULTIPLIER,
   calculateEntries,
-  formatEntries,
   getTimeRemaining,
   formatEndDate,
 } from '@/config/giveaway';
+import { ENTRIES_PER_ORDER, entryLabel } from '@/lib/sweepstakes';
 
 export default function CurrentGiveawayPage() {
   const [timeRemaining, setTimeRemaining] = useState(getTimeRemaining(currentGiveaway.endDate));
@@ -118,7 +117,7 @@ export default function CurrentGiveawayPage() {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/quick-entries" className="btn-primary text-center">
+                <Link href="/giveaways" className="btn-primary text-center">
                   ENTER NOW — FREE
                 </Link>
                 <Link href="/shop" className="btn-secondary text-center">
@@ -158,17 +157,18 @@ export default function CurrentGiveawayPage() {
 
             {/* Purchase Entry */}
             <div className="bg-bg-primary border border-cta-primary/30 rounded-md p-6">
-              <div className="text-sm font-bold text-cta-primary uppercase tracking-wider mb-3">Bonus Entries</div>
+              <div className="text-sm font-bold text-cta-primary uppercase tracking-wider mb-3">Purchase Entry</div>
               <h3 className="font-display font-bold text-xl text-text-primary mb-3">PURCHASE METHOD</h3>
               <p className="text-text-secondary text-sm leading-relaxed mb-4">
-                Every $1 spent on Lootix gear earns you {ENTRY_MULTIPLIER} entries into the current giveaway. The more you shop, the better your odds.
+                One completed order earns {entryLabel(ENTRIES_PER_ORDER)} into the current giveaway — one per order,
+                however much you spend. Buying more does not improve your odds.
               </p>
               <div className="entry-calculator">
                 <p className="entry-calculator-text">
-                  Example: $50 purchase = {formatEntries(calculateEntries(50))} entries
+                  A $50 order and a $500 order each earn {entryLabel(calculateEntries())}.
                 </p>
                 <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm">
-                  {ENTRY_MULTIPLIER}X ACTIVE
+                  No purchase necessary
                 </span>
               </div>
             </div>
@@ -185,7 +185,7 @@ export default function CurrentGiveawayPage() {
           <p className="text-text-secondary text-lg leading-relaxed mb-8">
             We're launching soon! Enter our inaugural giveaway for your chance to make history as a Lootix winner. Real prizes. Real winners. Real soon.
           </p>
-          <Link href="/quick-entries" className="btn-primary">
+          <Link href="/giveaways" className="btn-primary">
             ENTER NOW
           </Link>
         </div>

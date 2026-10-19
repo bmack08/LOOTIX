@@ -4,24 +4,20 @@
 // components read from this file so copy/data changes never touch JSX.
 // ─────────────────────────────────────────────────────────────
 
-import { ENTRIES_PER_MAIL_IN, ENTRIES_PER_ORDER } from './sweepstakes';
+import { ENTRIES_PER_MAIL_IN, ENTRIES_PER_ORDER, ENTRIES_PER_SIGNUP } from './sweepstakes';
 
 /**
- * Legacy multiplier label, retained only so the remaining v1 sections keep
- * compiling. There is no purchase multiplier: one order earns one entry.
- */
-export const ENTRY_MULTIPLIER = ENTRIES_PER_ORDER;
-export const MULT_LABEL = `${ENTRY_MULTIPLIER}×`;
-
-/**
- * Entries granted per action. The mail-in (AMOE) and purchase paths MUST stay
- * equal — that equality is what makes the sweepstakes lawful.
- * See src/lib/sweepstakes.ts.
+ * Entries granted per action — every route is worth exactly one.
+ *
+ * The sign-up routes were 25 each, which made the "equal odds" claim in the
+ * Official Rules false: a free newsletter sign-up was worth 25× a purchase.
+ * Purchase, mail-in and sign-up must stay equal; that equality is what makes
+ * the sweepstakes lawful. See src/lib/sweepstakes.ts.
  */
 export const ENTRY_GRANTS: Record<string, number> = {
-  newsletter: 25,
-  'giveaway-first-winner': 25,
-  'enter-to-win': 25,
+  newsletter: ENTRIES_PER_SIGNUP,
+  'giveaway-first-winner': ENTRIES_PER_SIGNUP,
+  'enter-to-win': ENTRIES_PER_SIGNUP,
   'mail-in': ENTRIES_PER_MAIL_IN, // one card = one entry
   order: ENTRIES_PER_ORDER, // one completed order = one entry
 };
@@ -46,19 +42,19 @@ export const NAV_LINKS = [
 ];
 
 export const MARQUEE_ITEMS = [
-  '★ EVERY ORDER = ENTRIES',
+  '★ EVERY ORDER = 1 ENTRY',
   'WIN $250 + FREE MERCH',
   '★ NO PURCHASE NECESSARY',
   'SHIPS WORLDWIDE',
   '★ WINNER DRAWN LIVE',
-  `${MULT_LABEL} ENTRIES ON ALL ORDERS`,
+  '1 ENTRY PER ORDER · MAIL-IN = EQUAL ODDS',
 ];
 
 // Launch-honest stats (no fabricated track record before the first draw).
 export const STATS = [
   { value: '$250', label: 'Launch Grand Prize', gold: true },
-  { value: MULT_LABEL, label: 'Entries / Order', gold: false },
-  { value: 'FREE', label: 'Entry Available', gold: false },
+  { value: '1', label: 'Entry / Order', gold: false },
+  { value: 'FREE', label: 'Mail-In Entry · Equal Odds', gold: false },
   { value: 'LIVE', label: 'Independent Draw', gold: true },
 ];
 
@@ -74,24 +70,29 @@ export const VAULT = {
   scarcity: { claimed: 312, goal: 1000 },
 };
 
+// Bundles are merch value plays only — they carry NO entry count, because a
+// bigger order does not buy more entries. "Best odds" is gone for the same
+// reason: every order, of any size, is worth exactly one entry.
 export const ENTRY_TIERS = [
-  { name: 'Starter Pack', desc: '1 tee · ships free over $75', price: '$35', entries: '60 entries', popular: false },
-  { name: 'Hero Bundle', desc: 'Hoodie + tee · free shipping', price: '$75', entries: '150 entries', popular: true },
-  { name: 'Legend Vault', desc: 'Full fit + accessories · best odds', price: '$150', entries: '350 entries', popular: false },
+  { name: 'Starter Pack', desc: '1 tee · ships free over $75', price: '$35', popular: false },
+  { name: 'Hero Bundle', desc: 'Hoodie + tee · free shipping', price: '$75', popular: true },
+  { name: 'Legend Vault', desc: 'Full fit + accessories · best value', price: '$150', popular: false },
 ];
 
 export const HOW_STEPS = [
   { n: '01', title: 'Shop the drop', body: 'Pick your legendary gear from limited fantasy-streetwear collections. New drops land every month.', warm: false },
-  { n: '02', title: 'Earn entries', body: `Every order automatically lands you up to ${MULT_LABEL} entries. The more you cop, the bigger your odds.`, warm: true },
+  { n: '02', title: 'Get your entry', body: 'Every completed order earns one entry — one per order, however much you buy. Prefer not to buy? Mail in a card for a free entry with exactly the same odds.', warm: true },
   { n: '03', title: 'Win the loot', body: 'Winners drawn live every month. Cash, tech and trips — paid out fast and verified publicly.', warm: false },
 ];
 
 // Real Lootix product designs (from the MERCH folder). `well` sets the photo
 // backdrop tone; `size`/`pos` crop the source (the tee mockups share one 2-up image).
+// Products deliberately carry NO per-item entry count: one completed order
+// earns exactly one entry no matter what, or how much, is in the cart.
 export const DROPS = [
-  { name: 'Lord of Flame', meta: 'Fantasy Streetwear · Heavyweight Tee', price: '$42', rating: '4.9', entries: `+${MULT_LABEL} entries`, img: '/brand/products/lord-of-flame.png', well: 'dark', size: 'cover', pos: 'center' },
-  { name: 'Nat 20 Tee', meta: 'Fantasy Streetwear · Regular Fit', price: '$38', rating: '5.0', entries: '+150 entries', img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '24% 42%' },
-  { name: 'Hoard Dragon Tee', meta: 'Fantasy Streetwear · Camo', price: '$44', rating: '4.8', entries: `+${MULT_LABEL} entries`, img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '77% 42%' },
+  { name: 'Lord of Flame', meta: 'Fantasy Streetwear · Heavyweight Tee', price: '$42', rating: '4.9', img: '/brand/products/lord-of-flame.png', well: 'dark', size: 'cover', pos: 'center' },
+  { name: 'Nat 20 Tee', meta: 'Fantasy Streetwear · Regular Fit', price: '$38', rating: '5.0', img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '24% 42%' },
+  { name: 'Hoard Dragon Tee', meta: 'Fantasy Streetwear · Camo', price: '$44', rating: '4.8', img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '77% 42%' },
 ];
 
 export const PRIZES = [

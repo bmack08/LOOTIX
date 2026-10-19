@@ -3,7 +3,11 @@
 import { FC, useState, useMemo } from 'react';
 import Image from 'next/image';
 import QuickEntryForm from './QuickEntryForm';
-import { ENTRY_MULTIPLIER, formatEndDate } from '@/config/giveaway';
+import { formatEndDate } from '@/config/giveaway';
+
+// DEAD CODE: nothing imports this any more — /quick-entries now redirects to
+// /giveaways. Kept only because this session could not delete files; it is not
+// in the shipped bundle. Delete this file.
 
 // Helper to get a future date
 const getEndDate = (daysFromNow: number = 30) => {
@@ -102,9 +106,9 @@ const ActiveGiveawayGrid: FC = () => {
                 <div className="badge-value">
                   VALUE: {giveaway.value}
                 </div>
-                {/* Entry Multiplier Badge */}
+                {/* One order = one entry. No multiplier. */}
                 <div className="badge-entry">
-                  {ENTRY_MULTIPLIER}X ENTRIES
+                  1 ENTRY / ORDER
                 </div>
               </div>
 

@@ -2,7 +2,8 @@
 
 import { FC } from 'react';
 import Image from 'next/image';
-import { currentGiveaway, ENTRY_MULTIPLIER, formatEndDate } from '@/config/giveaway';
+import { currentGiveaway, formatEndDate } from '@/config/giveaway';
+import { ENTRIES_PER_ORDER, entryLabel } from '@/lib/sweepstakes';
 
 const FeaturedPrizes: FC = () => {
   return (
@@ -54,12 +55,16 @@ const FeaturedPrizes: FC = () => {
             ))}
           </ul>
 
-          {/* Entry Calculator */}
+          {/* No entry calculator: there is nothing to calculate. Any order, of
+              any size, earns one entry — the "3,000 entries" figure here was
+              hardcoded and bore no relation to anything. */}
           <div className="entry-calculator mb-6">
-            <span className="text-cta-primary font-semibold">This purchase = </span>
-            <span className="text-[24px] font-display font-bold text-cta-primary">3,000 entries</span>
+            <span className="text-cta-primary font-semibold">This order = </span>
+            <span className="text-[24px] font-display font-bold text-cta-primary">
+              {entryLabel(ENTRIES_PER_ORDER)}
+            </span>
             <span className="bg-cta-primary text-white text-[11px] font-bold px-2 py-0.5 ml-2">
-              {ENTRY_MULTIPLIER}X ACTIVE
+              NO PURCHASE NECESSARY
             </span>
           </div>
 

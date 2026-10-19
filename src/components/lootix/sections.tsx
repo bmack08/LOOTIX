@@ -5,9 +5,10 @@ import ClaimEntryButton from './ClaimEntryButton';
 import WinnerCard from './WinnerCard';
 import type { Draw } from '@/lib/raffle';
 import {
-  MULT_LABEL, SHOW_SCARCITY, STATS, VAULT, ENTRY_TIERS,
+  SHOW_SCARCITY, STATS, VAULT, ENTRY_TIERS,
   HOW_STEPS, DROPS, PRIZES, MILESTONES,
 } from '@/lib/lootix';
+import { ENTRIES_PER_ORDER, ENTRIES_PER_SIGNUP, entryLabel } from '@/lib/sweepstakes';
 
 // ── shared icons + helpers ──
 export function maskEmail(email: string) {
@@ -73,8 +74,8 @@ export function Hero() {
             <span style={{ background: 'linear-gradient(180deg,#F6D87E,#C99B2C)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Win the vault.</span>
           </h1>
           <p className="font-archivo text-[18px] leading-[1.62] text-[#B7B2A8] max-w-[480px] m-0 mb-[34px]">
-            Legendary fantasy streetwear, forged for the fearless. Every order earns you up to{' '}
-            <strong className="text-gold-bright font-extrabold">{MULT_LABEL} entries</strong> into our launch giveaway —{' '}
+            Legendary fantasy streetwear, forged for the fearless. Every order earns you{' '}
+            <strong className="text-gold-bright font-extrabold">{entryLabel(ENTRIES_PER_ORDER)}</strong> into our launch giveaway —{' '}
             <strong className="text-cream font-bold">$250 cash + a free merch bundle</strong>.
           </p>
           <div className="flex gap-[14px] flex-wrap mb-[30px]">
@@ -154,7 +155,7 @@ export function HowItWorks() {
                 <span className="w-[30px] h-[30px] rounded-full grid place-items-center" style={{ border: '1px solid rgba(212,175,55,.35)' }}><Check /></span>
               </div>
               <h3 className="font-archivo font-extrabold text-[23px] uppercase text-cream m-0 mb-3" style={{ letterSpacing: '-.01em' }}>{step.title}</h3>
-              <p className="font-archivo text-[15px] leading-[1.6] text-muted m-0" dangerouslySetInnerHTML={{ __html: step.body.replace(`${MULT_LABEL} entries`, `<strong style="color:#F0CE6B">${MULT_LABEL} entries</strong>`) }} />
+              <p className="font-archivo text-[15px] leading-[1.6] text-muted m-0">{step.body}</p>
             </div>
           </Reveal>
         ))}
@@ -200,7 +201,7 @@ export function GrandPrizeShowcase() {
         <Reveal delay={100}>
           <div className="lx-eyebrow mb-4" style={{ letterSpacing: '.26em' }}>Launch Giveaway · $250 + Free Merch</div>
           <h2 className="font-archivo font-black uppercase text-cream m-0 mb-5" style={{ fontSize: 'clamp(32px,4vw,52px)', lineHeight: 0.98, letterSpacing: '-.025em' }}>The Launch Vault</h2>
-          <p className="font-archivo text-[16px] leading-[1.62] text-muted m-0 mb-[26px]">One winner takes it all: <strong className="text-cream">$250 cash</strong> plus a <strong className="text-cream">full Lootix merch bundle</strong> — their pick from the launch drop. Grab an entry pack below — bigger packs, better odds, free shipping.</p>
+          <p className="font-archivo text-[16px] leading-[1.62] text-muted m-0 mb-[26px]">One winner takes it all: <strong className="text-cream">$250 cash</strong> plus a <strong className="text-cream">full Lootix merch bundle</strong> — their pick from the launch drop. Grab a bundle below — every order earns one entry, whatever its size.</p>
           <div className="flex flex-col gap-[11px] mb-[30px]">
             {ENTRY_TIERS.map((tier) => (
               <label key={tier.name} className="flex items-center justify-between gap-4 rounded-tier px-[18px] py-4 cursor-pointer relative" style={tier.popular ? { background: 'linear-gradient(120deg,rgba(212,175,55,.1),rgba(255,255,255,.03))', border: '1px solid rgba(212,175,55,.45)' } : { background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.1)' }}>
@@ -211,14 +212,15 @@ export function GrandPrizeShowcase() {
                 </span>
                 <span className="text-right">
                   <span className="block font-mono font-bold text-[17px] text-cream">{tier.price}</span>
-                  <span className="font-mono text-[11px] text-gold-bright tracking-[.06em]">{tier.entries}</span>
+                  {/* Bundles show no entry count: a bigger bundle is not more entries. */}
+                  <span className="font-mono text-[11px] text-gold-bright tracking-[.06em]">1 entry</span>
                 </span>
               </label>
             ))}
           </div>
           <div className="flex items-center gap-4 flex-wrap">
             <a href="/shop" className="btn-gold">Enter &amp; Shop <ArrowRight /></a>
-            <span className="font-mono text-[12px] text-muted tracking-[.06em]">Bigger packs, better odds</span>
+            <span className="font-mono text-[12px] text-muted tracking-[.06em]">One entry per order · mail-in has equal odds</span>
           </div>
           {/* Sweepstakes compliance — surfaced on the giveaway section, not just the footer */}
           <p className="font-mono text-[11px] tracking-[.08em] text-gold-label uppercase mt-6">
@@ -250,7 +252,8 @@ export function FeaturedDrops({ full = false }: { full?: boolean }) {
             <a href="/shop" className="lx-card block no-underline group">
               <div className="relative aspect-square overflow-hidden" style={{ background: d.well === 'light' ? '#ECEAE3' : '#0a0a0b' }}>
                 <div className="absolute inset-0 transition-transform duration-[600ms] ease-out group-hover:scale-105" style={{ backgroundImage: `url('${d.img}')`, backgroundSize: d.size, backgroundPosition: d.pos, backgroundRepeat: 'no-repeat' }} />
-                <span className="absolute top-[14px] left-[14px] badge-pill">{d.entries}</span>
+                {/* Products carry no per-item entry count — one order, one entry. */}
+                <span className="absolute top-[14px] left-[14px] badge-pill">1 entry / order</span>
               </div>
               <div className="p-5">
                 <div className="font-archivo font-extrabold text-[18px] uppercase text-cream tracking-[-.01em] mb-[5px]">{d.name}</div>
@@ -276,7 +279,7 @@ export function PrizeVault() {
         <Reveal className="text-center mb-14">
           <div className="lx-eyebrow mb-[14px]">The Prize Vault</div>
           <h2 className="font-archivo font-black uppercase text-cream m-0 mb-[14px]" style={{ fontSize: 'clamp(34px,4.6vw,56px)', lineHeight: 1, letterSpacing: '-.025em' }}>More ways to win</h2>
-          <p className="font-archivo text-[17px] text-muted max-w-[520px] mx-auto">Every order enters you across all live giveaways. Stack your entries, chase the loot you want.</p>
+          <p className="font-archivo text-[17px] text-muted max-w-[520px] mx-auto">Every order earns one entry into the live giveaway. More vaults open as each one pays out.</p>
         </Reveal>
         <div className="grid gap-6 md:grid-cols-3">
           {PRIZES.map((p, i) => (
@@ -385,9 +388,11 @@ export function EmailSection() {
       <div className="absolute inset-0" style={{ background: 'radial-gradient(70% 120% at 50% 0%,rgba(212,175,55,.12),transparent 60%)' }} />
       <div className="relative max-w-[760px] mx-auto px-6 md:px-10 py-24 text-center">
         <div className="lx-eyebrow mb-4">Join the Guild</div>
-        <h2 className="font-archivo font-black uppercase text-cream m-0 mb-4" style={{ fontSize: 'clamp(32px,4.4vw,52px)', lineHeight: 1, letterSpacing: '-.025em' }}>Get first access + bonus entries</h2>
-        <p className="font-archivo text-[16px] text-muted m-0 mb-[30px]">Drop alerts, early access to limited gear, and 25 free bonus entries on your first order.</p>
-        <EmailCapture source="newsletter" buttonLabel="Claim Entries" successMsg="You're in — 25 bonus entries locked. Check your inbox." className="max-w-[480px] mx-auto" />
+        <h2 className="font-archivo font-black uppercase text-cream m-0 mb-4" style={{ fontSize: 'clamp(32px,4.4vw,52px)', lineHeight: 1, letterSpacing: '-.025em' }}>Get first access + a free entry</h2>
+        <p className="font-archivo text-[16px] text-muted m-0 mb-[30px]">
+          Drop alerts, early access to limited gear, and {entryLabel(ENTRIES_PER_SIGNUP)} into the live giveaway for signing up.
+        </p>
+        <EmailCapture source="newsletter" buttonLabel="Claim Entry" successMsg={`You're in — ${entryLabel(ENTRIES_PER_SIGNUP)} locked. Check your inbox.`} className="max-w-[480px] mx-auto" />
       </div>
     </section>
   );

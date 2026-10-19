@@ -9,7 +9,9 @@ const navLinks = [
   { label: 'MENS', href: '/mens' },
   { label: 'WOMENS', href: '/womens' },
   { label: 'ACCESSORIES', href: '/collections/accessories' },
-  { label: 'QUICK ENTRIES', href: '/quick-entries' },
+  // "Quick Entries" removed: the page it pointed at sold the idea of buying or
+  // grinding extra entries, which is not how entries work.
+  { label: 'GIVEAWAYS', href: '/giveaways' },
 ];
 
 export default function Header() {
