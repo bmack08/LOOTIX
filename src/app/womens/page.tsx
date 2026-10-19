@@ -1,5 +1,4 @@
 import { getPrintfulProducts } from '@/utils/printful';
-import { ENTRY_MULTIPLIER } from '@/config/giveaway';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -27,7 +26,7 @@ export default async function WomensPage() {
             <span className="text-cta-primary">Women's</span> Collection
           </h1>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Premium streetwear designed for her. Every dollar spent = {ENTRY_MULTIPLIER} entries.
+            Premium streetwear designed for her. Each item earns a fixed number of entries, shown on the item.
           </p>
         </div>
       </section>
@@ -40,15 +39,14 @@ export default async function WomensPage() {
               {products.length > 0 ? `${products.length} products` : 'Collection coming soon'}
             </p>
             <div className="inline-flex items-center gap-2 bg-cta-primary/10 border border-cta-primary/30 rounded-md px-3 py-1.5">
-              <span className="text-cta-primary font-bold text-sm uppercase">{ENTRY_MULTIPLIER}X Entries Active</span>
+              <span className="text-cta-primary font-bold text-sm uppercase">Free entry available · every entry has the same chance</span>
             </div>
           </div>
 
           {products.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {products.map((product) => {
-                const entries = Math.floor(product.price * ENTRY_MULTIPLIER);
-                return (
+                                return (
                   <Link key={product.id} href={`/product/${product.slug}`}>
                     <div className="product-card group">
                       <div className="relative aspect-square overflow-hidden">
@@ -58,14 +56,12 @@ export default async function WomensPage() {
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
-                        <span className="badge-entry">{ENTRY_MULTIPLIER}X</span>
-                      </div>
+                                              </div>
                       <div className="p-4">
                         <h3 className="text-sm font-semibold text-text-primary mb-2 truncate">{product.name}</h3>
                         <div className="flex items-center justify-between">
                           <span className="text-lg font-display font-bold text-cta-primary">${product.price.toFixed(2)}</span>
-                          <span className="text-xs text-text-muted">{entries.toLocaleString()} entries</span>
-                        </div>
+                                                  </div>
                       </div>
                     </div>
                   </Link>

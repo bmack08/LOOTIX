@@ -3,7 +3,6 @@
 import { FC, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ENTRY_MULTIPLIER } from '@/config/giveaway';
 
 interface ProductCardProps {
   id: string | number;
@@ -26,9 +25,7 @@ const ProductCard: FC<ProductCardProps> = ({
 }) => {
   const [isHovered, setIsHovered] = useState(false);
 
-  // Calculate entries based on price
   const displayPrice = salePrice || price;
-  const entries = Math.floor(displayPrice * ENTRY_MULTIPLIER);
 
   const href = slug ? `/product/${slug}` : `/product/${id}`;
 
@@ -61,9 +58,6 @@ const ProductCard: FC<ProductCardProps> = ({
             </span>
           )}
 
-          {/* Entry Multiplier Badge */}
-          <span className="badge-entry">{ENTRY_MULTIPLIER}X</span>
-
           {/* Quick View Overlay */}
           <div
             className="quick-view-overlay"
@@ -92,9 +86,6 @@ const ProductCard: FC<ProductCardProps> = ({
                 </span>
               )}
             </div>
-            <span className="text-xs text-text-muted">
-              {entries.toLocaleString()} entries
-            </span>
           </div>
         </div>
       </div>

@@ -64,7 +64,7 @@ export default function WinnerCard({
 
         <div className="font-archivo font-black text-gold-bright tracking-[-.02em] mt-5" style={{ fontSize: 24 }}>{winner.prize}</div>
         <div className="font-mono text-[12px] text-muted mt-2">
-          Drawn {date} · from {winner.total_entries.toLocaleString()} entries · independent draw
+          Drawn {date} · from {winner.total_entries.toLocaleString()} entries · random draw
         </div>
 
         <a href="/how-it-works" className="link-gold mt-7 self-start">How the draw works →</a>

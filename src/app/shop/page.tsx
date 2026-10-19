@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { SHOP_CATEGORIES, SHOP_PRODUCTS } from '@/lib/site';
+import { GIVEAWAY, SHOP_CATEGORIES, SHOP_PRODUCTS } from '@/lib/site';
 import AddToCart from '@/components/lootix/v2/AddToCart';
+
+const DRAW_SHORT = new Date(GIVEAWAY.drawDateISO).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -22,12 +24,12 @@ export default function ShopPage() {
           <span className="v2-eyebrow">Drop 1 · Summon the Loot · Limited to 500</span>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Shop the drop</h1>
           <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
-            Every item carries a flat entry count into the live giveaway — printed right on the card. You keep the gear either way.
+            Each item earns a fixed number of entries into the current giveaway, shown on the item. You keep the gear either way.
           </p>
         </div>
         <div className="flex flex-col items-start md:items-end gap-2 font-plex text-stone" style={{ fontSize: 12, letterSpacing: '0.08em' }}>
-          <span className="text-brass-lit">◆ LAUNCH VAULT · $250 + MERCH</span>
-          <span>Draw closes Aug 1 · <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">view giveaway →</Link></span>
+          <span className="text-brass-lit">◆ LAUNCH GIVEAWAY · $250 + MERCH</span>
+          <span>Draw closes {DRAW_SHORT} · <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">view giveaway →</Link></span>
         </div>
       </header>
 
@@ -102,7 +104,7 @@ export default function ShopPage() {
         <div className="flex flex-col gap-1.5">
           <span className="uppercase" style={{ fontSize: 24, fontWeight: 900 }}>Every cart is a ticket to the vault</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
-            YOUR ENTRY TOTAL SHOWS AT CHECKOUT · WINNER DRAWN LIVE AUG 1
+            YOUR ENTRY TOTAL SHOWS AT CHECKOUT · FREE ENTRY AVAILABLE · EVERY ENTRY HAS THE SAME CHANCE
           </span>
         </div>
         <Link

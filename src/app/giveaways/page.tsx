@@ -4,8 +4,8 @@ import Countdown from '@/components/lootix/v2/Countdown';
 import { GIVEAWAY, PACKS, UPCOMING } from '@/lib/site';
 
 export const metadata: Metadata = {
-  title: 'Giveaways — The Launch Vault | Lootix',
-  description: 'The Launch Vault: $250 cash + a full merch bundle, drawn live by an independent third party. No purchase necessary — free entry with equal odds.',
+  title: 'Giveaways — Lootix Launch Giveaway | Lootix',
+  description: 'The Lootix Launch Giveaway: $250 cash + a Lootix hoodie, tee and slingbag (ARV $400). Random draw via an independent random-number service, results published. No purchase necessary — free entry available.',
 };
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
@@ -17,7 +17,7 @@ export default function GiveawaysPage() {
       {/* CURRENT GIVEAWAY HERO */}
       <section className="grid lg:grid-cols-[1.05fr_1fr]" style={{ borderBottom: HAIR }}>
         <div className="relative overflow-hidden" style={{ minHeight: 440 }}>
-          <img src="/brand/v2/unboxing.png" alt="The Launch Vault kit" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover' }} />
+          <img src="/brand/v2/unboxing.png" alt="Lootix Launch Giveaway prize kit" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(270deg, #0C0A07 0%, rgba(12,10,7,0) 28%)' }} />
           <span
             className="font-plex absolute flex items-center gap-2 uppercase"
@@ -29,10 +29,10 @@ export default function GiveawaysPage() {
 
         <div className="flex flex-col justify-center gap-6" style={{ padding: '64px 24px' }}>
           <span className="v2-eyebrow">Launch Giveaway · Drop 1</span>
-          <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,60px)', fontWeight: 900, letterSpacing: '-0.01em', lineHeight: 1 }}>The Launch Vault</h1>
+          <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,60px)', fontWeight: 900, letterSpacing: '-0.01em', lineHeight: 1 }}>The Launch Giveaway</h1>
           <div className="flex items-baseline gap-3 flex-wrap">
             <span className="text-brass-lit" style={{ fontSize: 52, fontWeight: 900 }}>$250</span>
-            <span className="text-sand" style={{ fontSize: 16 }}>cash + full merch bundle · winner&rsquo;s pick from Drop 1</span>
+            <span className="text-sand" style={{ fontSize: 16 }}>cash + hoodie, tee &amp; slingbag · ARV $400</span>
           </div>
           <div style={{ maxWidth: 420 }}><Countdown size="lg" /></div>
           <div style={{ maxWidth: 420 }}>
@@ -49,7 +49,7 @@ export default function GiveawaysPage() {
             <Link href="/official-rules" className="btn-ghost-v2">Free Entry Method</Link>
           </div>
           <span className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.08em' }}>
-            No purchase necessary · equal odds · 18+ · drawn live by an independent third party
+            No purchase necessary · free entry available · every entry has the same chance · US residents 18+ · random draw, results published
           </span>
         </div>
       </section>
@@ -103,8 +103,8 @@ export default function GiveawaysPage() {
           ))}
         </div>
         <p className="text-center text-stone" style={{ margin: '32px auto 0', maxWidth: 680, fontSize: 12, lineHeight: 1.7 }}>
-          No purchase necessary — a purchase does not increase your chances of winning. Free entry with equal odds via the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>. 18+.
+          No purchase necessary — a purchase does not increase your chances of winning. Free entry available via the{' '}
+          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>. US residents 18+.
         </p>
       </section>
 

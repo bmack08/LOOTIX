@@ -3,7 +3,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
-import { ENTRY_MULTIPLIER } from "@/config/giveaway";
 
 import type { PageProps } from "../../../.next/types/app/collections/[category]/page";
 
@@ -48,8 +47,7 @@ export default function CollectionPage({ params }: PageProps) {
                     height={400}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <span className="badge-entry">{ENTRY_MULTIPLIER}X</span>
-                </div>
+                                  </div>
                 <div className="p-4">
                   <h2 className="text-lg font-semibold text-text-primary truncate">{product.name}</h2>
                   <p className="text-cta-primary font-display font-bold">${product.price}</p>

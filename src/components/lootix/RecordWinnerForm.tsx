@@ -53,17 +53,17 @@ export default function RecordWinnerForm({ entrants }: { entrants: Entrant[] }) 
 
   return (
     <div className="flex flex-col gap-4">
-      {/* Step 1: hand the list to the independent drawer */}
+      {/* Step 1: run the list through the random-number service */}
       <div className="flex items-center gap-3 flex-wrap">
         <button onClick={downloadCsv} disabled={disabled} className="btn-outline-gold !py-[11px] disabled:opacity-50">
           ⬇ Download entrant list (CSV)
         </button>
-        <span className="font-mono text-[11px] text-muted">Give this to your independent drawer / random service.</span>
+        <span className="font-mono text-[11px] text-muted">Run this through your independent random-number service.</span>
       </div>
 
       {/* Step 2: record the winner they returned */}
       <div className="flex flex-col gap-2">
-        <label className="font-mono text-[11px] tracking-[.12em] uppercase text-muted-2">Winning entrant (from the independent draw)</label>
+        <label className="font-mono text-[11px] tracking-[.12em] uppercase text-muted-2">Winning entrant (from the random draw)</label>
         <select
           value={winner}
           onChange={(e) => setWinner(e.target.value)}

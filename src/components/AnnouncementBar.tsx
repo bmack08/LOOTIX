@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, useState, useEffect } from 'react';
-import { ENTRY_MULTIPLIER } from '@/config/giveaway';
 
 const AnnouncementBar: FC = () => {
   const [isVisible, setIsVisible] = useState(true);
@@ -25,7 +24,7 @@ const AnnouncementBar: FC = () => {
     <div className="bg-cta-primary text-white h-10 flex items-center justify-center relative overflow-hidden">
       <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wider">
         <span className="animate-pulse-slow">🔥</span>
-        <span>{ENTRY_MULTIPLIER}X ENTRIES ON ALL ORDERS</span>
+        <span>EVERY ITEM EARNS ENTRIES</span>
         <span className="hidden sm:inline">—</span>
         <span className="hidden sm:inline">FREE SHIPPING OVER $75</span>
         <span className="animate-pulse-slow">🔥</span>

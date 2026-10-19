@@ -8,7 +8,7 @@ export const TICKER = [
   'Drop 1 · Live now',
   '◆ Win $250 + free merch bundle',
   'No purchase necessary',
-  '◆ Winner drawn live & independent',
+  '◆ Random draw · results published',
   'Ships worldwide',
 ];
 
@@ -22,17 +22,29 @@ export const NAV = [
 
 /** Live giveaway — drives countdown + progress everywhere. */
 export const GIVEAWAY = {
-  /** Draw close datetime (local ET). */
-  drawDateISO: '2026-08-01T20:00:00',
-  entriesClaimed: 312,
+  /**
+   * Draw close datetime (local ET).
+   *
+   * PLACEHOLDER: this must match `currentGiveaway.endDate` in
+   * src/config/giveaway.ts. Set both to the close of the first drop window
+   * once the launch date is fixed. Do not ship a date in the past — the
+   * countdown on the homepage and /giveaways reads directly from this value.
+   */
+  drawDateISO: '2026-10-12T20:00:00',
+  /**
+   * Real entry count. Was hardcoded to 312 before any database existed, which
+   * displayed fabricated social proof to visitors. Held at 0 until /api/entries
+   * and persistence are wired, then read from the database.
+   */
+  entriesClaimed: 0,
   entriesGoal: 1000,
 };
 
 export const STATS = [
   { value: '$250', label: 'Launch grand prize' },
-  { value: '100+', label: 'Entries per item, printed on every card' },
-  { value: 'FREE', label: 'Entry method · equal odds' },
-  { value: 'LIVE', label: 'Independent recorded draw' },
+  { value: '15–300', label: 'Entries per item, shown on every card' },
+  { value: 'FREE', label: 'Entry available · same chance per entry' },
+  { value: 'RNG', label: 'Recorded random draw' },
 ];
 
 export type Product = {
@@ -83,12 +95,12 @@ export const QUICKIES = [
 export const PACKS = [
   { name: 'Starter Pack', sub: '1 tee · ships free over $75', price: '$35', entries: 60, popular: false, cta: 'Grab Starter' },
   { name: 'Hero Bundle', sub: 'Hoodie + tee · free shipping', price: '$75', entries: 150, popular: true, cta: 'Grab Hero' },
-  { name: 'Legend Vault', sub: 'Full fit + accessories · best odds', price: '$150', entries: 350, popular: false, cta: 'Grab Legend' },
+  { name: 'Legend Vault', sub: 'Full fit + accessories · most entries', price: '$150', entries: 350, popular: false, cta: 'Grab Legend' },
 ];
 
 /** Future vaults — unlock only after the current one pays out. No fake countdowns. */
 export const UPCOMING = [
-  { tag: 'Vault 002', name: '$1,000 Cash Drop', status: 'Unlocks next', desc: 'Opens after the Launch Vault winner is drawn and paid. Every Drop 002 order will enter.' },
+  { tag: 'Vault 002', name: '$1,000 Cash Drop', status: 'Unlocks next', desc: 'Opens after the Launch Giveaway winner is drawn and paid. Every Drop 002 order will enter.' },
   { tag: 'Vault 003', name: 'Battlestation PC', status: 'Locked', desc: 'A full custom build. Unlocks once the guild passes 1,000 members.' },
   { tag: 'Vault 004', name: 'Tokyo Trip for 2', status: 'Locked', desc: 'Flights + hotel. The endgame vault — unlocks at 100 verified winners paid.' },
 ];
@@ -96,14 +108,14 @@ export const UPCOMING = [
 export const HOW_STEPS = [
   { n: '01', title: 'Shop the drop', body: 'Cop limited fantasy-streetwear from the current drop. Every piece is numbered — never mass produced.' },
   { n: '02', title: 'Stack entries', body: 'Every item carries a flat entry count, printed on the card. Your total shows at checkout and in your confirmation email.' },
-  { n: '03', title: 'Win the loot', body: 'An independent third party draws the winner live on stream. Paid fast, announced publicly, verified always.' },
+  { n: '03', title: 'Win the loot', body: 'The winner is drawn at random using an independent random-number service. The draw is recorded and results are published.' },
 ];
 
 export const PROOF = [
-  { icon: '⚖', title: 'Independent draw', body: 'A third-party administrator runs the random draw — never us.' },
-  { icon: '◉', title: 'Recorded live', body: 'Every draw streams live and stays archived on our channels.' },
+  { icon: '⚖', title: 'Random draw', body: 'We run the draw using an independent random-number service, across all eligible entries.' },
+  { icon: '◉', title: 'Recorded draw', body: 'Every draw is recorded and the results are published.' },
   { icon: '◆', title: 'Winners published', body: 'Every winner is named on the Winners page and socials, with payout proof.' },
-  { icon: '✉', title: 'Free entry, equal odds', body: 'The mail-in method in the Official Rules carries the same odds as any order.' },
+  { icon: '✉', title: 'Free entry available', body: 'See the Official Rules for free entry. Every entry, paid or free, has the same chance of being drawn.' },
 ];
 
 export const COMPANY = {
@@ -143,7 +155,9 @@ export const FOOTER_COLS = [
       { label: 'FAQ', href: '/faq' },
       { label: 'Shipping & Returns', href: '/faq' },
       { label: 'Contact', href: '/faq' },
-      { label: 'Privacy & Terms', href: '/official-rules' },
+      { label: 'Terms', href: '/terms' },
+      { label: 'Privacy', href: '/privacy' },
+      { label: 'Accessibility', href: '/accessibility' },
     ],
   },
 ];

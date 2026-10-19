@@ -41,26 +41,26 @@ export const MARQUEE_ITEMS = [
   'WIN $250 + FREE MERCH',
   '★ NO PURCHASE NECESSARY',
   'SHIPS WORLDWIDE',
-  '★ WINNER DRAWN LIVE',
-  `${MULT_LABEL} ENTRIES ON ALL ORDERS`,
+  '★ RANDOM DRAW · RESULTS PUBLISHED',
+  'EVERY ITEM EARNS A FIXED NUMBER OF ENTRIES',
 ];
 
 // Launch-honest stats (no fabricated track record before the first draw).
 export const STATS = [
   { value: '$250', label: 'Launch Grand Prize', gold: true },
-  { value: MULT_LABEL, label: 'Entries / Order', gold: false },
+  { value: '15–300', label: 'Entries / Item', gold: false },
   { value: 'FREE', label: 'Entry Available', gold: false },
-  { value: 'LIVE', label: 'Independent Draw', gold: true },
+  { value: 'RNG', label: 'Recorded Random Draw', gold: true },
 ];
 
 export const VAULT = {
   badge: 'Grand Prize',
   value: '$250',
-  subtitle: '+ Free Merch Bundle · Launch Drop',
+  subtitle: '+ Hoodie, Tee & Slingbag · Launch Giveaway',
   perks: [
-    '$250 cash, paid instantly',
-    'Full Lootix merch bundle',
-    "Winner's pick from the launch drop",
+    '$250 cash',
+    'Lootix hoodie, tee & slingbag',
+    'Approximate retail value $400',
   ],
   scarcity: { claimed: 312, goal: 1000 },
 };
@@ -68,21 +68,21 @@ export const VAULT = {
 export const ENTRY_TIERS = [
   { name: 'Starter Pack', desc: '1 tee · ships free over $75', price: '$35', entries: '60 entries', popular: false },
   { name: 'Hero Bundle', desc: 'Hoodie + tee · free shipping', price: '$75', entries: '150 entries', popular: true },
-  { name: 'Legend Vault', desc: 'Full fit + accessories · best odds', price: '$150', entries: '350 entries', popular: false },
+  { name: 'Legend Vault', desc: 'Full fit + accessories · most entries', price: '$150', entries: '350 entries', popular: false },
 ];
 
 export const HOW_STEPS = [
   { n: '01', title: 'Shop the drop', body: 'Pick your legendary gear from limited fantasy-streetwear collections. New drops land every month.', warm: false },
-  { n: '02', title: 'Earn entries', body: `Every order automatically lands you up to ${MULT_LABEL} entries. The more you cop, the bigger your odds.`, warm: true },
-  { n: '03', title: 'Win the loot', body: 'Winners drawn live every month. Cash, tech and trips — paid out fast and verified publicly.', warm: false },
+  { n: '02', title: 'Earn entries', body: 'Each item earns a fixed number of entries, shown on the item. Free entry available — see the Official Rules.', warm: true },
+  { n: '03', title: 'Win the loot', body: 'One winner is drawn at random using an independent random-number service. The draw is recorded and results are published.', warm: false },
 ];
 
 // Real Lootix product designs (from the MERCH folder). `well` sets the photo
 // backdrop tone; `size`/`pos` crop the source (the tee mockups share one 2-up image).
 export const DROPS = [
-  { name: 'Lord of Flame', meta: 'Fantasy Streetwear · Heavyweight Tee', price: '$42', rating: '4.9', entries: `+${MULT_LABEL} entries`, img: '/brand/products/lord-of-flame.png', well: 'dark', size: 'cover', pos: 'center' },
-  { name: 'Nat 20 Tee', meta: 'Fantasy Streetwear · Regular Fit', price: '$38', rating: '5.0', entries: '+150 entries', img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '24% 42%' },
-  { name: 'Hoard Dragon Tee', meta: 'Fantasy Streetwear · Camo', price: '$44', rating: '4.8', entries: `+${MULT_LABEL} entries`, img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '77% 42%' },
+  { name: 'Lord of Flame', meta: 'Fantasy Streetwear · Heavyweight Tee', price: '$42', rating: '4.9', entries: '+100 entries', img: '/brand/products/lord-of-flame.png', well: 'dark', size: 'cover', pos: 'center' },
+  { name: 'Nat 20 Tee', meta: 'Fantasy Streetwear · Regular Fit', price: '$38', rating: '5.0', entries: '+80 entries', img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '24% 42%' },
+  { name: 'Hoard Dragon Tee', meta: 'Fantasy Streetwear · Camo', price: '$44', rating: '4.8', entries: '+100 entries', img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '77% 42%' },
 ];
 
 export const PRIZES = [
@@ -143,5 +143,6 @@ export const FOOTER_COLS = [
     { label: 'FAQ', href: '/faq' },
     { label: 'Privacy', href: '/privacy' },
     { label: 'Terms', href: '/terms' },
+    { label: 'Accessibility', href: '/accessibility' },
   ] },
 ];

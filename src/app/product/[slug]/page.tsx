@@ -1,5 +1,4 @@
 import { getPrintfulProductById } from "@/utils/printful";
-import { ENTRY_MULTIPLIER, calculateEntries, formatEntries } from "@/config/giveaway";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -31,8 +30,6 @@ export default async function ProductPage({ params }: Props) {
     notFound();
   }
 
-  const entries = calculateEntries(product.price);
-
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-container mx-auto">
@@ -60,8 +57,6 @@ export default async function ProductPage({ params }: Props) {
                 className="object-cover object-center hover:scale-105 transition-transform duration-300"
                 priority
               />
-              {/* Entry Badge */}
-              <span className="badge-entry">{ENTRY_MULTIPLIER}X ENTRIES</span>
             </div>
             {/* Additional product images */}
             {product.images.length > 0 && (
@@ -100,14 +95,11 @@ export default async function ProductPage({ params }: Props) {
               </span>
             </div>
 
-            {/* Entry Calculator */}
+            {/* Entry note */}
             <div className="entry-calculator">
               <p className="entry-calculator-text">
-                This purchase = {formatEntries(entries)} entries
+                Each item earns a fixed number of entries, shown on the item. Free entry available — see the Official Rules.
               </p>
-              <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm tracking-wider">
-                {ENTRY_MULTIPLIER}X ACTIVE
-              </span>
             </div>
 
             {/* Variant Controls */}

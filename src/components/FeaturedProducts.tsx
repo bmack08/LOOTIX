@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Product } from "@/types";
-import { ENTRY_MULTIPLIER } from "@/config/giveaway";
 
 export default function FeaturedProducts() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -102,7 +101,6 @@ export default function FeaturedProducts() {
         <h2 className="font-display font-bold text-section-mobile md:text-section text-text-primary uppercase text-center mb-8">Latest Drops</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {products.slice(0, 8).map((product) => {
-            const entries = Math.floor(product.price * ENTRY_MULTIPLIER);
             return (
               <Link
                 key={product.slug}
@@ -117,16 +115,12 @@ export default function FeaturedProducts() {
                       fill
                       className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
-                    <span className="badge-entry">{ENTRY_MULTIPLIER}X</span>
                   </div>
                   <div className="p-4">
                     <h3 className="text-sm font-semibold text-text-primary truncate mb-2">{product.name}</h3>
                     <div className="flex items-center justify-between">
                       <span className="text-lg font-display font-bold text-cta-primary">
                         ${product.price.toFixed(2)}
-                      </span>
-                      <span className="text-xs text-text-muted">
-                        {entries.toLocaleString()} entries
                       </span>
                     </div>
                   </div>

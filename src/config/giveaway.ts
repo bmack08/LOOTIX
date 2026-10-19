@@ -12,27 +12,46 @@ export interface GiveawayConfig {
   isActive: boolean;
 }
 
+// Entry multiplier for purchases.
+//
+// NOTE FOR COUNSEL REVIEW: purchase entries accrue at 60x per dollar, while the
+// free mail-in path (AMOE) grants a single entry. The growth plan calls for the
+// free path to be "clearly visible and equal in odds" — that is not currently
+// true at this ratio. Confirm the AMOE entry grant with promotions counsel
+// before launch. See 08_Growth_Plan/QUESTIONS-FOR-OWNER.md.
+export const ENTRY_MULTIPLIER = 60;
+
 // Current active giveaway - UPDATE THIS FOR NEW GIVEAWAYS
+//
+// LAUNCH TIER, per 08_Growth_Plan/03-Prize-Scaling-Roadmap.md.
+// Total announced value $400. Do not raise this without clearing the Tier 2
+// gate: 1,000 subscribers AND two consecutive drops above $5,000 revenue.
+//
+// The previous prize (a $5,000 custom gaming PC) was removed on 2026-09-01.
+// It crossed the Florida / New York $5,000 filing-and-bonding threshold and
+// sat six tiers above the current stage of the business.
 export const currentGiveaway: GiveawayConfig = {
-  id: 'giveaway-2026-02',
-  title: 'Custom Gaming PC Build',
-  description: 'Win a fully loaded custom gaming PC worth over $5,000. Built with the latest components for maximum performance.',
-  prizeValue: 5000,
+  id: 'giveaway-2026-launch',
+  title: 'Launch Giveaway: $250 Cash + Full Merch Set',
+  description:
+    'Win $250 cash plus a complete Lootix merch set — hoodie, tee and slingbag. No purchase necessary to enter.',
+  prizeValue: 400,
   prizeDetails: [
-    'RTX 4080 Super Graphics Card',
-    'AMD Ryzen 9 7950X Processor',
-    '64GB DDR5 RAM',
-    '2TB NVMe SSD Storage',
-    'Custom RGB Case & Cooling',
+    '$250 cash',
+    'Lootix hoodie ($64.99 value)',
+    'Lootix tee ($34.99 value)',
+    'Lootix slingbag ($49.99 value)',
+    'No purchase necessary — free entry available',
   ],
-  // Set end date 30 days from deployment - adjust as needed
-  endDate: new Date('2026-03-15T23:59:59'),
-  entryMultiplier: 60,
+  // PLACEHOLDER DATE. Set this to the close of the first drop window once the
+  // launch date is fixed. Must stay in sync with GIVEAWAY.drawDateISO in
+  // src/lib/site.ts, which drives the homepage countdown. Never ship a past date.
+  endDate: new Date('2026-10-12T20:00:00'),
+  entryMultiplier: ENTRY_MULTIPLIER,
+  // NOTE: isActive is declared on the interface but is not read anywhere in the
+  // app yet. Toggling it currently has no effect.
   isActive: true,
 };
-
-// Entry multiplier for purchases
-export const ENTRY_MULTIPLIER = 60;
 
 // Calculate entries from purchase amount
 export function calculateEntries(purchaseAmount: number): number {

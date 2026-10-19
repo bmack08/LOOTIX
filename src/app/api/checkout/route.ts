@@ -65,7 +65,7 @@ export async function POST(req: Request) {
       // entries are granted by the webhook after payment succeeds
       metadata: { totalEntries: String(totalEntries) },
       customer_email: body.email || undefined,
-      shipping_address_collection: { allowed_countries: ['US', 'CA', 'GB', 'AU', 'DE', 'FR', 'NL', 'IE', 'NZ'] },
+      shipping_address_collection: { allowed_countries: ['US'] }, // US-only per Terms + Official Rules
       success_url: `${origin}/order/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cart`,
     });

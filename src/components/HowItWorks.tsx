@@ -16,7 +16,7 @@ const steps = [
   {
     number: '02',
     title: 'ENTER',
-    description: 'Every $1 = 60 entries. Free entry also available.',
+    description: 'Each item earns a fixed number of entries, shown on the item. Free entry available.',
     icon: (
       <svg className="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 5v2m0 4v2m0 4v2M5 5a2 2 0 00-2 2v3a2 2 0 110 4v3a2 2 0 002 2h14a2 2 0 002-2v-3a2 2 0 110-4V7a2 2 0 00-2-2H5z" />

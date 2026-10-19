@@ -42,7 +42,7 @@ export default function CartPage() {
           <span className="v2-eyebrow">Your cart</span>
           <h1 className="m-0 uppercase" style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: 900 }}>Nothing looted yet</h1>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
-            Every item you add stacks entries toward the Launch Vault — $250 cash + a full merch bundle.
+            Every item you add earns entries in the Lootix Launch Giveaway — $250 cash + a hoodie, tee &amp; slingbag.
           </p>
           <Link href="/shop" className="btn-brass">Shop Drop 1</Link>
         </div>
@@ -102,7 +102,7 @@ export default function CartPage() {
 
             {/* the whole point */}
             <div style={{ borderTop: HAIR, borderBottom: HAIR, padding: '16px 0', textAlign: 'center' }}>
-              <div className="font-plex uppercase text-stone" style={{ fontSize: 10.5, letterSpacing: '0.16em' }}>Entries into the Launch Vault</div>
+              <div className="font-plex uppercase text-stone" style={{ fontSize: 10.5, letterSpacing: '0.16em' }}>Entries into the Launch Giveaway</div>
               <div className="text-brass-lit" style={{ fontSize: 40, fontWeight: 900, lineHeight: 1.15 }}>{totalEntries.toLocaleString()}</div>
             </div>
 
@@ -113,7 +113,7 @@ export default function CartPage() {
 
             <p className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>
               Payments secured by Stripe. Entries are added automatically once payment completes. No purchase necessary to enter — see the{' '}
-              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free method with equal odds.
+              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free entry method — every entry, paid or free, has the same chance.
             </p>
           </aside>
         </div>

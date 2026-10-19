@@ -1,9 +1,12 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { GIVEAWAY } from '@/lib/site';
+
+const DRAW_SHORT = new Date(GIVEAWAY.drawDateISO).toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
 export const metadata: Metadata = {
   title: 'About — This is your loot | Lootix',
-  description: 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Limited, numbered drops — and honest, independently drawn giveaways.',
+  description: 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Limited, numbered drops — and honest giveaways with free entry and published results.',
 };
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
@@ -12,14 +15,14 @@ const VALUES = [
   { icon: '🛡', title: 'Premium quality', body: 'Built to last. Heavyweight fabrics, embroidered details.' },
   { icon: '◆', title: 'Limited edition', body: 'Numbered runs. Never mass produced, never restocked.' },
   { icon: '⚔', title: 'Designed for adventurers', body: 'Fantasy-forged graphics with streetwear cut and fit.' },
-  { icon: '⚖', title: 'Honest giveaways', body: 'Independent draws, free entry with equal odds, public winners.' },
+  { icon: '⚖', title: 'Honest giveaways', body: 'Random draws, free entry available, published results.' },
 ];
 
 const QUEST = [
   { n: '01', title: 'Shop the drop', body: <>Each drop is a limited, numbered collection. When it&rsquo;s gone, it&rsquo;s gone. Every product card shows its flat entry count — what you see is what you stack.</> },
-  { n: '02', title: 'Stack entries', body: <>Entries total automatically at checkout and arrive in your confirmation email. Prefer not to buy? The free mail-in method in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> carries exactly the same odds.</> },
-  { n: '03', title: 'Watch the draw', body: <>When the countdown hits zero, an independent third party draws the winner live on our socials. The stream stays archived — no hidden draws, ever.</> },
-  { n: '04', title: 'Claim the loot', body: <>Cash is paid within days, merch ships immediately, and the winner&rsquo;s name is etched into the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners Vault</Link> with proof of payout — permanently.</> },
+  { n: '02', title: 'Stack entries', body: <>Entries total automatically at checkout and arrive in your confirmation email. Prefer not to buy? Free entry is available — see the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>. Every entry, paid or free, has the same chance of being drawn.</> },
+  { n: '03', title: 'The draw', body: <>After the giveaway closes, Lootix draws the winner at random using an independent random-number service. The draw is recorded and the results are published.</> },
+  { n: '04', title: 'Claim the loot', body: <>Once the winner is verified under the Official Rules, the prize is awarded and the result is published in the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners Vault</Link>.</> },
 ];
 
 export default function AboutPage() {
@@ -37,7 +40,7 @@ export default function AboutPage() {
             This isn&rsquo;t just streetwear.<br /><span className="text-brass">This is your loot.</span>
           </h1>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7, maxWidth: 520 }}>
-            Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every drop is limited, numbered, and never mass produced — and every order stacks entries toward a vault of real prizes, drawn live, in the open.
+            Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every drop is limited, numbered, and never mass produced — and every order stacks entries toward real prizes, drawn at random with results published.
           </p>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7, maxWidth: 520 }}>
             We&rsquo;re a small crew out of Maryland — adventurers, gamers, collectors. We built the brand we wanted to exist: premium quality, built to last, designed for the fearless.
@@ -75,7 +78,7 @@ export default function AboutPage() {
         </div>
         <p className="text-center text-stone" style={{ margin: '28px auto 0', maxWidth: 720, fontSize: 12, lineHeight: 1.7 }}>
           No purchase necessary to enter or win — a purchase does not increase your chances of winning. See the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free entry method with equal odds. 18+ only.
+          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free entry method — every entry, paid or free, has the same chance of being drawn. US residents 18+ only.
         </p>
       </section>
 
@@ -83,7 +86,7 @@ export default function AboutPage() {
       <section className="flex items-center justify-between gap-8 flex-wrap" style={{ padding: '48px 24px', background: '#E4D5B4', color: '#171208' }}>
         <div className="flex flex-col gap-1.5">
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Ready to earn your loot?</span>
-          <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>Drop 1 IS LIVE · LAUNCH VAULT CLOSES AUG 1</span>
+          <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>Drop 1 IS LIVE · LAUNCH GIVEAWAY CLOSES {DRAW_SHORT.toUpperCase()}</span>
         </div>
         <Link
           href="/shop"

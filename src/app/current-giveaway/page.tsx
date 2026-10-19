@@ -5,9 +5,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   currentGiveaway,
-  ENTRY_MULTIPLIER,
-  calculateEntries,
-  formatEntries,
   getTimeRemaining,
   formatEndDate,
 } from '@/config/giveaway';
@@ -147,12 +144,12 @@ export default function CurrentGiveawayPage() {
               <div className="text-sm font-bold text-success uppercase tracking-wider mb-3">Free Entry</div>
               <h3 className="font-display font-bold text-xl text-text-primary mb-3">MAIL-IN METHOD</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Send a 3x5 postcard with your name, email, and "Lootix Giveaway Entry" to our mailing address. One entry per postcard, no purchase necessary.
+                Mail a card with your name and email to the address in the Official Rules. Each card earns 25 entries; limit one card per person per day. No purchase necessary.
               </p>
               <div className="mt-4 p-3 bg-bg-secondary rounded-sm text-text-muted text-xs">
                 <p className="font-semibold text-text-secondary mb-1">Lootix LLC</p>
-                <p>[Street Address]</p>
-                <p>[City, State ZIP]</p>
+                <p>212 Whirlaway Lane</p>
+                <p>Havre de Grace, MD 21078</p>
               </div>
             </div>
 
@@ -161,16 +158,8 @@ export default function CurrentGiveawayPage() {
               <div className="text-sm font-bold text-cta-primary uppercase tracking-wider mb-3">Bonus Entries</div>
               <h3 className="font-display font-bold text-xl text-text-primary mb-3">PURCHASE METHOD</h3>
               <p className="text-text-secondary text-sm leading-relaxed mb-4">
-                Every $1 spent on Lootix gear earns you {ENTRY_MULTIPLIER} entries into the current giveaway. The more you shop, the better your odds.
+                Each item earns a fixed number of entries into the current giveaway, shown on the item. Every entry, paid or free, has the same chance of being drawn.
               </p>
-              <div className="entry-calculator">
-                <p className="entry-calculator-text">
-                  Example: $50 purchase = {formatEntries(calculateEntries(50))} entries
-                </p>
-                <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm">
-                  {ENTRY_MULTIPLIER}X ACTIVE
-                </span>
-              </div>
             </div>
           </div>
         </div>

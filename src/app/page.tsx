@@ -22,7 +22,7 @@ export default function Home() {
             Earn it.<br />Wear it.<br /><span className="text-brass">Loot it.</span>
           </h1>
           <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 17, lineHeight: 1.65 }}>
-            Legendary streetwear, forged for the fearless. Every piece you cop from Drop 1 stacks entries toward the Launch Vault — <strong className="text-parchment">$250 cash + a full merch bundle</strong>, drawn live by an independent third party.
+            Legendary streetwear, forged for the fearless. Every piece you cop from Drop 1 earns entries in the Lootix Launch Giveaway — <strong className="text-parchment">$250 cash + a hoodie, tee &amp; slingbag</strong>. Random draw, results published.
           </p>
           <div className="flex items-center gap-4 flex-wrap">
             <Link href="/shop" className="btn-brass">Shop the Drop</Link>
@@ -30,7 +30,7 @@ export default function Home() {
           </div>
           <div className="flex gap-7 flex-wrap font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em', paddingTop: 8 }}>
             <span>✓ No purchase necessary</span>
-            <span>✓ Independent live draw</span>
+            <span>✓ Random draw · results published</span>
             <span>✓ Ships worldwide</span>
           </div>
         </div>
@@ -44,12 +44,12 @@ export default function Home() {
             style={{ right: 24, bottom: 24, width: 330, maxWidth: 'calc(100% - 48px)', background: 'rgba(12,10,7,0.9)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(198,161,91,0.4)', borderRadius: 4, padding: 24 }}
           >
             <div className="flex justify-between items-center font-plex uppercase" style={{ fontSize: 11, letterSpacing: '0.16em' }}>
-              <span className="text-brass">The Launch Vault</span>
+              <span className="text-brass">Launch Giveaway</span>
               <span style={{ color: '#0C0A07', background: '#C6A15B', padding: '2px 8px', borderRadius: 2, fontWeight: 600 }}>Live</span>
             </div>
             <div className="flex items-baseline gap-2.5">
               <span className="text-parchment" style={{ fontSize: 44, fontWeight: 900, letterSpacing: '-0.02em' }}>$250</span>
-              <span className="text-sand" style={{ fontSize: 13, fontWeight: 500 }}>+ full merch bundle</span>
+              <span className="text-sand" style={{ fontSize: 13, fontWeight: 500 }}>+ hoodie, tee &amp; slingbag</span>
             </div>
             <Countdown />
             <div>
@@ -158,14 +158,14 @@ export default function Home() {
         </div>
         <p className="text-center text-stone" style={{ margin: '28px auto 0', maxWidth: 720, fontSize: 12, lineHeight: 1.7 }}>
           No purchase necessary to enter or win — a purchase does not increase your chances of winning. See the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free entry method with equal odds. 18+ only, void where prohibited.
+          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free entry method — every entry, paid or free, has the same chance of being drawn. US residents 18+ only, void where prohibited.
         </p>
       </section>
 
       {/* ───────────── THE VAULT ───────────── */}
       <section className="grid lg:grid-cols-2" style={{ borderBottom: HAIR }}>
         <div className="relative overflow-hidden" style={{ minHeight: 440 }}>
-          <img src="/brand/v2/unboxing.png" alt="The Launch Vault welcome kit" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover' }} />
+          <img src="/brand/v2/unboxing.png" alt="Lootix Launch Giveaway prize kit" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(270deg, #0C0A07 0%, rgba(12,10,7,0) 30%)' }} />
           <span className="font-plex absolute uppercase" style={{ top: 24, left: 24, background: '#C6A15B', color: '#0C0A07', fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', padding: '6px 12px', borderRadius: 2 }}>
             This month&rsquo;s vault
@@ -173,9 +173,9 @@ export default function Home() {
         </div>
         <div className="flex flex-col justify-center gap-6" style={{ padding: '72px 24px' }}>
           <span className="v2-eyebrow">Launch Giveaway · $250 + Free Merch</span>
-          <h2 className="v2-h2">The Launch Vault</h2>
+          <h2 className="v2-h2">The Launch Giveaway</h2>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
-            One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">full Lootix merch bundle</strong> — their pick from Drop 1. Grab an entry pack — bigger packs, better odds, free shipping.
+            One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">Lootix hoodie, tee &amp; slingbag</strong> (ARV $400). Grab an entry pack — bigger packs, more entries, free shipping.
           </p>
           <div className="flex flex-col gap-3">
             {PACKS.map((pk) => (
@@ -203,7 +203,7 @@ export default function Home() {
           </div>
           <p className="m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7 }}>
             No purchase necessary — a purchase does not increase your chances of winning. Free entry via the{' '}
-            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>. 18+.
+            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>. US residents 18+.
           </p>
         </div>
       </section>
@@ -248,7 +248,7 @@ export default function Home() {
           >
             <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.2em' }}>◆ First Winner ◆</span>
             <span className="text-parchment" style={{ fontSize: 32, fontWeight: 900, letterSpacing: '0.04em' }}>— YOUR NAME —</span>
-            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Drop 1 · The Launch Vault</span>
+            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Drop 1 · Launch Giveaway</span>
             <div style={{ height: 1, background: 'rgba(198,161,91,0.25)', margin: '6px 0' }} />
             <span className="text-sand" style={{ fontSize: 13, lineHeight: 1.6 }}>The first name ever etched into the Loot Vault. It could be yours.</span>
           </div>
@@ -259,15 +259,15 @@ export default function Home() {
       <section style={{ background: '#E4D5B4', color: '#171208', padding: '80px 24px' }}>
         <div className="mx-auto text-center flex flex-col gap-4 items-center" style={{ maxWidth: 820 }}>
           <span className="font-plex uppercase" style={{ fontSize: 12, letterSpacing: '0.18em', color: '#7A6231' }}>Join the Looters Guild</span>
-          <h2 className="m-0 uppercase" style={{ fontSize: 'clamp(30px,4.5vw,44px)', fontWeight: 900, letterSpacing: '-0.01em' }}>First access + 25 bonus entries</h2>
+          <h2 className="m-0 uppercase" style={{ fontSize: 'clamp(30px,4.5vw,44px)', fontWeight: 900, letterSpacing: '-0.01em' }}>First access + 25 free entries</h2>
           <p className="m-0" style={{ maxWidth: 540, fontSize: 16, lineHeight: 1.6, color: '#4A3D22' }}>
-            Drop alerts, early access to limited gear, and 25 free bonus entries on your first order.
+            Drop alerts, early access to limited gear, and 25 free entries into the current giveaway — once per person per giveaway.
           </p>
           <div className="w-full flex justify-center" style={{ marginTop: 8 }}>
             <EmailCapture source="newsletter" />
           </div>
           <span className="font-plex" style={{ fontSize: 10, letterSpacing: '0.08em', color: '#7A6231' }}>
-            No spam. Unsubscribe anytime. Bonus entries subject to Official Rules.
+            No spam. Unsubscribe anytime. Free entries subject to the Official Rules.
           </span>
         </div>
       </section>

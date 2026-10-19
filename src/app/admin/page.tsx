@@ -38,12 +38,12 @@ export default async function AdminPage() {
         <Stat label="Total Entries" value={stats.totalEntries.toLocaleString()} />
       </div>
 
-      {/* Draw control — third-party / independent draw */}
+      {/* Draw control — random draw via independent random-number service */}
       <div className="rounded-card p-7 mb-10" style={{ background: 'linear-gradient(165deg,#1a1610,#0d0d0e)', border: '1px solid rgba(212,175,55,.3)' }}>
-        <h2 className="font-archivo font-extrabold uppercase text-cream text-[20px] mb-2">Record the independent draw</h2>
+        <h2 className="font-archivo font-extrabold uppercase text-cream text-[20px] mb-2">Record the draw</h2>
         <p className="font-archivo text-[14px] text-muted mb-5 max-w-[560px]">
-          Per your Official Rules, the winner must be chosen by an <strong className="text-cream">independent third party</strong> — not from here.
-          Download the entrant list, have your independent drawer / random service pick the winner (weight by entry count),
+          Per your Official Rules, Lootix conducts the draw using an <strong className="text-cream">independent random-number service</strong> — not from here.
+          Download the entrant list, run the draw with the random-number service (weight by entry count), record it,
           then record their result below. It logs the draw with your proof note, emails the winner, and unlocks the homepage vault.
         </p>
         <RecordWinnerForm entrants={entrants} />

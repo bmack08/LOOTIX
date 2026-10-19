@@ -25,7 +25,7 @@ export default function OrderSuccessPage() {
           You&rsquo;re in the vault
         </h1>
         <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7 }}>
-          Payment received — your entries are being added to the Launch Vault right now, and a confirmation email with your
+          Payment received — your entries are being added to the Lootix Launch Giveaway, and a confirmation email with your
           entry total is on its way. Gear ships within 2–4 business days.
         </p>
         <div className="flex gap-3.5 flex-wrap justify-center" style={{ marginTop: 8 }}>
@@ -33,7 +33,7 @@ export default function OrderSuccessPage() {
           <Link href="/shop" className="btn-ghost-v2">Keep shopping</Link>
         </div>
         <p className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7, letterSpacing: '0.04em', marginTop: 8 }}>
-          Winner drawn live by an independent third party. No purchase necessary to enter — see the{' '}
+          Random draw via an independent random-number service, results published. No purchase necessary to enter — see the{' '}
           <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
         </p>
       </div>

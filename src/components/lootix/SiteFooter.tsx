@@ -82,7 +82,7 @@ export default function SiteFooter() {
         <div className="max-w-site mx-auto px-6 md:px-10 py-[22px] flex items-center justify-between gap-[18px] flex-wrap">
           <span className="font-mono text-[11.5px] text-faint tracking-[.04em]">© 2026 {COMPANY.legalName} · All rights reserved</span>
           <span className="font-mono text-[11px] text-[#5e5a52] tracking-[.04em] max-w-[620px] md:text-right">
-            No purchase necessary. Void where prohibited. Open to legal residents 18+. Odds depend on number of entries. See{' '}
+            No purchase necessary. Void where prohibited. Open to legal US residents 18+. Odds depend on number of entries. See{' '}
             <a href="/official-rules" className="underline hover:text-gold transition-colors">Official Rules</a> for the free entry method &amp; full details.
           </span>
         </div>

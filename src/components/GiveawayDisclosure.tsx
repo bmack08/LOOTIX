@@ -17,12 +17,12 @@ export default function GiveawayDisclosure() {
           </p>
 
           <p>
-            You can enter for free by using our Alternate Method of Entry (AMOE) described in the Official Rules. All entries, paid or free, have the same odds of winning.
+            You can enter for free by using our Alternate Method of Entry (AMOE) described in the Official Rules. Every entry, paid or free, has the same chance of being drawn.
           </p>
 
           <p>
-            Open to legal residents of{' '}
-            <span className="text-white font-semibold">[ELIGIBLE STATES - TO BE UPDATED]</span> who are at least 18 years old. Void where prohibited.
+            Open to legal residents of the{' '}
+            <span className="text-white font-semibold">United States</span> who are at least 18 years old. Void where prohibited.
           </p>
 
           <p>
