@@ -27,6 +27,14 @@ create table if not exists entries (
 );
 create index if not exists entries_email_idx on entries (email);
 
+-- A refunded or charged-back order's entry stops counting but is NOT deleted:
+-- a sweepstakes needs to be able to answer "was this person in the draw, and
+-- why did that change?" after the fact. Everything that counts entries filters
+-- on voided_at is null.
+alter table entries add column if not exists voided_at   timestamptz;
+alter table entries add column if not exists void_reason text;
+create index if not exists entries_voided_at_idx on entries (voided_at);
+
 -- Idempotency for purchased entries: Stripe delivers checkout.session.completed
 -- at least once (plus manual resends), and one order is worth exactly one entry,
 -- so a replay must not be able to insert a second row for the same session.
