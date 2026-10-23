@@ -247,7 +247,7 @@ export default function Home() {
           <span className="v2-eyebrow">The Winners Vault</span>
           <h2 className="v2-h2">The vault is unclaimed</h2>
           <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 16, lineHeight: 1.65 }}>
-            No one has won yet. The first name ever etched into the Loot Vault is still open — {ENTRIES_LABEL}, or enter free by mail.
+            No one has won yet. The first name ever etched onto the Winners Wall is still open — {ENTRIES_LABEL}, or enter free by mail.
           </p>
           <Link href="/winners" className="btn-ghost-v2 self-start" style={{ fontSize: 13, padding: '15px 28px' }}>Visit the Winners Vault</Link>
         </div>
@@ -260,7 +260,7 @@ export default function Home() {
             <span className="text-parchment" style={{ fontSize: 32, fontWeight: 900, letterSpacing: '0.04em' }}>— YOUR NAME —</span>
             <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Drop 1 · Lootix Launch Giveaway</span>
             <div style={{ height: 1, background: 'rgba(198,161,91,0.25)', margin: '6px 0' }} />
-            <span className="text-sand" style={{ fontSize: 13, lineHeight: 1.6 }}>The first name ever etched into the Loot Vault. It could be yours.</span>
+            <span className="text-sand" style={{ fontSize: 13, lineHeight: 1.6 }}>The first name ever etched onto the Winners Wall. It could be yours.</span>
           </div>
         </div>
       </section>

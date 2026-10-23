@@ -85,7 +85,7 @@ export const MILESTONES = [
     title: 'First Winner',
     state: 'next' as const,
     tag: 'Unclaimed',
-    desc: `The first name ever etched into the Loot Vault. ${ENTRIES_LABEL}, or enter free by mail — it could be yours.`,
+    desc: `The first name ever etched onto the Winners Wall. ${ENTRIES_LABEL}, or enter free by mail — it could be yours.`,
   },
   {
     title: 'The $1K Club',

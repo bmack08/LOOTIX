@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Winners — The Winners Vault | Lootix',
-  description: 'Every Lootix winner is selected at random using RANDOM.ORG, and the draw is screen-recorded and posted. The first name in the Loot Vault is still unclaimed.',
+  description: 'Every Lootix winner is selected at random using RANDOM.ORG, and the draw is screen-recorded and posted. The first name on the Winners Wall is still unclaimed.',
 };
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
@@ -85,7 +85,7 @@ export default async function WinnersPage() {
             <p className="m-0 text-stone" style={{ fontSize: 14, lineHeight: 1.6 }}>
               {winner
                 ? `Drawn ${formatEndDate(new Date(winner.drawn_at))} at random on RANDOM.ORG from ${winner.total_entries.toLocaleString()} entries.`
-                : `The first name ever etched into the Loot Vault. ${ENTRIES_LABEL}, or enter free by mail.`}
+                : `The first name ever etched onto the Winners Wall. ${ENTRIES_LABEL}, or enter free by mail.`}
             </p>
             {winner?.draw_verification_url && (
               <a
