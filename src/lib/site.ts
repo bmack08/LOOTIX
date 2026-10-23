@@ -6,12 +6,15 @@
 import { COMPANY_ADDRESS } from '@/config/legal';
 
 export const TICKER = [
-  '◆ 1 entry per $1 spent',
-  'Drop 1',
+  // Order matters: the prize line is followed by the free-entry line, and the
+  // purchase cue ("1 entry per $1") is kept off the prize line (Legal swap list,
+  // caution 2). The ticker loops, so it also never sits right before the prize.
   '◆ Win $250 + custom Lootix hoodie & tee',
-  'No purchase necessary · free entry by mail',
-  '◆ Winner drawn at random on RANDOM.ORG',
+  'No purchase necessary to enter or win. Free entries are available.',
+  'Drop 1',
+  '◆ 1 entry per $1 spent',
   'Ships to the US only',
+  '◆ Winner drawn at random on RANDOM.ORG',
 ];
 
 /** `live` marks the tab that gets the LIVE badge — only while entries are open. */
