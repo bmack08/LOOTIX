@@ -12,12 +12,14 @@ import {
   FREE_SHIPPING_THRESHOLD,
   PRIZE_VALUE_PLACEHOLDER,
   GIVEAWAY_CLOSE_TIME_LABEL,
+  ODDS_SHORT,
+  ODDS_LONG_MD,
 } from '@/config/giveaway';
 
 export const metadata: Metadata = {
   title: 'Giveaways — Lootix Launch Giveaway | Lootix',
   description:
-    'The Lootix Launch Giveaway: $250 cash plus a custom Lootix hoodie and tee, drawn at random on RANDOM.ORG. No purchase necessary — free entry by mail, with the same odds per entry as a purchase entry.',
+    `The Lootix Launch Giveaway: $250 cash plus a custom Lootix hoodie and tee, drawn at random on RANDOM.ORG. ${ODDS_SHORT}`,
 };
 
 // isEntryWindowOpen() is wall-clock dependent, so this page must not be
@@ -144,8 +146,8 @@ export default function GiveawaysPage() {
             </div>
           ))}
         </div>
-        <NoPurchaseNotice className="text-center text-stone" style={{ margin: '32px auto 0', maxWidth: 680, fontSize: 12, lineHeight: 1.7 }}>
-          A mail-in card is worth {MAIL_IN_ENTRIES} entries, with the same odds per entry as a purchase entry. See the{' '}
+        <NoPurchaseNotice line={ODDS_LONG_MD} className="text-center text-stone" style={{ margin: '32px auto 0', maxWidth: 680, fontSize: 12, lineHeight: 1.7 }}>
+          A mail-in card is worth {MAIL_IN_ENTRIES} entries. See the{' '}
           <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for
           the address and instructions. 18+, US only.
         </NoPurchaseNotice>

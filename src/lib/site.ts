@@ -84,7 +84,7 @@ export const GIVEAWAY_DATES_SET = Boolean(GIVEAWAY.startISO && GIVEAWAY.endDateI
 export const STATS = [
   { value: '$250', label: 'Cash in the launch grand prize' },
   { value: '1 : $1', label: 'One entry per dollar spent' },
-  { value: 'FREE', label: 'Entry by mail · same odds per entry' },
+  { value: 'FREE', label: 'Entry by mail · free entries available' },
   { value: 'RANDOM.ORG', label: 'Random draw, screen-recorded' },
 ];
 
@@ -160,12 +160,14 @@ export const HOW_STEPS = [
 // NOTE: the "25 entries per card" below mirrors MAIL_IN_ENTRIES in
 // src/config/giveaway.ts. It is spelled out here because config/giveaway.ts
 // imports THIS file (for GIVEAWAY), so importing back would be circular —
-// if MAIL_IN_ENTRIES changes, change this string too.
+// if MAIL_IN_ENTRIES changes, change this string too. The same goes for the
+// odds sentences in the "Free entry by mail" card: they copy ODDS_LONG in
+// config/giveaway.ts (Legal's long form), so keep the two identical.
 export const PROOF = [
   { icon: '⚖', title: 'RANDOM.ORG draw', body: 'The winner is selected at random using RANDOM.ORG, weighted by entry count.' },
   { icon: '◉', title: 'Screen-recorded', body: 'Every draw is screen-recorded and the recording is posted, with the RANDOM.ORG result link.' },
   { icon: '◆', title: 'Winners published', body: 'Every winner is named on the Winners page and socials, with payout proof.' },
-  { icon: '✉', title: 'Free entry by mail', body: 'The free mail-in method in the Official Rules is worth 25 entries per card, with the same odds per entry as a purchase entry — no purchase ever required.' },
+  { icon: '✉', title: 'Free entry by mail', body: 'The free mail-in method in the Official Rules is worth 25 entries per card. No purchase necessary to enter or win. Every entry has an equal chance of being selected. Your chance of winning depends on the total number of entries received. Purchases earn more entries. Free entries are available (no purchase necessary).' },
 ];
 
 export const COMPANY = {
