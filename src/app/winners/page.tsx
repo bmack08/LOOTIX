@@ -18,7 +18,7 @@ const HAIR = '1px solid rgba(198,161,91,0.16)';
 const STEPS = [
   { n: '01', title: 'Weighted random draw', body: 'The winner is selected at random using RANDOM.ORG across all eligible entries — purchase, mail-in and sign-up entries pooled into one draw.' },
   { n: '02', title: 'Screen-recorded & posted', body: 'The draw is screen-recorded and the recording is posted, along with the RANDOM.ORG result page for the drawn number.' },
-  { n: '03', title: 'Verified & paid fast', body: 'Winner confirms eligibility, then the $250 is paid by PayPal within days — not weeks. Merch ships immediately.' },
+  { n: '03', title: 'Verified & paid', body: 'After verification, the cash is sent by PayPal and the merch ships; the timing is in the Official Rules (about [30] days).' },
   { n: '04', title: 'Etched into the vault', body: 'Name, prize, draw date, and proof-of-payout land on this page — a permanent public record.' },
 ];
 
