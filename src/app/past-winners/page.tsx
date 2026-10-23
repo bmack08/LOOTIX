@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export const metadata = {
   title: 'Past Winners | Lootix',
-  description: 'See past Lootix giveaway winners. Real people, real prizes, publicly verified.',
+  description: 'See past Lootix giveaway winners. Winners will be listed here after each drawing, once the winner has been verified.',
 };
 
 export default function PastWinnersPage() {
@@ -16,7 +16,7 @@ export default function PastWinnersPage() {
             Past <span className="text-cta-primary">Winners</span>
           </h1>
           <p className="text-lg text-text-secondary">
-            Real people. Real prizes. Publicly verified.
+            Winners will be listed here after each drawing, once the winner has been verified.
           </p>
         </div>
       </section>
@@ -34,10 +34,10 @@ export default function PastWinnersPage() {
             Our First Winner is <span className="text-cta-primary">Coming Soon</span>
           </h2>
           <p className="text-text-secondary text-lg leading-relaxed mb-4">
-            We're running our inaugural giveaway right now. Once the drawing is complete, our first winner will be announced here with their name, prize, and photo.
+            We're running our inaugural giveaway right now. Once the drawing is complete, our first winner will be listed here after verification.
           </p>
           <p className="text-text-muted text-sm mb-8">
-            Every winner is verified, publicly announced, and celebrated. No fake winners, no staged photos — real people winning real prizes.
+            With the winner's permission we show a name and photo; otherwise first name, last initial and state.
           </p>
 
           {/* What winners get */}
@@ -79,11 +79,7 @@ export default function PastWinnersPage() {
       {/* Trust Bar */}
       <section className="py-12 px-6 bg-bg-secondary">
         <div className="max-w-4xl mx-auto">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div>
-              <p className="font-display font-bold text-3xl text-cta-primary">100%</p>
-              <p className="text-text-muted text-sm uppercase tracking-wider">Verified Winners</p>
-            </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
             <div>
               <p className="font-display font-bold text-3xl text-cta-primary">FREE</p>
               <p className="text-text-muted text-sm uppercase tracking-wider">Entry Available</p>
