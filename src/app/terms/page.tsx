@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ContentPage from '@/components/lootix/ContentPage';
+import { NO_PURCHASE_ODDS_SENTENCE } from '@/config/giveaway';
 
 export const metadata: Metadata = {
   title: 'Terms of Service — Lootix',
@@ -30,7 +31,7 @@ export default function TermsPage() {
       <p>Lootix operates legally compliant sweepstakes. Each giveaway is governed by its own <a href="/official-rules">Official Rules</a>, incorporated into these Terms by reference.</p>
       <ul>
         <li>No purchase is necessary to enter or win any giveaway.</li>
-        <li>A purchase does not increase your chances of winning.</li>
+        <li>{NO_PURCHASE_ODDS_SENTENCE}</li>
         <li>Entries earned through purchases are as described in the applicable Official Rules.</li>
         <li>Lootix reserves the right to modify, suspend, or cancel any giveaway at its discretion.</li>
       </ul>

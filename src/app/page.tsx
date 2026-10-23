@@ -180,7 +180,7 @@ export default function Home() {
           </span>
         </div>
         <div className="flex flex-col justify-center gap-6" style={{ padding: '72px 24px' }}>
-          <span className="v2-eyebrow">Launch Giveaway · $250 + Free Merch</span>
+          <span className="v2-eyebrow">Launch Giveaway · $250 + Custom Hoodie &amp; Tee</span>
           <h2 className="v2-h2">The Launch Vault</h2>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
             One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free US shipping at ${FREE_SHIPPING_THRESHOLD}.

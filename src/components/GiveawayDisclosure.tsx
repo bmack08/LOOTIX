@@ -25,7 +25,7 @@ export default function GiveawayDisclosure() {
             <Link href={FREE_ENTRY_HREF} className="text-primary hover:text-primary/80 underline font-semibold transition-colors">
               Alternate Method of Entry (AMOE)
             </Link>{' '}
-            described in the Official Rules. All entries, paid or free, have the same odds of being selected.
+            described in the Official Rules. A free entry has the same odds per entry as a purchase entry.
           </p>
 
           <p>

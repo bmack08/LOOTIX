@@ -200,7 +200,7 @@ export function GrandPrizeShowcase() {
           <img src="/brand/ref-fantasy-3.jpg" alt="This month's grand prize vault" className="w-full h-[480px] object-cover rounded-feature shadow-card" style={{ border: '1px solid rgba(212,175,55,.3)' }} />
         </Reveal>
         <Reveal delay={100}>
-          <div className="lx-eyebrow mb-4" style={{ letterSpacing: '.26em' }}>Launch Giveaway · $250 + Free Merch</div>
+          <div className="lx-eyebrow mb-4" style={{ letterSpacing: '.26em' }}>Launch Giveaway · $250 + Custom Hoodie &amp; Tee</div>
           <h2 className="font-archivo font-black uppercase text-cream m-0 mb-5" style={{ fontSize: 'clamp(32px,4vw,52px)', lineHeight: 0.98, letterSpacing: '-.025em' }}>The Launch Vault</h2>
           <p className="font-archivo text-[16px] leading-[1.62] text-muted m-0 mb-[26px]">One winner takes it all: <strong className="text-cream">$250 cash</strong> plus a <strong className="text-cream">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free US shipping at $100.</p>
           <div className="flex flex-col gap-[11px] mb-[30px]">

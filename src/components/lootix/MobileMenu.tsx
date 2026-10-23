@@ -66,7 +66,7 @@ export default function MobileMenu() {
 
       <div className="px-6 mt-8">
         <a href="/giveaways" onClick={() => setOpen(false)} className="btn-gold w-full !py-[18px] !text-[15px]">
-          Enter to Win — $250 + Merch
+          Enter to Win — $250 + Custom Hoodie &amp; Tee
         </a>
         <div className="mt-6 flex items-center justify-center gap-2 font-mono text-[11px] tracking-[.16em] uppercase text-muted">
           <span className="w-[6px] h-[6px] rounded-full bg-gold" /> Live Giveaway · Draw Ends Soon

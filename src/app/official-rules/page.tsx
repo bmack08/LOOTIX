@@ -35,7 +35,7 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
     `A. Entry with Purchase — During the Sweepstakes Period, purchase eligible merchandise from getlootix.com. You receive ${ENTRIES_PER_DOLLAR} entry for each U.S. dollar of your order subtotal, calculated after any discounts and before tax and shipping, rounded down to the nearest whole entry (for example, a $129.99 subtotal earns 129 entries). Shipping, taxes, and fees do not earn entries. You will receive a confirmation email with your entry total. A refund or chargeback voids that order's entries; a size exchange does not.`,
     `B. Free Alternate Method of Entry (AMOE) — No purchase necessary. Hand-print a 3"×5" card with your full legal name, complete mailing address, email, phone, and the phrase "LOOTIX LAUNCH VAULT SWEEPSTAKES ENTRY," and mail it to: LOOTIX LAUNCH VAULT SWEEPSTAKES, Lootix LLC, [MAIL-IN ADDRESS]. Each card is worth ${MAIL_IN_ENTRIES} entries. Limit one (1) card per outer envelope, each mailed separately with first-class postage, postmarked within the Sweepstakes Period and received within seven (7) days after it ends. There is no limit on the number of envelopes you may mail. Mechanically reproduced or automated entries are void.`,
     `C. Free Online Sign-Up — No purchase necessary. Submit your email address through the sign-up form on getlootix.com during the Sweepstakes Period to receive ${SIGNUP_ENTRIES} entries. Limit one (1) sign-up entry per person for the entire Sweepstakes; repeat submissions earn nothing.`,
-    'Each entry, however earned, has the same chance of being selected as every other entry. Methods A, B, and C are pooled into one drawing.',
+    'A free entry earned under Method B or C has the same odds per entry as a purchase entry. Methods A, B, and C are pooled into one drawing.',
   ] },
   { num: '05', title: 'Prize', paras: [`Grand Prize (1): $250 cash (paid by PayPal), plus one (1) custom Lootix hoodie and one (1) custom Lootix tee. Approximate Retail Value (ARV): ${PRIZE_VALUE_PLACEHOLDER} — item values and the total are still being finalized and will be stated here before the Sweepstakes Period opens. Prize is awarded "as is." Winner is responsible for all taxes and may be required to complete an IRS Form W-9. No cash substitution except at Sponsor's discretion; prize is not transferable.`] },
   { num: '06', title: 'Winner Selection', paras: ['One (1) potential winner will be selected at random using RANDOM.ORG from all eligible entries, on or about the draw date shown on the Giveaways page. Each entry occupies one number in the draw, so a purchase worth 129 entries has 129 chances and a mail-in card has 25. The draw is screen-recorded and posted, together with the RANDOM.ORG result page for the drawn number. Odds of winning depend on the total number of eligible entries received.'] },
@@ -69,8 +69,8 @@ export default function OfficialRulesPage() {
             No purchase, donation, or payment of any kind is necessary to enter or win.
           </span>
           <span style={{ fontSize: 14, color: '#4A3D22' }}>
-            Free entry is available by mail — {MAIL_IN_ENTRIES} entries per card, with no limit on envelopes. Every entry has the
-            same chance of being drawn, however it was earned.
+            Free entry is available by mail — {MAIL_IN_ENTRIES} entries per card, with no limit on envelopes, and with the
+            same odds per entry as a purchase entry.
           </span>
           {/* The standard no-purchase line — identical wording site-wide. */}
           <NoPurchaseNotice
