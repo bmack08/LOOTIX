@@ -4,6 +4,7 @@ import '../styles/globals.css';
 import SiteHeader from '@/components/lootix/v2/SiteHeader';
 import SiteFooter from '@/components/lootix/v2/SiteFooter';
 import { CartProvider } from '@/components/lootix/v2/CartContext';
+import { ODDS_SHORT } from '@/config/giveaway';
 
 const archivo = Archivo({
   subsets: ['latin'],
@@ -30,7 +31,7 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: 'LOOTIX — Earn It. Wear It. Loot It.',
   description:
-    'Fantasy streetwear, forged for the fearless. Every order earns entries into the Lootix Launch Giveaway — $250 cash plus a custom hoodie and tee, drawn at random on RANDOM.ORG. No purchase necessary to enter or win.',
+    `Fantasy streetwear, forged for the fearless. ${ODDS_SHORT} The Lootix Launch Giveaway: $250 cash plus a custom hoodie and tee, drawn at random on RANDOM.ORG.`,
 };
 
 export default function RootLayout({
