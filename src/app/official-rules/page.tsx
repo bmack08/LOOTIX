@@ -9,6 +9,7 @@ import {
   SIGNUP_ENTRIES,
   PRIZE_VALUE_PLACEHOLDER,
 } from '@/config/giveaway';
+import { MAIL_IN_ADDRESS, MAIL_IN_ADDRESS_LINES } from '@/config/legal';
 
 export const metadata: Metadata = {
   title: 'Official Rules — Launch Vault Sweepstakes | Lootix',
@@ -16,6 +17,10 @@ export const metadata: Metadata = {
 };
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
+
+// The Sponsor sentence names "Lootix LLC" itself, so it takes the street lines
+// only; the mail-in paragraph below uses the full address, name line included.
+const SPONSOR_STREET_ADDRESS = MAIL_IN_ADDRESS_LINES.slice(1).join(', ');
 
 // Dates come from src/lib/site.ts (GIVEAWAY) — one source for the whole site.
 const START_DATE = GIVEAWAY.startISO ? formatEndDate(new Date(GIVEAWAY.startISO)) : '[start date]';
@@ -25,7 +30,7 @@ const END_DATE = GIVEAWAY.drawDateISO ? formatEndDate(new Date(GIVEAWAY.drawDate
 // no-purchase notice on the site points at (FREE_ENTRY_HREF), so keep it on
 // the section that carries the free mail-in method.
 const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] = [
-  { num: '01', title: 'Sponsor', paras: ['This sweepstakes ("Sweepstakes") is sponsored by Lootix LLC, located in Maryland, USA [BUSINESS ADDRESS] ("Sponsor").'] },
+  { num: '01', title: 'Sponsor', paras: [`This sweepstakes ("Sweepstakes") is sponsored by Lootix LLC, a Maryland limited liability company, ${SPONSOR_STREET_ADDRESS}, USA ("Sponsor").`] },
   { num: '02', title: 'Eligibility', paras: [
     'Open to legal residents of the 50 United States and D.C. who are at least eighteen (18) years of age (or the age of majority in their jurisdiction) at the time of entry. Void where prohibited.',
     'Employees, officers, and directors of Sponsor and its affiliates, and their immediate family and household members, are not eligible to enter or win.',
@@ -33,7 +38,7 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
   { num: '03', title: 'Sweepstakes Period', paras: [`The Sweepstakes begins at 12:00 AM ET on ${START_DATE} and ends at 8:00 PM ET on ${END_DATE} (the "Sweepstakes Period"). No entry is created before the start or after the close.`] },
   { num: '04', title: 'How to Enter', id: 'free-entry', paras: [
     `A. Entry with Purchase — During the Sweepstakes Period, purchase eligible merchandise from getlootix.com. You receive ${ENTRIES_PER_DOLLAR} entry for each U.S. dollar of your order subtotal, calculated after any discounts and before tax and shipping, rounded down to the nearest whole entry (for example, a $129.99 subtotal earns 129 entries). Shipping, taxes, and fees do not earn entries. You will receive a confirmation email with your entry total. A refund or chargeback voids that order's entries; a size exchange does not.`,
-    `B. Free Alternate Method of Entry (AMOE) — No purchase necessary. Hand-print a 3"×5" card with your full legal name, complete mailing address, email, phone, and the phrase "LOOTIX LAUNCH VAULT SWEEPSTAKES ENTRY," and mail it to: LOOTIX LAUNCH VAULT SWEEPSTAKES, Lootix LLC, [MAIL-IN ADDRESS]. Each card is worth ${MAIL_IN_ENTRIES} entries. Limit one (1) card per outer envelope, each mailed separately with first-class postage, postmarked within the Sweepstakes Period and received within seven (7) days after it ends. There is no limit on the number of envelopes you may mail. Mechanically reproduced or automated entries are void.`,
+    `B. Free Alternate Method of Entry (AMOE) — No purchase necessary. Hand-print a 3"×5" card with your full legal name, complete mailing address, email, phone, and the phrase "LOOTIX LAUNCH VAULT SWEEPSTAKES ENTRY," and mail it to: LOOTIX LAUNCH VAULT SWEEPSTAKES, ${MAIL_IN_ADDRESS}. Each card is worth ${MAIL_IN_ENTRIES} entries. Limit one (1) card per outer envelope, each mailed separately with first-class postage, postmarked within the Sweepstakes Period and received within seven (7) days after it ends. There is no limit on the number of envelopes you may mail. Mechanically reproduced or automated entries are void.`,
     `C. Free Online Sign-Up — No purchase necessary. Submit your email address through the sign-up form on getlootix.com during the Sweepstakes Period to receive ${SIGNUP_ENTRIES} entries. Limit one (1) sign-up entry per person for the entire Sweepstakes; repeat submissions earn nothing.`,
     'A free entry earned under Method B or C has the same odds per entry as a purchase entry. Methods A, B, and C are pooled into one drawing.',
   ] },

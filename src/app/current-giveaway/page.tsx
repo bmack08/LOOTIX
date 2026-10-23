@@ -14,6 +14,7 @@ import {
   getTimeRemaining,
   formatEndDate,
 } from '@/config/giveaway';
+import { MAIL_IN_ADDRESS_LINES } from '@/config/legal';
 
 export default function CurrentGiveawayPage() {
   const [timeRemaining, setTimeRemaining] = useState(getTimeRemaining(currentGiveaway.endDate));
@@ -164,8 +165,12 @@ export default function CurrentGiveawayPage() {
                 Each card is worth {MAIL_IN_ENTRIES} entries — one card per envelope, no limit on envelopes, no purchase necessary.
               </p>
               <div className="mt-4 p-3 bg-bg-secondary rounded-sm text-text-muted text-xs">
-                <p className="font-semibold text-text-secondary mb-1">Lootix LLC</p>
-                <p>[MAIL-IN ADDRESS]</p>
+                {/* First line is the company name — keep it as the bold heading. */}
+                {MAIL_IN_ADDRESS_LINES.map((line, i) => (
+                  <p key={line} className={i === 0 ? 'font-semibold text-text-secondary mb-1' : undefined}>
+                    {line}
+                  </p>
+                ))}
               </div>
             </div>
 
