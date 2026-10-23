@@ -90,8 +90,8 @@ export default function AboutPage() {
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
             DROP 1 IS LIVE ·{' '}
             {GIVEAWAY.endDateISO
-              ? `LAUNCH VAULT CLOSES ${formatEndDate(new Date(GIVEAWAY.endDateISO)).toUpperCase()} AT 8 PM ET`
-              : 'LAUNCH VAULT DATES COMING SOON'}
+              ? `LAUNCH GIVEAWAY CLOSES ${formatEndDate(new Date(GIVEAWAY.endDateISO)).toUpperCase()} AT 8 PM ET`
+              : 'LAUNCH GIVEAWAY DATES COMING SOON'}
           </span>
         </div>
         <Link

@@ -33,7 +33,7 @@ export default function Home() {
             Earn it.<br />Wear it.<br /><span className="text-brass">Loot it.</span>
           </h1>
           <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 17, lineHeight: 1.65 }}>
-            Legendary streetwear, forged for the fearless. Every dollar you spend on Drop 1 is one entry toward the Launch Vault — <strong className="text-parchment">$250 cash plus a custom Lootix hoodie and tee</strong>, drawn at random on RANDOM.ORG.
+            Legendary streetwear, forged for the fearless. Every dollar you spend on Drop 1 is one entry toward the Lootix Launch Giveaway — <strong className="text-parchment">$250 cash plus a custom Lootix hoodie and tee</strong>, drawn at random on RANDOM.ORG.
           </p>
           <div className="flex items-center gap-4 flex-wrap">
             <Link href="/shop" className="btn-brass">Shop the Drop</Link>

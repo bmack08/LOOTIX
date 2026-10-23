@@ -14,9 +14,9 @@ import {
 } from '@/config/giveaway';
 
 export const metadata: Metadata = {
-  title: 'Giveaways — The Launch Vault | Lootix',
+  title: 'Giveaways — Lootix Launch Giveaway | Lootix',
   description:
-    'The Launch Vault: $250 cash plus a custom Lootix hoodie and tee, drawn at random on RANDOM.ORG. No purchase necessary — free entry by mail, with the same odds per entry as a purchase entry.',
+    'The Lootix Launch Giveaway: $250 cash plus a custom Lootix hoodie and tee, drawn at random on RANDOM.ORG. No purchase necessary — free entry by mail, with the same odds per entry as a purchase entry.',
 };
 
 // isEntryWindowOpen() is wall-clock dependent, so this page must not be

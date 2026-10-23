@@ -50,3 +50,18 @@ export const COMPANY_ADDRESS_LINES: string[] = [
 
 /** Company address, single line, for footers, emails and metadata. */
 export const COMPANY_ADDRESS = COMPANY_ADDRESS_LINES.join(', ');
+
+/**
+ * Winners list address, block form -- where an entrant mails a self-addressed
+ * stamped envelope to request the winner's name (Official Rules § 14). Same
+ * mailbox again, with its own addressee line so those requests sort apart from
+ * entry cards and business mail. Built from COMPANY_ADDRESS_LINES so the
+ * street lines stay single-sourced.
+ */
+export const WINNERS_LIST_ADDRESS_LINES: string[] = [
+  'Lootix Launch Giveaway Winners List',
+  ...COMPANY_ADDRESS_LINES,
+];
+
+/** Winners list address, single line, for running prose and instructions. */
+export const WINNERS_LIST_ADDRESS = WINNERS_LIST_ADDRESS_LINES.join(', ');

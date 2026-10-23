@@ -45,7 +45,7 @@ export default function CartPage() {
           <span className="v2-eyebrow">Your cart</span>
           <h1 className="m-0 uppercase" style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: 900 }}>Nothing looted yet</h1>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
-            Every dollar you spend is one entry toward the Launch Vault — $250 cash plus a custom Lootix hoodie and tee.
+            Every dollar you spend is one entry toward the Lootix Launch Giveaway — $250 cash plus a custom Lootix hoodie and tee.
           </p>
           <Link href="/shop" className="btn-brass">Shop Drop 1</Link>
           <NoPurchaseNotice className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7 }} />
@@ -107,7 +107,7 @@ export default function CartPage() {
             {/* the whole point */}
             <div style={{ borderTop: HAIR, borderBottom: HAIR, padding: '16px 0', textAlign: 'center' }}>
               <div className="font-plex uppercase text-stone" style={{ fontSize: 10.5, letterSpacing: '0.16em' }}>
-                {GIVEAWAY_DATES_SET ? 'Entries into the Launch Vault' : 'Entries when the giveaway opens'}
+                {GIVEAWAY_DATES_SET ? 'Entries into the Lootix Launch Giveaway' : 'Entries when the giveaway opens'}
               </div>
               <div className="text-brass-lit" style={{ fontSize: 40, fontWeight: 900, lineHeight: 1.15 }}>{totalEntries.toLocaleString()}</div>
               <div className="font-plex uppercase text-stone" style={{ fontSize: 10, letterSpacing: '0.12em' }}>{ENTRIES_LABEL}</div>

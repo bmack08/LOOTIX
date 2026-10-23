@@ -28,7 +28,7 @@ export default function OrderSuccessPage() {
         </h1>
         <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7 }}>
           Payment received. {GIVEAWAY_DATES_SET
-            ? 'Your entries — 1 per $1 of your subtotal — are being added to the Launch Vault right now, and a confirmation email with your entry total is on its way.'
+            ? 'Your entries — 1 per $1 of your subtotal — are being added to the Lootix Launch Giveaway right now, and a confirmation email with your entry total is on its way.'
             : 'A confirmation email is on its way. The giveaway has not opened yet, so no entries have been created for this order — we will email you when entries go live.'}{' '}
           Gear ships within 2–4 business days, to US addresses only.
         </p>
