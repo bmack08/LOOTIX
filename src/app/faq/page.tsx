@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
+import EntryGate from '@/components/EntryGate';
 import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, FREE_SHIPPING_THRESHOLD, ODDS_LONG_MD, ODDS_SHORT, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
 
 export const metadata: Metadata = {
@@ -14,9 +15,21 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
   {
     title: 'Giveaways & Entries',
     items: [
-      { q: 'How do the giveaways work?', a: <>You earn <strong className="text-parchment">{ENTRIES_LABEL}</strong> — every dollar of your order subtotal is one entry into the current giveaway. A $129.99 order earns 129 entries. You keep your gear either way, and free entry is always available by mail (see the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>).</> },
+      { q: 'How do the giveaways work?', a: (
+        <EntryGate
+          fallback={<>The Lootix Launch Giveaway has not opened yet; dates are not set. Join the list to hear when entries open. The <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> explain every way to enter once it does.</>}
+        >
+          You earn <strong className="text-parchment">{ENTRIES_LABEL}</strong> — every dollar of your order subtotal is one entry into the current giveaway. A $129.99 order earns 129 entries. You keep your gear either way, and free entry is always available by mail (see the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>). <NoPurchaseNotice as="span" linkLead />
+        </EntryGate>
+      ) },
       { q: 'Do I have to buy anything to enter?', a: <>No. Free entry is available by mail — {MAIL_IN_ENTRIES} entries per hand-printed card, one card per envelope, with no limit on envelopes. See the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the address and instructions. {ODDS_SHORT}</> },
-      { q: 'How are entry counts decided?', a: <>{ENTRIES_LABEL}, counted from your order subtotal after discounts and before tax and shipping, then rounded down. A free mail-in card is worth {MAIL_IN_ENTRIES} entries, and the one-time online sign-up is worth {SIGNUP_ENTRIES}. Your purchase total shows at checkout and in your confirmation email.</> },
+      { q: 'How are entry counts decided?', a: (
+        <EntryGate
+          fallback={<>Entry counts are set out in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> and apply only once the giveaway opens.</>}
+        >
+          {ENTRIES_LABEL}, counted from your order subtotal after discounts and before tax and shipping, then rounded down. A free mail-in card is worth {MAIL_IN_ENTRIES} entries, and the one-time online sign-up is worth {SIGNUP_ENTRIES}. Your purchase total shows at checkout and in your confirmation email. <NoPurchaseNotice as="span" linkLead />
+        </EntryGate>
+      ) },
       { q: 'Does spending more improve my odds?', a: <>The free mail-in method is worth {MAIL_IN_ENTRIES} entries per card with no limit on how many cards you mail, so you can build entries without spending anything. <NoPurchaseNotice as="span" line={ODDS_LONG_MD} /></> },
       { q: 'What is the current prize?', a: 'The Lootix Launch Giveaway: $250 cash plus a custom Lootix hoodie and a custom Lootix tee. Item values and the total are still being finalized. Cash is paid by PayPal.' },
       { q: 'What happens to my entries if I get a refund?', a: 'A refund or a chargeback voids that order’s entries. A size exchange keeps them — you still bought the gear.' },

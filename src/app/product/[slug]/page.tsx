@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: Props) {
 
   return {
     title: `${product.name} | Lootix`,
-    description: product.description || `Shop ${product.name} and earn giveaway entries with your purchase.`,
+    description: product.description || `Shop ${product.name} from Lootix.`,
   };
 }
 

@@ -82,29 +82,46 @@ export default function GiveawaysPage() {
 
           {/* How to earn entries — three methods, one place. */}
           <div className="flex flex-col gap-1.5">
-            <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.14em' }}>How to enter</span>
-            <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Order — {ENTRIES_LABEL} of your subtotal</span>
-            <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Free by mail — {MAIL_IN_ENTRIES} entries per card, no purchase necessary</span>
-            <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Online sign-up — {SIGNUP_ENTRIES} entries, once per person</span>
+            {windowOpen ? (
+              <>
+              <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.14em' }}>How to enter</span>
+              <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Order — {ENTRIES_LABEL} of your subtotal</span>
+              <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Free by mail — {MAIL_IN_ENTRIES} entries per card, no purchase necessary</span>
+              <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Online sign-up — {SIGNUP_ENTRIES} entries, once per person</span>
+              </>
+            ) : (
+              <>
+                <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Opening soon</span>
+                <span className="text-sand" style={{ fontSize: 14.5 }}>Join the list to hear when entries open.</span>
+              </>
+            )}
           </div>
 
           <div className="flex gap-3.5 flex-wrap">
             <Link href="/shop" className="btn-brass">{windowOpen ? 'Enter & Shop' : 'Shop the Drop'}</Link>
             <Link href="/official-rules" className="btn-ghost-v2">Free Entry Method</Link>
           </div>
-          <NoPurchaseNotice as="span" className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
-            18+ · US only · winner selected at random using RANDOM.ORG, weighted by entry count.
-          </NoPurchaseNotice>
+          {windowOpen ? (
+            <NoPurchaseNotice as="span" className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
+              18+ · US only · winner selected at random using RANDOM.ORG, from all eligible entries.
+            </NoPurchaseNotice>
+          ) : (
+            <span className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
+              18+ \u00b7 US only \u00b7 winner selected at random using RANDOM.ORG from all eligible entries.
+            </span>
+          )}
         </div>
       </section>
 
-      {/* ENTRY PACKS */}
+      {/* SHOP BUNDLES (Legal: renamed from 'Entry packs' - entries come from the merchandise purchase, none are sold) */}
       <section style={{ padding: '80px 24px', borderBottom: HAIR }}>
         <div className="flex flex-col gap-2.5 items-center text-center" style={{ marginBottom: 48 }}>
-          <span className="v2-eyebrow">Entry packs</span>
+          <span className="v2-eyebrow">Shop bundles</span>
           <h2 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(30px,4.5vw,44px)', fontWeight: 900 }}>Pick your pack</h2>
           <p className="m-0 text-sand" style={{ maxWidth: 520, fontSize: 16, lineHeight: 1.6 }}>
-            Real gear, {ENTRIES_LABEL}. Spend more and you earn more entries — free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.
+            {windowOpen
+              ? <>Real gear, {ENTRIES_LABEL}. Spend more and you earn more entries \u2014 free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.</>
+              : <>Real gear, limited and numbered \u2014 free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.</>}
           </p>
         </div>
         <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mx-auto" style={{ maxWidth: 1080 }}>
@@ -124,7 +141,9 @@ export default function GiveawaysPage() {
               )}
               <span className="uppercase text-parchment" style={{ fontSize: 20, fontWeight: 800 }}>{pk.name}</span>
               <span className="text-brass-lit" style={{ fontSize: 44, fontWeight: 900 }}>{pk.price}</span>
-              <span className="font-plex text-brass" style={{ fontSize: 13, letterSpacing: '0.08em' }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
+              {windowOpen && (
+                <span className="font-plex text-brass" style={{ fontSize: 13, letterSpacing: '0.08em' }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
+              )}
               <span className="text-stone" style={{ fontSize: 14, lineHeight: 1.6 }}>{pk.sub}</span>
               <Link
                 href="/shop"
@@ -146,11 +165,13 @@ export default function GiveawaysPage() {
             </div>
           ))}
         </div>
-        <NoPurchaseNotice line={ODDS_LONG_MD} className="text-center text-stone" style={{ margin: '32px auto 0', maxWidth: 680, fontSize: 12, lineHeight: 1.7 }}>
-          A mail-in card is worth {MAIL_IN_ENTRIES} entries. See the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for
-          the address and instructions. 18+, US only.
-        </NoPurchaseNotice>
+        {windowOpen && (
+          <NoPurchaseNotice line={ODDS_LONG_MD} className="text-center text-stone" style={{ margin: '32px auto 0', maxWidth: 680, fontSize: 12, lineHeight: 1.7 }}>
+            A mail-in card is worth {MAIL_IN_ENTRIES} entries. See the{' '}
+            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for
+            the address and instructions. 18+, US only.
+          </NoPurchaseNotice>
+        )}
       </section>
 
       {/* COMING LATER - UPCOMING is filtered on hidden:true (site.ts); the whole section,

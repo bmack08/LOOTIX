@@ -6,7 +6,7 @@ import WinnerCard from './WinnerCard';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import type { Draw } from '@/lib/raffle';
 import {
-  STATS, VAULT, ENTRY_TIERS, HOW_STEPS, DROPS, MILESTONES,
+  STATS, VAULT, ENTRY_TIERS, HOW_STEPS, HOW_STEPS_PRE_START, DROPS, MILESTONES,
 } from '@/lib/lootix';
 import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, PRIZE_VALUE_PLACEHOLDER } from '@/config/giveaway';
 // GIVEAWAY_DATES_SET is a module constant — it only changes when site.ts is
@@ -135,16 +135,17 @@ export function StatBand() {
 }
 
 // ═══════════════ HOW IT WORKS ═══════════════
-export function HowItWorks() {
+/** `live` = the entry window is open (isEntryWindowOpen(), passed in by the page). Default is the PRE-START copy. */
+export function HowItWorks({ live = false }: { live?: boolean }) {
   return (
     <section className="max-w-site mx-auto px-6 md:px-10 py-[104px]">
       <Reveal className="text-center mb-[60px]">
         <div className="lx-eyebrow mb-4">How It Works</div>
         <h2 className="font-archivo font-black uppercase text-cream m-0 mb-[14px]" style={{ fontSize: 'clamp(34px,4.6vw,58px)', lineHeight: 1, letterSpacing: '-.025em' }}>Three steps to legendary</h2>
-        <p className="font-archivo text-[17px] text-muted max-w-[540px] mx-auto">No gimmicks. Shop the gear you actually want — the entries come free with every order.</p>
+        <p className="font-archivo text-[17px] text-muted max-w-[540px] mx-auto">{live ? 'No gimmicks. Shop the gear you actually want \u2014 the entries come free with every order.' : 'No gimmicks. Shop the gear you actually want.'}</p>
       </Reveal>
       <div className="grid gap-[22px] md:grid-cols-3">
-        {HOW_STEPS.map((step, i) => (
+        {(live ? HOW_STEPS : HOW_STEPS_PRE_START).map((step, i) => (
           <Reveal key={step.n} delay={i * 90}>
             <div className="rounded-card p-9 h-full" style={{ background: step.warm ? 'linear-gradient(165deg,#1a1610,#0d0d0e)' : 'linear-gradient(165deg,#131210,#0d0d0e)', border: `1px solid ${step.warm ? 'rgba(212,175,55,.28)' : 'rgba(255,255,255,.08)'}` }}>
               <div className="flex items-center justify-between mb-[26px]">
@@ -157,13 +158,15 @@ export function HowItWorks() {
           </Reveal>
         ))}
       </div>
-      <NoPurchaseNotice
-        className="text-center font-mono text-[12px] leading-[1.7] tracking-[.06em] text-[#6b675f] mt-[30px]"
-        linkClassName="underline hover:text-gold transition-colors"
-      >
-        A mail-in card is worth {MAIL_IN_ENTRIES} entries — see the{' '}
-        <a href="/official-rules" className="underline hover:text-gold transition-colors">Official Rules</a>. 18+ only, US only.
-      </NoPurchaseNotice>
+      {live && (
+        <NoPurchaseNotice
+          className="text-center font-mono text-[12px] leading-[1.7] tracking-[.06em] text-[#6b675f] mt-[30px]"
+          linkClassName="underline hover:text-gold transition-colors"
+        >
+          A mail-in card is worth {MAIL_IN_ENTRIES} entries — see the{' '}
+          <a href="/official-rules" className="underline hover:text-gold transition-colors">Official Rules</a>. 18+ only, US only.
+        </NoPurchaseNotice>
+      )}
     </section>
   );
 }
@@ -191,7 +194,7 @@ export function GiveawayBar() {
 }
 
 // ═══════════════ GRAND PRIZE SHOWCASE ═══════════════
-export function GrandPrizeShowcase() {
+export function GrandPrizeShowcase({ live = false }: { live?: boolean }) {
   return (
     <section style={{ background: 'linear-gradient(180deg,#0c0c0d,#0a0a0b)', borderTop: '1px solid rgba(255,255,255,.06)', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
       <div className="max-w-site mx-auto px-6 md:px-10 py-[104px] grid gap-14 lg:grid-cols-2 items-center">
@@ -200,37 +203,46 @@ export function GrandPrizeShowcase() {
           <img src="/brand/ref-fantasy-3.jpg" alt="Lootix Launch Giveaway grand prize" className="w-full h-[480px] object-cover rounded-feature shadow-card" style={{ border: '1px solid rgba(212,175,55,.3)' }} />
         </Reveal>
         <Reveal delay={100}>
-          <div className="lx-eyebrow mb-4" style={{ letterSpacing: '.26em' }}>Launch Giveaway · $250 + Custom Hoodie &amp; Tee</div>
+          <div className="lx-eyebrow mb-4" style={{ letterSpacing: '.26em' }}>{live ? 'Launch Giveaway \u00b7 $250 + Custom Hoodie & Tee' : 'Launch Giveaway \u00b7 Dates coming soon'}</div>
           <h2 className="font-archivo font-black uppercase text-cream m-0 mb-5" style={{ fontSize: 'clamp(32px,4vw,52px)', lineHeight: 0.98, letterSpacing: '-.025em' }}>Lootix Launch Giveaway</h2>
-          <p className="font-archivo text-[16px] leading-[1.62] text-muted m-0 mb-[26px]">One winner takes it all: <strong className="text-cream">$250 cash</strong> plus a <strong className="text-cream">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free US shipping at $100.</p>
-          <div className="flex flex-col gap-[11px] mb-[30px]">
-            {ENTRY_TIERS.map((tier) => (
-              <label key={tier.name} className="flex items-center justify-between gap-4 rounded-tier px-[18px] py-4 cursor-pointer relative" style={tier.popular ? { background: 'linear-gradient(120deg,rgba(212,175,55,.1),rgba(255,255,255,.03))', border: '1px solid rgba(212,175,55,.45)' } : { background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.1)' }}>
-                {tier.popular && <span className="absolute -top-[10px] left-[18px] font-mono font-bold text-[9.5px] tracking-[.16em] uppercase text-obsidian bg-gold-bright px-[9px] py-[3px] rounded-[4px]">Most Popular</span>}
-                <span className="flex flex-col gap-[3px]">
-                  <span className="font-archivo font-extrabold text-[15px] uppercase text-cream tracking-[.02em]">{tier.name}</span>
-                  <span className="font-archivo text-[13px] text-muted-2">{tier.desc}</span>
-                </span>
-                <span className="text-right">
-                  <span className="block font-mono font-bold text-[17px] text-cream">{tier.price}</span>
-                  <span className="font-mono text-[11px] text-gold-bright tracking-[.06em]">{ENTRIES_LABEL}</span>
-                </span>
-              </label>
-            ))}
-          </div>
-          <div className="flex items-center gap-4 flex-wrap">
-            <a href="/shop" className="btn-gold">Enter &amp; Shop <ArrowRight /></a>
-            <span className="font-mono text-[12px] text-muted tracking-[.06em]">{ENTRIES_LABEL}</span>
-          </div>
-          {/* Sweepstakes compliance — surfaced on the giveaway section, not just the footer */}
-          <NoPurchaseNotice
-            className="font-mono text-[11px] leading-[1.7] tracking-[.08em] text-muted mt-6"
-            linkClassName="text-gold-label underline hover:text-gold-bright transition-colors"
-          >
-            {`A mail-in card is worth ${MAIL_IN_ENTRIES} entries, and the one-time online sign-up is worth ${SIGNUP_ENTRIES}. See the `}
-            <a href="/official-rules" className="text-gold-label underline hover:text-gold-bright transition-colors">Official Rules</a>
-            . 18+, US only.
-          </NoPurchaseNotice>
+          {live ? (
+            <>
+              <p className="font-archivo text-[16px] leading-[1.62] text-muted m-0 mb-[26px]">One winner takes it all: <strong className="text-cream">$250 cash</strong> plus a <strong className="text-cream">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free US shipping at $100.</p>
+              <div className="flex flex-col gap-[11px] mb-[30px]">
+                {ENTRY_TIERS.map((tier) => (
+                  <label key={tier.name} className="flex items-center justify-between gap-4 rounded-tier px-[18px] py-4 cursor-pointer relative" style={tier.popular ? { background: 'linear-gradient(120deg,rgba(212,175,55,.1),rgba(255,255,255,.03))', border: '1px solid rgba(212,175,55,.45)' } : { background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.1)' }}>
+                    {tier.popular && <span className="absolute -top-[10px] left-[18px] font-mono font-bold text-[9.5px] tracking-[.16em] uppercase text-obsidian bg-gold-bright px-[9px] py-[3px] rounded-[4px]">Most Popular</span>}
+                    <span className="flex flex-col gap-[3px]">
+                      <span className="font-archivo font-extrabold text-[15px] uppercase text-cream tracking-[.02em]">{tier.name}</span>
+                      <span className="font-archivo text-[13px] text-muted-2">{tier.desc}</span>
+                    </span>
+                    <span className="text-right">
+                      <span className="block font-mono font-bold text-[17px] text-cream">{tier.price}</span>
+                      <span className="font-mono text-[11px] text-gold-bright tracking-[.06em]">{ENTRIES_LABEL}</span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+              <div className="flex items-center gap-4 flex-wrap">
+                <a href="/shop" className="btn-gold">Enter &amp; Shop <ArrowRight /></a>
+                <span className="font-mono text-[12px] text-muted tracking-[.06em]">{ENTRIES_LABEL}</span>
+              </div>
+              {/* Sweepstakes compliance — surfaced on the giveaway section, not just the footer */}
+              <NoPurchaseNotice
+                className="font-mono text-[11px] leading-[1.7] tracking-[.08em] text-muted mt-6"
+                linkClassName="text-gold-label underline hover:text-gold-bright transition-colors"
+              >
+                {`A mail-in card is worth ${MAIL_IN_ENTRIES} entries, and the one-time online sign-up is worth ${SIGNUP_ENTRIES}. See the `}
+                <a href="/official-rules" className="text-gold-label underline hover:text-gold-bright transition-colors">Official Rules</a>
+                . 18+, US only.
+              </NoPurchaseNotice>
+            </>
+          ) : (
+            <>
+              <p className="font-archivo text-[16px] leading-[1.62] text-muted m-0 mb-[26px]">The Lootix Launch Giveaway has not opened yet. Join the list to hear when entries open.</p>
+              <a href="/giveaways" className="btn-gold">See the Giveaway <ArrowRight /></a>
+            </>
+          )}
         </Reveal>
       </div>
     </section>

@@ -70,6 +70,13 @@ export const HOW_STEPS = [
   { n: '03', title: 'Win the loot', body: 'The winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. Winners are listed by first name, last initial and state.', warm: false },
 ];
 
+// PRE-START (dates not both set): same shape as HOW_STEPS, no per-dollar cue, no 'win' step.
+export const HOW_STEPS_PRE_START = [
+  HOW_STEPS[0],
+  { n: '02', title: 'Join the list', body: 'Sign up to hear first when the dates for the Lootix Launch Giveaway are set.', warm: true },
+  { n: '03', title: 'Watch the draw', body: 'When a giveaway runs, the winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. The winner is listed by first name, last initial and state.', warm: false },
+];
+
 // Real Lootix product designs (from the MERCH folder). `well` sets the photo
 // backdrop tone; `size`/`pos` crop the source (the tee mockups share one 2-up image).
 export const DROPS = [

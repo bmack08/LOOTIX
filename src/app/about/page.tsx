@@ -1,13 +1,16 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
-import { GIVEAWAY } from '@/lib/site';
+import { GIVEAWAY, isEntryWindowOpen } from '@/lib/site';
 import { ENTRIES_LABEL, MAIL_IN_ENTRIES, formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
 
 export const metadata: Metadata = {
   title: 'About — This is your loot | Lootix',
   description: 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Limited, numbered drops — and honest giveaways drawn at random on RANDOM.ORG.',
 };
+
+// isEntryWindowOpen() is wall-clock dependent: revalidate so the LIVE / PRE-START copy refreshes.
+export const revalidate = 60;
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -25,7 +28,16 @@ const QUEST = [
   { n: '04', title: 'Claim the loot', body: <>Cash is sent by PayPal and the merch ships after the winner is verified. With the winner&rsquo;s permission, the name goes on the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners page</Link>.</> },
 ];
 
+// PRE-START (dates not both set): no per-dollar cue, no prize pitch, no 'earn' language.
+const QUEST_PRE = [
+  QUEST[0],
+  { n: '02', title: 'Join the list', body: <>Dates for the Lootix Launch Giveaway are not set yet. Join the list to hear when entries open.</> },
+  QUEST[2],
+  QUEST[3],
+];
+
 export default function AboutPage() {
+  const windowOpen = isEntryWindowOpen();
   return (
     <div className="text-parchment">
       {/* STORY HERO */}
@@ -40,7 +52,9 @@ export default function AboutPage() {
             This isn&rsquo;t just streetwear.<br /><span className="text-brass">This is your loot.</span>
           </h1>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7, maxWidth: 520 }}>
-            Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every drop is limited, numbered, and never mass produced — and every dollar you spend earns an entry toward a vault of real prizes, drawn at random and in the open.
+            {windowOpen
+              ? 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every drop is limited, numbered, and never mass produced \u2014 and every dollar you spend earns an entry toward a vault of real prizes, drawn at random and in the open.'
+              : 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every drop is limited, numbered, and never mass produced.'}
           </p>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7, maxWidth: 520 }}>
             We&rsquo;re a small crew out of Maryland — adventurers, gamers, collectors. We built the brand we wanted to exist: premium quality, built to last, designed for the fearless.
@@ -68,7 +82,7 @@ export default function AboutPage() {
           <h2 className="v2-h2">The full quest, start to finish</h2>
         </div>
         <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 mx-auto" style={{ maxWidth: 1080 }}>
-          {QUEST.map((q) => (
+          {(windowOpen ? QUEST : QUEST_PRE).map((q) => (
             <div key={q.n} className="v2-card flex flex-col gap-3.5" style={{ padding: '36px 32px' }}>
               <span className="font-plex text-brass" style={{ fontSize: 14, letterSpacing: '0.1em' }}>{q.n} ─────</span>
               <h3 className="m-0 uppercase text-parchment" style={{ fontSize: 20, fontWeight: 800 }}>{q.title}</h3>
@@ -76,17 +90,19 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
-        <NoPurchaseNotice className="text-center text-stone" style={{ margin: '28px auto 0', maxWidth: 720, fontSize: 12, lineHeight: 1.7 }}>
-          See the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the full
-          mail-in instructions. 18+ only, US only, void where prohibited.
-        </NoPurchaseNotice>
+        {windowOpen && (
+          <NoPurchaseNotice className="text-center text-stone" style={{ margin: '28px auto 0', maxWidth: 720, fontSize: 12, lineHeight: 1.7 }}>
+            See the{' '}
+            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the full
+            mail-in instructions. 18+ only, US only, void where prohibited.
+          </NoPurchaseNotice>
+        )}
       </section>
 
       {/* CTA (inverted cream) */}
       <section className="flex items-center justify-between gap-8 flex-wrap" style={{ padding: '48px 24px', background: '#E4D5B4', color: '#171208' }}>
         <div className="flex flex-col gap-1.5">
-          <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Ready to earn your loot?</span>
+          <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>{windowOpen ? 'Ready to earn your loot?' : 'Ready for the drop?'}</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
             DROP 1 IS LIVE ·{' '}
             {GIVEAWAY.endDateISO

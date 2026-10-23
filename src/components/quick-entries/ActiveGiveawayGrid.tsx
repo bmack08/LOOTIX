@@ -4,6 +4,7 @@ import { FC, useState, useMemo } from 'react';
 import Image from 'next/image';
 import QuickEntryForm from './QuickEntryForm';
 import { ENTRIES_LABEL } from '@/config/giveaway';
+import EntryGate from '@/components/EntryGate';
 
 // Helper to get a future date
 const getEndDate = (daysFromNow: number = 30) => {
@@ -103,9 +104,11 @@ const ActiveGiveawayGrid: FC = () => {
                   VALUE: {giveaway.value}
                 </div>
                 {/* Entry rate badge */}
-                <div className="badge-entry">
-                  {ENTRIES_LABEL.toUpperCase()}
-                </div>
+                <EntryGate>
+                  <div className="badge-entry">
+                    {ENTRIES_LABEL.toUpperCase()}
+                  </div>
+                </EntryGate>
               </div>
 
               {/* Content */}

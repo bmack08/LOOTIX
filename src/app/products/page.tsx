@@ -5,7 +5,7 @@ import { Suspense } from 'react';
 
 export const metadata = {
   title: 'Products | LOOTIX',
-  description: 'Shop the latest premium streetwear drops from LOOTIX. Every purchase earns giveaway entries.',
+  description: 'Shop the latest premium streetwear drops from LOOTIX.',
 };
 
 export const revalidate = 3600; // Revalidate every hour

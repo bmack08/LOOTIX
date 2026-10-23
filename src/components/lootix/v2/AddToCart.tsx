@@ -5,6 +5,7 @@ import { useCart } from './CartContext';
 import type { ShopProduct } from '@/lib/site';
 import { entriesForSubtotal } from '@/config/giveaway';
 import { isComingSoon, sizesFor } from '@/config/sizes';
+import { useEntryWindow } from '../useEntryWindow';
 
 /**
  * The shop card wraps this in a <Link href="/shop">, so every control here
@@ -35,6 +36,7 @@ const BTN: React.CSSProperties = {
  */
 export default function AddToCart({ product, full = false }: { product: ShopProduct; full?: boolean }) {
   const { add } = useCart();
+  const windowOpen = useEntryWindow(); // the entries confirmation is LIVE only
   const [added, setAdded] = useState(false);
   const [size, setSize] = useState<string | null>(null);
 
@@ -127,7 +129,7 @@ export default function AddToCart({ product, full = false }: { product: ShopProd
         }}
       >
         {added
-          ? `✓ ${entries} entries added`
+          ? windowOpen ? `\u2713 ${entries} entries added` : '\u2713 Added to cart'
           : needsPick
             ? 'Select size'
             : `Add to cart — ${product.price}`}

@@ -1,6 +1,7 @@
 'use client';
 
 import { ENTRIES_LABEL, entriesForSubtotal } from '@/config/giveaway';
+import { useEntryWindow } from '@/components/lootix/useEntryWindow';
 
 interface AddToCartButtonProps {
   productId: number;
@@ -9,7 +10,8 @@ interface AddToCartButtonProps {
 }
 
 export default function AddToCartButton({ productId, disabled, price }: AddToCartButtonProps) {
-  const entries = price ? entriesForSubtotal(price) : 0;
+  const windowOpen = useEntryWindow(); // per-dollar cue is LIVE only
+  const entries = price && windowOpen ? entriesForSubtotal(price) : 0;
 
   const handleAddToCart = () => {
     console.log(`Adding product ${productId} to cart`);

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
+import EntryGate from '@/components/EntryGate';
 import {
   currentGiveaway,
   ENTRIES_LABEL,
@@ -177,21 +178,23 @@ export default function CurrentGiveawayPage() {
             </div>
 
             {/* Purchase Entry */}
-            <div className="bg-bg-primary border border-cta-primary/30 rounded-md p-6">
-              <div className="text-sm font-bold text-cta-primary uppercase tracking-wider mb-3">Bonus Entries</div>
-              <h3 className="font-display font-bold text-xl text-text-primary mb-3">PURCHASE METHOD</h3>
-              <p className="text-text-secondary text-sm leading-relaxed mb-4">
-                {ENTRIES_LABEL} of your order subtotal, before tax and shipping. Free entry is also available by mail.
-              </p>
-              <div className="entry-calculator">
-                <p className="entry-calculator-text">
-                  Example: $50 purchase = {formatEntries(entriesForSubtotal(50))} entries
+            <EntryGate>
+              <div className="bg-bg-primary border border-cta-primary/30 rounded-md p-6">
+                <div className="text-sm font-bold text-cta-primary uppercase tracking-wider mb-3">Bonus Entries</div>
+                <h3 className="font-display font-bold text-xl text-text-primary mb-3">PURCHASE METHOD</h3>
+                <p className="text-text-secondary text-sm leading-relaxed mb-4">
+                  {ENTRIES_LABEL} of your order subtotal, before tax and shipping. Free entry is also available by mail.
                 </p>
-                <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm">
-                  {ENTRIES_LABEL.toUpperCase()}
-                </span>
+                <div className="entry-calculator">
+                  <p className="entry-calculator-text">
+                    Example: $50 purchase = {formatEntries(entriesForSubtotal(50))} entries
+                  </p>
+                  <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm">
+                    {ENTRIES_LABEL.toUpperCase()}
+                  </span>
+                </div>
               </div>
-            </div>
+            </EntryGate>
           </div>
 
           <NoPurchaseNotice
