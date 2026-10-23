@@ -15,6 +15,7 @@ import {
   formatEndDate,
 } from '@/config/giveaway';
 import { MAIL_IN_ADDRESS_LINES } from '@/config/legal';
+import { GIVEAWAY_DATES_SET } from '@/lib/site';
 
 export default function CurrentGiveawayPage() {
   const [timeRemaining, setTimeRemaining] = useState(getTimeRemaining(currentGiveaway.endDate));
@@ -79,17 +80,16 @@ export default function CurrentGiveawayPage() {
                 </ul>
               </div>
 
-              {/* Countdown Timer — hidden entirely until the owner sets a real
-                  close date. With endDate null, getTimeRemaining returns all
-                  zeros and isExpired false, which would otherwise render a fake
-                  00:00:00:00 countdown under an "ends" heading. */}
+              {/* Countdown - counts down to the ENTRY CLOSE (GIVEAWAY.endDateISO) only. Hidden
+                  until both dates are set; after the close it says "Entries are closed",
+                  never zeros. */}
               <div>
                 <p className="text-sm text-text-muted uppercase tracking-widest mb-3">
-                  {currentGiveaway.endDate
-                    ? `Giveaway Ends ${formatEndDate(currentGiveaway.endDate)}`
+                  {GIVEAWAY_DATES_SET && currentGiveaway.endDate
+                    ? `Entries close ${formatEndDate(currentGiveaway.endDate)}`
                     : 'Giveaway dates coming soon'}
                 </p>
-                {!currentGiveaway.endDate ? null : !timeRemaining.isExpired ? (
+                {!GIVEAWAY_DATES_SET || !currentGiveaway.endDate ? null : !timeRemaining.isExpired ? (
                   <div className="flex gap-3 md:gap-4">
                     {[
                       { value: timeRemaining.days, label: 'Days' },
@@ -119,7 +119,7 @@ export default function CurrentGiveawayPage() {
                 ) : (
                   <div className="bg-bg-secondary rounded-md p-4 text-center">
                     <p className="font-display font-bold text-xl text-urgency uppercase">
-                      Giveaway Ended
+                      Entries are closed
                     </p>
                   </div>
                 )}

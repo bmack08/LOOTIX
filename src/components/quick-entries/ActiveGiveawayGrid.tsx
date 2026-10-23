@@ -3,7 +3,7 @@
 import { FC, useState, useMemo } from 'react';
 import Image from 'next/image';
 import QuickEntryForm from './QuickEntryForm';
-import { ENTRIES_LABEL, formatEndDate } from '@/config/giveaway';
+import { ENTRIES_LABEL } from '@/config/giveaway';
 
 // Helper to get a future date
 const getEndDate = (daysFromNow: number = 30) => {
@@ -117,9 +117,8 @@ const ActiveGiveawayGrid: FC = () => {
                   {giveaway.description}
                 </p>
                 <div className="flex items-center justify-between">
-                  <span className="text-text-muted text-sm">
-                    Ends: {formatEndDate(giveaway.endDate)}
-                  </span>
+                  {/* No "Ends" date: these rolling mock dates were fake deadlines (Legal: real deadlines only). */}
+                  <span className="text-text-muted text-sm" />
                   <span className="btn-primary py-2 px-4 text-sm">
                     ENTER NOW
                   </span>

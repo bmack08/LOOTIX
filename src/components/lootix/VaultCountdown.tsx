@@ -1,30 +1,38 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { GIVEAWAY } from '@/lib/site';
+import { GIVEAWAY, GIVEAWAY_DATES_SET } from '@/lib/site';
 
 const pad = (n: number) => String(Math.max(0, n)).padStart(2, '0');
 
 type Parts = { d: string; h: string; m: string; s: string };
 
 /**
- * Live countdown to the real entry close in GIVEAWAY.endDateISO — the end of
- * the entry window, not the separate draw date. The close time as the copy
- * prints it is GIVEAWAY_CLOSE_TIME_LABEL in src/config/giveaway.ts.
+ * Live countdown to the ENTRY CLOSE in GIVEAWAY.endDateISO - the end of the
+ * entry window, not the separate draw date. The close time as the copy prints
+ * it is GIVEAWAY_CLOSE_TIME_LABEL in src/config/giveaway.ts.
  *
- * Renders NOTHING until that date is set — no rolling "N days from page load"
- * countdown, which is just a fake deadline.
+ * Renders NOTHING until both dates are set (GIVEAWAY_DATES_SET) - no rolling
+ * "N days from page load" countdown, which is just a fake deadline. After the
+ * close it says "Entries are closed", never zeros.
  */
 export default function VaultCountdown() {
   const [parts, setParts] = useState<Parts | null>(null);
+  const [closed, setClosed] = useState(false);
   const endDateISO = GIVEAWAY.endDateISO;
+  const target = endDateISO ? Date.parse(endDateISO) : NaN;
+  const show = GIVEAWAY_DATES_SET && !Number.isNaN(target);
 
   useEffect(() => {
-    if (!endDateISO) return;
-    const target = Date.parse(endDateISO);
+    if (!show) return;
 
     const tick = () => {
-      let ms = Math.max(0, target - Date.now());
+      let ms = target - Date.now();
+      if (ms <= 0) {
+        setClosed(true);
+        return;
+      }
+      setClosed(false);
       const d = Math.floor(ms / 86400000); ms -= d * 86400000;
       const h = Math.floor(ms / 3600000); ms -= h * 3600000;
       const m = Math.floor(ms / 60000); ms -= m * 60000;
@@ -35,9 +43,17 @@ export default function VaultCountdown() {
     tick();
     const t = setInterval(tick, 1000);
     return () => clearInterval(t);
-  }, [endDateISO]);
+  }, [show, target]);
 
-  if (!endDateISO) return null;
+  if (!show) return null;
+
+  if (closed) {
+    return (
+      <div className="text-center rounded-[7px] py-[11px] px-1 font-mono text-[13px] tracking-[.14em] uppercase " style={{ color: '#F0CE6B', background: 'rgba(255,255,255,.035)', border: '1px solid rgba(255,255,255,.08)' }}>
+        Entries are closed
+      </div>
+    );
+  }
 
   const cells: { k: keyof Parts; label: string; accent?: boolean }[] = [
     { k: 'd', label: 'Days' },
@@ -47,27 +63,30 @@ export default function VaultCountdown() {
   ];
 
   return (
-    <div className="grid grid-cols-4 gap-2">
-      {cells.map(({ k, label, accent }) => (
-        <div
-          key={k}
-          className="text-center rounded-[7px] py-[11px] px-1"
-          style={{
-            background: 'rgba(255,255,255,.035)',
-            border: `1px solid ${accent ? 'rgba(212,175,55,.3)' : 'rgba(255,255,255,.08)'}`,
-          }}
-        >
+    <div>
+      <p className="font-mono text-[9px] tracking-[.14em] uppercase text-muted-2 m-0 mb-2">Entries close in</p>
+      <div className="grid grid-cols-4 gap-2" aria-label="Entries close in">
+        {cells.map(({ k, label, accent }) => (
           <div
-            className="font-mono font-bold text-[26px] leading-none"
-            style={{ color: accent ? '#F0CE6B' : '#F4F0E6' }}
+            key={k}
+            className="text-center rounded-[7px] py-[11px] px-1"
+            style={{
+              background: 'rgba(255,255,255,.035)',
+              border: `1px solid ${accent ? 'rgba(212,175,55,.3)' : 'rgba(255,255,255,.08)'}`,
+            }}
           >
-            {parts ? parts[k] : '--'}
+            <div
+              className="font-mono font-bold text-[26px] leading-none"
+              style={{ color: accent ? '#F0CE6B' : '#F4F0E6' }}
+            >
+              {parts ? parts[k] : '--'}
+            </div>
+            <div className="font-mono text-[9px] tracking-[.14em] uppercase text-muted-2 mt-1.5">
+              {label}
+            </div>
           </div>
-          <div className="font-mono text-[9px] tracking-[.14em] uppercase text-muted-2 mt-1.5">
-            {label}
-          </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </div>
   );
 }

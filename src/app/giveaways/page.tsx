@@ -172,8 +172,9 @@ export default function GiveawaysPage() {
           ))}
         </div>
         <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em' }}>
-          One giveaway at a time, run properly — future giveaways open only after the current one pays out. No fake countdowns.
-          {closeDate ? ` Current draw closes ${closeDate} at ${GIVEAWAY_CLOSE_TIME_LABEL}.` : ' Dates for the current draw are not set yet.'}
+          {GIVEAWAY_DATES_SET && closeDate
+            ? `Real deadlines only: any countdown on this site counts down to the entry close time in the Official Rules. Entries close ${closeDate} at ${GIVEAWAY_CLOSE_TIME_LABEL}.`
+            : 'Dates for the Lootix Launch Giveaway are not set yet. Any countdown on this site will count down to the entry close time in the Official Rules once the dates are set.'}
         </p>
       </section>
     </div>

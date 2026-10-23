@@ -144,7 +144,7 @@ export const PACKS = [
   { name: 'Legend Vault', sub: 'Full fit + accessories · ships free over $100', price: '$150', popular: false, cta: 'Grab Legend' },
 ];
 
-/** Future giveaways — unlock only after the current one pays out. No fake countdowns. */
+/** Coming-later teasers are hidden (hidden: true) until a giveaway has its own Official Rules. Countdowns use GIVEAWAY.endDateISO only. */
 export const UPCOMING = [
   { tag: 'Vault 002', name: '$1,000 Cash Drop', status: 'Unlocks next', desc: 'Opens after the Lootix Launch Giveaway winner is drawn and paid. Every Drop 002 order will enter.' },
   { tag: 'Vault 003', name: 'Battlestation PC', status: 'Locked', desc: 'A full custom build. Unlocks once the guild passes 1,000 members.' },

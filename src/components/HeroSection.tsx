@@ -2,6 +2,7 @@
 
 import { FC, useState, useEffect } from 'react';
 import { currentGiveaway, getTimeRemaining, formatEndDate } from '@/config/giveaway';
+import { GIVEAWAY_DATES_SET } from '@/lib/site';
 
 interface TimeLeft {
   days: number;
@@ -121,12 +122,16 @@ const HeroSection: FC = () => {
           {heroSlides[currentSlide].subtitle}
         </p>
 
-        {/* Countdown Timer */}
+        {/* Countdown to the ENTRY CLOSE (GIVEAWAY.endDateISO) only; hidden until both dates are set */}
+        {GIVEAWAY_DATES_SET && currentGiveaway.endDate && (
         <div className="mb-8">
           <p className="text-xs text-text-muted uppercase tracking-[0.2em] mb-4">
-            Giveaway Ends {formatEndDate(currentGiveaway.endDate)}
+            Entries close {formatEndDate(currentGiveaway.endDate)}
           </p>
 
+          {isExpired && (
+            <p className="font-display font-bold text-xl text-urgency uppercase">Entries are closed</p>
+          )}
           {!isExpired && (
             <div className="flex justify-center gap-3">
               {[
@@ -150,6 +155,7 @@ const HeroSection: FC = () => {
             </div>
           )}
         </div>
+        )}
 
         {/* CTA Buttons */}
         <div className="flex flex-wrap gap-4 justify-center mb-8">
