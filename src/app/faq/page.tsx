@@ -27,7 +27,7 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
     items: [
       { q: 'How is the winner chosen?', a: 'Winner is selected at random using RANDOM.ORG; the draw is screen-recorded and posted.' },
       { q: 'When is the draw?', a: <>Each giveaway runs to the close date shown on the <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">Giveaways page</Link>, at {GIVEAWAY_CLOSE_TIME_LABEL}. Entries apply to the giveaway running at the time of your order — nothing is entered before the start or after the close.</> },
-      { q: 'How do I know it is legit?', a: <>Every draw is screen-recorded and posted along with the RANDOM.ORG result link, and every winner is named on the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners page</Link> with proof of payout. The full process is committed in writing in the Official Rules before the first draw.</> },
+      { q: 'How do I know the draw is fair?', a: <>Every draw is screen-recorded and posted along with the RANDOM.ORG result link, and each winner is listed on the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners page</Link> after verification (with permission; otherwise first name, last initial and state). The full process is committed in writing in the Official Rules before the first draw.</> },
       { q: 'Who can enter?', a: <>Legal residents of the 50 United States and D.C. who are at least 18 (19 in AL and NE; 21 in MS) at the time of entry, void where prohibited or restricted by law. Full eligibility is in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.</> },
     ],
   },
@@ -35,7 +35,7 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
     title: 'Orders & Shipping',
     items: [
       { q: 'How does shipping work?', a: `We ship to the United States only. Orders ship within 2–4 business days, and US shipping is free on orders of $${FREE_SHIPPING_THRESHOLD} or more. Entries are earned only on orders shipped to eligible U.S. addresses.` },
-      { q: 'Can I return or exchange?', a: 'Unworn gear can be returned or exchanged within 30 days. A size exchange keeps the entries from that order; a refund voids them, per the Official Rules.' },
+      { q: 'Can I return an item?', a: <>Made-to-order gear cannot be returned for change of mind. If an item arrives damaged, defective, or wrong, email hello@getlootix.com within 14 days of delivery for a replacement or refund; see the <Link href="/returns" className="text-brass hover:text-brass-lit transition-colors">Returns</Link> page. A refund voids the entries from that order, per the Official Rules.</> },
       { q: 'Is checkout secure?', a: 'Yes — payments run through Stripe. We never see or store your card details.' },
     ],
   },
