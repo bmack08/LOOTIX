@@ -10,7 +10,7 @@ import {
 } from '@/lib/lootix';
 import {
   ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, PRIZE_VALUE_PLACEHOLDER,
-  PRIZE_HEADLINE, FREE_ENTRY_HREF,
+  PRIZE_HEADLINE, FREE_ENTRY_HREF, NO_PURCHASE_LINE,
 } from '@/config/giveaway';
 // GIVEAWAY_DATES_SET is a module constant — it only changes when site.ts is
 // edited and redeployed, so evaluating it at build time is correct. Wall-clock
@@ -85,6 +85,16 @@ export function Hero() {
             <span style={{ background: 'linear-gradient(180deg,#F6D87E,#C99B2C)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Win {PRIZE_HEADLINE}.</span><br />
             <span style={{ display: 'block', fontSize: '.42em', color: '#F4F0E6', marginTop: '.35em' }}>No purchase necessary.</span>
           </h1>
+          {/* The odds sentence in plain sight, above the fold — one copy of the
+              wording (NO_PURCHASE_LINE), with the Official Rules link on its
+              own line under it. Not NoPurchaseNotice: that component's link
+              reads "Free entry by mail", and the hero needs "See Official
+              Rules". */}
+          <div className="font-archivo text-[14px] leading-[1.55] text-[#B7B2A8] max-w-[480px] mb-[22px]">
+            <span>{NO_PURCHASE_LINE}</span>
+            <br />
+            <a href={FREE_ENTRY_HREF} className="underline hover:text-gold transition-colors">See Official Rules</a>
+          </div>
           <p className="font-archivo text-[18px] leading-[1.62] text-[#B7B2A8] max-w-[480px] m-0 mb-[34px]">
             Legendary fantasy streetwear, forged for the fearless. Every order earns{' '}
             <strong className="text-gold-bright font-extrabold">{ENTRIES_LABEL}</strong> into our launch giveaway —{' '}
