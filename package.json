@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "check:launch": "node scripts/check-launch-readiness.mjs"
   },
   "dependencies": {
     "next": "^16.0.7",
