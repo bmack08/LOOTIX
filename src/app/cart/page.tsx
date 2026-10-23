@@ -2,26 +2,47 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
-import { useCart } from '@/components/lootix/v2/CartContext';
+import { useCart, type CartLine } from '@/components/lootix/v2/CartContext';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { entriesForSubtotal, ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD } from '@/config/giveaway';
-import { GIVEAWAY_DATES_SET } from '@/lib/site';
+import { isComingSoon, isValidSize, needsSize } from '@/config/sizes';
+import { GIVEAWAY_DATES_SET, SHOP_PRODUCTS } from '@/lib/site';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
+
+/**
+ * Why a stored line cannot be checked out, or `null` when it is fine.
+ *
+ * Carts live in localStorage, so a line can predate sizes or point at an item
+ * that is not on sale. Such a line is flagged and checkout is disabled instead
+ * of sending it — the item stays in the cart so the shopper can see which one
+ * to replace. /api/checkout rejects the same lines server-side.
+ */
+function blockedReason(line: CartLine): string | null {
+  const product = SHOP_PRODUCTS.find((p) => p.slug === line.slug);
+  if (!product || isComingSoon(product)) return 'Not available — remove this item to check out.';
+  if (needsSize(product) && !isValidSize(product, line.size)) {
+    return 'No size on this item — remove it and add it again from the shop.';
+  }
+  return null;
+}
 
 export default function CartPage() {
   const { lines, setQty, remove, subtotal, totalEntries, count, ready } = useCart();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
 
+  const hasBlocked = lines.some((l) => blockedReason(l) !== null);
+
   async function checkout() {
+    if (hasBlocked) return;
     setBusy(true);
     setErr('');
     try {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: lines.map((l) => ({ slug: l.slug, qty: l.qty })) }),
+        body: JSON.stringify({ items: lines.map((l) => ({ slug: l.slug, qty: l.qty, size: l.size })) }),
       });
       const d = await res.json();
       if (res.ok && d.ok && d.url) {
@@ -69,32 +90,45 @@ export default function CartPage() {
         <div className="mx-auto grid gap-10 lg:grid-cols-[1.4fr_1fr]" style={{ maxWidth: 1000 }}>
           {/* LINES */}
           <div className="flex flex-col gap-3">
-            {lines.map((l) => (
-              <div key={l.slug} className="flex gap-4 items-center" style={{ background: '#131009', border: HAIR, borderRadius: 4, padding: 14 }}>
+            {lines.map((l) => {
+              const blocked = blockedReason(l);
+              return (
+              <div key={`${l.slug}:${l.size || ''}`} className="flex gap-4 items-center" style={{ background: '#131009', border: HAIR, borderRadius: 4, padding: 14 }}>
                 <div style={{ width: 76, height: 84, flex: 'none', background: '#17130C', overflow: 'hidden', borderRadius: 2 }}>
                   <img src={l.img} alt={l.name} className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div style={{ fontSize: 15, fontWeight: 700 }}>{l.name}</div>
+                  {l.size && (
+                    <div className="font-plex text-sand" style={{ fontSize: 11, letterSpacing: '0.06em', marginTop: 3 }}>
+                      Size {l.size}
+                    </div>
+                  )}
                   <div className="font-plex text-brass" style={{ fontSize: 11, letterSpacing: '0.06em', marginTop: 3 }}>
                     ◆ {entriesForSubtotal(l.price * l.qty)} ENTRIES
                   </div>
-                  <button onClick={() => remove(l.slug)} className="font-plex text-stone hover:text-brass-lit transition-colors" style={{ fontSize: 11, marginTop: 6, background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}>
+                  {blocked && (
+                    <div className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.04em', marginTop: 3 }}>
+                      {blocked}
+                    </div>
+                  )}
+                  <button onClick={() => remove(l.slug, l.size)} className="font-plex text-stone hover:text-brass-lit transition-colors" style={{ fontSize: 11, marginTop: 6, background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}>
                     Remove
                   </button>
                 </div>
                 <div className="flex items-center gap-3 flex-none">
                   <div className="flex items-center" style={{ border: HAIR, borderRadius: 2 }}>
-                    <button onClick={() => setQty(l.slug, l.qty - 1)} aria-label="Decrease" className="text-sand hover:text-brass-lit transition-colors" style={{ background: 'none', border: 'none', padding: '6px 11px', cursor: 'pointer', fontSize: 15 }}>−</button>
+                    <button onClick={() => setQty(l.slug, l.qty - 1, l.size)} aria-label="Decrease" className="text-sand hover:text-brass-lit transition-colors" style={{ background: 'none', border: 'none', padding: '6px 11px', cursor: 'pointer', fontSize: 15 }}>−</button>
                     <span className="font-plex" style={{ fontSize: 13, minWidth: 20, textAlign: 'center' }}>{l.qty}</span>
-                    <button onClick={() => setQty(l.slug, l.qty + 1)} aria-label="Increase" className="text-sand hover:text-brass-lit transition-colors" style={{ background: 'none', border: 'none', padding: '6px 11px', cursor: 'pointer', fontSize: 15 }}>+</button>
+                    <button onClick={() => setQty(l.slug, l.qty + 1, l.size)} aria-label="Increase" className="text-sand hover:text-brass-lit transition-colors" style={{ background: 'none', border: 'none', padding: '6px 11px', cursor: 'pointer', fontSize: 15 }}>+</button>
                   </div>
                   <span className="font-plex text-brass-lit" style={{ fontSize: 15, fontWeight: 600, minWidth: 54, textAlign: 'right' }}>
                     ${(l.price * l.qty).toFixed(0)}
                   </span>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
 
           {/* SUMMARY */}
@@ -113,9 +147,14 @@ export default function CartPage() {
               <div className="font-plex uppercase text-stone" style={{ fontSize: 10, letterSpacing: '0.12em' }}>{ENTRIES_LABEL}</div>
             </div>
 
-            <button onClick={checkout} disabled={busy} className="btn-brass w-full disabled:opacity-70" style={{ cursor: busy ? 'default' : 'pointer' }}>
+            <button onClick={checkout} disabled={busy || hasBlocked} className="btn-brass w-full disabled:opacity-70" style={{ cursor: busy || hasBlocked ? 'default' : 'pointer' }}>
               {busy ? 'Starting checkout…' : 'Secure checkout →'}
             </button>
+            {hasBlocked && (
+              <p className="font-plex m-0 text-stone" style={{ fontSize: 11.5 }}>
+                Remove the flagged items above to check out.
+              </p>
+            )}
             {err && <p className="font-plex m-0" style={{ fontSize: 11.5, color: '#e08a6b' }} role="alert">{err}</p>}
 
             <NoPurchaseNotice className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>

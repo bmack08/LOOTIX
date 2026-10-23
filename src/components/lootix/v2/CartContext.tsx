@@ -9,13 +9,20 @@ export type CartLine = {
   price: number;   // dollars
   img: string;
   qty: number;
+  /**
+   * Apparel size (S–2XL) for sized products; absent for products that
+   * have no size, and for lines stored before sizes existed. A line is
+   * identified by slug + size, so a hoodie in M and the same hoodie in L
+   * are two separate lines.
+   */
+  size?: string;
 };
 
 type CartCtx = {
   lines: CartLine[];
   add: (item: Omit<CartLine, 'qty'>, qty?: number) => void;
-  remove: (slug: string) => void;
-  setQty: (slug: string, qty: number) => void;
+  remove: (slug: string, size?: string) => void;
+  setQty: (slug: string, qty: number, size?: string) => void;
   clear: () => void;
   count: number;        // total units
   subtotal: number;     // dollars
@@ -30,6 +37,38 @@ type CartCtx = {
 const Ctx = createContext<CartCtx | null>(null);
 const KEY = 'lootix.cart.v1';
 
+/** One line per slug + size. Missing and empty sizes are the same thing. */
+function sameLine(line: CartLine, slug: string, size?: string): boolean {
+  return line.slug === slug && (line.size || '') === (size || '');
+}
+
+/**
+ * Read the stored cart defensively. The key is unchanged, so carts saved
+ * before sizes existed still load — those lines simply have no size.
+ * Anything unrecognisable is dropped instead of crashing the app.
+ */
+function parseStored(raw: string): CartLine[] {
+  const data: unknown = JSON.parse(raw);
+  if (!Array.isArray(data)) return [];
+  const lines: CartLine[] = [];
+  for (const entry of data) {
+    if (!entry || typeof entry !== 'object') continue;
+    const l = entry as Partial<CartLine>;
+    if (typeof l.slug !== 'string' || !l.slug) continue;
+    if (typeof l.price !== 'number' || !Number.isFinite(l.price)) continue;
+    if (typeof l.qty !== 'number' || !Number.isFinite(l.qty) || l.qty <= 0) continue;
+    lines.push({
+      slug: l.slug,
+      name: typeof l.name === 'string' ? l.name : l.slug,
+      price: l.price,
+      img: typeof l.img === 'string' ? l.img : '',
+      qty: Math.floor(l.qty),
+      size: typeof l.size === 'string' && l.size ? l.size : undefined,
+    });
+  }
+  return lines;
+}
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>([]);
   const [ready, setReady] = useState(false);
@@ -38,7 +77,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     try {
       const raw = localStorage.getItem(KEY);
-      if (raw) setLines(JSON.parse(raw));
+      if (raw) setLines(parseStored(raw));
     } catch { /* ignore corrupt cart */ }
     setReady(true);
   }, []);
@@ -60,16 +99,18 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       ready,
       add: (item, qty = 1) =>
         setLines((cur) => {
-          const i = cur.findIndex((l) => l.slug === item.slug);
+          const i = cur.findIndex((l) => sameLine(l, item.slug, item.size));
           if (i === -1) return [...cur, { ...item, qty }];
           const next = [...cur];
           next[i] = { ...next[i], qty: next[i].qty + qty };
           return next;
         }),
-      remove: (slug) => setLines((cur) => cur.filter((l) => l.slug !== slug)),
-      setQty: (slug, qty) =>
+      remove: (slug, size) => setLines((cur) => cur.filter((l) => !sameLine(l, slug, size))),
+      setQty: (slug, qty, size) =>
         setLines((cur) =>
-          qty <= 0 ? cur.filter((l) => l.slug !== slug) : cur.map((l) => (l.slug === slug ? { ...l, qty } : l)),
+          qty <= 0
+            ? cur.filter((l) => !sameLine(l, slug, size))
+            : cur.map((l) => (sameLine(l, slug, size) ? { ...l, qty } : l)),
         ),
       clear: () => setLines([]),
     };
