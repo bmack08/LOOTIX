@@ -255,8 +255,11 @@ export default function Home() {
           <span className="v2-eyebrow">The Winners Vault</span>
           <h2 className="v2-h2">The vault is unclaimed</h2>
           <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 16, lineHeight: 1.65 }}>
-            No one has won yet. The first name ever etched onto the Winners Wall is still open — {ENTRIES_LABEL}, or enter free by mail.
+            No one has won yet. The first winner will be listed on the Winners page after the drawing.
           </p>
+          {windowOpen && (
+            <NoPurchaseNotice className="m-0 text-stone" style={{ maxWidth: 480, fontSize: 14, lineHeight: 1.65 }} />
+          )}
           <Link href="/winners" className="btn-ghost-v2 self-start" style={{ fontSize: 13, padding: '15px 28px' }}>Visit the Winners Vault</Link>
         </div>
         {/* min-w-0: as a grid item this would otherwise floor at the card's
@@ -267,10 +270,10 @@ export default function Home() {
             style={{ width: 320, maxWidth: '100%', border: '1px solid rgba(198,161,91,0.4)', borderRadius: 4, background: '#131009', padding: '36px 32px', boxShadow: '0 30px 80px rgba(0,0,0,0.5)' }}
           >
             <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.2em' }}>◆ First Winner ◆</span>
-            <span className="text-parchment" style={{ fontSize: 32, fontWeight: 900, letterSpacing: '0.04em' }}>— YOUR NAME —</span>
+            <span className="text-parchment" style={{ fontSize: 32, fontWeight: 900, letterSpacing: '0.04em' }}>{windowOpen ? '\u2014 YOUR NAME \u2014' : '\u2014 NO WINNER YET \u2014'}</span>
             <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Drop 1 · Lootix Launch Giveaway</span>
             <div style={{ height: 1, background: 'rgba(198,161,91,0.25)', margin: '6px 0' }} />
-            <span className="text-sand" style={{ fontSize: 13, lineHeight: 1.6 }}>The first name ever etched onto the Winners Wall. It could be yours.</span>
+            <span className="text-sand" style={{ fontSize: 13, lineHeight: 1.6 }}>The first winner will be listed on the Winners page after the drawing.</span>
           </div>
         </div>
       </section>

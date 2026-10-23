@@ -325,7 +325,7 @@ export function WinnersVault({ winner }: { winner: Draw | null }) {
         })}
       </div>
       <p className="text-center font-mono text-[12px] tracking-[.06em] text-faint mt-9">
-        Every draw is screen-recorded and posted, and every winner announced publicly. No hidden draws, ever.
+        Every draw is screen-recorded and posted. Winners are listed by first name, last initial and state. No hidden draws.
       </p>
     </section>
   );

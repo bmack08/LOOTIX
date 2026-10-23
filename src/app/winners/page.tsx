@@ -3,8 +3,8 @@ import Link from 'next/link';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 // Public page: only a PAID, verified winner is named here.
 import { getPublicWinner } from '@/lib/raffle';
-import { GIVEAWAY } from '@/lib/site';
-import { ENTRIES_LABEL, formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
+import { GIVEAWAY, isEntryWindowOpen } from '@/lib/site';
+import { formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,14 +16,14 @@ export const metadata: Metadata = {
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 const STEPS = [
-  { n: '01', title: 'Weighted random draw', body: 'The winner is selected at random using RANDOM.ORG across all eligible entries — purchase, mail-in and sign-up entries pooled into one draw.' },
+  { n: '01', title: 'Random draw', body: 'The winner is selected at random using RANDOM.ORG across all eligible entries — purchase, mail-in and sign-up entries pooled into one draw.' },
   { n: '02', title: 'Screen-recorded & posted', body: 'The draw is screen-recorded and the recording is posted, along with the RANDOM.ORG result page for the drawn number.' },
-  { n: '03', title: 'Verified & paid', body: 'After verification, the cash is sent by PayPal and the merch ships; the timing is in the Official Rules (about [30] days).' },
-  { n: '04', title: 'Etched into the vault', body: 'Name, prize, draw date, and proof-of-payout land on this page — a permanent public record.' },
+  { n: '03', title: 'Verified & paid', body: 'After verification, the cash is sent by PayPal and the merch ships; the timing is in the Official Rules.' },
+  { n: '04', title: 'Listed on this page', body: 'After the winner is verified, this page shows their first name, last initial, state, the prize and the draw date. A full name, city, photo, video or proof of payout is shown only if the winner signs our publicity release.' },
 ];
 
 const LOCKED = [
-  { title: 'The $1K Club', body: 'Unlocks once the Vault has awarded its first $1,000 in prizes.' },
+  { title: 'The $1K Club', body: 'Unlocks once the Vault has awarded its first $1,000 in prizes.', hidden: true },
   { title: 'Legend Status', body: 'Unlocks at 100 verified winners paid. The guild has a long quest ahead.', hidden: true },
 ].filter((l) => !l.hidden); // entries flagged hidden: true are not shown; delete the flag to show them again
 
@@ -41,6 +41,9 @@ function publicName(fullName: string) {
 export default async function WinnersPage() {
   const winner = await getPublicWinner();
   const closeDate = GIVEAWAY.endDateISO ? formatEndDate(new Date(GIVEAWAY.endDateISO)) : null;
+  // LIVE = entries open (force-dynamic page, so this is evaluated per request).
+  // Anything else is PRE-START copy: no enter/win pitch, no prize amounts.
+  const windowOpen = isEntryWindowOpen();
 
   return (
     <div className="text-parchment">
@@ -56,11 +59,17 @@ export default async function WinnersPage() {
           </h1>
           <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 17, lineHeight: 1.65 }}>
             {winner
-              ? `We have our first winner. The next giveaway opens with Drop 002 — ${ENTRIES_LABEL}, or enter free by mail.`
-              : "No one has won yet — Lootix launched with Drop 1 and the first draw hasn't closed. The first name etched here could be yours."}
+              ? 'We have our first winner. Join the list to hear about future giveaways.'
+              : 'No one has won yet. The first winner will be listed on the Winners page after the drawing.'}
           </p>
-          <Link href="/shop" className="btn-brass" style={{ marginTop: 10 }}>Claim It First</Link>
-          <NoPurchaseNotice className="m-0 text-stone" style={{ maxWidth: 560, fontSize: 12, lineHeight: 1.7, marginTop: 6 }} />
+          {windowOpen ? (
+            <>
+              <Link href="/shop" className="btn-brass" style={{ marginTop: 10 }}>Claim It First</Link>
+              <NoPurchaseNotice className="m-0 text-stone" style={{ maxWidth: 560, fontSize: 12, lineHeight: 1.7, marginTop: 6 }} />
+            </>
+          ) : (
+            <Link href="/giveaways" className="btn-brass" style={{ marginTop: 10 }}>See the Giveaway</Link>
+          )}
         </div>
       </header>
 
@@ -79,14 +88,17 @@ export default async function WinnersPage() {
               {winner ? '◆ Claimed' : '◆ Unclaimed'}
             </span>
             <span className="text-parchment break-all" style={{ fontSize: winner ? 24 : 28, fontWeight: 900, letterSpacing: '0.04em' }}>
-              {winner ? publicName(winner.full_name) : '— YOUR NAME —'}
+              {winner ? publicName(winner.full_name) : windowOpen ? '\u2014 YOUR NAME \u2014' : '\u2014 NO WINNER YET \u2014'}
             </span>
             <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.14em' }}>First Winner · Lootix Launch Giveaway</span>
             <p className="m-0 text-stone" style={{ fontSize: 14, lineHeight: 1.6 }}>
               {winner
                 ? `Drawn ${formatEndDate(new Date(winner.drawn_at))} at random on RANDOM.ORG from ${winner.total_entries.toLocaleString()} entries.`
-                : `The first name ever etched onto the Winners Wall. ${ENTRIES_LABEL}, or enter free by mail.`}
+                : 'No one has won yet. The first winner will be listed on the Winners page after the drawing.'}
             </p>
+            {!winner && windowOpen && (
+              <NoPurchaseNotice className="m-0 text-stone" style={{ fontSize: 12, lineHeight: 1.7 }} />
+            )}
             {winner?.draw_verification_url && (
               <a
                 href={winner.draw_verification_url}
@@ -144,18 +156,18 @@ export default async function WinnersPage() {
       {/* CTA (inverted cream) */}
       <section className="flex items-center justify-between gap-8 flex-wrap" style={{ padding: '48px 24px', background: '#E4D5B4', color: '#171208' }}>
         <div className="flex flex-col gap-1.5">
-          <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Be the first name in the vault</span>
+          <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>{windowOpen ? 'Be the first name in the vault' : 'The Lootix Launch Giveaway'}</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
-            LOOTIX LAUNCH GIVEAWAY · $250 CASH PLUS A CUSTOM HOODIE &amp; TEE ·{' '}
+            {windowOpen && <>LOOTIX LAUNCH GIVEAWAY \u00b7 $250 CASH PLUS A CUSTOM HOODIE &amp; TEE \u00b7{' '}</>}
             {closeDate ? `ENTRIES CLOSE ${closeDate.toUpperCase()} AT ${GIVEAWAY_CLOSE_TIME_LABEL.toUpperCase()}` : 'DATES COMING SOON'}
           </span>
         </div>
         <Link
-          href="/shop"
+          href={windowOpen ? '/shop' : '/giveaways'}
           className="uppercase transition-colors whitespace-nowrap"
           style={{ background: '#171208', color: '#E4D5B4', padding: '16px 32px', fontSize: 13, fontWeight: 800, letterSpacing: '0.12em', borderRadius: 2 }}
         >
-          Shop Drop 1 →
+          {windowOpen ? 'Shop Drop 1 \u2192' : 'See the Giveaway \u2192'}
         </Link>
       </section>
     </div>

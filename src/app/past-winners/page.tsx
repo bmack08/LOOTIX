@@ -1,11 +1,20 @@
 import Link from 'next/link';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
+import { isEntryWindowOpen } from '@/lib/site';
+
+// isEntryWindowOpen() is wall-clock dependent, so this page must not be
+// frozen at build time: revalidate so the window state refreshes on its own.
+export const revalidate = 60;
 
 export const metadata = {
   title: 'Past Winners | Lootix',
-  description: 'See past Lootix giveaway winners. Winners will be listed here after each drawing, once the winner has been verified.',
+  description: 'See past Lootix giveaway winners. The Lootix Launch Giveaway has not been drawn yet. The winner will be listed here after the drawing and verification.',
 };
 
 export default function PastWinnersPage() {
+  // LIVE = entries open. Anything else is PRE-START copy (Legal ruling 2026-10-23):
+  // no prize amounts or value, no "win"/"enter" language, until the start date.
+  const live = isEntryWindowOpen();
   return (
     <main className="min-h-screen bg-bg-primary">
       {/* Hero */}
@@ -16,7 +25,7 @@ export default function PastWinnersPage() {
             Past <span className="text-cta-primary">Winners</span>
           </h1>
           <p className="text-lg text-text-secondary">
-            Winners will be listed here after each drawing, once the winner has been verified.
+            The Lootix Launch Giveaway has not been drawn yet. The winner will be listed here after the drawing and verification.
           </p>
         </div>
       </section>
@@ -34,45 +43,44 @@ export default function PastWinnersPage() {
             Our First Winner is <span className="text-cta-primary">Coming Soon</span>
           </h2>
           <p className="text-text-secondary text-lg leading-relaxed mb-4">
-            We're running our inaugural giveaway right now. Once the drawing is complete, our first winner will be listed here after verification.
+            {live
+              ? 'The Lootix Launch Giveaway is open now. Once it has been drawn and the winner verified, we will list the winner here.'
+              : 'No one has won yet. The Lootix Launch Giveaway has not been drawn. The winner will be listed here after the drawing and verification.'}
           </p>
           <p className="text-text-muted text-sm mb-8">
-            With the winner's permission we show a name and photo; otherwise first name, last initial and state.
+            We list the winner&apos;s first name, last initial and state. A full name, city, photo or video is shown only if the winner signs our publicity release.
           </p>
 
-          {/* What winners get */}
-          <div className="bg-bg-secondary/50 border border-accent-earth/20 rounded-lg p-8 mb-10 text-left max-w-lg mx-auto">
-            <h3 className="font-display font-bold text-lg text-text-primary uppercase mb-4 text-center">
-              When You Win, You Get:
-            </h3>
-            <ul className="space-y-3 text-text-secondary">
-              <li className="flex items-start gap-3">
-                <span className="text-cta-primary font-bold mt-0.5">+</span>
-                <span>Your prize shipped directly to your door</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-cta-primary font-bold mt-0.5">+</span>
-                <span>Featured on our website and social media</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-cta-primary font-bold mt-0.5">+</span>
-                <span>Exclusive Lootix Winner merch</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-cta-primary font-bold mt-0.5">+</span>
-                <span>Lifetime bragging rights</span>
-              </li>
-            </ul>
-          </div>
+          {/* What winners get - prize details only once the giveaway has started (LIVE). */}
+          {live && (
+            <div className="bg-bg-secondary/50 border border-accent-earth/20 rounded-lg p-8 mb-10 text-left max-w-lg mx-auto">
+              <h3 className="font-display font-bold text-lg text-text-primary uppercase mb-4 text-center">
+                When You Win, You Get:
+              </h3>
+              <ul className="space-y-3 text-text-secondary">
+                <li className="flex items-start gap-3">
+                  <span className="text-cta-primary font-bold mt-0.5">+</span>
+                  <span>Your prize: $250 cash by PayPal, plus your custom Lootix hoodie and tee shipped to you</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <span className="text-cta-primary font-bold mt-0.5">+</span>
+                  <span>Lifetime bragging rights</span>
+                </li>
+              </ul>
+            </div>
+          )}
 
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/current-giveaway" className="btn-primary">
-              ENTER CURRENT GIVEAWAY
+            <Link href="/giveaways" className="btn-primary">
+              {live ? 'ENTER CURRENT GIVEAWAY' : 'SEE THE GIVEAWAY'}
             </Link>
             <Link href="/official-rules" className="btn-secondary">
               VIEW OFFICIAL RULES
             </Link>
           </div>
+          {live && (
+            <NoPurchaseNotice className="text-text-muted text-xs mt-4 max-w-md mx-auto" />
+          )}
         </div>
       </section>
 
@@ -81,16 +89,17 @@ export default function PastWinnersPage() {
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-3 gap-6 text-center">
             <div>
-              <p className="font-display font-bold text-3xl text-cta-primary">FREE</p>
-              <p className="text-text-muted text-sm uppercase tracking-wider">Entry Available</p>
+              <p className="font-display font-bold text-3xl text-cta-primary">{live ? 'FREE' : 'Soon'}</p>
+              <p className="text-text-muted text-sm uppercase tracking-wider">{live ? 'Entry Available' : 'Join the list'}</p>
             </div>
             <div>
-              <p className="font-display font-bold text-3xl text-cta-primary">Public</p>
-              <p className="text-text-muted text-sm uppercase tracking-wider">Announcements</p>
+              <p className="font-display font-bold text-3xl text-cta-primary">Opt-in</p>
+              <p className="text-text-muted text-sm uppercase tracking-wider">Photos &amp; Full Names</p>
             </div>
             <div>
-              <p className="font-display font-bold text-3xl text-cta-primary">Real</p>
-              <p className="text-text-muted text-sm uppercase tracking-wider">Prizes Shipped</p>
+              {/* After the first prize is actually delivered, Legal: "Real" / "Prizes Delivered". */}
+              <p className="font-display font-bold text-3xl text-cta-primary">RANDOM.ORG</p>
+              <p className="text-text-muted text-sm uppercase tracking-wider">Screen-Recorded Draw</p>
             </div>
           </div>
         </div>

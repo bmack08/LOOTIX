@@ -67,7 +67,7 @@ export const ENTRY_TIERS = [
 export const HOW_STEPS = [
   { n: '01', title: 'Shop the drop', body: 'Pick your legendary gear from limited fantasy-streetwear collections. New drops land every month.', warm: false },
   { n: '02', title: 'Earn entries', body: `${ENTRIES_LABEL} — every dollar of your order subtotal is one entry. Free entry is also available by mail.`, warm: true },
-  { n: '03', title: 'Win the loot', body: 'The winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted, and payout is public.', warm: false },
+  { n: '03', title: 'Win the loot', body: 'The winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. Winners are listed by first name, last initial and state.', warm: false },
 ];
 
 // Real Lootix product designs (from the MERCH folder). `well` sets the photo
@@ -85,7 +85,7 @@ export const MILESTONES = [
     title: 'First Winner',
     state: 'next' as const,
     tag: 'Unclaimed',
-    desc: `The first name ever etched onto the Winners Wall. ${ENTRIES_LABEL}, or enter free by mail — it could be yours.`,
+    desc: 'No one has won yet. The first winner will be listed on the Winners page after the drawing.',
   },
   {
     title: 'The $1K Club',
