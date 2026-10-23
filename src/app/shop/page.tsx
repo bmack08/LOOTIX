@@ -11,7 +11,7 @@ const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 export default function ShopPage() {
   const [cat, setCat] = useState<string>('All');
-  const closeDate = GIVEAWAY.drawDateISO ? formatEndDate(new Date(GIVEAWAY.drawDateISO)) : null;
+  const closeDate = GIVEAWAY.endDateISO ? formatEndDate(new Date(GIVEAWAY.endDateISO)) : null;
   const products = useMemo(
     () => (cat === 'All' ? SHOP_PRODUCTS : SHOP_PRODUCTS.filter((p) => p.category === cat)),
     [cat],

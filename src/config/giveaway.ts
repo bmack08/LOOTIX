@@ -79,7 +79,7 @@ export interface GiveawayConfig {
    */
   prizeValue: number | null;
   prizeDetails: string[];
-  /** Draw close, derived from GIVEAWAY.drawDateISO. `null` until it is set. */
+  /** Entry close, derived from GIVEAWAY.endDateISO. `null` until it is set. */
   endDate: Date | null;
   isActive: boolean;
 }
@@ -100,8 +100,9 @@ export const currentGiveaway: GiveawayConfig = {
     'Custom Lootix tee (value TBD)',
     'No purchase necessary',
   ],
-  // One source for the date: src/lib/site.ts → GIVEAWAY.drawDateISO.
-  endDate: GIVEAWAY.drawDateISO ? new Date(GIVEAWAY.drawDateISO) : null,
+  // One source for the date: src/lib/site.ts → GIVEAWAY.endDateISO (the entry
+  // close, not the draw date — those are separate fields).
+  endDate: GIVEAWAY.endDateISO ? new Date(GIVEAWAY.endDateISO) : null,
   isActive: true,
 };
 

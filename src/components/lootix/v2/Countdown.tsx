@@ -7,18 +7,19 @@ const pad = (n: number) => String(Math.max(0, Math.floor(n))).padStart(2, '0');
 type Parts = { dd: string; hh: string; mm: string; ss: string };
 
 /**
- * Live draw countdown to the 8 PM ET close.
+ * Live countdown to the 8 PM ET entry close — the end of the entry window,
+ * not the separate draw date.
  *
- * Renders NOTHING until the owner sets GIVEAWAY.drawDateISO — there is no
+ * Renders NOTHING until the owner sets GIVEAWAY.endDateISO — there is no
  * countdown, and no "ends/closed" state, for a date that doesn't exist yet.
  */
 export default function Countdown({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
   const [p, setP] = useState<Parts | null>(null);
-  const drawDateISO = GIVEAWAY.drawDateISO;
+  const endDateISO = GIVEAWAY.endDateISO;
 
   useEffect(() => {
-    if (!drawDateISO) return;
-    const end = Date.parse(drawDateISO);
+    if (!endDateISO) return;
+    const end = Date.parse(endDateISO);
     const tick = () => {
       const diff = Math.max(0, end - Date.now());
       setP({
@@ -31,9 +32,9 @@ export default function Countdown({ size = 'sm' }: { size?: 'sm' | 'lg' }) {
     tick();
     const t = setInterval(tick, 1000);
     return () => clearInterval(t);
-  }, [drawDateISO]);
+  }, [endDateISO]);
 
-  if (!drawDateISO) return null;
+  if (!endDateISO) return null;
 
   const lg = size === 'lg';
   const cells: { k: keyof Parts; label: string }[] = [

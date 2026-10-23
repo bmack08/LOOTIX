@@ -83,7 +83,8 @@ export default async function AdminPage() {
           {windowOpen ? '● Entry window OPEN' : '○ Entry window CLOSED — no entries are being created'}
         </span>
         <span className="font-mono text-[11px] text-muted-2">
-          Start {GIVEAWAY.startISO ?? 'not set'} · Close {GIVEAWAY.drawDateISO ?? 'not set'}
+          Start {GIVEAWAY.startISO ?? 'not set'} · End {GIVEAWAY.endDateISO ?? 'not set'} · Draw{' '}
+          {GIVEAWAY.drawDateISO ?? 'not set'}
         </span>
         <span className="font-mono text-[11px] text-muted-2">
           {ENTRIES_LABEL} · mail-in {MAIL_IN_ENTRIES}/card · sign-up {SIGNUP_ENTRIES} once per email

@@ -40,7 +40,7 @@ export async function POST(req: Request) {
     const postmarkMs = Date.parse(`${postmark}T12:00:00-04:00`);
     const inWindow = !Number.isNaN(postmarkMs) && isEntryWindowOpen(postmarkMs);
     if (!inWindow && !body.confirmOutsideWindow) {
-      const reason = !GIVEAWAY.startISO || !GIVEAWAY.drawDateISO
+      const reason = !GIVEAWAY.startISO || !GIVEAWAY.endDateISO
         ? 'The giveaway dates are not set yet, so no postmark can be inside the entry window.'
         : 'That postmark date is outside the entry window.';
       return NextResponse.json(

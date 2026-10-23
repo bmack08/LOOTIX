@@ -40,7 +40,7 @@ function publicName(fullName: string) {
 
 export default async function WinnersPage() {
   const winner = await getPublicWinner();
-  const closeDate = GIVEAWAY.drawDateISO ? formatEndDate(new Date(GIVEAWAY.drawDateISO)) : null;
+  const closeDate = GIVEAWAY.endDateISO ? formatEndDate(new Date(GIVEAWAY.endDateISO)) : null;
 
   return (
     <div className="text-parchment">
@@ -147,7 +147,7 @@ export default async function WinnersPage() {
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Be the first name in the vault</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
             LAUNCH VAULT · $250 + CUSTOM HOODIE &amp; TEE ·{' '}
-            {closeDate ? `DRAWN ${closeDate.toUpperCase()} AT 8 PM ET` : 'DRAW DATE COMING SOON'}
+            {closeDate ? `ENTRIES CLOSE ${closeDate.toUpperCase()} AT 8 PM ET` : 'DATES COMING SOON'}
           </span>
         </div>
         <Link

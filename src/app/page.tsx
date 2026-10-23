@@ -11,9 +11,11 @@ export const revalidate = 60;
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
-// No date set → no "ends ..." line, no countdown, no "enter to win".
-const drawShort = GIVEAWAY.drawDateISO
-  ? new Date(GIVEAWAY.drawDateISO).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/New_York' })
+// The entry close (GIVEAWAY.endDateISO), not the draw date — "Ends ..." is
+// about the entry window. No date set → no "ends ..." line, no countdown, no
+// "enter to win".
+const endShort = GIVEAWAY.endDateISO
+  ? new Date(GIVEAWAY.endDateISO).toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'America/New_York' })
   : null;
 
 export default function Home() {
@@ -25,7 +27,7 @@ export default function Home() {
         <div className="flex flex-col justify-center gap-7" style={{ padding: '72px 24px' }}>
           <div className="flex items-center gap-3 font-plex uppercase text-brass" style={{ fontSize: 12, letterSpacing: '0.18em' }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#C6A15B', boxShadow: '0 0 10px #C6A15B' }} />
-            {drawShort ? `Launch Giveaway · Drop 1 · Ends ${drawShort}` : 'Launch Giveaway · Drop 1 · Dates coming soon'}
+            {endShort ? `Launch Giveaway · Drop 1 · Ends ${endShort}` : 'Launch Giveaway · Drop 1 · Dates coming soon'}
           </div>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(52px,7vw,88px)', lineHeight: 0.95, fontWeight: 900, letterSpacing: '-0.02em' }}>
             Earn it.<br />Wear it.<br /><span className="text-brass">Loot it.</span>

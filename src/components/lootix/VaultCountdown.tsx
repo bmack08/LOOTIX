@@ -8,18 +8,19 @@ const pad = (n: number) => String(Math.max(0, n)).padStart(2, '0');
 type Parts = { d: string; h: string; m: string; s: string };
 
 /**
- * Live draw countdown to the real 8 PM ET close in GIVEAWAY.drawDateISO.
+ * Live countdown to the real 8 PM ET entry close in GIVEAWAY.endDateISO —
+ * the end of the entry window, not the separate draw date.
  *
  * Renders NOTHING until that date is set — no rolling "N days from page load"
  * countdown, which is just a fake deadline.
  */
 export default function VaultCountdown() {
   const [parts, setParts] = useState<Parts | null>(null);
-  const drawDateISO = GIVEAWAY.drawDateISO;
+  const endDateISO = GIVEAWAY.endDateISO;
 
   useEffect(() => {
-    if (!drawDateISO) return;
-    const target = Date.parse(drawDateISO);
+    if (!endDateISO) return;
+    const target = Date.parse(endDateISO);
 
     const tick = () => {
       let ms = Math.max(0, target - Date.now());
@@ -33,9 +34,9 @@ export default function VaultCountdown() {
     tick();
     const t = setInterval(tick, 1000);
     return () => clearInterval(t);
-  }, [drawDateISO]);
+  }, [endDateISO]);
 
-  if (!drawDateISO) return null;
+  if (!endDateISO) return null;
 
   const cells: { k: keyof Parts; label: string; accent?: boolean }[] = [
     { k: 'd', label: 'Days' },

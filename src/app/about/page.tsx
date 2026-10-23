@@ -89,8 +89,8 @@ export default function AboutPage() {
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Ready to earn your loot?</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
             DROP 1 IS LIVE ·{' '}
-            {GIVEAWAY.drawDateISO
-              ? `LAUNCH VAULT CLOSES ${formatEndDate(new Date(GIVEAWAY.drawDateISO)).toUpperCase()} AT 8 PM ET`
+            {GIVEAWAY.endDateISO
+              ? `LAUNCH VAULT CLOSES ${formatEndDate(new Date(GIVEAWAY.endDateISO)).toUpperCase()} AT 8 PM ET`
               : 'LAUNCH VAULT DATES COMING SOON'}
           </span>
         </div>

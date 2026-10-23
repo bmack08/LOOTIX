@@ -21,7 +21,7 @@ const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 // Dates come from src/lib/site.ts (GIVEAWAY) — one source for the whole site.
 const START_DATE = GIVEAWAY.startISO ? formatEndDate(new Date(GIVEAWAY.startISO)) : '[start date]';
-const END_DATE = GIVEAWAY.drawDateISO ? formatEndDate(new Date(GIVEAWAY.drawDateISO)) : '[end date]';
+const END_DATE = GIVEAWAY.endDateISO ? formatEndDate(new Date(GIVEAWAY.endDateISO)) : '[end date]';
 
 // `id` gives a section a stable anchor. #free-entry is the link target every
 // no-purchase notice on the site points at (FREE_ENTRY_HREF), so keep it on

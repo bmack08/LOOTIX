@@ -24,40 +24,53 @@ export const NAV: { label: string; href: string; live?: boolean }[] = [
 ];
 
 /**
- * The live giveaway. THE single source for both giveaway dates.
+ * The live giveaway. THE single source for every giveaway date.
  *
  * Dates are stored as Eastern-time ISO strings WITH the offset, so the close
  * is pinned to 8 PM ET no matter where the server or the visitor is:
  *   EDT → '-04:00'   ·   EST (after Nov 1) → '-05:00'
  *
- * Both are `null` until the owner sets the real dates. While either is null
- * the site shows no countdown and no "ends/closed" state, says "Join the
- * list" instead of "enter to win", and creates no entry rows.
+ * The entry window is `startISO` → `endDateISO`. The draw is a separate date
+ * and never moves the window: `drawDateISO` is display text only.
+ *
+ * All are `null` until the owner sets the real dates. While the start or the
+ * end is null the site shows no countdown and no "ends/closed" state, says
+ * "Join the list" instead of "enter to win", and creates no entry rows.
  */
 export const GIVEAWAY: {
   id: string;
   startISO: string | null;
+  endDateISO: string | null;
   drawDateISO: string | null;
 } = {
   id: 'launch-vault',
   /** Entry window opens (12:00 AM ET on the start date). */
   startISO: null,
-  /** Entry window closes — the 8:00 PM ET draw close. */
+  /**
+   * Entry window closes — the 8:00 PM ET close, and the end date stated in the
+   * Official Rules. `null` until the owner sets it. This is the ONLY field the
+   * entry window reads; it never falls back to the draw date.
+   */
+  endDateISO: null,
+  /**
+   * The draw date. Used only for draw-date text ("drawn on ..."), never for
+   * the entry window — the draw happens on or after the close, not with it.
+   */
   drawDateISO: null,
 };
 
-/** True only when both dates are set and `now` is inside [start, close). */
+/** True only when start + end are set and `now` is inside [start, end). */
 export function isEntryWindowOpen(now: Date | number = Date.now()): boolean {
-  if (!GIVEAWAY.startISO || !GIVEAWAY.drawDateISO) return false;
+  if (!GIVEAWAY.startISO || !GIVEAWAY.endDateISO) return false;
   const t = typeof now === 'number' ? now : now.getTime();
   const start = Date.parse(GIVEAWAY.startISO);
-  const close = Date.parse(GIVEAWAY.drawDateISO);
+  const close = Date.parse(GIVEAWAY.endDateISO);
   if (Number.isNaN(start) || Number.isNaN(close)) return false;
   return t >= start && t < close;
 }
 
-/** True once the dates exist at all — gates every countdown / "ends" state. */
-export const GIVEAWAY_DATES_SET = Boolean(GIVEAWAY.startISO && GIVEAWAY.drawDateISO);
+/** True once the entry-window dates exist — gates every countdown / "ends" state. */
+export const GIVEAWAY_DATES_SET = Boolean(GIVEAWAY.startISO && GIVEAWAY.endDateISO);
 
 export const STATS = [
   { value: '$250', label: 'Cash in the launch grand prize' },

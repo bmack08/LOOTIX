@@ -27,7 +27,10 @@ const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 export default function GiveawaysPage() {
   const windowOpen = isEntryWindowOpen();
-  const closeDate = GIVEAWAY.drawDateISO ? formatEndDate(new Date(GIVEAWAY.drawDateISO)) : null;
+  // Two different dates: entries close on endDateISO, the draw happens on
+  // drawDateISO. Official Rules § 07 points at the draw date shown below.
+  const closeDate = GIVEAWAY.endDateISO ? formatEndDate(new Date(GIVEAWAY.endDateISO)) : null;
+  const drawDate = GIVEAWAY.drawDateISO ? formatEndDate(new Date(GIVEAWAY.drawDateISO)) : null;
   return (
     <div className="text-parchment">
       {/* CURRENT GIVEAWAY HERO */}
@@ -63,9 +66,14 @@ export default function GiveawaysPage() {
           </span>
 
           <div style={{ maxWidth: 420 }}><Countdown size="lg" /></div>
+          {drawDate && (
+            <span className="font-plex text-stone" style={{ fontSize: 11.5, letterSpacing: '0.06em' }}>
+              Draw date: {drawDate}. The winner is selected on or about that date, after entries close.
+            </span>
+          )}
           {!GIVEAWAY_DATES_SET && (
             <span className="font-plex text-stone" style={{ fontSize: 11.5, letterSpacing: '0.06em' }}>
-              Start and draw dates are not set yet. Join the list and we will email you the moment entries open.
+              Start and end dates are not set yet. Join the list and we will email you the moment entries open.
             </span>
           )}
 
