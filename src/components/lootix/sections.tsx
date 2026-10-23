@@ -77,12 +77,13 @@ export function Hero() {
             <span className="w-[7px] h-[7px] rounded-full bg-gold" style={{ boxShadow: '0 0 8px rgba(212,175,55,.55)' }} />
             <span className="font-mono text-[11px] tracking-[.22em] uppercase text-gold-label">Live Giveaway · Draw Ends Soon</span>
           </div>
-          {/* The prize line is longer than "Win the vault." was, so the clamp is
-              a step smaller — still the largest heading on the page (section h2s
-              top out at 58px). */}
+          {/* Two lines: the prize line, then a smaller "No purchase necessary."
+              line. The prize line is longer than "Win the vault." was, so the
+              clamp is a step smaller — still the largest heading on the page
+              (section h2s top out at 58px). */}
           <h1 className="font-archivo font-black uppercase text-cream m-0 mb-[22px]" style={{ fontSize: 'clamp(40px,5.4vw,72px)', lineHeight: 0.92, letterSpacing: '-.03em' }}>
-            Cop the gear.<br />
-            <span style={{ background: 'linear-gradient(180deg,#F6D87E,#C99B2C)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Win {PRIZE_HEADLINE}.</span>
+            <span style={{ background: 'linear-gradient(180deg,#F6D87E,#C99B2C)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Win {PRIZE_HEADLINE}.</span><br />
+            <span style={{ display: 'block', fontSize: '.42em', color: '#F4F0E6', marginTop: '.35em' }}>No purchase necessary.</span>
           </h1>
           <p className="font-archivo text-[18px] leading-[1.62] text-[#B7B2A8] max-w-[480px] m-0 mb-[34px]">
             Legendary fantasy streetwear, forged for the fearless. Every order earns{' '}
@@ -90,7 +91,7 @@ export function Hero() {
             <strong className="text-cream font-bold">$250 cash plus a custom Lootix hoodie and tee</strong>.
           </p>
           <div className="flex gap-[14px] flex-wrap mb-[30px]">
-            <a href="/shop" className="btn-gold">Shop the Drop <ArrowRight /></a>
+            <a href="/shop" className="btn-gold">Cop the Gear <ArrowRight /></a>
             <a href="/how-it-works" className="btn-ghost">How It Works</a>
           </div>
           <div className="flex items-center gap-6 flex-wrap font-archivo text-[13px] text-muted-2">
