@@ -29,7 +29,8 @@ export default function ReturnsPage() {
       <p>
         A <strong>refund or chargeback voids the entries from that order</strong> — they stop counting in the draw, per the{' '}
         <a href="/official-rules">Official Rules</a>. A <strong>size exchange keeps them</strong>: you still bought the gear, so
-        the entries stand.
+        the entries stand. We ship to the United States only, and entries are earned only on orders shipped to eligible
+        U.S. addresses.
       </p>
 
       <h2>Questions?</h2>

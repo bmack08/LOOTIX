@@ -17,7 +17,8 @@ export default function ShippingPage() {
       <h2>Where we ship</h2>
       <p>
         We ship to addresses in the <strong>United States only</strong> (the 50 states and D.C.). We do not ship
-        internationally, and checkout will not accept a non-US shipping address.
+        internationally, and checkout will not accept a non-US shipping address. Giveaway entries are earned only on
+        orders shipped to eligible U.S. addresses — see the <a href="/official-rules">Official Rules</a>.
       </p>
 
       <h2>Processing time</h2>

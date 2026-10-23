@@ -34,7 +34,7 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
   {
     title: 'Orders & Shipping',
     items: [
-      { q: 'How does shipping work?', a: `We ship to the United States only. Orders ship within 2–4 business days, and US shipping is free on orders of $${FREE_SHIPPING_THRESHOLD} or more.` },
+      { q: 'How does shipping work?', a: `We ship to the United States only. Orders ship within 2–4 business days, and US shipping is free on orders of $${FREE_SHIPPING_THRESHOLD} or more. Entries are earned only on orders shipped to eligible U.S. addresses.` },
       { q: 'Can I return or exchange?', a: 'Unworn gear can be returned or exchanged within 30 days. A size exchange keeps the entries from that order; a refund voids them, per the Official Rules.' },
       { q: 'Is checkout secure?', a: 'Yes — payments run through Stripe. We never see or store your card details.' },
     ],

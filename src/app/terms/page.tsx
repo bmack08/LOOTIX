@@ -59,6 +59,13 @@ export default function TermsPage() {
 
       <h2>10. Governing Law</h2>
       <p>These Terms are governed by the laws of the State of Maryland, without regard to conflict of laws principles. Disputes will be resolved exclusively in the state or federal courts located in [Harford County], Maryland [COUNSEL: confirm venue county now that the business address is in Harford County, Aberdeen], and you consent to their jurisdiction.</p>
+      {/* An arbitration clause (and its class-action waiver / opt-out window)
+          belongs here, alongside governing law. Counsel has not delivered the
+          language yet, so the gap is stated in the page rather than left
+          silent — a Terms page that merely omits arbitration reads as a
+          deliberate choice not to require it. Replace this line with the real
+          clause, do not just delete it. */}
+      <p>[COUNSEL: arbitration clause pending]</p>
 
       <h2>11. Changes to Terms</h2>
       <p>We may update these Terms at any time. Changes take effect when posted to the Site. Continued use after changes constitutes acceptance.</p>

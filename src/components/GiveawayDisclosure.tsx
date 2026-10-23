@@ -30,7 +30,8 @@ export default function GiveawayDisclosure() {
 
           <p>
             Open to legal residents of{' '}
-            <span className="text-white font-semibold">[ELIGIBLE STATES - TO BE UPDATED]</span> who are at least 18 years old. Void where prohibited.
+            {/* Eligibility wording matches Official Rules section 03. */}
+            <span className="text-white font-semibold">the 50 United States and D.C.</span> who are at least 18 (19 in AL and NE; 21 in MS) at the time of entry. Void where prohibited.
           </p>
 
           <p>

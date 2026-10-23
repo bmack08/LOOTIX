@@ -8,6 +8,7 @@ import {
   MAIL_IN_ENTRIES,
   SIGNUP_ENTRIES,
   PRIZE_VALUE_PLACEHOLDER,
+  FREE_SHIPPING_THRESHOLD,
 } from '@/config/giveaway';
 import { MAIL_IN_ADDRESS, COMPANY_ADDRESS } from '@/config/legal';
 
@@ -44,7 +45,9 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
   ] },
   { num: '03', title: 'Eligibility', paras: [
     'Open only to legal residents of the 50 United States and D.C. who are at least 18 (19 in AL and NE; 21 in MS) at the time of entry. Void in Puerto Rico, U.S. territories and possessions, outside the United States, and wherever prohibited or restricted by law. Purchases shipped to addresses outside the U.S. do not earn entries.',
-    `Not eligible: the owners, members, managers, employees, and contractors of Sponsor; [ADMINISTRATOR NAME]; Sponsor's agencies and fulfillment partners; and the immediate family members (spouse, parents, siblings, children, and each of their spouses) and household members (whether related or not) of any of those people. Persons on the U.S. Treasury OFAC Specially Designated Nationals list are not eligible.`,
+    // Legal's answer: Lootix LLC administers the Sweepstakes itself, so the
+    // administrator is the Sponsor — named once, not listed twice.
+    `Not eligible: the owners, members, managers, employees, and contractors of Sponsor, Lootix LLC, which also administers this Sweepstakes; Sponsor's agencies and fulfillment partners; and the immediate family members (spouse, parents, siblings, children, and each of their spouses) and household members (whether related or not) of any of those people. Persons on the U.S. Treasury OFAC Specially Designated Nationals list are not eligible.`,
   ] },
   { num: '04', title: 'How to Enter', id: 'free-entry', paras: [
     'There are three (3) ways to enter. All entries go into the same drawing. Entries count only if received between the start and the close of the Sweepstakes Period in Section 02.',
@@ -73,7 +76,9 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
   { num: '13', title: 'Privacy', paras: [`Information collected from entrants is used to administer the Sweepstakes, contact the winner, and as described in Sponsor's Privacy Policy at https://www.getlootix.com/privacy. Mail-in cards are kept for [6] months after the drawing and then destroyed. Sponsor does not sell entrant information. Marketing email is sent only to entrants who opt in, and entering does not require opting in.`] },
   { num: '14', title: 'Winners List', paras: [`For the winner's name (first name, last initial, and state), send a self-addressed stamped envelope, received within sixty (60) days after the close of the Sweepstakes Period, to: Lootix Launch Vault Winners List, ${COMPANY_ADDRESS}. Winners are also announced publicly at getlootix.com/winners.`] },
   { num: '15', title: 'Official Rules', paras: ['These Official Rules are posted at https://www.getlootix.com/official-rules. In case of conflict between these rules and any advertising, FAQ, or social post, these rules control.'] },
-  { num: '16', title: 'Shipping', paras: ['Merchandise ships to addresses in the United States only. Free U.S. shipping on orders of $100 or more.'] },
+  // Threshold comes from src/config/giveaway.ts so the Rules, the FAQ, the
+  // shipping page and the cart can never quote different numbers.
+  { num: '16', title: 'Shipping', paras: [`Merchandise ships to addresses in the United States only. Free U.S. shipping on orders of $${FREE_SHIPPING_THRESHOLD} or more. Entries are earned only on orders shipped to eligible U.S. addresses.`] },
 ];
 
 export default function OfficialRulesPage() {
