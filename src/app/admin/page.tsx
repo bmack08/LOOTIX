@@ -72,6 +72,7 @@ export default async function AdminPage() {
           <div className="lx-eyebrow mb-2">Lootix Admin</div>
           <h1 className="font-archivo font-black uppercase text-cream text-[34px] leading-none">The Vault</h1>
         </div>
+        <a href="/admin/orders" className="link-gold font-mono text-[11px]">Orders →</a>
         <span className="font-mono text-[11px] tracking-[.1em] uppercase" style={{ color: live ? '#C9A94A' : '#8E8A82' }}>
           {live ? '● Live · Supabase' : '○ Dev mode · local file'}
         </span>
