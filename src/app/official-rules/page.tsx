@@ -8,6 +8,8 @@ import {
   MAIL_IN_ENTRIES,
   SIGNUP_ENTRIES,
   PRIZE_VALUE_PLACEHOLDER,
+  PRIZE_HOODIE_ARV,
+  PRIZE_TEE_ARV,
   FREE_SHIPPING_THRESHOLD,
   GIVEAWAY_CLOSE_TIME_LABEL,
 } from '@/config/giveaway';
@@ -60,7 +62,11 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
     `C. Free online sign-up (no purchase necessary). Submit a valid email address through the sign-up form on getlootix.com to earn ten (${SIGNUP_ENTRIES}) entries, once per person and email address for the entire Sweepstakes Period. People who join the mailing list before the start date are on the mailing list only; they must confirm after the start date to receive entries. Multiple identities, throwaway addresses, or automated entries are void.`,
     `Entry limit. There is no limit on the number of purchase or mail-in entries per person. Online sign-up is limited to once per person and per email address. Use of multiple identities or email addresses, scripts, bots, or other automated means to obtain entries is prohibited and voids all of that person's entries. In a dispute over who submitted an online entry, the entry is deemed made by the authorized account holder of the email address submitted. Proof of sending is not proof of receipt.`,
   ] },
-  { num: '05', title: 'Prize', paras: [`One (1) Grand Prize consisting of: (a) $250.00 USD in cash, paid by PayPal (or by check if the winner cannot receive PayPal); (b) one (1) custom Lootix hoodie ([HOODIE NAME], ARV $[HOODIE ARV]); and (c) one (1) custom Lootix tee ([TEE NAME], ARV $[TEE ARV]). Total Approximate Retail Value ("ARV"): ${PRIZE_VALUE_PLACEHOLDER} — item values and the total are still being finalized and will be stated here before the Sweepstakes Period opens. Merchandise ARV equals the regular Website price of the item on the start date. If the actual value is lower, the difference will not be awarded. Size and color are the winner's choice from available stock. No transfer or substitution, except Sponsor may substitute a prize of equal or greater value if a prize item is unavailable.`] },
+  // The merchandise ARVs and the total come from src/config/giveaway.ts, which
+  // derives them from the shop prices in src/lib/site.ts — so a price change
+  // before the start date moves these numbers with it. Only the item NAMES are
+  // still blanks for the owner to fill in.
+  { num: '05', title: 'Prize', paras: [`One (1) Grand Prize consisting of: (a) $250.00 USD in cash, paid by PayPal (or by check if the winner cannot receive PayPal); (b) one (1) custom Lootix hoodie ([HOODIE NAME], ARV $${PRIZE_HOODIE_ARV}); and (c) one (1) custom Lootix tee ([TEE NAME], ARV $${PRIZE_TEE_ARV}). Total Approximate Retail Value ("ARV"): ${PRIZE_VALUE_PLACEHOLDER} — item values and the total are still being finalized and will be stated here before the Sweepstakes Period opens. Merchandise ARV equals the regular Website price of the item on the start date; if shop prices change before the start date, the ARV and the total are recalculated accordingly. If the actual value is lower, the difference will not be awarded. Size and color are the winner's choice from available stock. No transfer or substitution, except Sponsor may substitute a prize of equal or greater value if a prize item is unavailable.`] },
   { num: '06', title: 'Odds', paras: ['Odds of winning depend on the total number of eligible entries received from all methods during the Sweepstakes Period. Each entry has an equal chance of being selected.'] },
   { num: '07', title: 'Drawing', paras: [`On or about the draw date shown on the Giveaways page, Sponsor will select one (1) potential winner in a random drawing from all eligible entries using RANDOM.ORG. Sponsor will screen-record the drawing and post the recording with the RANDOM.ORG result page on the Website. Mail-in entries are added to the drawing pool before the draw. Each entry occupies one number in the draw, so a purchase worth 129 entries has 129 chances and a mail-in card has ${MAIL_IN_ENTRIES}. Sponsor's decisions are final and binding on all matters relating to the Sweepstakes.`] },
   { num: '08', title: 'Winner Notification and Verification', paras: [

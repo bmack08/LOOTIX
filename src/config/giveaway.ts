@@ -13,7 +13,7 @@
 // Dates live in src/lib/site.ts (GIVEAWAY) so there is one source for those.
 // ─────────────────────────────────────────────────────────────
 
-import { GIVEAWAY } from '@/lib/site';
+import { GIVEAWAY, SHOP_PRODUCTS } from '@/lib/site';
 
 export const ENTRIES_PER_DOLLAR = 1;
 export const MAIL_IN_ENTRIES = 25;
@@ -81,14 +81,54 @@ export function entriesForSubtotalCents(subtotalCents: number): number {
   return entriesForSubtotal(subtotalCents / 100);
 }
 
+// ── Prize value (Legal confirmed, Oct 23 2026) ──
+//
+// The prize hoodie and tee are custom Lootix pieces, so they have no shop
+// listing of their own: ARV = the regular Website price of the equivalent shop
+// item (both hoodies are the same price, so either one gives the hoodie ARV).
+//
+// They are DERIVED from the shop price config rather than typed in, so if a
+// shop price moves before the start date the ARVs and the total move with it
+// instead of leaving a stale number in the Official Rules. The only prices in
+// the repo are priceValue in SHOP_PRODUCTS (src/lib/site.ts).
+
+/**
+ * The regular Website price of a shop item, in dollars.
+ *
+ * Throws at module load — and so fails the build — if the slug is gone, rather
+ * than letting the site ship a wrong prize value.
+ */
+function shopPriceValue(slug: string): number {
+  const product = SHOP_PRODUCTS.find((p) => p.slug === slug);
+  if (!product) {
+    throw new Error(
+      `giveaway.ts: no SHOP_PRODUCTS entry with slug '${slug}', so the prize ARV cannot be derived. ` +
+        'Restore that product in src/lib/site.ts or point the ARV at the slug that replaced it.',
+    );
+  }
+  return product.priceValue;
+}
+
+/** Cash half of the Grand Prize, in dollars — paid by PayPal (or check). */
+export const PRIZE_CASH = 250;
+
+/** ARV of the custom hoodie = regular Website price of the Guild Hoodie. */
+export const PRIZE_HOODIE_ARV = shopPriceValue('guild-hoodie-black');
+
+/** ARV of the custom tee = regular Website price of the Lord of Flame Tee. */
+export const PRIZE_TEE_ARV = shopPriceValue('lord-of-flame-tee');
+
+/** Total ARV of the Grand Prize: cash + hoodie + tee. */
+export const PRIZE_TOTAL_VALUE = PRIZE_CASH + PRIZE_HOODIE_ARV + PRIZE_TEE_ARV;
+
 export interface GiveawayConfig {
   id: string;
   title: string;
   description: string;
   /**
-   * Total approximate retail value. `null` on purpose — the owner has not set
-   * item values yet, so the site must keep showing the "still being
-   * finalized" placeholder instead of a made-up number.
+   * Total approximate retail value, in dollars — PRIZE_TOTAL_VALUE, which is
+   * derived from the shop prices above. Stays `number | null` because the
+   * copy that prints it still handles an unset value.
    */
   prizeValue: number | null;
   prizeDetails: string[];
@@ -97,8 +137,13 @@ export interface GiveawayConfig {
   isActive: boolean;
 }
 
-/** Shown wherever the total prize value would go, until the owner sets it. */
-export const PRIZE_VALUE_PLACEHOLDER = '[TOTAL VALUE TBD]';
+/**
+ * The total prize value as the public copy prints it.
+ *
+ * Kept under its original name because several pages import it; it is no
+ * longer a placeholder — it is PRIZE_TOTAL_VALUE formatted as dollars.
+ */
+export const PRIZE_VALUE_PLACEHOLDER = `$${PRIZE_TOTAL_VALUE}`;
 
 // Current active giveaway - UPDATE THIS FOR NEW GIVEAWAYS
 export const currentGiveaway: GiveawayConfig = {
@@ -106,11 +151,11 @@ export const currentGiveaway: GiveawayConfig = {
   title: 'Lootix Launch Giveaway',
   description:
     '$250 cash plus a custom Lootix hoodie and a custom Lootix tee. Item values and the total are still being finalized. No purchase necessary.',
-  prizeValue: null,
+  prizeValue: PRIZE_TOTAL_VALUE,
   prizeDetails: [
-    '$250 cash',
-    'Custom Lootix hoodie (value TBD)',
-    'Custom Lootix tee (value TBD)',
+    `$${PRIZE_CASH} cash`,
+    `Custom Lootix hoodie (ARV $${PRIZE_HOODIE_ARV})`,
+    `Custom Lootix tee (ARV $${PRIZE_TEE_ARV})`,
     'No purchase necessary',
   ],
   // One source for the date: src/lib/site.ts → GIVEAWAY.endDateISO (the entry
