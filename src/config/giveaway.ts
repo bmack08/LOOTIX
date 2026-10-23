@@ -42,6 +42,23 @@ export const NO_PURCHASE_ODDS_SENTENCE =
 export const NO_PURCHASE_LINE =
   `No purchase necessary to enter or win. ${NO_PURCHASE_ODDS_SENTENCE}`;
 
+// Option B odds wording (owner decision Oct 23 2026, 2:31 PM ET). Source of
+// truth: Legal's swap list (odds-sentence-swap-list-2026-10-23.md). DRAFT for
+// counsel review. Pass these to <NoPurchaseNotice line={...}> where Legal wants
+// them. NO_PURCHASE_LINE above is still what the pages not yet swapped use.
+/** Lead of the short form on its own, so a page can make it the free-entry link. */
+export const ODDS_LEAD = 'No purchase necessary';
+export const ODDS_SHORT_REST =
+  'to enter or win. Every entry has an equal chance; purchases earn more entries; free entries are available.';
+/** SHORT form: footers, banners, hero, posts. */
+export const ODDS_SHORT = `${ODDS_LEAD} ${ODDS_SHORT_REST}`;
+/** LONG form: Rules, FAQ, giveaway page, Terms. */
+export const ODDS_LONG =
+  'No purchase necessary to enter or win. Every entry has an equal chance of being selected. Your chance of winning depends on the total number of entries received. Purchases earn more entries. Free entries are available (no purchase necessary).';
+/** Maryland line: keep next to the long form. */
+export const MARYLAND_ODDS_LINE = 'The odds of winning will be determined by the number of entries received.';
+export const ODDS_LONG_MD = `${ODDS_LONG} ${MARYLAND_ODDS_LINE}`;
+
 /** Public origin, for links inside emails (which need absolute URLs). */
 export const SITE_ORIGIN = 'https://getlootix.com';
 

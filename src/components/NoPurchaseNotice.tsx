@@ -17,6 +17,7 @@ import { NO_PURCHASE_LINE, FREE_ENTRY_HREF, FREE_ENTRY_LINK_TEXT } from '@/confi
  */
 export default function NoPurchaseNotice({
   as: Tag = 'p',
+  line = NO_PURCHASE_LINE,
   className,
   style,
   linkClassName = 'text-brass hover:text-brass-lit transition-colors',
@@ -24,6 +25,8 @@ export default function NoPurchaseNotice({
   children,
 }: {
   as?: 'p' | 'span' | 'div';
+  /** Odds wording to print; defaults to the standard line. */
+  line?: string;
   className?: string;
   style?: React.CSSProperties;
   linkClassName?: string;
@@ -32,7 +35,7 @@ export default function NoPurchaseNotice({
 }) {
   return (
     <Tag className={className} style={style}>
-      {NO_PURCHASE_LINE}{' '}
+      {line}{' '}
       <Link href={FREE_ENTRY_HREF} className={linkClassName} style={linkStyle}>
         {FREE_ENTRY_LINK_TEXT}
       </Link>

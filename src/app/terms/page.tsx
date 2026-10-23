@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import ContentPage from '@/components/lootix/ContentPage';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
-import { ENTRIES_PER_DOLLAR, MAIL_IN_ENTRIES, SIGNUP_ENTRIES } from '@/config/giveaway';
+import { ENTRIES_PER_DOLLAR, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, ODDS_LONG_MD } from '@/config/giveaway';
 import { COMPANY_ADDRESS } from '@/config/legal';
 
 export const metadata: Metadata = {
@@ -32,7 +32,7 @@ export default function TermsPage() {
       <h2>5. Giveaways &amp; Sweepstakes</h2>
       <p>Lootix operates legally compliant sweepstakes. Each giveaway is governed by its own <a href="/official-rules">Official Rules</a>, incorporated into these Terms by reference.</p>
       <ul>
-        <li><NoPurchaseNotice as="span" /></li>
+        <li><NoPurchaseNotice as="span" line={ODDS_LONG_MD} /></li>
         <li>Entries are earned as stated in the Official Rules (one ({ENTRIES_PER_DOLLAR}) entry per whole U.S. dollar on purchases, twenty-five ({MAIL_IN_ENTRIES}) per free mail-in card, ten ({SIGNUP_ENTRIES}) for a free online sign-up).</li>
         <li>Lootix reserves the right to modify, suspend, or cancel any giveaway at its discretion.</li>
       </ul>
