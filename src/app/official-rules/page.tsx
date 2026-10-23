@@ -9,6 +9,7 @@ import {
   SIGNUP_ENTRIES,
   PRIZE_VALUE_PLACEHOLDER,
   FREE_SHIPPING_THRESHOLD,
+  GIVEAWAY_CLOSE_TIME_LABEL,
 } from '@/config/giveaway';
 import { MAIL_IN_ADDRESS, COMPANY_ADDRESS, WINNERS_LIST_ADDRESS } from '@/config/legal';
 
@@ -38,10 +39,12 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
     `${COMPANY_ADDRESS} ("Sponsor"), a Maryland limited liability company. Contact: hello@getlootix.com. Website: https://www.getlootix.com (the "Website").`,
     'This Sweepstakes is in no way sponsored, endorsed, administered by, or associated with Instagram, Meta, TikTok, YouTube, X, Discord, Apple, Google, or any other social media platform. By entering, you release those platforms from all liability related to this Sweepstakes. Questions go to Sponsor, not to any platform.',
   ] },
-  // The entry-close wording and the 8:00 PM ET value are an open owner
-  // decision (Legal's entry draft says 11:59:59 p.m. ET) — leave them alone.
+  // The entry-close wording is still an open owner decision (Legal's entry
+  // draft says 11:59:59 p.m. ET). It is printed from
+  // GIVEAWAY_CLOSE_TIME_LABEL in src/config/giveaway.ts — change it there,
+  // not here.
   { num: '02', title: 'Sweepstakes Period', paras: [
-    `The Lootix Launch Giveaway (the "Sweepstakes") begins at 12:00 AM ET on ${START_DATE} and ends at 8:00 PM ET on ${END_DATE} (the "Sweepstakes Period"). No entry is created before the start or after the close. Sponsor's server clock is the official timekeeping device for online and purchase entries.`,
+    `The Lootix Launch Giveaway (the "Sweepstakes") begins at 12:00 AM ET on ${START_DATE} and ends at ${GIVEAWAY_CLOSE_TIME_LABEL} on ${END_DATE} (the "Sweepstakes Period"). No entry is created before the start or after the close. Sponsor's server clock is the official timekeeping device for online and purchase entries.`,
   ] },
   { num: '03', title: 'Eligibility', paras: [
     'Open only to legal residents of the 50 United States and D.C. who are at least 18 (19 in AL and NE; 21 in MS) at the time of entry. Void in Puerto Rico, U.S. territories and possessions, outside the United States, and wherever prohibited or restricted by law. Purchases shipped to addresses outside the U.S. do not earn entries.',

@@ -53,6 +53,19 @@ export const FREE_ENTRY_LINK_TEXT = 'Free entry by mail';
 /** Free US shipping threshold, in dollars. */
 export const FREE_SHIPPING_THRESHOLD = 100;
 
+// ── The entry-close time, as the public copy prints it ──
+//
+// OPEN OWNER DECISION: 8:00 PM ET (what the site says today) vs Legal's entry
+// draft, which says 11:59:59 p.m. ET. Until the owner picks one, change the
+// wording ONLY here — every public place that prints the close time reads this
+// label, including Official Rules § 02.
+//
+// This is a LABEL, not the close instant. The actual moment entries close is
+// GIVEAWAY.endDateISO in src/lib/site.ts (an ET ISO string with the offset),
+// and that is the only thing the countdowns and the entry window read. If the
+// owner changes the time, BOTH this label and endDateISO have to move.
+export const GIVEAWAY_CLOSE_TIME_LABEL = '8:00 PM ET';
+
 /**
  * Entries earned by an order subtotal in DOLLARS.
  * Subtotal = after discounts, before tax and shipping. Always floored.

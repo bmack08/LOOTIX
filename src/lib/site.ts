@@ -27,8 +27,13 @@ export const NAV: { label: string; href: string; live?: boolean }[] = [
  * The live giveaway. THE single source for every giveaway date.
  *
  * Dates are stored as Eastern-time ISO strings WITH the offset, so the close
- * is pinned to 8 PM ET no matter where the server or the visitor is:
+ * is pinned to the Eastern time of day no matter where the server or the
+ * visitor is:
  *   EDT → '-04:00'   ·   EST (after Nov 1) → '-05:00'
+ *
+ * The close time the public copy PRINTS is GIVEAWAY_CLOSE_TIME_LABEL in
+ * src/config/giveaway.ts. Do not import it here — config/giveaway.ts imports
+ * this file, so the dependency only goes one way.
  *
  * The entry window is `startISO` → `endDateISO`. The draw is a separate date
  * and never moves the window: `drawDateISO` is display text only.
@@ -47,9 +52,10 @@ export const GIVEAWAY: {
   /** Entry window opens (12:00 AM ET on the start date). */
   startISO: null,
   /**
-   * Entry window closes — the 8:00 PM ET close, and the end date stated in the
-   * Official Rules. `null` until the owner sets it. This is the ONLY field the
-   * entry window reads; it never falls back to the draw date.
+   * Entry window closes — the close instant behind
+   * GIVEAWAY_CLOSE_TIME_LABEL (src/config/giveaway.ts), and the end date
+   * stated in the Official Rules. `null` until the owner sets it. This is the
+   * ONLY field the entry window reads; it never falls back to the draw date.
    */
   endDateISO: null,
   /**

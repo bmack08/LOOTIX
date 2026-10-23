@@ -11,6 +11,7 @@ import {
   SIGNUP_ENTRIES,
   FREE_SHIPPING_THRESHOLD,
   PRIZE_VALUE_PLACEHOLDER,
+  GIVEAWAY_CLOSE_TIME_LABEL,
 } from '@/config/giveaway';
 
 export const metadata: Metadata = {
@@ -170,7 +171,7 @@ export default function GiveawaysPage() {
         </div>
         <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em' }}>
           One giveaway at a time, run properly — future giveaways open only after the current one pays out. No fake countdowns.
-          {closeDate ? ` Current draw closes ${closeDate} at 8:00 PM ET.` : ' Dates for the current draw are not set yet.'}
+          {closeDate ? ` Current draw closes ${closeDate} at ${GIVEAWAY_CLOSE_TIME_LABEL}.` : ' Dates for the current draw are not set yet.'}
         </p>
       </section>
     </div>

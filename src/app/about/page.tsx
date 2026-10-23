@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY } from '@/lib/site';
-import { ENTRIES_LABEL, MAIL_IN_ENTRIES, formatEndDate } from '@/config/giveaway';
+import { ENTRIES_LABEL, MAIL_IN_ENTRIES, formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
 
 export const metadata: Metadata = {
   title: 'About — This is your loot | Lootix',
@@ -21,7 +21,7 @@ const VALUES = [
 const QUEST = [
   { n: '01', title: 'Shop the drop', body: <>Each drop is a limited, numbered collection. When it&rsquo;s gone, it&rsquo;s gone.</> },
   { n: '02', title: `Earn ${ENTRIES_LABEL}`, body: <>Every dollar of your order subtotal is one entry — a $129.99 order earns 129 entries. Your total shows at checkout and in your confirmation email. Prefer not to buy? The free mail-in method in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> is worth {MAIL_IN_ENTRIES} entries per card, with no limit on envelopes.</> },
-  { n: '03', title: 'Watch the draw', body: <>When the window closes at 8 PM ET, the winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted with the RANDOM.ORG result link — no hidden draws, ever.</> },
+  { n: '03', title: 'Watch the draw', body: <>When the window closes at {GIVEAWAY_CLOSE_TIME_LABEL}, the winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted with the RANDOM.ORG result link — no hidden draws, ever.</> },
   { n: '04', title: 'Claim the loot', body: <>Cash is paid by PayPal within days, merch ships immediately, and the winner&rsquo;s name is etched into the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners Vault</Link> with proof of payout — permanently.</> },
 ];
 
@@ -90,7 +90,7 @@ export default function AboutPage() {
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
             DROP 1 IS LIVE ·{' '}
             {GIVEAWAY.endDateISO
-              ? `LAUNCH GIVEAWAY CLOSES ${formatEndDate(new Date(GIVEAWAY.endDateISO)).toUpperCase()} AT 8 PM ET`
+              ? `LAUNCH GIVEAWAY CLOSES ${formatEndDate(new Date(GIVEAWAY.endDateISO)).toUpperCase()} AT ${GIVEAWAY_CLOSE_TIME_LABEL.toUpperCase()}`
               : 'LAUNCH GIVEAWAY DATES COMING SOON'}
           </span>
         </div>

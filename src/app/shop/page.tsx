@@ -5,7 +5,7 @@ import { useMemo, useState } from 'react';
 import { SHOP_CATEGORIES, SHOP_PRODUCTS, GIVEAWAY } from '@/lib/site';
 import AddToCart from '@/components/lootix/v2/AddToCart';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
-import { ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD, formatEndDate } from '@/config/giveaway';
+import { ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD, formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -33,7 +33,7 @@ export default function ShopPage() {
         <div className="flex flex-col items-start md:items-end gap-2 font-plex text-stone" style={{ fontSize: 12, letterSpacing: '0.08em' }}>
           <span className="text-brass-lit">◆ LOOTIX LAUNCH GIVEAWAY · $250 CASH PLUS A CUSTOM HOODIE &amp; TEE</span>
           <span>
-            {closeDate ? `Draw closes ${closeDate} (8 PM ET) · ` : 'Draw date coming soon · '}
+            {closeDate ? `Draw closes ${closeDate} (${GIVEAWAY_CLOSE_TIME_LABEL}) · ` : 'Draw date coming soon · '}
             <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">view giveaway →</Link>
           </span>
         </div>

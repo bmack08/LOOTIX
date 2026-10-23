@@ -4,7 +4,7 @@ import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 // Public page: only a PAID, verified winner is named here.
 import { getPublicWinner } from '@/lib/raffle';
 import { GIVEAWAY } from '@/lib/site';
-import { ENTRIES_LABEL, formatEndDate } from '@/config/giveaway';
+import { ENTRIES_LABEL, formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
 
 export const dynamic = 'force-dynamic';
 
@@ -147,7 +147,7 @@ export default async function WinnersPage() {
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Be the first name in the vault</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
             LOOTIX LAUNCH GIVEAWAY · $250 CASH PLUS A CUSTOM HOODIE &amp; TEE ·{' '}
-            {closeDate ? `ENTRIES CLOSE ${closeDate.toUpperCase()} AT 8 PM ET` : 'DATES COMING SOON'}
+            {closeDate ? `ENTRIES CLOSE ${closeDate.toUpperCase()} AT ${GIVEAWAY_CLOSE_TIME_LABEL.toUpperCase()}` : 'DATES COMING SOON'}
           </span>
         </div>
         <Link

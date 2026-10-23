@@ -8,8 +8,9 @@ const pad = (n: number) => String(Math.max(0, n)).padStart(2, '0');
 type Parts = { d: string; h: string; m: string; s: string };
 
 /**
- * Live countdown to the real 8 PM ET entry close in GIVEAWAY.endDateISO —
- * the end of the entry window, not the separate draw date.
+ * Live countdown to the real entry close in GIVEAWAY.endDateISO — the end of
+ * the entry window, not the separate draw date. The close time as the copy
+ * prints it is GIVEAWAY_CLOSE_TIME_LABEL in src/config/giveaway.ts.
  *
  * Renders NOTHING until that date is set — no rolling "N days from page load"
  * countdown, which is just a fake deadline.

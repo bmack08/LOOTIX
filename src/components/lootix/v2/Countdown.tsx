@@ -7,8 +7,9 @@ const pad = (n: number) => String(Math.max(0, Math.floor(n))).padStart(2, '0');
 type Parts = { dd: string; hh: string; mm: string; ss: string };
 
 /**
- * Live countdown to the 8 PM ET entry close — the end of the entry window,
- * not the separate draw date.
+ * Live countdown to the entry close — the end of the entry window, not the
+ * separate draw date. The close time as the copy prints it is
+ * GIVEAWAY_CLOSE_TIME_LABEL in src/config/giveaway.ts.
  *
  * Renders NOTHING until the owner sets GIVEAWAY.endDateISO — there is no
  * countdown, and no "ends/closed" state, for a date that doesn't exist yet.

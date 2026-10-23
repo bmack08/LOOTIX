@@ -8,8 +8,10 @@ import { isEntryWindowOpen } from '@/lib/site';
  *
  * Starts `false` so the server-rendered HTML and the first client render always
  * agree (no hydration mismatch), then settles to the real value after mount and
- * re-checks every 30s — so a tab left open across the start or the 8 PM ET
+ * re-checks every 30s — so a tab left open across the start or the entry
  * close updates itself instead of showing a stale "Enter" / "Live" state.
+ * (The close time as the copy prints it is GIVEAWAY_CLOSE_TIME_LABEL in
+ * src/config/giveaway.ts.)
  *
  * `false` is the safe default: it means "Join the list", never "enter to win".
  */

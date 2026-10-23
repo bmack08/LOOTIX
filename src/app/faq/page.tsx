@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
-import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, FREE_SHIPPING_THRESHOLD, NO_PURCHASE_LINE } from '@/config/giveaway';
+import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, FREE_SHIPPING_THRESHOLD, NO_PURCHASE_LINE, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
 
 export const metadata: Metadata = {
   title: 'FAQ — Lootix',
@@ -26,7 +26,7 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
     title: 'The Draw',
     items: [
       { q: 'How is the winner chosen?', a: 'Winner is selected at random using RANDOM.ORG; the draw is screen-recorded and posted.' },
-      { q: 'When is the draw?', a: <>Each giveaway runs to the close date shown on the <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">Giveaways page</Link>, at 8:00 PM Eastern. Entries apply to the giveaway running at the time of your order — nothing is entered before the start or after the close.</> },
+      { q: 'When is the draw?', a: <>Each giveaway runs to the close date shown on the <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">Giveaways page</Link>, at {GIVEAWAY_CLOSE_TIME_LABEL}. Entries apply to the giveaway running at the time of your order — nothing is entered before the start or after the close.</> },
       { q: 'How do I know it is legit?', a: <>Every draw is screen-recorded and posted along with the RANDOM.ORG result link, and every winner is named on the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners page</Link> with proof of payout. The full process is committed in writing in the Official Rules before the first draw.</> },
       { q: 'Who can enter?', a: <>Legal residents of the 50 United States and D.C. who are at least 18 (19 in AL and NE; 21 in MS) at the time of entry, void where prohibited or restricted by law. Full eligibility is in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.</> },
     ],
