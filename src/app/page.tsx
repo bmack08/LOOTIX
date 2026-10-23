@@ -3,7 +3,7 @@ import Countdown from '@/components/lootix/v2/Countdown';
 import EmailCapture from '@/components/lootix/v2/EmailCapture';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY, isEntryWindowOpen, STATS, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, PROOF } from '@/lib/site';
-import { ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD, SIGNUP_ENTRIES } from '@/config/giveaway';
+import { ENTRIES_LABEL, FREE_ENTRY_HREF, FREE_SHIPPING_THRESHOLD, SIGNUP_ENTRIES } from '@/config/giveaway';
 
 // isEntryWindowOpen() is wall-clock dependent, so this page must not be
 // frozen at build time: revalidate so the window state refreshes on its own.
@@ -40,7 +40,7 @@ export default function Home() {
             <Link href="/about" className="btn-ghost-v2">How It Works</Link>
           </div>
           <div className="flex gap-7 flex-wrap font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em', paddingTop: 8 }}>
-            <span>✓ No purchase necessary</span>
+            <span>✓ <Link href={FREE_ENTRY_HREF} className="underline underline-offset-4 hover:text-parchment">No purchase necessary</Link></span>
             <span>✓ {ENTRIES_LABEL}</span>
             <span>✓ Ships to the US only</span>
           </div>
