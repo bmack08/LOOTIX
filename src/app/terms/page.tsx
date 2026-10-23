@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ContentPage from '@/components/lootix/ContentPage';
-import { NO_PURCHASE_ODDS_SENTENCE } from '@/config/giveaway';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
+import { ENTRIES_PER_DOLLAR, MAIL_IN_ENTRIES, SIGNUP_ENTRIES } from '@/config/giveaway';
 import { MAIL_IN_ADDRESS } from '@/config/legal';
 
 export const metadata: Metadata = {
@@ -31,9 +32,8 @@ export default function TermsPage() {
       <h2>5. Giveaways &amp; Sweepstakes</h2>
       <p>Lootix operates legally compliant sweepstakes. Each giveaway is governed by its own <a href="/official-rules">Official Rules</a>, incorporated into these Terms by reference.</p>
       <ul>
-        <li>No purchase is necessary to enter or win any giveaway.</li>
-        <li>{NO_PURCHASE_ODDS_SENTENCE}</li>
-        <li>Entries earned through purchases are as described in the applicable Official Rules.</li>
+        <li><NoPurchaseNotice as="span" /></li>
+        <li>Entries are earned as stated in the Official Rules (one ({ENTRIES_PER_DOLLAR}) entry per whole U.S. dollar on purchases, twenty-five ({MAIL_IN_ENTRIES}) per free mail-in card, ten ({SIGNUP_ENTRIES}) for a free online sign-up).</li>
         <li>Lootix reserves the right to modify, suspend, or cancel any giveaway at its discretion.</li>
       </ul>
 
@@ -58,7 +58,7 @@ export default function TermsPage() {
       <p>TO THE MAXIMUM EXTENT PERMITTED BY LAW, LOOTIX SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF YOUR USE OF THE SITE OR SERVICES. OUR TOTAL LIABILITY SHALL NOT EXCEED THE AMOUNT YOU PAID US IN THE 12 MONTHS PRECEDING THE CLAIM.</p>
 
       <h2>10. Governing Law</h2>
-      <p>These Terms are governed by the laws of the State of Maryland, without regard to conflict of laws principles. Any disputes shall be resolved in the state or federal courts located in Maryland.</p>
+      <p>These Terms are governed by the laws of the State of Maryland, without regard to conflict of laws principles. Disputes will be resolved exclusively in the state or federal courts located in [Harford County], Maryland [COUNSEL: confirm venue county now that the business address is in Harford County, Aberdeen], and you consent to their jurisdiction.</p>
 
       <h2>11. Changes to Terms</h2>
       <p>We may update these Terms at any time. Changes take effect when posted to the Site. Continued use after changes constitutes acceptance.</p>

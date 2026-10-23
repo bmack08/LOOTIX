@@ -38,7 +38,7 @@ export default function PrivacyPolicyPage() {
         <li><strong>Service Providers:</strong> payment processors (Stripe), fulfillment/shipping partners, email providers, and analytics tools.</li>
         <li><strong>Legal Requirements:</strong> when required by law, regulation, or legal process.</li>
         <li><strong>Business Transfers:</strong> in connection with a merger, acquisition, or sale of assets.</li>
-        <li><strong>Winner Announcements:</strong> a winner&rsquo;s first name and last initial may be published as required by sweepstakes regulations.</li>
+        <li><strong>Winner Announcements:</strong> we may publish a winner&rsquo;s first name, last initial, and state. Nothing more is published unless the winner signs the publicity release in the Affidavit.</li>
       </ul>
 
       <h2>5. Cookies &amp; Tracking</h2>
