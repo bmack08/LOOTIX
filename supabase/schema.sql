@@ -3,7 +3,8 @@
 --
 -- This is the from-scratch version. For an EXISTING database, run
 -- supabase/migrations/20261008_launch_fixes.sql instead, which migrates the
--- old shape onto this one without losing rows.
+-- old shape onto this one without losing rows, then
+-- supabase/migrations/20261023_orders.sql for the orders table.
 --
 -- Paste into Supabase → SQL Editor → Run (once).
 -- RLS is ON with no public policies, so ONLY the server (service_role key)
@@ -138,7 +139,72 @@ create table if not exists draws (
 create unique index if not exists draws_rank_per_giveaway on draws (giveaway_id, alternate_rank);
 create index if not exists draws_created_idx on draws (created_at desc);
 
+-- Shop orders. One row per PAID Stripe checkout session, which is also what
+-- gets turned into a DRAFT Printful order (never confirmed from code — the
+-- owner reviews and pays for it in the Printful dashboard).
+--
+-- status_detail is a short reason code / message for the owner. It deliberately
+-- never carries secrets, tokens, or the buyer's address.
+--
+-- updated_at has a default but no trigger, matching the rest of this schema:
+-- the application sets it on write.
+create table if not exists orders (
+  id                    uuid primary key default uuid_generate_v4(),
+
+  -- Stripe. UNIQUE session id → a webhook retry cannot create a second order.
+  -- A plain UNIQUE (not partial) so ON CONFLICT (stripe_session_id) inference
+  -- works for the webhook's idempotent insert.
+  stripe_session_id     text not null unique,
+  stripe_payment_intent text,
+
+  -- buyer
+  email                 text,
+  name                  text,
+  phone                 text,
+
+  -- shipping address, as Stripe collected it
+  ship_line1            text,
+  ship_line2            text,
+  ship_city             text,
+  ship_state            text,
+  ship_postal_code      text,
+  ship_country          text,
+
+  -- what was bought: [{ slug, name, size, qty, variant_id }, …]
+  items                 jsonb not null default '[]'::jsonb,
+
+  -- money, in cents, exactly as Stripe reported it
+  amount_subtotal       int,
+  amount_total          int,
+  currency              text default 'usd',
+
+  -- fulfilment state
+  --   new           → stored, Printful draft not attempted yet
+  --   needs_variant → no Printful sync variant mapped for a line item
+  --   draft_created → draft order exists in Printful, awaiting owner
+  --   error         → something failed; see status_detail
+  status                text not null default 'new'
+                          check (status in ('new', 'needs_variant', 'draft_created', 'error')),
+  status_detail         text,
+
+  -- Printful
+  printful_order_id     text,
+  -- the short order number shown to the owner and to Printful: `LX` + the first
+  -- 10 hex chars of sha256(stripe_session_id), uppercased. At most 32 chars,
+  -- and NEVER the Stripe session id itself.
+  printful_external_id  text unique,
+
+  created_at            timestamptz not null default now(),
+  updated_at            timestamptz not null default now()
+);
+
+-- The owner's order list reads newest first.
+create index if not exists orders_created_idx on orders (created_at desc);
+-- Finding the rows that still need attention (needs_variant / error).
+create index if not exists orders_status_idx  on orders (status);
+
 alter table subscribers enable row level security;
 alter table entries     enable row level security;
 alter table draws       enable row level security;
+alter table orders      enable row level security;
 -- No policies added on purpose → locked to the service_role key only.
