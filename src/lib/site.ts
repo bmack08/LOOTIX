@@ -133,6 +133,10 @@ export const HOW_STEPS = [
   { n: '03', title: 'Win the loot', body: 'The winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted, and the winner is named publicly.' },
 ];
 
+// NOTE: the "25 entries per card" below mirrors MAIL_IN_ENTRIES in
+// src/config/giveaway.ts. It is spelled out here because config/giveaway.ts
+// imports THIS file (for GIVEAWAY), so importing back would be circular —
+// if MAIL_IN_ENTRIES changes, change this string too.
 export const PROOF = [
   { icon: '⚖', title: 'RANDOM.ORG draw', body: 'The winner is selected at random using RANDOM.ORG, weighted by entry count.' },
   { icon: '◉', title: 'Screen-recorded', body: 'Every draw is screen-recorded and the recording is posted, with the RANDOM.ORG result link.' },

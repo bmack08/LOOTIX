@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useEntryWindow } from './useEntryWindow';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 
 type Status = 'idle' | 'loading' | 'ok' | 'err';
 
@@ -97,6 +98,11 @@ export default function EmailCapture({
       {status === 'err' && (
         <p className="font-mono text-[12px] text-[#e08a6b] mt-3 text-center" role="alert">{error}</p>
       )}
+      {/* Required on every entry-bearing sign-up form. */}
+      <NoPurchaseNotice
+        className="font-mono text-[11px] leading-[1.7] text-muted-2 text-center mt-4 mb-0"
+        linkClassName="underline hover:text-gold transition-colors"
+      />
     </form>
   );
 }

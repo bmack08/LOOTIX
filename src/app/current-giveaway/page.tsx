@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import {
   currentGiveaway,
   ENTRIES_LABEL,
@@ -136,6 +137,11 @@ export default function CurrentGiveawayPage() {
               <Link href="/official-rules" className="text-text-muted text-sm hover:text-text-secondary underline transition-colors">
                 View Official Rules
               </Link>
+
+              <NoPurchaseNotice
+                className="text-text-muted text-xs leading-relaxed"
+                linkClassName="underline hover:text-text-secondary transition-colors"
+              />
             </div>
           </div>
         </div>
@@ -180,6 +186,11 @@ export default function CurrentGiveawayPage() {
               </div>
             </div>
           </div>
+
+          <NoPurchaseNotice
+            className="text-text-muted text-xs leading-relaxed text-center mt-6"
+            linkClassName="underline hover:text-text-secondary transition-colors"
+          />
         </div>
       </section>
 

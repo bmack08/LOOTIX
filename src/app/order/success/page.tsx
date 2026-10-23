@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { useCart } from '@/components/lootix/v2/CartContext';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY_DATES_SET } from '@/lib/site';
 
 /** Post-payment landing. Stripe redirects here; the webhook grants the entries. */
@@ -35,11 +36,10 @@ export default function OrderSuccessPage() {
           <Link href="/giveaways" className="btn-brass">See the giveaway</Link>
           <Link href="/shop" className="btn-ghost-v2">Keep shopping</Link>
         </div>
-        <p className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7, letterSpacing: '0.04em', marginTop: 8 }}>
-          Winner is selected at random using RANDOM.ORG; the draw is screen-recorded and posted. No purchase necessary to enter —
-          free entry is available by mail, see the{' '}
+        <NoPurchaseNotice className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7, letterSpacing: '0.04em', marginTop: 8 }}>
+          Winner is selected at random using RANDOM.ORG; the draw is screen-recorded and posted. See the{' '}
           <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-        </p>
+        </NoPurchaseNotice>
       </div>
     </div>
   );

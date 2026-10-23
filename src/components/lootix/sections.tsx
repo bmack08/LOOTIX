@@ -3,6 +3,7 @@ import VaultCountdown from './VaultCountdown';
 import EmailCapture from './EmailCapture';
 import ClaimEntryButton from './ClaimEntryButton';
 import WinnerCard from './WinnerCard';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import type { Draw } from '@/lib/raffle';
 import {
   STATS, VAULT, ENTRY_TIERS, HOW_STEPS, DROPS, MILESTONES,
@@ -156,10 +157,13 @@ export function HowItWorks() {
           </Reveal>
         ))}
       </div>
-      <p className="text-center font-mono text-[12px] tracking-[.06em] text-[#6b675f] mt-[30px]">
-        No purchase necessary to enter or win. Free entry by mail is worth {MAIL_IN_ENTRIES} entries per card — see the{' '}
+      <NoPurchaseNotice
+        className="text-center font-mono text-[12px] leading-[1.7] tracking-[.06em] text-[#6b675f] mt-[30px]"
+        linkClassName="underline hover:text-gold transition-colors"
+      >
+        A mail-in card is worth {MAIL_IN_ENTRIES} entries — see the{' '}
         <a href="/official-rules" className="underline hover:text-gold transition-colors">Official Rules</a>. 18+ only, US only.
-      </p>
+      </NoPurchaseNotice>
     </section>
   );
 }
@@ -219,14 +223,14 @@ export function GrandPrizeShowcase() {
             <span className="font-mono text-[12px] text-muted tracking-[.06em]">{ENTRIES_LABEL}</span>
           </div>
           {/* Sweepstakes compliance — surfaced on the giveaway section, not just the footer */}
-          <p className="font-mono text-[11px] tracking-[.08em] text-gold-label uppercase mt-6">
-            No purchase necessary
-            <span className="text-muted normal-case tracking-normal">
-              {` — free entry by mail is worth ${MAIL_IN_ENTRIES} entries per card, and the one-time online sign-up is worth ${SIGNUP_ENTRIES}. See the `}
-            </span>
-            <a href="/official-rules" className="text-gold-label underline hover:text-gold-bright transition-colors normal-case tracking-normal">Official Rules</a>
-            <span className="text-muted normal-case tracking-normal">. 18+, US only.</span>
-          </p>
+          <NoPurchaseNotice
+            className="font-mono text-[11px] leading-[1.7] tracking-[.08em] text-muted mt-6"
+            linkClassName="text-gold-label underline hover:text-gold-bright transition-colors"
+          >
+            {`A mail-in card is worth ${MAIL_IN_ENTRIES} entries, and the one-time online sign-up is worth ${SIGNUP_ENTRIES}. See the `}
+            <a href="/official-rules" className="text-gold-label underline hover:text-gold-bright transition-colors">Official Rules</a>
+            . 18+, US only.
+          </NoPurchaseNotice>
         </Reveal>
       </div>
     </section>
@@ -321,7 +325,7 @@ export function WinnersVault({ winner }: { winner: Draw | null }) {
         })}
       </div>
       <p className="text-center font-mono text-[12px] tracking-[.06em] text-faint mt-9">
-        Every draw is recorded live and every winner announced publicly. No hidden draws, ever.
+        Every draw is screen-recorded and posted, and every winner announced publicly. No hidden draws, ever.
       </p>
     </section>
   );

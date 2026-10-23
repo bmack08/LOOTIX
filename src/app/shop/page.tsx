@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useMemo, useState } from 'react';
 import { SHOP_CATEGORIES, SHOP_PRODUCTS, GIVEAWAY } from '@/lib/site';
 import AddToCart from '@/components/lootix/v2/AddToCart';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD, formatEndDate } from '@/config/giveaway';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
@@ -89,10 +90,10 @@ export default function ShopPage() {
             </Link>
           ))}
         </div>
-        <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em' }}>
-          Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+. No purchase necessary to enter the giveaway —
-          free entry is available by mail, see the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-        </p>
+        <NoPurchaseNotice className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
+          Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+. See the{' '}
+          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
+        </NoPurchaseNotice>
       </section>
 
       {/* ENTRY BANNER (inverted cream) */}
@@ -102,6 +103,12 @@ export default function ShopPage() {
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
             {ENTRIES_LABEL.toUpperCase()} · YOUR ENTRY TOTAL SHOWS AT CHECKOUT · RANDOM.ORG DRAW
           </span>
+          <NoPurchaseNotice
+            className="m-0"
+            style={{ fontSize: 11.5, lineHeight: 1.7, color: '#4A3D22', maxWidth: 560 }}
+            linkClassName="underline"
+            linkStyle={{ color: '#7A6231' }}
+          />
         </div>
         <Link
           href="/giveaways"

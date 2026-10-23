@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { COMPANY, FOOTER_COLS } from '@/lib/site';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
@@ -38,10 +39,10 @@ export default function SiteFooter() {
 
       <div className="flex justify-between items-center gap-6 flex-wrap" style={{ paddingTop: 28 }}>
         <span className="font-plex text-ash" style={{ fontSize: 11 }}>© 2026 {COMPANY.legalName} · All rights reserved</span>
-        <span className="text-ash" style={{ fontSize: 11, lineHeight: 1.7, maxWidth: 640 }}>
-          No purchase necessary. Void where prohibited. Open to legal residents 18+. Odds depend on number of entries. See{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free entry method &amp; full details.
-        </span>
+        <NoPurchaseNotice as="span" className="text-ash" style={{ fontSize: 11, lineHeight: 1.7, maxWidth: 640 }}>
+          Void where prohibited. Open to legal residents 18+. Odds depend on the number of entries. See the{' '}
+          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for full details.
+        </NoPurchaseNotice>
       </div>
     </footer>
   );

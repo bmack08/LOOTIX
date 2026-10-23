@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY } from '@/lib/site';
 import {
   formatEndDate,
@@ -20,14 +21,17 @@ const HAIR = '1px solid rgba(198,161,91,0.16)';
 const START_DATE = GIVEAWAY.startISO ? formatEndDate(new Date(GIVEAWAY.startISO)) : '[start date]';
 const END_DATE = GIVEAWAY.drawDateISO ? formatEndDate(new Date(GIVEAWAY.drawDateISO)) : '[end date]';
 
-const SECTIONS: { num: string; title: string; paras: string[] }[] = [
+// `id` gives a section a stable anchor. #free-entry is the link target every
+// no-purchase notice on the site points at (FREE_ENTRY_HREF), so keep it on
+// the section that carries the free mail-in method.
+const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] = [
   { num: '01', title: 'Sponsor', paras: ['This sweepstakes ("Sweepstakes") is sponsored by Lootix LLC, located in Maryland, USA [BUSINESS ADDRESS] ("Sponsor").'] },
   { num: '02', title: 'Eligibility', paras: [
     'Open to legal residents of the 50 United States and D.C. who are at least eighteen (18) years of age (or the age of majority in their jurisdiction) at the time of entry. Void where prohibited.',
     'Employees, officers, and directors of Sponsor and its affiliates, and their immediate family and household members, are not eligible to enter or win.',
   ] },
   { num: '03', title: 'Sweepstakes Period', paras: [`The Sweepstakes begins at 12:00 AM ET on ${START_DATE} and ends at 8:00 PM ET on ${END_DATE} (the "Sweepstakes Period"). No entry is created before the start or after the close.`] },
-  { num: '04', title: 'How to Enter', paras: [
+  { num: '04', title: 'How to Enter', id: 'free-entry', paras: [
     `A. Entry with Purchase — During the Sweepstakes Period, purchase eligible merchandise from getlootix.com. You receive ${ENTRIES_PER_DOLLAR} entry for each U.S. dollar of your order subtotal, calculated after any discounts and before tax and shipping, rounded down to the nearest whole entry (for example, a $129.99 subtotal earns 129 entries). Shipping, taxes, and fees do not earn entries. You will receive a confirmation email with your entry total. A refund or chargeback voids that order's entries; a size exchange does not.`,
     `B. Free Alternate Method of Entry (AMOE) — No purchase necessary. Hand-print a 3"×5" card with your full legal name, complete mailing address, email, phone, and the phrase "LOOTIX LAUNCH VAULT SWEEPSTAKES ENTRY," and mail it to: LOOTIX LAUNCH VAULT SWEEPSTAKES, Lootix LLC, [MAIL-IN ADDRESS]. Each card is worth ${MAIL_IN_ENTRIES} entries. Limit one (1) card per outer envelope, each mailed separately with first-class postage, postmarked within the Sweepstakes Period and received within seven (7) days after it ends. There is no limit on the number of envelopes you may mail. Mechanically reproduced or automated entries are void.`,
     `C. Free Online Sign-Up — No purchase necessary. Submit your email address through the sign-up form on getlootix.com during the Sweepstakes Period to receive ${SIGNUP_ENTRIES} entries. Limit one (1) sign-up entry per person for the entire Sweepstakes; repeat submissions earn nothing.`,
@@ -68,6 +72,13 @@ export default function OfficialRulesPage() {
             Free entry is available by mail — {MAIL_IN_ENTRIES} entries per card, with no limit on envelopes. Every entry has the
             same chance of being drawn, however it was earned.
           </span>
+          {/* The standard no-purchase line — identical wording site-wide. */}
+          <NoPurchaseNotice
+            as="span"
+            style={{ fontSize: 13, color: '#4A3D22' }}
+            linkClassName="underline"
+            linkStyle={{ color: '#7A6231' }}
+          />
         </div>
       </section>
 
@@ -88,7 +99,7 @@ export default function OfficialRulesPage() {
       <section style={{ padding: '56px 24px 80px' }}>
         <div className="flex flex-col gap-10 mx-auto" style={{ maxWidth: 880 }}>
           {SECTIONS.map((s) => (
-            <div key={s.num} className="flex gap-6" style={{ borderTop: HAIR, paddingTop: 28 }}>
+            <div key={s.num} id={s.id} className="flex gap-6" style={{ borderTop: HAIR, paddingTop: 28, scrollMarginTop: 96 }}>
               <span className="font-plex text-brass flex-none" style={{ fontSize: 14, letterSpacing: '0.1em', width: 34 }}>{s.num}</span>
               <div className="flex flex-col gap-3">
                 <h2 className="m-0 uppercase text-parchment" style={{ fontSize: 18, fontWeight: 800, letterSpacing: '0.02em' }}>{s.title}</h2>

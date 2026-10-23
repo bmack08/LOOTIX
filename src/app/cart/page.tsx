@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useCart } from '@/components/lootix/v2/CartContext';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { entriesForSubtotal, ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD } from '@/config/giveaway';
 import { GIVEAWAY_DATES_SET } from '@/lib/site';
 
@@ -47,6 +48,7 @@ export default function CartPage() {
             Every dollar you spend is one entry toward the Launch Vault — $250 cash plus a custom Lootix hoodie and tee.
           </p>
           <Link href="/shop" className="btn-brass">Shop Drop 1</Link>
+          <NoPurchaseNotice className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7 }} />
         </div>
       </div>
     );
@@ -116,12 +118,12 @@ export default function CartPage() {
             </button>
             {err && <p className="font-plex m-0" style={{ fontSize: 11.5, color: '#e08a6b' }} role="alert">{err}</p>}
 
-            <p className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>
+            <NoPurchaseNotice className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>
               Payments secured by Stripe. Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.
               Entries are {GIVEAWAY_DATES_SET ? 'added automatically once payment completes' : 'credited when the giveaway opens'}, counted
-              from your subtotal before tax and shipping. No purchase necessary to enter — free entry is available by mail, see the{' '}
+              from your subtotal before tax and shipping. See the{' '}
               <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-            </p>
+            </NoPurchaseNotice>
           </aside>
         </div>
       </section>

@@ -30,7 +30,7 @@ const plexMono = IBM_Plex_Mono({
 export const metadata: Metadata = {
   title: 'LOOTIX — Earn It. Wear It. Loot It.',
   description:
-    'Fantasy streetwear, forged for the fearless. Every order earns entries into the live-drawn Loot Vault — $250 + a full merch bundle. No purchase necessary.',
+    'Fantasy streetwear, forged for the fearless. Every order earns entries into the Loot Vault — $250 + a full merch bundle, drawn at random on RANDOM.ORG. No purchase necessary to enter or win.',
 };
 
 export default function RootLayout({

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useEntryWindow } from '../useEntryWindow';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 
 /**
  * Guild signup — lives on the inverted cream section.
@@ -90,6 +91,13 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
         </button>
       </div>
       {state === 'error' && <p className="font-plex mt-3" style={{ fontSize: 12, color: '#8a2c14' }} role="alert">{err}</p>}
+      {/* Required on every entry-bearing sign-up form. Colours are inherited
+          so this reads correctly on both the dark and the cream sections. */}
+      <NoPurchaseNotice
+        className="font-plex text-left"
+        style={{ margin: '12px 0 0', fontSize: 10.5, lineHeight: 1.7, opacity: 0.82 }}
+        linkClassName="underline"
+      />
     </form>
   );
 }

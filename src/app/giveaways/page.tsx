@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Countdown from '@/components/lootix/v2/Countdown';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY, GIVEAWAY_DATES_SET, isEntryWindowOpen, PACKS, UPCOMING } from '@/lib/site';
 import {
   currentGiveaway,
@@ -80,9 +81,9 @@ export default function GiveawaysPage() {
             <Link href="/shop" className="btn-brass">{windowOpen ? 'Enter & Shop' : 'Shop the Drop'}</Link>
             <Link href="/official-rules" className="btn-ghost-v2">Free Entry Method</Link>
           </div>
-          <span className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.08em' }}>
-            No purchase necessary · 18+ · US only · winner selected at random using RANDOM.ORG, weighted by entry count
-          </span>
+          <NoPurchaseNotice as="span" className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
+            18+ · US only · winner selected at random using RANDOM.ORG, weighted by entry count.
+          </NoPurchaseNotice>
         </div>
       </section>
 
@@ -134,11 +135,11 @@ export default function GiveawaysPage() {
             </div>
           ))}
         </div>
-        <p className="text-center text-stone" style={{ margin: '32px auto 0', maxWidth: 680, fontSize: 12, lineHeight: 1.7 }}>
-          No purchase necessary. Free entry is available by mail — {MAIL_IN_ENTRIES} entries per card, with the same odds per entry as a
-          purchase. See the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for
+        <NoPurchaseNotice className="text-center text-stone" style={{ margin: '32px auto 0', maxWidth: 680, fontSize: 12, lineHeight: 1.7 }}>
+          A mail-in card is worth {MAIL_IN_ENTRIES} entries, with the same odds per entry as a purchase entry. See the{' '}
+          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for
           the address and instructions. 18+, US only.
-        </p>
+        </NoPurchaseNotice>
       </section>
 
       {/* UPCOMING VAULTS */}

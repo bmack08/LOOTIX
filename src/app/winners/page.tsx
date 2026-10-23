@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 // Public page: only a PAID, verified winner is named here.
 import { getPublicWinner } from '@/lib/raffle';
 import { GIVEAWAY } from '@/lib/site';
@@ -59,6 +60,7 @@ export default async function WinnersPage() {
               : "No one has won yet — Lootix launched with Drop 1 and the first draw hasn't closed. The first name etched here could be yours."}
           </p>
           <Link href="/shop" className="btn-brass" style={{ marginTop: 10 }}>Claim It First</Link>
+          <NoPurchaseNotice className="m-0 text-stone" style={{ maxWidth: 560, fontSize: 12, lineHeight: 1.7, marginTop: 6 }} />
         </div>
       </header>
 

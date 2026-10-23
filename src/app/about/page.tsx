@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY } from '@/lib/site';
 import { ENTRIES_LABEL, MAIL_IN_ENTRIES, formatEndDate } from '@/config/giveaway';
 
@@ -75,11 +76,11 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
-        <p className="text-center text-stone" style={{ margin: '28px auto 0', maxWidth: 720, fontSize: 12, lineHeight: 1.7 }}>
-          No purchase necessary to enter or win. See the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free
-          mail-in entry method. 18+ only, US only, void where prohibited.
-        </p>
+        <NoPurchaseNotice className="text-center text-stone" style={{ margin: '28px auto 0', maxWidth: 720, fontSize: 12, lineHeight: 1.7 }}>
+          See the{' '}
+          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the full
+          mail-in instructions. 18+ only, US only, void where prohibited.
+        </NoPurchaseNotice>
       </section>
 
       {/* CTA (inverted cream) */}

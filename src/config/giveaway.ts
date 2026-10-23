@@ -22,6 +22,34 @@ export const SIGNUP_ENTRIES = 10;
 /** The one public-facing phrase for how purchase entries work. */
 export const ENTRIES_LABEL = '1 entry per $1 spent';
 
+// ── The standard no-purchase disclosure (owner decision, Oct 22 2026) ──
+//
+// This exact sentence must appear — unchanged — wherever entries are mentioned
+// to the public, always next to a link to the free mail-in entry method.
+// Render it with <NoPurchaseNotice> (src/components/NoPurchaseNotice.tsx) so
+// there is one copy of the wording for the whole site, and the plain string
+// below for email HTML.
+//
+// It says "the odds of any ENTRY being selected" on purpose: entries are
+// weighted per dollar, so buying more earns more entries — what a purchase
+// never does is make one entry more likely to be drawn than another. Do NOT
+// reword it to "a purchase does not increase your chances of winning": with a
+// weighted draw that claim is false.
+/** Second half of the line on its own, for copy that already says sentence 1. */
+export const NO_PURCHASE_ODDS_SENTENCE =
+  'A purchase will not increase the odds of any entry being selected.';
+
+export const NO_PURCHASE_LINE =
+  `No purchase necessary to enter or win. ${NO_PURCHASE_ODDS_SENTENCE}`;
+
+/** Public origin, for links inside emails (which need absolute URLs). */
+export const SITE_ORIGIN = 'https://getlootix.com';
+
+/** The free mail-in entry method — Official Rules § 04 "How to Enter". */
+export const FREE_ENTRY_HREF = '/official-rules#free-entry';
+export const FREE_ENTRY_URL = `${SITE_ORIGIN}${FREE_ENTRY_HREF}`;
+export const FREE_ENTRY_LINK_TEXT = 'Free entry by mail';
+
 /** Free US shipping threshold, in dollars. */
 export const FREE_SHIPPING_THRESHOLD = 100;
 

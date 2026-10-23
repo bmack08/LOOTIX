@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, FREE_SHIPPING_THRESHOLD } from '@/config/giveaway';
 
 export const metadata: Metadata = {
@@ -52,6 +53,7 @@ export default function FaqPage() {
             Everything on entries, the free mail-in method, the RANDOM.ORG draw, shipping and returns. Still stuck? Email{' '}
             <a href="mailto:hello@getlootix.com" className="text-brass hover:text-brass-lit transition-colors">hello@getlootix.com</a> — we answer within one business day.
           </p>
+          <NoPurchaseNotice className="m-0 text-stone" style={{ maxWidth: 580, fontSize: 12.5, lineHeight: 1.7 }} />
         </div>
       </header>
 
@@ -93,6 +95,7 @@ export default function FaqPage() {
             </span>
           </div>
           <Link href="/official-rules" className="btn-ghost-v2 whitespace-nowrap">Read Official Rules →</Link>
+          <NoPurchaseNotice className="m-0 text-stone" style={{ fontSize: 12, lineHeight: 1.7, flexBasis: '100%' }} />
         </div>
       </section>
     </div>

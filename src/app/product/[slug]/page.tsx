@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import ProductControls from "@/components/ProductControls";
+import NoPurchaseNotice from "@/components/NoPurchaseNotice";
 
 type Props = {
   params: {
@@ -109,6 +110,12 @@ export default async function ProductPage({ params }: Props) {
                 {ENTRIES_LABEL.toUpperCase()}
               </span>
             </div>
+
+            {/* Required beside any entry claim. */}
+            <NoPurchaseNotice
+              className="text-text-muted text-xs leading-relaxed"
+              linkClassName="underline hover:text-text-secondary transition-colors"
+            />
 
             {/* Variant Controls */}
             <ProductControls productId={product.id} variants={product.variants} />

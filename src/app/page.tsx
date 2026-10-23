@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import Countdown from '@/components/lootix/v2/Countdown';
 import EmailCapture from '@/components/lootix/v2/EmailCapture';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY, isEntryWindowOpen, STATS, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, PROOF } from '@/lib/site';
 import { ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD, SIGNUP_ENTRIES } from '@/config/giveaway';
 
@@ -116,10 +117,10 @@ export default function Home() {
             </Link>
           ))}
         </div>
-        <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em' }}>
-          {ENTRIES_LABEL} of your order subtotal · free entry available by mail, see the{' '}
+        <NoPurchaseNotice className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
+          {ENTRIES_LABEL} of your order subtotal. See the{' '}
           <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-        </p>
+        </NoPurchaseNotice>
       </section>
 
       {/* ───────────── ACCESSORIES ───────────── */}
@@ -162,10 +163,11 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <p className="text-center text-stone" style={{ margin: '28px auto 0', maxWidth: 720, fontSize: 12, lineHeight: 1.7 }}>
-          No purchase necessary to enter or win — a purchase does not increase your chances of winning. See the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free entry method with equal odds. 18+ only, void where prohibited.
-        </p>
+        <NoPurchaseNotice className="text-center text-stone" style={{ margin: '28px auto 0', maxWidth: 720, fontSize: 12, lineHeight: 1.7 }}>
+          See the{' '}
+          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the
+          free entry method. 18+ only, void where prohibited.
+        </NoPurchaseNotice>
       </section>
 
       {/* ───────────── THE VAULT ───────────── */}
@@ -207,10 +209,10 @@ export default function Home() {
               </Link>
             ))}
           </div>
-          <p className="m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7 }}>
-            No purchase necessary — a purchase does not increase your chances of winning. Free entry via the{' '}
+          <NoPurchaseNotice className="m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7 }}>
+            See the{' '}
             <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>. 18+.
-          </p>
+          </NoPurchaseNotice>
         </div>
       </section>
 

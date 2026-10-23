@@ -1,4 +1,5 @@
 import 'server-only';
+import { NO_PURCHASE_LINE, FREE_ENTRY_URL, FREE_ENTRY_LINK_TEXT } from '@/config/giveaway';
 
 // Sends transactional email via Resend when RESEND_API_KEY is set.
 // No-ops (logs) otherwise, so the app works before email is provisioned.
@@ -31,12 +32,19 @@ async function send(to: string, subject: string, html: string) {
   }
 }
 
+/**
+ * Every entry-related email carries the standard no-purchase line and a link
+ * to the free mail-in entry method, with the exact same wording as the site
+ * (NO_PURCHASE_LINE in src/config/giveaway.ts).
+ */
 const shell = (inner: string) => `
   <div style="background:#0a0a0b;color:#f4f0e6;font-family:Arial,Helvetica,sans-serif;padding:32px;border-radius:14px;max-width:520px;margin:auto">
     <div style="font-weight:900;letter-spacing:.3em;font-size:20px;color:#f4f0e6;margin-bottom:24px">LOOTIX</div>
     ${inner}
     <p style="color:#6b675f;font-size:11px;margin-top:28px;line-height:1.6">
-      No purchase necessary. 18+. See Official Rules for the free entry method &amp; full details.
+      ${NO_PURCHASE_LINE}
+      <a href="${FREE_ENTRY_URL}" style="color:#e0b83c">${FREE_ENTRY_LINK_TEXT}</a>.
+      18+. See the Official Rules for full details.
     </p>
   </div>`;
 
@@ -54,7 +62,8 @@ export function sendWelcome(to: string, entries: number) {
         <h1 style="font-size:24px;font-weight:900;text-transform:uppercase;margin:0 0 12px">You're on the list.</h1>
         <p style="color:#b7b2a8;font-size:15px;line-height:1.6;margin:0 0 16px">
           You'll get drop alerts and first access to limited gear. The next giveaway hasn't opened yet —
-          we'll email you the moment entries are live, along with the free mail-in entry method.
+          we'll email you the moment entries are live. The
+          <a href="${FREE_ENTRY_URL}" style="color:#e0b83c">free mail-in entry method</a> is in the Official Rules.
         </p>
         <a href="https://getlootix.com/shop" style="display:inline-block;background:#e0b83c;color:#0a0a0b;font-weight:800;text-decoration:none;padding:14px 24px;border-radius:5px;text-transform:uppercase;font-size:13px;letter-spacing:.06em">Shop the Drop</a>
       `),
@@ -70,7 +79,8 @@ export function sendWelcome(to: string, entries: number) {
         for the launch giveaway — <strong style="color:#f4f0e6">$250 cash plus a custom Lootix hoodie and tee</strong>.
       </p>
       <p style="color:#b7b2a8;font-size:14px;line-height:1.6;margin:0 0 16px">
-        Want more? Every $1 you spend is 1 more entry. Free entry is always available by mail — see the Official Rules.
+        Want more? Every $1 you spend is 1 more entry, and free entry is always available by mail —
+        <a href="${FREE_ENTRY_URL}" style="color:#e0b83c">see the Official Rules</a>.
       </p>
       <a href="https://getlootix.com/shop" style="display:inline-block;background:#e0b83c;color:#0a0a0b;font-weight:800;text-decoration:none;padding:14px 24px;border-radius:5px;text-transform:uppercase;font-size:13px;letter-spacing:.06em">Shop the Drop</a>
     `),

@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { NO_PURCHASE_ODDS_SENTENCE, FREE_ENTRY_HREF } from '@/config/giveaway';
 
 export default function GiveawayDisclosure() {
   return (
@@ -13,11 +14,18 @@ export default function GiveawayDisclosure() {
         <div className="bg-dark-900/50 border-2 border-primary/30 rounded-xl p-6 md:p-8 space-y-4 text-gray-300 leading-relaxed">
           <p>
             Every LOOTIX drop includes a sweepstakes. When you buy eligible merch during the promotion period, you earn entries toward the current grand prize.{' '}
-            <strong className="text-white">No purchase, donation, or payment of any kind is necessary to enter or win. A purchase does not increase your chances of winning.</strong>
+            {/* The standard line, verbatim. The old wording here ("a purchase
+                does not increase your chances of winning") contradicted the
+                weighted per-dollar draw and had to go. */}
+            <strong className="text-white">No purchase, donation, or payment of any kind is necessary to enter or win. {NO_PURCHASE_ODDS_SENTENCE}</strong>
           </p>
 
           <p>
-            You can enter for free by using our Alternate Method of Entry (AMOE) described in the Official Rules. All entries, paid or free, have the same odds of winning.
+            You can enter for free by using our{' '}
+            <Link href={FREE_ENTRY_HREF} className="text-primary hover:text-primary/80 underline font-semibold transition-colors">
+              Alternate Method of Entry (AMOE)
+            </Link>{' '}
+            described in the Official Rules. All entries, paid or free, have the same odds of being selected.
           </p>
 
           <p>
