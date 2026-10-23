@@ -1,5 +1,5 @@
 import { FOOTER_COLS, COMPANY } from '@/lib/lootix';
-import { MAIL_IN_ADDRESS_LINES } from '@/config/legal';
+import { COMPANY_ADDRESS_LINES } from '@/config/legal';
 import LootixWordmark from './LootixWordmark';
 
 const socials = [
@@ -59,9 +59,12 @@ export default function SiteFooter() {
           </div>
           {/* Legal address — required for sweepstakes + CAN-SPAM */}
           <div className="font-mono text-[11.5px] leading-[1.7] text-faint">
-            <div className="text-muted-2 font-semibold">{COMPANY.legalName}</div>
-            {/* Name is on the line above, so this takes the street lines only. */}
-            <div>{MAIL_IN_ADDRESS_LINES.slice(1).join(', ')}</div>
+            {/* COMPANY_ADDRESS_LINES opens with the company name, so it is the
+                heading line too — printing COMPANY.legalName above it would
+                double the name. */}
+            {COMPANY_ADDRESS_LINES.map((line, i) => (
+              <div key={line} className={i === 0 ? 'text-muted-2 font-semibold' : undefined}>{line}</div>
+            ))}
             <a href={`mailto:${COMPANY.email}`} className="hover:text-gold transition-colors">{COMPANY.email}</a>
           </div>
         </div>

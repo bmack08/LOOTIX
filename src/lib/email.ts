@@ -1,6 +1,6 @@
 import 'server-only';
 import { NO_PURCHASE_LINE, FREE_ENTRY_URL, FREE_ENTRY_LINK_TEXT } from '@/config/giveaway';
-import { MAIL_IN_ADDRESS } from '@/config/legal';
+import { COMPANY_ADDRESS } from '@/config/legal';
 
 // Sends transactional email via Resend when RESEND_API_KEY is set.
 // No-ops (logs) otherwise, so the app works before email is provisioned.
@@ -48,7 +48,7 @@ const shell = (inner: string) => `
       <a href="${FREE_ENTRY_URL}" style="color:#e0b83c">${FREE_ENTRY_LINK_TEXT}</a>.
       18+. See the Official Rules for full details.
     </p>
-    <p style="color:#6b675f;font-size:11px;margin-top:12px;line-height:1.6">${MAIL_IN_ADDRESS}</p>
+    <p style="color:#6b675f;font-size:11px;margin-top:12px;line-height:1.6">${COMPANY_ADDRESS}</p>
   </div>`;
 
 /**

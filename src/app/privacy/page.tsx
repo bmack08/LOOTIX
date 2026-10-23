@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import ContentPage from '@/components/lootix/ContentPage';
-import { MAIL_IN_ADDRESS } from '@/config/legal';
+import { COMPANY_ADDRESS } from '@/config/legal';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy — Lootix',
@@ -57,7 +57,7 @@ export default function PrivacyPolicyPage() {
       <p>We may update this policy from time to time. Changes are posted here with an updated date. Continued use after changes constitutes acceptance.</p>
 
       <h2>10. Contact Us</h2>
-      <p><strong>{MAIL_IN_ADDRESS}</strong> · <a href="mailto:hello@getlootix.com">hello@getlootix.com</a></p>
+      <p><strong>{COMPANY_ADDRESS}</strong> · <a href="mailto:hello@getlootix.com">hello@getlootix.com</a></p>
     </ContentPage>
   );
 }

@@ -5,7 +5,7 @@
 // ─────────────────────────────────────────────────────────────
 
 import { MAIL_IN_ENTRIES, SIGNUP_ENTRIES, ENTRIES_LABEL } from '@/config/giveaway';
-import { MAIL_IN_ADDRESS } from '@/config/legal';
+import { COMPANY_ADDRESS } from '@/config/legal';
 
 /**
  * Entries granted per non-purchase action. The numbers themselves live in
@@ -104,7 +104,7 @@ export const MILESTONES = [
 export const COMPANY = {
   legalName: 'Lootix LLC',
   location: 'Maryland, USA',
-  address: MAIL_IN_ADDRESS,
+  address: COMPANY_ADDRESS,
   email: 'hello@getlootix.com',
   socials: {
     instagram: 'https://instagram.com/getlootix',

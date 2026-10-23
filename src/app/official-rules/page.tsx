@@ -9,7 +9,7 @@ import {
   SIGNUP_ENTRIES,
   PRIZE_VALUE_PLACEHOLDER,
 } from '@/config/giveaway';
-import { MAIL_IN_ADDRESS, MAIL_IN_ADDRESS_LINES } from '@/config/legal';
+import { MAIL_IN_ADDRESS, COMPANY_ADDRESS } from '@/config/legal';
 
 export const metadata: Metadata = {
   title: 'Official Rules — Launch Vault Sweepstakes | Lootix',
@@ -17,10 +17,6 @@ export const metadata: Metadata = {
 };
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
-
-// The Sponsor sentence names "Lootix LLC" itself, so it takes the street lines
-// only; the mail-in paragraph below uses the full address, name line included.
-const SPONSOR_STREET_ADDRESS = MAIL_IN_ADDRESS_LINES.slice(1).join(', ');
 
 // Dates come from src/lib/site.ts (GIVEAWAY) — one source for the whole site.
 const START_DATE = GIVEAWAY.startISO ? formatEndDate(new Date(GIVEAWAY.startISO)) : '[start date]';
@@ -36,7 +32,9 @@ const END_DATE = GIVEAWAY.drawDateISO ? formatEndDate(new Date(GIVEAWAY.drawDate
 // out word next to each one ("twenty-five (25)") must be updated with it.
 const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] = [
   { num: '01', title: 'Sponsor', paras: [
-    `Lootix LLC, a Maryland limited liability company, ${SPONSOR_STREET_ADDRESS} ("Sponsor"). Contact: hello@getlootix.com. Website: https://www.getlootix.com (the "Website").`,
+    // COMPANY_ADDRESS opens with "Lootix LLC", so the sentence must not name
+    // the company again ahead of it.
+    `${COMPANY_ADDRESS} ("Sponsor"), a Maryland limited liability company. Contact: hello@getlootix.com. Website: https://www.getlootix.com (the "Website").`,
     'This Sweepstakes is in no way sponsored, endorsed, administered by, or associated with Instagram, Meta, TikTok, YouTube, X, Discord, Apple, Google, or any other social media platform. By entering, you release those platforms from all liability related to this Sweepstakes. Questions go to Sponsor, not to any platform.',
   ] },
   // The entry-close wording and the 8:00 PM ET value are an open owner
@@ -51,7 +49,7 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
   { num: '04', title: 'How to Enter', id: 'free-entry', paras: [
     'There are three (3) ways to enter. All entries go into the same drawing. Entries count only if received between the start and the close of the Sweepstakes Period in Section 02.',
     `A. Purchase entry. Each purchase at getlootix.com during the Sweepstakes Period automatically earns one (${ENTRIES_PER_DOLLAR}) entry for every whole U.S. dollar spent, calculated on the merchandise total after discounts, before tax and excluding shipping and handling (fractions rounded down; for example, $129.99 = 129 entries). Entries are credited when the order is paid, and you will receive a confirmation email with your entry total. If an order is refunded, canceled, or charged back, in whole or in part, the matching entries are void. A size or color exchange of equal value keeps its entries. Buying items to obtain entries and then returning them is fraud and will result in disqualification.`,
-    `B. Free mail-in entry (no purchase necessary). Hand-print your full name, complete mailing address, email address, phone number, and date of birth on a 3" x 5" card. Mail it in a #10 envelope with proper postage to: Lootix Launch Vault Sweepstakes, ${MAIL_IN_ADDRESS}. Each eligible card earns twenty-five (${MAIL_IN_ENTRIES}) entries. One (1) card per envelope; no limit on the number of envelopes. Cards must be postmarked by ${END_DATE} and received by [RECEIPT DEADLINE]. Mechanically reproduced, illegible, incomplete, postage-due, late, bulk, or third-party-submitted cards are void. Sponsor is not responsible for lost, late, damaged, or misdirected mail. Cards will not be acknowledged or returned. If Sponsor ever offers a bonus multiplier on purchases, mail-in cards postmarked in that period receive the same multiplier.`,
+    `B. Free mail-in entry (no purchase necessary). Hand-print your full name, complete mailing address, email address, phone number, and date of birth on a 3" x 5" card. Mail it in a #10 envelope with proper postage to: ${MAIL_IN_ADDRESS}. Each eligible card earns twenty-five (${MAIL_IN_ENTRIES}) entries. One (1) card per envelope; no limit on the number of envelopes. Cards must be postmarked by ${END_DATE} and received by [RECEIPT DEADLINE]. Mechanically reproduced, illegible, incomplete, postage-due, late, bulk, or third-party-submitted cards are void. Sponsor is not responsible for lost, late, damaged, or misdirected mail. Cards will not be acknowledged or returned. If Sponsor ever offers a bonus multiplier on purchases, mail-in cards postmarked in that period receive the same multiplier.`,
     `C. Free online sign-up (no purchase necessary). Submit a valid email address through the sign-up form on getlootix.com to earn ten (${SIGNUP_ENTRIES}) entries, once per person and email address for the entire Sweepstakes Period. People who join the mailing list before the start date are on the mailing list only; they must confirm after the start date to receive entries. Multiple identities, throwaway addresses, or automated entries are void.`,
     `Entry limit. There is no limit on the number of purchase or mail-in entries per person. Online sign-up is limited to once per person and per email address. Use of multiple identities or email addresses, scripts, bots, or other automated means to obtain entries is prohibited and voids all of that person's entries. In a dispute over who submitted an online entry, the entry is deemed made by the authorized account holder of the email address submitted. Proof of sending is not proof of receipt.`,
   ] },
@@ -73,7 +71,7 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
   ] },
   { num: '12', title: 'Disputes; Governing Law', paras: [`These rules are governed by the laws of the State of Maryland, without regard to conflict-of-law principles. Except where prohibited: (a) any dispute arising from or connected to the Sweepstakes will be resolved individually, without resort to any class action, and exclusively in the state or federal courts located in [Harford County], Maryland [COUNSEL: confirm venue county now that the business address is in Harford County, Aberdeen]; (b) any claims, judgments, and awards are limited to actual out-of-pocket costs of entering, and in no event attorneys' fees; and (c) entrants waive any right to punitive, incidental, consequential, or multiplied damages.`] },
   { num: '13', title: 'Privacy', paras: [`Information collected from entrants is used to administer the Sweepstakes, contact the winner, and as described in Sponsor's Privacy Policy at https://www.getlootix.com/privacy. Mail-in cards are kept for [6] months after the drawing and then destroyed. Sponsor does not sell entrant information. Marketing email is sent only to entrants who opt in, and entering does not require opting in.`] },
-  { num: '14', title: 'Winners List', paras: [`For the winner's name (first name, last initial, and state), send a self-addressed stamped envelope, received within sixty (60) days after the close of the Sweepstakes Period, to: Lootix Launch Vault Winners List, ${MAIL_IN_ADDRESS}. Winners are also announced publicly at getlootix.com/winners.`] },
+  { num: '14', title: 'Winners List', paras: [`For the winner's name (first name, last initial, and state), send a self-addressed stamped envelope, received within sixty (60) days after the close of the Sweepstakes Period, to: Lootix Launch Vault Winners List, ${COMPANY_ADDRESS}. Winners are also announced publicly at getlootix.com/winners.`] },
   { num: '15', title: 'Official Rules', paras: ['These Official Rules are posted at https://www.getlootix.com/official-rules. In case of conflict between these rules and any advertising, FAQ, or social post, these rules control.'] },
   { num: '16', title: 'Shipping', paras: ['Merchandise ships to addresses in the United States only. Free U.S. shipping on orders of $100 or more.'] },
 ];

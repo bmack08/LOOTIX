@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import ContentPage from '@/components/lootix/ContentPage';
 import { COMPANY } from '@/lib/lootix';
-import { MAIL_IN_ADDRESS_LINES } from '@/config/legal';
+import { COMPANY_ADDRESS_LINES } from '@/config/legal';
 
 export const metadata: Metadata = {
   title: 'Contact — Lootix',
@@ -27,10 +27,10 @@ export default function ContactPage() {
 
       <h2>Mailing address</h2>
       <p>
-        {MAIL_IN_ADDRESS_LINES.map((line, i) => (
+        {COMPANY_ADDRESS_LINES.map((line, i) => (
           <span key={line}>
             {i === 0 ? <strong>{line}</strong> : line}
-            {i < MAIL_IN_ADDRESS_LINES.length - 1 && <br />}
+            {i < COMPANY_ADDRESS_LINES.length - 1 && <br />}
           </span>
         ))}
       </p>
