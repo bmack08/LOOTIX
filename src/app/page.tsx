@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Countdown from '@/components/lootix/v2/Countdown';
 import EmailCapture from '@/components/lootix/v2/EmailCapture';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
-import { GIVEAWAY, isEntryWindowOpen, STATS, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, PROOF } from '@/lib/site';
+import { GIVEAWAY, isEntryWindowOpen, STATS, STATS_PRE_START, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, HOW_STEPS_PRE_START, PROOF, PROOF_PRE_START } from '@/lib/site';
 import { ENTRIES_LABEL, FREE_ENTRY_HREF, FREE_SHIPPING_THRESHOLD, SIGNUP_ENTRIES, ODDS_LEAD, ODDS_SHORT_REST } from '@/config/giveaway';
 
 // isEntryWindowOpen() is wall-clock dependent, so this page must not be
@@ -20,6 +20,9 @@ const endShort = GIVEAWAY.endDateISO
 
 export default function Home() {
   const windowOpen = isEntryWindowOpen();
+  // PRE-START (dates not both set) is the default state: no prize pitch, no per-dollar
+  // cue, no "enter" / "win" language. LIVE (window open) shows the full copy.
+  const stats = windowOpen ? STATS : STATS_PRE_START;
   return (
     <div className="text-parchment">
       {/* ───────────── HERO ───────────── */}
@@ -33,21 +36,29 @@ export default function Home() {
             Earn it.<br />Wear it.<br /><span className="text-brass">Loot it.</span>
           </h1>
           <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 17, lineHeight: 1.65 }}>
-            Legendary streetwear, forged for the fearless. Enter the Lootix Launch Giveaway — <strong className="text-parchment">$250 cash plus a custom Lootix hoodie and tee</strong>, drawn at random on RANDOM.ORG.
+            {windowOpen ? (
+              <>
+                Legendary streetwear, forged for the fearless. Enter the Lootix Launch Giveaway — <strong className="text-parchment">$250 cash plus a custom Lootix hoodie and tee</strong>, drawn at random on RANDOM.ORG.
+              </>
+            ) : (
+              'Legendary streetwear, forged for the fearless. Join the list for the Lootix Launch Giveaway.'
+            )}
           </p>
           {/* Option B short form (Legal swap list, Oct 23 2026), directly under the
               giveaway/prize line, same size. "No purchase necessary" stays the
               link to the free-entry rules. */}
-          <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 17, lineHeight: 1.65 }}>
-            <Link href={FREE_ENTRY_HREF} className="underline underline-offset-4 hover:text-parchment">{ODDS_LEAD}</Link>{' '}
-            {ODDS_SHORT_REST}
-          </p>
+          {windowOpen && (
+            <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 17, lineHeight: 1.65 }}>
+              <Link href={FREE_ENTRY_HREF} className="underline underline-offset-4 hover:text-parchment">{ODDS_LEAD}</Link>{' '}
+              {ODDS_SHORT_REST}
+            </p>
+          )}
           <div className="flex items-center gap-4 flex-wrap">
             <Link href="/shop" className="btn-brass">Shop the Drop</Link>
             <Link href="/about" className="btn-ghost-v2">How It Works</Link>
           </div>
           <div className="flex gap-7 flex-wrap font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em', paddingTop: 8 }}>
-            <span>✓ {ENTRIES_LABEL}</span>
+            <span>{windowOpen ? `\u2713 ${ENTRIES_LABEL}` : '\u2713 Join the list'}</span>
             <span>✓ Ships to the US only</span>
           </div>
         </div>
@@ -66,15 +77,21 @@ export default function Home() {
                 <span style={{ color: '#0C0A07', background: '#C6A15B', padding: '2px 8px', borderRadius: 2, fontWeight: 600 }}>Live</span>
               )}
             </div>
-            <div className="flex items-baseline gap-2.5">
-              <span className="text-parchment" style={{ fontSize: 44, fontWeight: 900, letterSpacing: '-0.02em' }}>$250</span>
-              <span className="text-sand" style={{ fontSize: 13, fontWeight: 500 }}>+ custom hoodie &amp; tee</span>
-            </div>
+            {windowOpen ? (
+              <div className="flex items-baseline gap-2.5">
+                <span className="text-parchment" style={{ fontSize: 44, fontWeight: 900, letterSpacing: '-0.02em' }}>$250</span>
+                <span className="text-sand" style={{ fontSize: 13, fontWeight: 500 }}>+ custom hoodie &amp; tee</span>
+              </div>
+            ) : (
+              <p className="m-0 text-sand" style={{ fontSize: 14, lineHeight: 1.6 }}>Dates coming soon. Join the list to hear when entries open.</p>
+            )}
             <Countdown />
-            <p className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.6, letterSpacing: '0.04em' }}>
-              {ENTRIES_LABEL}. Free entry by mail —{' '}
-              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-            </p>
+            {windowOpen && (
+              <p className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.6, letterSpacing: '0.04em' }}>
+                {ENTRIES_LABEL}. Free entry by mail —{' '}
+                <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
+              </p>
+            )}
             <Link
               href="/giveaways"
               className="block text-center uppercase transition-colors hover:bg-brass-lit"
@@ -88,8 +105,8 @@ export default function Home() {
 
       {/* ───────────── STAT STRIP ───────────── */}
       <section className="grid grid-cols-2 lg:grid-cols-4" style={{ borderBottom: HAIR }}>
-        {STATS.map((s, i) => (
-          <div key={s.label} className="flex flex-col gap-1" style={{ padding: '28px 24px', borderRight: i < STATS.length - 1 ? HAIR : undefined }}>
+        {stats.map((s, i) => (
+          <div key={s.label} className="flex flex-col gap-1" style={{ padding: '28px 24px', borderRight: i < stats.length - 1 ? HAIR : undefined }}>
             {/* Fluid size: "RANDOM.ORG" is one unbreakable token and will not
                 fit a two-up cell at 26px on a phone. Full 26px from ~565px up. */}
             <span className="text-brass-lit" style={{ fontSize: 'clamp(16px, 4.6vw, 26px)', fontWeight: 900, overflowWrap: 'anywhere' }}>{s.value}</span>
@@ -98,12 +115,19 @@ export default function Home() {
         ))}
       </section>
 
+      {/* LIVE only: the short line under the per-dollar stat card (Legal ruling 5). */}
+      {windowOpen && (
+        <div style={{ padding: '14px 24px', borderBottom: HAIR }}>
+          <NoPurchaseNotice linkLead className="font-plex m-0 text-stone" style={{ fontSize: 11, letterSpacing: '0.04em', lineHeight: 1.7 }} />
+        </div>
+      )}
+
       {/* ───────────── FEATURED DROP ───────────── */}
       <section style={{ padding: '88px 24px', borderBottom: HAIR }}>
         <div className="flex justify-between items-end gap-6 flex-wrap" style={{ marginBottom: 44 }}>
           <div className="flex flex-col gap-2.5">
             <span className="v2-eyebrow">Drop 1 · Summon the Loot</span>
-            <h2 className="v2-h2">Gear worth winning in</h2>
+            <h2 className="v2-h2">{windowOpen ? 'Gear worth winning in' : 'Gear worth wearing'}</h2>
           </div>
           <Link href="/shop" className="uppercase text-brass hover:text-brass-lit transition-colors" style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', borderBottom: '1px solid rgba(198,161,91,0.45)', paddingBottom: 4 }}>
             Shop all gear →
@@ -114,7 +138,9 @@ export default function Home() {
             <Link key={p.name} href="/shop" className="v2-card flex flex-col overflow-hidden text-parchment">
               <div className="relative overflow-hidden" style={{ aspectRatio: '4/4.4' }}>
                 <img src={p.img} alt={p.name} className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
-                <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
+                {windowOpen && (
+                  <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
+                )}
                 <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span>
               </div>
               <div className="flex flex-col gap-1.5" style={{ padding: 18 }}>
@@ -127,10 +153,12 @@ export default function Home() {
             </Link>
           ))}
         </div>
-        <NoPurchaseNotice className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
-          {ENTRIES_LABEL} of your order subtotal. See the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-        </NoPurchaseNotice>
+        {windowOpen && (
+          <NoPurchaseNotice className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
+            {ENTRIES_LABEL} of your order subtotal. See the{' '}
+            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
+          </NoPurchaseNotice>
+        )}
       </section>
 
       {/* ───────────── ACCESSORIES ───────────── */}
@@ -138,7 +166,7 @@ export default function Home() {
         <div className="flex justify-between items-center gap-4 flex-wrap" style={{ marginBottom: 32 }}>
           <div className="flex items-center gap-4 flex-wrap">
             <h3 className="m-0 uppercase text-parchment" style={{ fontSize: 26, fontWeight: 900 }}>Accessories</h3>
-            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.12em' }}>Small loot · same $1 = 1 entry</span>
+            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.12em' }}>Small loot{windowOpen ? ' \u00b7 same $1 = 1 entry' : ''}</span>
           </div>
           <Link href="/shop" className="uppercase text-brass hover:text-brass-lit transition-colors" style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em' }}>View all →</Link>
         </div>
@@ -147,7 +175,9 @@ export default function Home() {
             <Link key={q.name} href="/shop" className="v2-card flex items-center justify-between gap-3 text-parchment" style={{ padding: '18px 20px' }}>
               <div className="flex flex-col gap-1">
                 <span style={{ fontSize: 15, fontWeight: 700 }}>{q.name}</span>
-                <span className="font-plex text-brass" style={{ fontSize: 11, letterSpacing: '0.06em' }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
+                {windowOpen && (
+                  <span className="font-plex text-brass" style={{ fontSize: 11, letterSpacing: '0.06em' }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
+                )}
               </div>
               <span className="font-plex text-brass-lit" style={{ fontSize: 15, fontWeight: 600 }}>{q.price}</span>
             </Link>
@@ -161,11 +191,11 @@ export default function Home() {
           <span className="v2-eyebrow">How it works</span>
           <h2 className="v2-h2">Three steps to legendary</h2>
           <p className="m-0 text-sand" style={{ maxWidth: 520, fontSize: 16, lineHeight: 1.6 }}>
-            No gimmicks. Shop the gear you actually want — the entries come free with every order.
+            {windowOpen ? 'No gimmicks. Shop the gear you actually want \u2014 the entries come free with every order.' : 'No gimmicks. Shop the gear you actually want.'}
           </p>
         </div>
         <div className="grid gap-5 grid-cols-1 lg:grid-cols-3">
-          {HOW_STEPS.map((s) => (
+          {(windowOpen ? HOW_STEPS : HOW_STEPS_PRE_START).map((s) => (
             <div key={s.n} className="v2-card flex flex-col gap-4" style={{ padding: '36px 32px' }}>
               <span className="font-plex text-brass" style={{ fontSize: 14, letterSpacing: '0.1em' }}>{s.n} ─────</span>
               <h3 className="m-0 uppercase text-parchment" style={{ fontSize: 22, fontWeight: 800 }}>{s.title}</h3>
@@ -173,11 +203,13 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <NoPurchaseNotice className="text-center text-stone" style={{ margin: '28px auto 0', maxWidth: 720, fontSize: 12, lineHeight: 1.7 }}>
-          See the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the
-          free entry method. 18+ only, void where prohibited.
-        </NoPurchaseNotice>
+        {windowOpen && (
+          <NoPurchaseNotice className="text-center text-stone" style={{ margin: '28px auto 0', maxWidth: 720, fontSize: 12, lineHeight: 1.7 }}>
+            See the{' '}
+            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the
+            free entry method. 18+ only, void where prohibited.
+          </NoPurchaseNotice>
+        )}
       </section>
 
       {/* ───────────── THE GIVEAWAY ───────────── */}
@@ -190,11 +222,19 @@ export default function Home() {
           </span>
         </div>
         <div className="flex flex-col justify-center gap-6" style={{ padding: '72px 24px' }}>
-          <span className="v2-eyebrow">Launch Giveaway · $250 + Custom Hoodie &amp; Tee</span>
+          <span className="v2-eyebrow">{windowOpen ? 'Launch Giveaway \u00b7 $250 + Custom Hoodie & Tee' : 'Launch Giveaway \u00b7 Dates coming soon'}</span>
           <h2 className="v2-h2">Lootix Launch Giveaway</h2>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
-            One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free US shipping at ${FREE_SHIPPING_THRESHOLD}.
+            {windowOpen ? (
+              <>
+              One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free US shipping at ${FREE_SHIPPING_THRESHOLD}.
+              </>
+            ) : (
+              'The Lootix Launch Giveaway has not opened yet. Join the list to hear when entries open.'
+            )}
           </p>
+          {windowOpen ? (
+          <>
           <div className="flex flex-col gap-3">
             {PACKS.map((pk) => (
               <Link
@@ -223,17 +263,21 @@ export default function Home() {
             See the{' '}
             <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>. 18+.
           </NoPurchaseNotice>
+          </>
+          ) : (
+            <Link href="/giveaways" className="btn-brass self-start">See the Giveaway</Link>
+          )}
         </div>
       </section>
 
       {/* ───────────── PROOF ───────────── */}
       <section style={{ padding: '88px 24px', borderBottom: HAIR, background: '#0F0C08' }}>
         <div className="flex flex-col gap-2.5 items-center text-center" style={{ marginBottom: 52 }}>
-          <span className="v2-eyebrow">No hidden draws. Ever.</span>
+          <span className="v2-eyebrow">No hidden draws.</span>
           <h2 className="v2-h2">How every draw is proven</h2>
         </div>
         <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {PROOF.map((p) => (
+          {(windowOpen ? PROOF : PROOF_PRE_START).map((p) => (
             <div key={p.title} className="flex flex-col gap-3" style={{ border: HAIR, borderRadius: 4, padding: '30px 26px', background: '#0C0A07' }}>
               <span className="text-brass" style={{ fontSize: 24 }}>{p.icon}</span>
               <h3 className="m-0 uppercase text-parchment" style={{ fontSize: 16, fontWeight: 800 }}>{p.title}</h3>

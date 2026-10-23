@@ -4,16 +4,18 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { NAV, TICKER } from '@/lib/site';
+import { NAV, TICKER, TICKER_PRE_START } from '@/lib/site';
 import { useEntryWindow } from '../useEntryWindow';
 import { useCart } from './CartContext';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 function Ticker() {
+  // PRE-START (default) ticker has no prize or entry cue; LIVE swaps in the full one.
+  const items = useEntryWindow() ? TICKER : TICKER_PRE_START;
   const Row = () => (
     <div className="inline-flex gap-12 pr-12 font-plex uppercase" style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.14em' }}>
-      {TICKER.map((t, i) => <span key={i}>{t}</span>)}
+      {items.map((t, i) => <span key={i}>{t}</span>)}
     </div>
   );
   return (

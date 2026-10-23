@@ -9,12 +9,22 @@ export const TICKER = [
   // Order matters: the prize line is followed by the free-entry line, and the
   // purchase cue ("1 entry per $1") is kept off the prize line (Legal swap list,
   // caution 2). The ticker loops, so it also never sits right before the prize.
-  '◆ Win $250 + custom Lootix hoodie & tee',
-  'No purchase necessary to enter or win. Free entries are available.',
+  '\u25c6 Win $250 + custom Lootix hoodie & tee',
+  // Legal's short line (ODDS_SHORT in config/giveaway.ts; spelled out because that
+  // file imports this one).
+  'No purchase necessary to enter or win. Every entry has an equal chance; purchases earn more entries; free entries are available.',
   'Drop 1',
   '◆ 1 entry per $1 spent',
   'Ships to the US only',
   '◆ Winner drawn at random on RANDOM.ORG',
+];
+
+/** PRE-START ticker (dates not both set): no prize, no entry cue, no "win". Legal ruling 5. */
+export const TICKER_PRE_START = [
+  '\u25c6 Lootix Launch Giveaway \u2014 dates coming soon',
+  'Drop 1',
+  '\u25c6 Join the list',
+  'Ships to the US only',
 ];
 
 /** `live` marks the tab that gets the LIVE badge — only while entries are open. */
@@ -81,10 +91,19 @@ export function isEntryWindowOpen(now: Date | number = Date.now()): boolean {
 /** True once the entry-window dates exist — gates every countdown / "ends" state. */
 export const GIVEAWAY_DATES_SET = Boolean(GIVEAWAY.startISO && GIVEAWAY.endDateISO);
 
+/** LIVE stats (entries open). Legal ruling 5: per-dollar card says "One entry per $1 spent" and the page adds the short line as a caption. */
 export const STATS = [
   { value: '$250', label: 'Cash in the launch grand prize' },
-  { value: '1 : $1', label: 'One entry per dollar spent' },
+  { value: '1 : $1', label: 'One entry per $1 spent' },
   { value: 'FREE', label: 'Entry by mail · free entries available' },
+  { value: 'RANDOM.ORG', label: 'Random draw, screen-recorded' },
+];
+
+/** PRE-START stats: no prize amount, no per-dollar cue. The "Dates TBA" card is Legal's wording; the others are neutral. */
+export const STATS_PRE_START = [
+  { value: 'Drop 1', label: 'Limited, numbered gear' },
+  { value: 'Dates TBA', label: 'Join the list to hear first' },
+  { value: 'US only', label: 'Ships to the US only' },
   { value: 'RANDOM.ORG', label: 'Random draw, screen-recorded' },
 ];
 
@@ -157,6 +176,13 @@ export const HOW_STEPS = [
   { n: '03', title: 'Win the loot', body: 'The winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. The winner is listed by first name, last initial and state.' },
 ];
 
+/** PRE-START steps: no "earn entries" / "win" language until entries open. */
+export const HOW_STEPS_PRE_START = [
+  HOW_STEPS[0],
+  { n: '02', title: 'Join the list', body: 'Sign up to hear first when the dates for the Lootix Launch Giveaway are set.' },
+  { n: '03', title: 'Watch the draw', body: 'When a giveaway runs, the winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. The winner is listed by first name, last initial and state.' },
+];
+
 // NOTE: the "25 entries per card" below mirrors MAIL_IN_ENTRIES in
 // src/config/giveaway.ts. It is spelled out here because config/giveaway.ts
 // imports THIS file (for GIVEAWAY), so importing back would be circular —
@@ -169,6 +195,9 @@ export const PROOF = [
   { icon: '◆', title: 'Winners published', body: 'Winners are listed on the Winners page by first name, last initial and state.' },
   { icon: '✉', title: 'Free entry by mail', body: 'The free mail-in method in the Official Rules is worth 25 entries per card. No purchase necessary to enter or win. Every entry has an equal chance of being selected. Your chance of winning depends on the total number of entries received. Purchases earn more entries. Free entries are available (no purchase necessary).' },
 ];
+
+/** PRE-START proof cards: the entries / odds card waits until entries open. */
+export const PROOF_PRE_START = PROOF.filter((p) => p.title !== 'Free entry by mail');
 
 export const COMPANY = {
   legalName: 'Lootix LLC',
