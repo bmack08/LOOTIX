@@ -90,7 +90,7 @@ export type Product = {
   slug: string;
   name: string;
   sub: string;
-  /** display string, e.g. "$78" */
+  /** display string, e.g. "$85" */
   price: string;
   /** numeric dollars — the ONLY price Stripe charges from (server-side) */
   priceValue: number;
@@ -106,8 +106,8 @@ export type Product = {
  * computed server-side from the Stripe session, never from this file.
  */
 export const PRODUCTS: Product[] = [
-  { slug: 'guild-hoodie-black', name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', priceValue: 78, edition: 'ED. 500', img: '/brand/v2/model-back.png' },
-  { slug: 'summon-hoodie', name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', priceValue: 74, edition: 'ED. 500', img: '/brand/v2/model-front.png' },
+  { slug: 'guild-hoodie-black', name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$85', priceValue: 85, edition: 'ED. 500', img: '/brand/v2/model-back.png' },
+  { slug: 'summon-hoodie', name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$85', priceValue: 85, edition: 'ED. 500', img: '/brand/v2/model-front.png' },
   { slug: 'lootix-x1-shadow', name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', priceValue: 140, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png' },
   { slug: 'welcome-looter-kit', name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', priceValue: 48, edition: 'ED. 500', img: '/brand/v2/unboxing.png' },
 ];
@@ -118,13 +118,13 @@ export type ShopProduct = Product & { category: string };
 export const SHOP_CATEGORIES = ['All', 'Hoodies', 'Tees', 'Footwear', 'Accessories'] as const;
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
-  { slug: 'guild-hoodie-black', name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', priceValue: 78, edition: 'ED. 500', img: '/brand/v2/model-back.png', category: 'Hoodies' },
-  { slug: 'summon-hoodie', name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', priceValue: 74, edition: 'ED. 500', img: '/brand/v2/model-front.png', category: 'Hoodies' },
+  { slug: 'guild-hoodie-black', name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$85', priceValue: 85, edition: 'ED. 500', img: '/brand/v2/model-back.png', category: 'Hoodies' },
+  { slug: 'summon-hoodie', name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$85', priceValue: 85, edition: 'ED. 500', img: '/brand/v2/model-front.png', category: 'Hoodies' },
   { slug: 'lootix-x1-shadow', name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', priceValue: 140, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png', category: 'Footwear' },
   { slug: 'welcome-looter-kit', name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', priceValue: 48, edition: 'ED. 500', img: '/brand/v2/unboxing.png', category: 'Tees' },
-  { slug: 'lord-of-flame-tee', name: 'Lord of Flame Tee', sub: 'Heavyweight tee · Back print', price: '$42', priceValue: 42, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
-  { slug: 'nat-20-tee', name: 'Nat 20 Tee', sub: 'Regular fit · Front print', price: '$38', priceValue: 38, edition: 'ED. 500', img: '/brand/v2/tags.png', category: 'Tees' },
-  { slug: 'hoard-dragon-tee', name: 'Hoard Dragon Tee', sub: 'Heavyweight · Camo', price: '$44', priceValue: 44, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
+  { slug: 'lord-of-flame-tee', name: 'Lord of Flame Tee', sub: 'Heavyweight tee · Back print', price: '$45', priceValue: 45, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
+  { slug: 'nat-20-tee', name: 'Nat 20 Tee', sub: 'Regular fit · Front print', price: '$45', priceValue: 45, edition: 'ED. 500', img: '/brand/v2/tags.png', category: 'Tees' },
+  { slug: 'hoard-dragon-tee', name: 'Hoard Dragon Tee', sub: 'Heavyweight · Camo', price: '$45', priceValue: 45, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
   { slug: 'guild-sticker-pack', name: 'Guild Sticker Pack', sub: '6 die-cut stickers', price: '$8', priceValue: 8, edition: 'OPEN', img: '/brand/v2/tags.png', category: 'Accessories' },
 ];
 
@@ -136,8 +136,8 @@ export const QUICKIES = [
 ];
 
 export const PACKS = [
-  { name: 'Starter Pack', sub: '1 tee', price: '$35', popular: false, cta: 'Grab Starter' },
-  { name: 'Hero Bundle', sub: 'Hoodie + tee', price: '$75', popular: true, cta: 'Grab Hero' },
+  { name: 'Starter Pack', sub: '1 tee', price: '$45', popular: false, cta: 'Grab Starter' },
+  { name: 'Hero Bundle', sub: 'Hoodie + tee', price: '$130', popular: true, cta: 'Grab Hero' },
   { name: 'Legend Vault', sub: 'Full fit + accessories · ships free over $100', price: '$150', popular: false, cta: 'Grab Legend' },
 ];
 

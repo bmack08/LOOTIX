@@ -59,8 +59,8 @@ export const VAULT = {
 };
 
 export const ENTRY_TIERS = [
-  { name: 'Starter Pack', desc: '1 tee', price: '$35', popular: false },
-  { name: 'Hero Bundle', desc: 'Hoodie + tee', price: '$75', popular: true },
+  { name: 'Starter Pack', desc: '1 tee', price: '$45', popular: false },
+  { name: 'Hero Bundle', desc: 'Hoodie + tee', price: '$130', popular: true },
   { name: 'Legend Vault', desc: 'Full fit + accessories · ships free over $100', price: '$150', popular: false },
 ];
 
@@ -73,9 +73,9 @@ export const HOW_STEPS = [
 // Real Lootix product designs (from the MERCH folder). `well` sets the photo
 // backdrop tone; `size`/`pos` crop the source (the tee mockups share one 2-up image).
 export const DROPS = [
-  { name: 'Lord of Flame', meta: 'Fantasy Streetwear · Heavyweight Tee', price: '$42', entries: ENTRIES_LABEL, img: '/brand/products/lord-of-flame.png', well: 'dark', size: 'cover', pos: 'center' },
-  { name: 'Nat 20 Tee', meta: 'Fantasy Streetwear · Regular Fit', price: '$38', entries: ENTRIES_LABEL, img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '24% 42%' },
-  { name: 'Hoard Dragon Tee', meta: 'Fantasy Streetwear · Camo', price: '$44', entries: ENTRIES_LABEL, img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '77% 42%' },
+  { name: 'Lord of Flame', meta: 'Fantasy Streetwear · Heavyweight Tee', price: '$45', entries: ENTRIES_LABEL, img: '/brand/products/lord-of-flame.png', well: 'dark', size: 'cover', pos: 'center' },
+  { name: 'Nat 20 Tee', meta: 'Fantasy Streetwear · Regular Fit', price: '$45', entries: ENTRIES_LABEL, img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '24% 42%' },
+  { name: 'Hoard Dragon Tee', meta: 'Fantasy Streetwear · Camo', price: '$45', entries: ENTRIES_LABEL, img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '77% 42%' },
 ];
 
 // Locked "achievement" milestones — the Winners Vault hasn't been unlocked yet.
