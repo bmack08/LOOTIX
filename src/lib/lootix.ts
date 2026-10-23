@@ -98,8 +98,9 @@ export const MILESTONES = [
     state: 'locked' as const,
     tag: 'Locked',
     desc: 'Unlocks at 100 verified winners paid. The guild has a long quest ahead.',
+    hidden: true,
   },
-];
+].filter((m) => !m.hidden); // entries flagged hidden: true are not shown; delete the flag to show them again
 
 export const COMPANY = {
   legalName: 'Lootix LLC',

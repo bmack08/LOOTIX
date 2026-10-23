@@ -24,8 +24,8 @@ const STEPS = [
 
 const LOCKED = [
   { title: 'The $1K Club', body: 'Unlocks once the Vault has awarded its first $1,000 in prizes.' },
-  { title: 'Legend Status', body: 'Unlocks at 100 verified winners paid. The guild has a long quest ahead.' },
-];
+  { title: 'Legend Status', body: 'Unlocks at 100 verified winners paid. The guild has a long quest ahead.', hidden: true },
+].filter((l) => !l.hidden); // entries flagged hidden: true are not shown; delete the flag to show them again
 
 /**
  * Public display name. Winner records hold a real full name collected for the
