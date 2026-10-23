@@ -6,6 +6,8 @@ import { Metadata } from "next";
 import { ENTRIES_LABEL, entriesForSubtotal } from "@/config/giveaway";
 
 import type { PageProps } from "../../../.next/types/app/collections/[category]/page";
+import EntryGate from "@/components/EntryGate";
+import NoPurchaseNotice from "@/components/NoPurchaseNotice";
 
 export async function generateStaticParams() {
   const categories = ["streetwear", "premium", "essentials", "accessories"];
@@ -36,6 +38,9 @@ export default function CollectionPage({ params }: PageProps) {
         <h1 className="font-display font-bold text-hero-mobile md:text-hero uppercase text-center mb-10">
           <span className="text-cta-primary">{category}</span> Collection
         </h1>
+        <EntryGate>
+          <NoPurchaseNotice linkLead className="text-center text-sm text-text-muted -mt-6 mb-8" />
+        </EntryGate>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
           {filteredProducts.map((product) => (
             <Link key={product.slug} href={`/product/${product.slug}`}>
@@ -48,7 +53,7 @@ export default function CollectionPage({ params }: PageProps) {
                     height={400}
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   />
-                  <span className="badge-entry">{ENTRIES_LABEL}</span>
+                  <EntryGate><span className="badge-entry">{ENTRIES_LABEL}</span></EntryGate>
                 </div>
                 <div className="p-4">
                   <h2 className="text-lg font-semibold text-text-primary truncate">{product.name}</h2>

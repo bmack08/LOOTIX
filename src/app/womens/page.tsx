@@ -1,11 +1,13 @@
 import { getPrintfulProducts } from '@/utils/printful';
 import { ENTRIES_LABEL, entriesForSubtotal } from '@/config/giveaway';
+import EntryGate from '@/components/EntryGate';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata = {
   title: "Women's Collection | Lootix",
-  description: "Shop women's streetwear — tees, hoodies, and more. Every purchase earns giveaway entries.",
+  description: "Shop women's streetwear — tees, hoodies, and more.",
 };
 
 export default async function WomensPage() {
@@ -27,8 +29,11 @@ export default async function WomensPage() {
             <span className="text-cta-primary">Women's</span> Collection
           </h1>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Premium streetwear designed for her. {ENTRIES_LABEL}.
+            Premium streetwear designed for her.<EntryGate> {ENTRIES_LABEL}.</EntryGate>
           </p>
+          <EntryGate>
+            <NoPurchaseNotice linkLead className="text-sm text-text-muted max-w-2xl mx-auto mt-3" />
+          </EntryGate>
         </div>
       </section>
 
@@ -39,9 +44,11 @@ export default async function WomensPage() {
             <p className="text-text-muted text-sm">
               {products.length > 0 ? `${products.length} products` : 'Collection coming soon'}
             </p>
-            <div className="inline-flex items-center gap-2 bg-cta-primary/10 border border-cta-primary/30 rounded-md px-3 py-1.5">
-              <span className="text-cta-primary font-bold text-sm uppercase">{ENTRIES_LABEL}</span>
-            </div>
+            <EntryGate>
+              <div className="inline-flex items-center gap-2 bg-cta-primary/10 border border-cta-primary/30 rounded-md px-3 py-1.5">
+                <span className="text-cta-primary font-bold text-sm uppercase">{ENTRIES_LABEL}</span>
+              </div>
+            </EntryGate>
           </div>
 
           {products.length > 0 ? (
@@ -58,13 +65,13 @@ export default async function WomensPage() {
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
-                        <span className="badge-entry">{ENTRIES_LABEL}</span>
+                        <EntryGate><span className="badge-entry">{ENTRIES_LABEL}</span></EntryGate>
                       </div>
                       <div className="p-4">
                         <h3 className="text-sm font-semibold text-text-primary mb-2 truncate">{product.name}</h3>
                         <div className="flex items-center justify-between">
                           <span className="text-lg font-display font-bold text-cta-primary">${product.price.toFixed(2)}</span>
-                          <span className="text-xs text-text-muted">{entries.toLocaleString()} entries</span>
+                          <EntryGate><span className="text-xs text-text-muted">{entries.toLocaleString()} entries</span></EntryGate>
                         </div>
                       </div>
                     </div>

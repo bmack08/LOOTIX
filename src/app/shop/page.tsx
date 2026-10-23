@@ -5,11 +5,14 @@ import { useMemo, useState } from 'react';
 import { SHOP_CATEGORIES, SHOP_PRODUCTS, GIVEAWAY } from '@/lib/site';
 import AddToCart from '@/components/lootix/v2/AddToCart';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
+import { useEntryWindow } from '@/components/lootix/useEntryWindow';
 import { ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD, formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 export default function ShopPage() {
+  // LIVE only: per-dollar cues and the prize pitch. PRE-START (default) shows none of them.
+  const windowOpen = useEntryWindow();
   const [cat, setCat] = useState<string>('All');
   const closeDate = GIVEAWAY.endDateISO ? formatEndDate(new Date(GIVEAWAY.endDateISO)) : null;
   const products = useMemo(
@@ -24,14 +27,20 @@ export default function ShopPage() {
         <div className="flex flex-col gap-3">
           <span className="v2-eyebrow">Drop 1 · Summon the Loot · Limited to 500</span>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Shop the drop</h1>
-          <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
-            {ENTRIES_LABEL} — every dollar of your order subtotal is one entry into the giveaway. You keep the gear either way, and
-            free entry is always available by mail (see the{' '}
-            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>).
-          </p>
+          {windowOpen ? (
+            <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
+              {ENTRIES_LABEL} — every dollar of your order subtotal is one entry into the giveaway. You keep the gear either way, and
+              free entry is always available by mail (see the{' '}
+              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>).
+            </p>
+          ) : (
+            <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
+              Limited, numbered gear. Join the list to hear when the Lootix Launch Giveaway opens.
+            </p>
+          )}
         </div>
         <div className="flex flex-col items-start md:items-end gap-2 font-plex text-stone" style={{ fontSize: 12, letterSpacing: '0.08em' }}>
-          <span className="text-brass-lit">◆ LOOTIX LAUNCH GIVEAWAY · $250 CASH PLUS A CUSTOM HOODIE &amp; TEE</span>
+          <span className="text-brass-lit">{windowOpen ? '\u25c6 LOOTIX LAUNCH GIVEAWAY \u00b7 $250 CASH PLUS A CUSTOM HOODIE & TEE' : '\u25c6 LOOTIX LAUNCH GIVEAWAY'}</span>
           <span>
             {closeDate ? `Draw closes ${closeDate} (${GIVEAWAY_CLOSE_TIME_LABEL}) · ` : 'Draw date coming soon · '}
             <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">view giveaway →</Link>
@@ -76,7 +85,9 @@ export default function ShopPage() {
             <Link key={p.name} href="/shop" className="v2-card flex flex-col overflow-hidden text-parchment">
               <div className="relative overflow-hidden" style={{ aspectRatio: '4/4.4', background: '#17130C' }}>
                 <img src={p.img} alt={p.name} className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
-                <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
+                {windowOpen && (
+                  <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
+                )}
                 <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span>
               </div>
               <div className="flex flex-col gap-1.5" style={{ padding: 18 }}>
@@ -90,32 +101,45 @@ export default function ShopPage() {
             </Link>
           ))}
         </div>
-        <NoPurchaseNotice className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
-          Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+. See the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-        </NoPurchaseNotice>
+        {windowOpen ? (
+          <NoPurchaseNotice className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
+            Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+. See the{' '}
+            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
+          </NoPurchaseNotice>
+        ) : (
+          <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
+            Ships to the US only \u00b7 free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+. See the{' '}
+            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
+          </p>
+        )}
       </section>
 
       {/* ENTRY BANNER (inverted cream) */}
       <section className="flex items-center justify-between gap-8 flex-wrap" style={{ padding: '40px 24px', background: '#E4D5B4', color: '#171208' }}>
         <div className="flex flex-col gap-1.5">
-          <span className="uppercase" style={{ fontSize: 24, fontWeight: 900 }}>Every dollar is an entry</span>
-          <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
-            {ENTRIES_LABEL.toUpperCase()} · YOUR ENTRY TOTAL SHOWS AT CHECKOUT · RANDOM.ORG DRAW
-          </span>
-          <NoPurchaseNotice
-            className="m-0"
-            style={{ fontSize: 11.5, lineHeight: 1.7, color: '#4A3D22', maxWidth: 560 }}
-            linkClassName="underline"
-            linkStyle={{ color: '#7A6231' }}
-          />
+          <span className="uppercase" style={{ fontSize: 24, fontWeight: 900 }}>{windowOpen ? 'Every dollar is an entry' : 'Lootix Launch Giveaway'}</span>
+          {windowOpen ? (
+            <>
+            <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
+              {ENTRIES_LABEL.toUpperCase()} · YOUR ENTRY TOTAL SHOWS AT CHECKOUT · RANDOM.ORG DRAW
+            </span>
+            <NoPurchaseNotice
+              className="m-0"
+              style={{ fontSize: 11.5, lineHeight: 1.7, color: '#4A3D22', maxWidth: 560 }}
+              linkClassName="underline"
+              linkStyle={{ color: '#7A6231' }}
+            />
+            </>
+          ) : (
+            <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>DATES COMING SOON \u00b7 JOIN THE LIST</span>
+          )}
         </div>
         <Link
           href="/giveaways"
           className="uppercase transition-colors whitespace-nowrap"
           style={{ background: '#171208', color: '#E4D5B4', padding: '16px 32px', fontSize: 13, fontWeight: 800, letterSpacing: '0.12em', borderRadius: 2 }}
         >
-          See the Prize →
+          {windowOpen ? 'See the Prize \u2192' : 'See the Giveaway \u2192'}
         </Link>
       </section>
     </div>

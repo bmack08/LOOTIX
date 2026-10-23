@@ -1,11 +1,13 @@
 import { getPrintfulProducts } from '@/utils/printful';
 import { ENTRIES_LABEL, entriesForSubtotal } from '@/config/giveaway';
+import EntryGate from '@/components/EntryGate';
+import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import Image from 'next/image';
 import Link from 'next/link';
 
 export const metadata = {
   title: 'New Drops | Lootix',
-  description: 'Shop the latest Lootix drops — fresh streetwear that earns giveaway entries.',
+  description: 'Shop the latest Lootix drops — fresh streetwear.',
 };
 
 export default async function NewDropsPage() {
@@ -27,11 +29,14 @@ export default async function NewDropsPage() {
             New <span className="text-cta-primary">Drops</span>
           </h1>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto mb-6">
-            The freshest Lootix gear. {ENTRIES_LABEL} into the current giveaway.
+            The freshest Lootix gear.<EntryGate> {ENTRIES_LABEL} into the current giveaway.</EntryGate>
           </p>
-          <div className="inline-flex items-center gap-2 bg-cta-primary/10 border border-cta-primary/30 rounded-md px-4 py-2">
-            <span className="text-cta-primary font-bold text-sm uppercase">{ENTRIES_LABEL}</span>
-          </div>
+          <EntryGate>
+            <div className="inline-flex items-center gap-2 bg-cta-primary/10 border border-cta-primary/30 rounded-md px-4 py-2">
+              <span className="text-cta-primary font-bold text-sm uppercase">{ENTRIES_LABEL}</span>
+            </div>
+            <NoPurchaseNotice linkLead className="text-sm text-text-muted max-w-2xl mx-auto mt-4" />
+          </EntryGate>
         </div>
       </section>
 
@@ -56,7 +61,7 @@ export default async function NewDropsPage() {
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                           />
-                          <span className="badge-entry">{ENTRIES_LABEL}</span>
+                          <EntryGate><span className="badge-entry">{ENTRIES_LABEL}</span></EntryGate>
                           <span className="absolute top-2 left-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm">
                             NEW
                           </span>
@@ -65,7 +70,7 @@ export default async function NewDropsPage() {
                           <h3 className="text-sm font-semibold text-text-primary mb-2 truncate">{product.name}</h3>
                           <div className="flex items-center justify-between">
                             <span className="text-lg font-display font-bold text-cta-primary">${product.price.toFixed(2)}</span>
-                            <span className="text-xs text-text-muted">{entries.toLocaleString()} entries</span>
+                            <EntryGate><span className="text-xs text-text-muted">{entries.toLocaleString()} entries</span></EntryGate>
                           </div>
                         </div>
                       </div>

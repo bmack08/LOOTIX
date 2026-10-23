@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import ProductControls from "@/components/ProductControls";
 import NoPurchaseNotice from "@/components/NoPurchaseNotice";
+import EntryGate from "@/components/EntryGate";
 
 type Props = {
   params: {
@@ -62,7 +63,7 @@ export default async function ProductPage({ params }: Props) {
                 priority
               />
               {/* Entry Badge */}
-              <span className="badge-entry">{ENTRIES_LABEL.toUpperCase()}</span>
+              <EntryGate><span className="badge-entry">{ENTRIES_LABEL.toUpperCase()}</span></EntryGate>
             </div>
             {/* Additional product images */}
             {product.images.length > 0 && (
@@ -101,21 +102,24 @@ export default async function ProductPage({ params }: Props) {
               </span>
             </div>
 
-            {/* Entry Calculator */}
-            <div className="entry-calculator">
-              <p className="entry-calculator-text">
-                This purchase = {formatEntries(entries)} entries
-              </p>
-              <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm tracking-wider">
-                {ENTRIES_LABEL.toUpperCase()}
-              </span>
-            </div>
-
-            {/* Required beside any entry claim. */}
-            <NoPurchaseNotice
-              className="text-text-muted text-xs leading-relaxed"
-              linkClassName="underline hover:text-text-secondary transition-colors"
-            />
+            {/* LIVE only: the entry calculator and its required short line stay together. */}
+            <EntryGate>
+              {/* Entry Calculator */}
+              <div className="entry-calculator">
+                <p className="entry-calculator-text">
+                  This purchase = {formatEntries(entries)} entries
+                </p>
+                <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm tracking-wider">
+                  {ENTRIES_LABEL.toUpperCase()}
+                </span>
+              </div>
+  
+              {/* Required beside any entry claim. */}
+              <NoPurchaseNotice
+                className="text-text-muted text-xs leading-relaxed"
+                linkClassName="underline hover:text-text-secondary transition-colors"
+              />
+            </EntryGate>
 
             {/* Variant Controls */}
             <ProductControls productId={product.id} variants={product.variants} />

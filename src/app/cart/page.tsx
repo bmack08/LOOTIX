@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useCart, type CartLine } from '@/components/lootix/v2/CartContext';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
+import { useEntryWindow } from '@/components/lootix/useEntryWindow';
 import { entriesForSubtotal, ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD } from '@/config/giveaway';
 import { isComingSoon, isValidSize, needsSize } from '@/config/sizes';
 import { GIVEAWAY_DATES_SET, SHOP_PRODUCTS } from '@/lib/site';
@@ -31,6 +32,8 @@ export default function CartPage() {
   const { lines, setQty, remove, subtotal, totalEntries, count, ready } = useCart();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
+  // LIVE only: per-dollar entry cues. PRE-START (default) shows none of them.
+  const windowOpen = useEntryWindow();
 
   const hasBlocked = lines.some((l) => blockedReason(l) !== null);
 
@@ -66,10 +69,14 @@ export default function CartPage() {
           <span className="v2-eyebrow">Your cart</span>
           <h1 className="m-0 uppercase" style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: 900 }}>Nothing looted yet</h1>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
-            Every dollar you spend is one entry toward the Lootix Launch Giveaway — $250 cash plus a custom Lootix hoodie and tee.
+            {windowOpen
+              ? 'Every $1 you spend on merchandise earns one entry in the Lootix Launch Giveaway \u2014 $250 cash plus a custom Lootix hoodie and tee.'
+              : 'Join the list to hear when the Lootix Launch Giveaway opens.'}
           </p>
+          {windowOpen && (
+            <NoPurchaseNotice linkLead className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7 }} />
+          )}
           <Link href="/shop" className="btn-brass">Shop Drop 1</Link>
-          <NoPurchaseNotice className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7 }} />
         </div>
       </div>
     );
@@ -104,9 +111,11 @@ export default function CartPage() {
                       Size {l.size}
                     </div>
                   )}
-                  <div className="font-plex text-brass" style={{ fontSize: 11, letterSpacing: '0.06em', marginTop: 3 }}>
-                    ◆ {entriesForSubtotal(l.price * l.qty)} ENTRIES
-                  </div>
+                  {windowOpen && (
+                    <div className="font-plex text-brass" style={{ fontSize: 11, letterSpacing: '0.06em', marginTop: 3 }}>
+                      ◆ {entriesForSubtotal(l.price * l.qty)} ENTRIES
+                    </div>
+                  )}
                   {blocked && (
                     <div className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.04em', marginTop: 3 }}>
                       {blocked}
@@ -138,14 +147,16 @@ export default function CartPage() {
               <span className="font-plex text-parchment" style={{ fontSize: 22, fontWeight: 600 }}>${subtotal.toFixed(0)}</span>
             </div>
 
-            {/* the whole point */}
-            <div style={{ borderTop: HAIR, borderBottom: HAIR, padding: '16px 0', textAlign: 'center' }}>
-              <div className="font-plex uppercase text-stone" style={{ fontSize: 10.5, letterSpacing: '0.16em' }}>
-                {GIVEAWAY_DATES_SET ? 'Entries into the Lootix Launch Giveaway' : 'Entries when the giveaway opens'}
+            {/* the whole point (LIVE only; before entries open there is nothing to count) */}
+            {windowOpen && (
+              <div style={{ borderTop: HAIR, borderBottom: HAIR, padding: '16px 0', textAlign: 'center' }}>
+                <div className="font-plex uppercase text-stone" style={{ fontSize: 10.5, letterSpacing: '0.16em' }}>
+                  {GIVEAWAY_DATES_SET ? 'Entries into the Lootix Launch Giveaway' : 'Entries when the giveaway opens'}
+                </div>
+                <div className="text-brass-lit" style={{ fontSize: 40, fontWeight: 900, lineHeight: 1.15 }}>{totalEntries.toLocaleString()}</div>
+                <div className="font-plex uppercase text-stone" style={{ fontSize: 10, letterSpacing: '0.12em' }}>{ENTRIES_LABEL}</div>
               </div>
-              <div className="text-brass-lit" style={{ fontSize: 40, fontWeight: 900, lineHeight: 1.15 }}>{totalEntries.toLocaleString()}</div>
-              <div className="font-plex uppercase text-stone" style={{ fontSize: 10, letterSpacing: '0.12em' }}>{ENTRIES_LABEL}</div>
-            </div>
+            )}
 
             <button onClick={checkout} disabled={busy || hasBlocked} className="btn-brass w-full disabled:opacity-70" style={{ cursor: busy || hasBlocked ? 'default' : 'pointer' }}>
               {busy ? 'Starting checkout…' : 'Secure checkout →'}
@@ -157,12 +168,18 @@ export default function CartPage() {
             )}
             {err && <p className="font-plex m-0" style={{ fontSize: 11.5, color: '#e08a6b' }} role="alert">{err}</p>}
 
-            <NoPurchaseNotice className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>
-              Payments secured by Stripe. Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.
-              Entries are {GIVEAWAY_DATES_SET ? 'added automatically once payment completes' : 'credited when the giveaway opens'}, counted
-              from your subtotal before tax and shipping. See the{' '}
-              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-            </NoPurchaseNotice>
+            {windowOpen ? (
+              <NoPurchaseNotice className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>
+                Payments secured by Stripe. Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.
+                Entries are {GIVEAWAY_DATES_SET ? 'added automatically once payment completes' : 'credited when the giveaway opens'}, counted
+                from your subtotal before tax and shipping. See the{' '}
+                <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
+              </NoPurchaseNotice>
+            ) : (
+              <p className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>
+                Payments secured by Stripe. Ships to the US only \u00b7 free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.
+              </p>
+            )}
           </aside>
         </div>
       </section>
