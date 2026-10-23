@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { grantOrderEntries, voidOrderEntries, unvoidOrderEntries } from '@/lib/raffle';
 import { sendWelcome } from '@/lib/email';
+import { recordPaidOrder } from '@/lib/record-order';
 import { isEntryWindowOpen } from '@/lib/site';
 import { entriesForSubtotalCents } from '@/config/giveaway';
 
@@ -138,6 +139,25 @@ export async function POST(req: Request) {
         if (session.payment_status !== 'paid') {
           console.log(`order ${session.id}: payment_status=${session.payment_status} — no entries yet`);
           break;
+        }
+
+        // Store the order and create its Printful DRAFT.
+        //
+        // This sits ABOVE the entry-window check and above the no-email /
+        // no-entries break on purpose: an order is a thing somebody paid for
+        // and has to be fulfilled, whether or not it also earns giveaway
+        // entries. If this ran after those checks, a paid order placed while
+        // the giveaway dates are unset or the window is closed would never be
+        // stored and never reach Printful.
+        //
+        // Its own try/catch, so nothing on the order path can change the
+        // response code or stop the entries below from being granted.
+        // recordPaidOrder already swallows its own failures; this is the
+        // second layer.
+        try {
+          await recordPaidOrder(stripe, session);
+        } catch {
+          console.error(`order ${session.id}: recording the order failed — entries are unaffected`);
         }
 
         const email = (session.customer_details?.email || session.customer_email || '').toLowerCase();
