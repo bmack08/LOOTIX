@@ -142,7 +142,7 @@ export default async function ProductPage({ params }: Props) {
                   <span className="text-accent-forest">✓</span> Fast shipping
                 </li>
                 <li className="flex items-center gap-2">
-                  <span className="text-accent-forest">✓</span> 100% satisfaction guaranteed
+                  <span className="text-accent-forest">✓</span> Defective or wrong items are replaced or refunded. See Returns.
                 </li>
               </ul>
             </div>
