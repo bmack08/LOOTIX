@@ -55,7 +55,7 @@ export default function Home() {
             style={{ right: 24, bottom: 24, width: 330, maxWidth: 'calc(100% - 48px)', background: 'rgba(12,10,7,0.9)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(198,161,91,0.4)', borderRadius: 4, padding: 24 }}
           >
             <div className="flex justify-between items-center font-plex uppercase" style={{ fontSize: 11, letterSpacing: '0.16em' }}>
-              <span className="text-brass">The Launch Vault</span>
+              <span className="text-brass">Lootix Launch Giveaway</span>
               {windowOpen && (
                 <span style={{ color: '#0C0A07', background: '#C6A15B', padding: '2px 8px', borderRadius: 2, fontWeight: 600 }}>Live</span>
               )}
@@ -172,18 +172,18 @@ export default function Home() {
         </NoPurchaseNotice>
       </section>
 
-      {/* ───────────── THE VAULT ───────────── */}
+      {/* ───────────── THE GIVEAWAY ───────────── */}
       <section className="grid lg:grid-cols-2" style={{ borderBottom: HAIR }}>
         <div className="relative overflow-hidden" style={{ minHeight: 440 }}>
-          <img src="/brand/v2/unboxing.png" alt="The Launch Vault welcome kit" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover' }} />
+          <img src="/brand/v2/unboxing.png" alt="Lootix Launch Giveaway welcome kit" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(270deg, #0C0A07 0%, rgba(12,10,7,0) 30%)' }} />
           <span className="font-plex absolute uppercase" style={{ top: 24, left: 24, background: '#C6A15B', color: '#0C0A07', fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', padding: '6px 12px', borderRadius: 2 }}>
-            This month&rsquo;s vault
+            Lootix Launch Giveaway
           </span>
         </div>
         <div className="flex flex-col justify-center gap-6" style={{ padding: '72px 24px' }}>
           <span className="v2-eyebrow">Launch Giveaway · $250 + Custom Hoodie &amp; Tee</span>
-          <h2 className="v2-h2">The Launch Vault</h2>
+          <h2 className="v2-h2">Lootix Launch Giveaway</h2>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
             One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free US shipping at ${FREE_SHIPPING_THRESHOLD}.
           </p>
@@ -258,7 +258,7 @@ export default function Home() {
           >
             <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.2em' }}>◆ First Winner ◆</span>
             <span className="text-parchment" style={{ fontSize: 32, fontWeight: 900, letterSpacing: '0.04em' }}>— YOUR NAME —</span>
-            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Drop 1 · The Launch Vault</span>
+            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Drop 1 · Lootix Launch Giveaway</span>
             <div style={{ height: 1, background: 'rgba(198,161,91,0.25)', margin: '6px 0' }} />
             <span className="text-sand" style={{ fontSize: 13, lineHeight: 1.6 }}>The first name ever etched into the Loot Vault. It could be yours.</span>
           </div>

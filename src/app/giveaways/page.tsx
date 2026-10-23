@@ -36,7 +36,7 @@ export default function GiveawaysPage() {
       {/* CURRENT GIVEAWAY HERO */}
       <section className="grid lg:grid-cols-[1.05fr_1fr]" style={{ borderBottom: HAIR }}>
         <div className="relative overflow-hidden" style={{ minHeight: 440 }}>
-          <img src="/brand/v2/unboxing.png" alt="The Launch Vault kit" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover' }} />
+          <img src="/brand/v2/unboxing.png" alt="Lootix Launch Giveaway kit" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(270deg, #0C0A07 0%, rgba(12,10,7,0) 28%)' }} />
           <span
             className="font-plex absolute flex items-center gap-2 uppercase"
@@ -49,7 +49,7 @@ export default function GiveawaysPage() {
 
         <div className="flex flex-col justify-center gap-6" style={{ padding: '64px 24px' }}>
           <span className="v2-eyebrow">Launch Giveaway · Drop 1</span>
-          <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,60px)', fontWeight: 900, letterSpacing: '-0.01em', lineHeight: 1 }}>The Launch Vault</h1>
+          <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,60px)', fontWeight: 900, letterSpacing: '-0.01em', lineHeight: 1 }}>Lootix Launch Giveaway</h1>
           <div className="flex items-baseline gap-3 flex-wrap">
             <span className="text-brass-lit" style={{ fontSize: 52, fontWeight: 900 }}>$250</span>
             <span className="text-sand" style={{ fontSize: 16 }}>cash + a custom Lootix hoodie and tee</span>
@@ -150,11 +150,11 @@ export default function GiveawaysPage() {
         </NoPurchaseNotice>
       </section>
 
-      {/* UPCOMING VAULTS */}
+      {/* UPCOMING GIVEAWAYS */}
       <section style={{ padding: '80px 24px', borderBottom: HAIR, background: '#0F0C08' }}>
         <div className="flex flex-col gap-2.5" style={{ marginBottom: 40 }}>
           <span className="v2-eyebrow">The road ahead</span>
-          <h2 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(28px,4vw,40px)', fontWeight: 900 }}>Future vaults unlock as the guild grows</h2>
+          <h2 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(28px,4vw,40px)', fontWeight: 900 }}>Future giveaways unlock as the guild grows</h2>
         </div>
         <div className="grid gap-5 grid-cols-1 md:grid-cols-3">
           {UPCOMING.map((u) => (
@@ -169,7 +169,7 @@ export default function GiveawaysPage() {
           ))}
         </div>
         <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em' }}>
-          One giveaway at a time, run properly — future vaults open only after the current one pays out. No fake countdowns.
+          One giveaway at a time, run properly — future giveaways open only after the current one pays out. No fake countdowns.
           {closeDate ? ` Current draw closes ${closeDate} at 8:00 PM ET.` : ' Dates for the current draw are not set yet.'}
         </p>
       </section>

@@ -90,7 +90,7 @@ export const PRIZE_VALUE_PLACEHOLDER = '[TOTAL VALUE TBD]';
 // Current active giveaway - UPDATE THIS FOR NEW GIVEAWAYS
 export const currentGiveaway: GiveawayConfig = {
   id: GIVEAWAY.id,
-  title: 'The Launch Vault',
+  title: 'Lootix Launch Giveaway',
   description:
     '$250 cash plus a custom Lootix hoodie and a custom Lootix tee. Item values and the total are still being finalized. No purchase necessary.',
   prizeValue: null,

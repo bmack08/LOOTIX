@@ -74,7 +74,7 @@ export function sendWelcome(to: string, entries: number) {
   }
   return send(
     to,
-    "You're entered — Lootix Loot Vault",
+    "You're entered — Lootix Launch Giveaway",
     shell(`
       <h1 style="font-size:24px;font-weight:900;text-transform:uppercase;margin:0 0 12px">You're in the vault.</h1>
       <p style="color:#b7b2a8;font-size:15px;line-height:1.6;margin:0 0 16px">
@@ -93,7 +93,7 @@ export function sendWelcome(to: string, entries: number) {
 export function sendWinner(to: string, prize: string) {
   return send(
     to,
-    '🏆 You won the Lootix Loot Vault',
+    '🏆 You won the Lootix Launch Giveaway',
     shell(`
       <h1 style="font-size:24px;font-weight:900;text-transform:uppercase;margin:0 0 12px;color:#f0ce6b">You won.</h1>
       <p style="color:#b7b2a8;font-size:15px;line-height:1.6;margin:0 0 16px">

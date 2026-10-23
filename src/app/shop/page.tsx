@@ -31,7 +31,7 @@ export default function ShopPage() {
           </p>
         </div>
         <div className="flex flex-col items-start md:items-end gap-2 font-plex text-stone" style={{ fontSize: 12, letterSpacing: '0.08em' }}>
-          <span className="text-brass-lit">◆ LAUNCH VAULT · $250 + CUSTOM HOODIE &amp; TEE</span>
+          <span className="text-brass-lit">◆ LOOTIX LAUNCH GIVEAWAY · $250 CASH PLUS A CUSTOM HOODIE &amp; TEE</span>
           <span>
             {closeDate ? `Draw closes ${closeDate} (8 PM ET) · ` : 'Draw date coming soon · '}
             <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">view giveaway →</Link>

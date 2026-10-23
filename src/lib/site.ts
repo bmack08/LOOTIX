@@ -135,9 +135,9 @@ export const PACKS = [
   { name: 'Legend Vault', sub: 'Full fit + accessories · ships free over $100', price: '$150', popular: false, cta: 'Grab Legend' },
 ];
 
-/** Future vaults — unlock only after the current one pays out. No fake countdowns. */
+/** Future giveaways — unlock only after the current one pays out. No fake countdowns. */
 export const UPCOMING = [
-  { tag: 'Vault 002', name: '$1,000 Cash Drop', status: 'Unlocks next', desc: 'Opens after the Launch Vault winner is drawn and paid. Every Drop 002 order will enter.' },
+  { tag: 'Vault 002', name: '$1,000 Cash Drop', status: 'Unlocks next', desc: 'Opens after the Lootix Launch Giveaway winner is drawn and paid. Every Drop 002 order will enter.' },
   { tag: 'Vault 003', name: 'Battlestation PC', status: 'Locked', desc: 'A full custom build. Unlocks once the guild passes 1,000 members.' },
   { tag: 'Vault 004', name: 'Tokyo Trip for 2', status: 'Locked', desc: 'Flights + hotel. The endgame vault — unlocks at 100 verified winners paid.' },
 ];

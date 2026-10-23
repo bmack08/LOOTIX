@@ -56,7 +56,7 @@ export default async function WinnersPage() {
           </h1>
           <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 17, lineHeight: 1.65 }}>
             {winner
-              ? `We have our first winner. The next vault resets when Drop 002 opens — ${ENTRIES_LABEL}, or enter free by mail.`
+              ? `We have our first winner. The next giveaway opens with Drop 002 — ${ENTRIES_LABEL}, or enter free by mail.`
               : "No one has won yet — Lootix launched with Drop 1 and the first draw hasn't closed. The first name etched here could be yours."}
           </p>
           <Link href="/shop" className="btn-brass" style={{ marginTop: 10 }}>Claim It First</Link>
@@ -81,7 +81,7 @@ export default async function WinnersPage() {
             <span className="text-parchment break-all" style={{ fontSize: winner ? 24 : 28, fontWeight: 900, letterSpacing: '0.04em' }}>
               {winner ? publicName(winner.full_name) : '— YOUR NAME —'}
             </span>
-            <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.14em' }}>First Winner · Launch Vault</span>
+            <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.14em' }}>First Winner · Lootix Launch Giveaway</span>
             <p className="m-0 text-stone" style={{ fontSize: 14, lineHeight: 1.6 }}>
               {winner
                 ? `Drawn ${formatEndDate(new Date(winner.drawn_at))} at random on RANDOM.ORG from ${winner.total_entries.toLocaleString()} entries.`
@@ -146,7 +146,7 @@ export default async function WinnersPage() {
         <div className="flex flex-col gap-1.5">
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Be the first name in the vault</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
-            LAUNCH VAULT · $250 + CUSTOM HOODIE &amp; TEE ·{' '}
+            LOOTIX LAUNCH GIVEAWAY · $250 CASH PLUS A CUSTOM HOODIE &amp; TEE ·{' '}
             {closeDate ? `ENTRIES CLOSE ${closeDate.toUpperCase()} AT 8 PM ET` : 'DATES COMING SOON'}
           </span>
         </div>

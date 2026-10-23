@@ -196,12 +196,12 @@ export function GrandPrizeShowcase() {
     <section style={{ background: 'linear-gradient(180deg,#0c0c0d,#0a0a0b)', borderTop: '1px solid rgba(255,255,255,.06)', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
       <div className="max-w-site mx-auto px-6 md:px-10 py-[104px] grid gap-14 lg:grid-cols-2 items-center">
         <Reveal className="relative">
-          <span className="absolute top-[18px] left-[18px] z-[2] badge-solid" style={{ letterSpacing: '.18em', padding: '7px 13px' }}>This Month&rsquo;s Vault</span>
-          <img src="/brand/ref-fantasy-3.jpg" alt="This month's grand prize vault" className="w-full h-[480px] object-cover rounded-feature shadow-card" style={{ border: '1px solid rgba(212,175,55,.3)' }} />
+          <span className="absolute top-[18px] left-[18px] z-[2] badge-solid" style={{ letterSpacing: '.18em', padding: '7px 13px' }}>Lootix Launch Giveaway</span>
+          <img src="/brand/ref-fantasy-3.jpg" alt="Lootix Launch Giveaway grand prize" className="w-full h-[480px] object-cover rounded-feature shadow-card" style={{ border: '1px solid rgba(212,175,55,.3)' }} />
         </Reveal>
         <Reveal delay={100}>
           <div className="lx-eyebrow mb-4" style={{ letterSpacing: '.26em' }}>Launch Giveaway · $250 + Custom Hoodie &amp; Tee</div>
-          <h2 className="font-archivo font-black uppercase text-cream m-0 mb-5" style={{ fontSize: 'clamp(32px,4vw,52px)', lineHeight: 0.98, letterSpacing: '-.025em' }}>The Launch Vault</h2>
+          <h2 className="font-archivo font-black uppercase text-cream m-0 mb-5" style={{ fontSize: 'clamp(32px,4vw,52px)', lineHeight: 0.98, letterSpacing: '-.025em' }}>Lootix Launch Giveaway</h2>
           <p className="font-archivo text-[16px] leading-[1.62] text-muted m-0 mb-[26px]">One winner takes it all: <strong className="text-cream">$250 cash</strong> plus a <strong className="text-cream">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free US shipping at $100.</p>
           <div className="flex flex-col gap-[11px] mb-[30px]">
             {ENTRY_TIERS.map((tier) => (
@@ -284,7 +284,7 @@ export function WinnersVault({ winner }: { winner: Draw | null }) {
         <p className="font-archivo text-[17px] text-muted max-w-[540px] mx-auto">
           {winner
             ? 'We have our first winner. The next drop resets the vault — get your entries in.'
-            : 'No one has won yet. The first Loot Vault drop is still locked — and the first name in it could be yours.'}
+            : 'No one has won yet. The first Lootix Launch Giveaway draw is still ahead — and the first name in the vault could be yours.'}
         </p>
       </Reveal>
 
