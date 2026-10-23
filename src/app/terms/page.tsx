@@ -30,7 +30,7 @@ export default function TermsPage() {
       </ul>
 
       <h2>5. Giveaways &amp; Sweepstakes</h2>
-      <p>Lootix operates legally compliant sweepstakes. Each giveaway is governed by its own <a href="/official-rules">Official Rules</a>, incorporated into these Terms by reference.</p>
+      <p>Each giveaway is run under its own <a href="/official-rules">Official Rules</a>, which are part of these Terms. Please read them before you enter.</p>
       <ul>
         <li><NoPurchaseNotice as="span" line={ODDS_LONG_MD} /></li>
         <li>Entries are earned as stated in the Official Rules (one ({ENTRIES_PER_DOLLAR}) entry per whole U.S. dollar on purchases, twenty-five ({MAIL_IN_ENTRIES}) per free mail-in card, ten ({SIGNUP_ENTRIES}) for a free online sign-up).</li>
