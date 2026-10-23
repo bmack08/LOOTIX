@@ -58,7 +58,9 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
         onChange={(e) => setHoneypot(e.target.value)}
         style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
       />
-      <div className="flex gap-3">
+      {/* Wraps below ~448px: the email input will not shrink past its intrinsic
+          width, so input + nowrap button cannot share one line on a phone. */}
+      <div className="flex flex-wrap gap-3">
         <input
           type="email"
           required

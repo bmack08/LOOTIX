@@ -84,7 +84,9 @@ export default function Home() {
       <section className="grid grid-cols-2 lg:grid-cols-4" style={{ borderBottom: HAIR }}>
         {STATS.map((s, i) => (
           <div key={s.label} className="flex flex-col gap-1" style={{ padding: '28px 24px', borderRight: i < STATS.length - 1 ? HAIR : undefined }}>
-            <span className="text-brass-lit" style={{ fontSize: 26, fontWeight: 900 }}>{s.value}</span>
+            {/* Fluid size: "RANDOM.ORG" is one unbreakable token and will not
+                fit a two-up cell at 26px on a phone. Full 26px from ~565px up. */}
+            <span className="text-brass-lit" style={{ fontSize: 'clamp(16px, 4.6vw, 26px)', fontWeight: 900, overflowWrap: 'anywhere' }}>{s.value}</span>
             <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>{s.label}</span>
           </div>
         ))}
@@ -251,7 +253,9 @@ export default function Home() {
           </p>
           <Link href="/winners" className="btn-ghost-v2 self-start" style={{ fontSize: 13, padding: '15px 28px' }}>Visit the Winners Vault</Link>
         </div>
-        <div className="flex items-center justify-center" style={{ padding: '64px 24px', background: 'radial-gradient(circle at 50% 40%, rgba(198,161,91,0.12), rgba(12,10,7,0) 65%)' }}>
+        {/* min-w-0: as a grid item this would otherwise floor at the card's
+            320px min-content (+48px padding) and force a 368px track. */}
+        <div className="flex items-center justify-center min-w-0" style={{ padding: '64px 24px', background: 'radial-gradient(circle at 50% 40%, rgba(198,161,91,0.12), rgba(12,10,7,0) 65%)' }}>
           <div
             className="text-center flex flex-col gap-3.5"
             style={{ width: 320, maxWidth: '100%', border: '1px solid rgba(198,161,91,0.4)', borderRadius: 4, background: '#131009', padding: '36px 32px', boxShadow: '0 30px 80px rgba(0,0,0,0.5)' }}
