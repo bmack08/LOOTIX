@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ContentPage from '@/components/lootix/ContentPage';
 import { COMPANY } from '@/lib/lootix';
+import { MAIL_IN_ADDRESS_LINES } from '@/config/legal';
 
 export const metadata: Metadata = {
   title: 'Contact — Lootix',
@@ -25,7 +26,14 @@ export default function ContactPage() {
       </ul>
 
       <h2>Mailing address</h2>
-      <p><strong>{COMPANY.legalName}</strong><br />{COMPANY.location}</p>
+      <p>
+        {MAIL_IN_ADDRESS_LINES.map((line, i) => (
+          <span key={line}>
+            {i === 0 ? <strong>{line}</strong> : line}
+            {i < MAIL_IN_ADDRESS_LINES.length - 1 && <br />}
+          </span>
+        ))}
+      </p>
 
       <hr />
       <p className="font-mono text-[12px] text-faint">For giveaway rules and the free entry method, see the <a href="/official-rules">Official Rules</a>.</p>

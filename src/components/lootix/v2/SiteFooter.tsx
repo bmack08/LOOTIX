@@ -19,7 +19,7 @@ export default function SiteFooter() {
             <a href={COMPANY.socials.discord} target="_blank" rel="noopener noreferrer" className="text-brass hover:text-brass-lit transition-colors">Discord</a>
           </div>
           <span className="font-plex text-ash" style={{ fontSize: 11, lineHeight: 1.7 }}>
-            {COMPANY.legalName} · {COMPANY.location}
+            {COMPANY.address}
             <br />
             <a href={`mailto:${COMPANY.email}`} className="text-ash hover:text-brass-lit transition-colors">{COMPANY.email}</a>
           </span>

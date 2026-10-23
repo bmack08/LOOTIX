@@ -1,5 +1,6 @@
 import 'server-only';
 import { NO_PURCHASE_LINE, FREE_ENTRY_URL, FREE_ENTRY_LINK_TEXT } from '@/config/giveaway';
+import { MAIL_IN_ADDRESS } from '@/config/legal';
 
 // Sends transactional email via Resend when RESEND_API_KEY is set.
 // No-ops (logs) otherwise, so the app works before email is provisioned.
@@ -35,7 +36,8 @@ async function send(to: string, subject: string, html: string) {
 /**
  * Every entry-related email carries the standard no-purchase line and a link
  * to the free mail-in entry method, with the exact same wording as the site
- * (NO_PURCHASE_LINE in src/config/giveaway.ts).
+ * (NO_PURCHASE_LINE in src/config/giveaway.ts), plus the sender's physical
+ * postal address, which CAN-SPAM requires on every commercial message.
  */
 const shell = (inner: string) => `
   <div style="background:#0a0a0b;color:#f4f0e6;font-family:Arial,Helvetica,sans-serif;padding:32px;border-radius:14px;max-width:520px;margin:auto">
@@ -46,6 +48,7 @@ const shell = (inner: string) => `
       <a href="${FREE_ENTRY_URL}" style="color:#e0b83c">${FREE_ENTRY_LINK_TEXT}</a>.
       18+. See the Official Rules for full details.
     </p>
+    <p style="color:#6b675f;font-size:11px;margin-top:12px;line-height:1.6">${MAIL_IN_ADDRESS}</p>
   </div>`;
 
 /**

@@ -3,6 +3,8 @@
 // Content config mirroring the GetLootix Website Evaluation designs.
 // ─────────────────────────────────────────────────────────────
 
+import { MAIL_IN_ADDRESS } from '@/config/legal';
+
 export const TICKER = [
   '◆ 1 entry per $1 spent',
   'Drop 1',
@@ -147,6 +149,7 @@ export const PROOF = [
 export const COMPANY = {
   legalName: 'Lootix LLC',
   location: 'Maryland, USA',
+  address: MAIL_IN_ADDRESS,
   email: 'hello@getlootix.com',
   socials: {
     instagram: 'https://instagram.com/getlootix',

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ContentPage from '@/components/lootix/ContentPage';
 import { NO_PURCHASE_ODDS_SENTENCE } from '@/config/giveaway';
+import { MAIL_IN_ADDRESS } from '@/config/legal';
 
 export const metadata: Metadata = {
   title: 'Terms of Service — Lootix',
@@ -63,7 +64,7 @@ export default function TermsPage() {
       <p>We may update these Terms at any time. Changes take effect when posted to the Site. Continued use after changes constitutes acceptance.</p>
 
       <h2>12. Contact</h2>
-      <p>Questions about these Terms? Contact <a href="mailto:hello@getlootix.com">hello@getlootix.com</a>.</p>
+      <p>Questions about these Terms? Contact <a href="mailto:hello@getlootix.com">hello@getlootix.com</a>, or write to {MAIL_IN_ADDRESS}.</p>
     </ContentPage>
   );
 }
