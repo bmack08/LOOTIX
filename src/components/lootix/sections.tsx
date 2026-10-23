@@ -8,6 +8,10 @@ import {
   STATS, VAULT, ENTRY_TIERS, HOW_STEPS, DROPS, MILESTONES,
 } from '@/lib/lootix';
 import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, PRIZE_VALUE_PLACEHOLDER } from '@/config/giveaway';
+// GIVEAWAY_DATES_SET is a module constant — it only changes when site.ts is
+// edited and redeployed, so evaluating it at build time is correct. Wall-clock
+// checks (isEntryWindowOpen) are NOT build-safe and must not be used here.
+import { GIVEAWAY_DATES_SET } from '@/lib/site';
 
 // ── shared icons + helpers ──
 /** Publish a first name + last initial only — never the full name or email. */
@@ -346,11 +350,18 @@ export function EmailSection() {
       <div className="absolute inset-0" style={{ background: 'radial-gradient(70% 120% at 50% 0%,rgba(212,175,55,.12),transparent 60%)' }} />
       <div className="relative max-w-[760px] mx-auto px-6 md:px-10 py-24 text-center">
         <div className="lx-eyebrow mb-4">Join the Guild</div>
-        <h2 className="font-archivo font-black uppercase text-cream m-0 mb-4" style={{ fontSize: 'clamp(32px,4.4vw,52px)', lineHeight: 1, letterSpacing: '-.025em' }}>Get first access + bonus entries</h2>
+        <h2 className="font-archivo font-black uppercase text-cream m-0 mb-4" style={{ fontSize: 'clamp(32px,4.4vw,52px)', lineHeight: 1, letterSpacing: '-.025em' }}>
+          {GIVEAWAY_DATES_SET ? 'Get first access + bonus entries' : 'Get first access to every drop'}
+        </h2>
         <p className="font-archivo text-[16px] text-muted m-0 mb-[30px]">
-          {`Drop alerts, early access to limited gear, and ${SIGNUP_ENTRIES} free entries — one sign-up per person, no purchase necessary.`}
+          {GIVEAWAY_DATES_SET
+            ? `Drop alerts, early access to limited gear, and ${SIGNUP_ENTRIES} free entries — one sign-up per person, no purchase necessary.`
+            : 'Drop alerts and early access to limited gear. We will email you the moment giveaway entries open.'}
         </p>
-        <EmailCapture source="newsletter" buttonLabel="Claim Entries" successMsg={`You're in — ${SIGNUP_ENTRIES} free entries locked. Check your inbox.`} className="max-w-[480px] mx-auto" />
+        {/* No buttonLabel/successMsg overrides: EmailCapture picks its own
+            window-aware copy, so this never claims entries that were not
+            created. */}
+        <EmailCapture source="newsletter" className="max-w-[480px] mx-auto" />
       </div>
     </section>
   );

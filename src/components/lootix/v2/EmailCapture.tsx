@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { isEntryWindowOpen } from '@/lib/site';
+import { useEntryWindow } from '../useEntryWindow';
 
 /**
  * Guild signup — lives on the inverted cream section.
@@ -16,7 +16,7 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
   const [state, setState] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
   const [entered, setEntered] = useState(false);
   const [err, setErr] = useState('');
-  const windowOpen = isEntryWindowOpen();
+  const windowOpen = useEntryWindow();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();

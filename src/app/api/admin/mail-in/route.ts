@@ -44,7 +44,11 @@ export async function POST(req: Request) {
         ? 'The giveaway dates are not set yet, so no postmark can be inside the entry window.'
         : 'That postmark date is outside the entry window.';
       return NextResponse.json(
-        { ok: false, needsConfirm: true, error: `${reason} Log it anyway?` },
+        {
+          ok: false,
+          needsConfirm: true,
+          error: `${reason} The card can still be logged for the record, but it will be stored as INELIGIBLE and worth 0 entries. Log it anyway?`,
+        },
         { status: 409 },
       );
     }
@@ -62,7 +66,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: result.error }, { status: 400 });
   }
   return NextResponse.json(
-    { ok: true, entries: result.entries },
+    { ok: true, entries: result.entries, eligible: result.eligible },
     { headers: { 'Cache-Control': 'no-store' } },
   );
 }

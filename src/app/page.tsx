@@ -4,6 +4,10 @@ import EmailCapture from '@/components/lootix/v2/EmailCapture';
 import { GIVEAWAY, isEntryWindowOpen, STATS, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, PROOF } from '@/lib/site';
 import { ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD, SIGNUP_ENTRIES } from '@/config/giveaway';
 
+// isEntryWindowOpen() is wall-clock dependent, so this page must not be
+// frozen at build time: revalidate so the window state refreshes on its own.
+export const revalidate = 60;
+
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 // No date set → no "ends ..." line, no countdown, no "enter to win".

@@ -20,10 +20,13 @@ async function send(to: string, subject: string, html: string) {
       headers: { Authorization: `Bearer ${KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ from: FROM, to, reply_to: REPLY_TO, subject, html }),
     });
-    if (!res.ok) console.error('Resend failed', res.status, await res.text());
+    // Status only. Resend quotes the offending `to` address back in its
+    // validation errors, so logging the body would put a winner's or
+    // subscriber's email address in the logs.
+    if (!res.ok) console.error('Resend failed with status', res.status);
     return { ok: res.ok };
   } catch (e) {
-    console.error('Resend error', e);
+    console.error('Resend error:', e instanceof Error ? e.message : 'request failed');
     return { ok: false };
   }
 }

@@ -27,6 +27,7 @@ export default function MailInEntryForm({ entriesPerCard, disabled }: { entriesP
   const [state, setState] = useState<'idle' | 'saving' | 'done'>('idle');
   const [err, setErr] = useState('');
   const [warning, setWarning] = useState('');
+  const [saved, setSaved] = useState<{ entries: number; eligible: boolean } | null>(null);
 
   const set = (k: keyof typeof f) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
     setF((cur) => ({ ...cur, [k]: e.target.value }));
@@ -41,9 +42,10 @@ export default function MailInEntryForm({ entriesPerCard, disabled }: { entriesP
     });
     const d = await res.json().catch(() => ({}));
     if (res.ok && d.ok) {
+      setSaved({ entries: Number(d.entries ?? 0), eligible: Boolean(d.eligible) });
       setState('done');
       setWarning('');
-      setTimeout(() => window.location.reload(), 1200);
+      setTimeout(() => window.location.reload(), 2200);
       return;
     }
     if (res.status === 409 && d.needsConfirm) {
@@ -56,10 +58,27 @@ export default function MailInEntryForm({ entriesPerCard, disabled }: { entriesP
   }
 
   if (state === 'done') {
+    const eligible = saved?.eligible ?? false;
     return (
-      <div className="rounded-card p-5 text-center" style={{ background: 'rgba(212,175,55,.1)', border: '1px solid rgba(212,175,55,.4)' }}>
-        <div className="font-mono text-[11px] tracking-[.16em] uppercase text-gold-label">Card logged</div>
-        <div className="font-archivo font-black text-[20px] text-gold-bright">{entriesPerCard} entries added</div>
+      <div
+        className="rounded-card p-5 text-center"
+        style={
+          eligible
+            ? { background: 'rgba(212,175,55,.1)', border: '1px solid rgba(212,175,55,.4)' }
+            : { background: 'rgba(220,140,60,.08)', border: '1px solid rgba(220,140,60,.45)' }
+        }
+      >
+        <div className="font-mono text-[11px] tracking-[.16em] uppercase" style={{ color: eligible ? undefined : '#e0a86b' }}>
+          {eligible ? 'Card logged' : 'Card logged as ineligible'}
+        </div>
+        <div className="font-archivo font-black text-[20px]" style={{ color: eligible ? '#F0CE6B' : '#e0a86b' }}>
+          {eligible ? `${saved?.entries ?? entriesPerCard} entries added` : '0 entries — postmark outside the entry window'}
+        </div>
+        {!eligible && (
+          <div className="font-mono text-[11px] text-muted-2 mt-1">
+            Kept on file for the paper trail; it cannot be drawn.
+          </div>
+        )}
       </div>
     );
   }

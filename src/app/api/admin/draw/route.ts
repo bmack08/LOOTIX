@@ -50,6 +50,7 @@ export async function POST(req: Request) {
     teeSize: body.teeSize ? String(body.teeSize) : undefined,
     drawVerificationUrl: body.drawVerificationUrl ? String(body.drawVerificationUrl) : undefined,
     randomNumber: body.randomNumber !== undefined && body.randomNumber !== '' ? Number(body.randomNumber) : undefined,
+    expectedEntryId: body.expectedEntryId ? String(body.expectedEntryId) : undefined,
     alternateRank: body.alternateRank ? Number(body.alternateRank) : 1,
     notificationDate: body.notificationDate ? String(body.notificationDate) : undefined,
     attemptNumber: body.attemptNumber ? Number(body.attemptNumber) : 1,

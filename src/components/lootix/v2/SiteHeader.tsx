@@ -4,7 +4,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { NAV, TICKER, isEntryWindowOpen } from '@/lib/site';
+import { NAV, TICKER } from '@/lib/site';
+import { useEntryWindow } from '../useEntryWindow';
 import { useCart } from './CartContext';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
@@ -41,7 +42,7 @@ export default function SiteHeader() {
 
   const active = (href: string) => pathname === href || (href !== '/' && pathname.startsWith(href));
   // The LIVE badge only shows while the entry window is actually open.
-  const windowOpen = isEntryWindowOpen();
+  const windowOpen = useEntryWindow();
 
   const LiveBadge = () => (
     <span className="font-plex" style={{ background: '#C6A15B', color: '#0C0A07', fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 2 }}>LIVE</span>

@@ -18,6 +18,10 @@ export const metadata: Metadata = {
     'The Launch Vault: $250 cash plus a custom Lootix hoodie and tee, drawn at random on RANDOM.ORG. No purchase necessary — free entry by mail with equal odds.',
 };
 
+// isEntryWindowOpen() is wall-clock dependent, so this page must not be
+// frozen at build time: revalidate so the window state refreshes on its own.
+export const revalidate = 60;
+
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 export default function GiveawaysPage() {

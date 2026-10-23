@@ -60,9 +60,22 @@ alter table entries add column if not exists void_reason      text;
 alter table entries alter column email drop not null;
 alter table entries alter column count  drop not null;
 
--- Backfill: carry the old flat counts over to the weighted column.
+-- Backfill: carry the old flat counts over to the weighted column, so the
+-- historical rows stay readable.
 update entries set entries = coalesce(count, 0) where entries = 0 and coalesce(count, 0) > 0;
-update entries set giveaway_id = 'launch-vault' where giveaway_id is null;
+
+-- CRITICAL: pre-existing rows were written under the OLD entry model — sign-ups
+-- were worth 25 (not 10) and orders carried a flat per-product count (a $35 tee
+-- granted 60, not 35). Tagging them 'launch-vault' would put those wrong weights
+-- straight into the launch draw and make the published odds false.
+--
+-- So they are parked under 'pre-launch' instead: kept in full (nothing is
+-- deleted), still readable, but excluded from every ledger/stats/CSV/draw read,
+-- because the app only ever queries giveaway_id = 'launch-vault'.
+--
+-- If you would rather carry a specific entrant forward, re-tag that single row
+-- by hand after reviewing its weight against the current model.
+update entries set giveaway_id = 'pre-launch' where giveaway_id is null;
 -- Best-effort normalization of historical rows (lowercase/trim only; the app
 -- applies the full Gmail dot/+tag rules on write).
 update entries set normalized_email = lower(btrim(email)) where normalized_email is null and email is not null;
@@ -102,6 +115,33 @@ begin
     alter table entries validate constraint entries_entries_nonneg;
   end if;
 end $$;
+
+-- Promote the legacy meta.session_id into the new order_ref column, so a
+-- refund or chargeback on a pre-migration order can still be matched and
+-- voided (voidOrderEntries only looks at order_ref and meta.payment_intent,
+-- and legacy rows have neither).
+--
+-- The old webhook had no idempotency, so a retry could have written the same
+-- session_id twice. Keep the earliest row per session and VOID the rest,
+-- otherwise the unique index below cannot be created.
+with legacy as (
+  select id,
+         meta->>'session_id' as sid,
+         row_number() over (
+           partition by meta->>'session_id'
+           order by created_at asc, id asc
+         ) as rn
+    from entries
+   where order_ref is null
+     and meta ? 'session_id'
+     and coalesce(meta->>'session_id', '') <> ''
+)
+update entries e
+   set order_ref   = case when l.rn = 1 then l.sid else e.order_ref end,
+       voided_at   = case when l.rn > 1 then coalesce(e.voided_at, now()) else e.voided_at end,
+       void_reason = case when l.rn > 1 then coalesce(e.void_reason, 'duplicate order grant, folded during 20261008 migration') else e.void_reason end
+  from legacy l
+ where e.id = l.id;
 
 -- One order can only ever grant once.
 --

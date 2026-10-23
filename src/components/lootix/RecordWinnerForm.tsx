@@ -86,7 +86,12 @@ export default function RecordWinnerForm({ totalEntries, disabled }: { totalEntr
     const res = await fetch('/api/admin/draw', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...f, randomNumber: randomNumber || undefined }),
+      body: JSON.stringify({
+        ...f,
+        randomNumber: randomNumber || undefined,
+        // the entry the admin actually saw when they resolved the number
+        expectedEntryId: preview?.entry_id,
+      }),
     });
     const d = await res.json().catch(() => ({}));
     if (res.ok && d.ok) {

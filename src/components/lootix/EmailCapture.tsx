@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { isEntryWindowOpen } from '@/lib/site';
+import { useEntryWindow } from './useEntryWindow';
 
 type Status = 'idle' | 'loading' | 'ok' | 'err';
 
@@ -21,7 +21,7 @@ export default function EmailCapture({
   const [status, setStatus] = useState<Status>('idle');
   const [entered, setEntered] = useState(false);
   const [error, setError] = useState('');
-  const windowOpen = isEntryWindowOpen();
+  const windowOpen = useEntryWindow();
 
   // Outside the entry window: "Join the list", never "Enter".
   const label = buttonLabel ?? (windowOpen ? 'Claim Entries' : 'Join the List');

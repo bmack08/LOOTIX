@@ -31,9 +31,14 @@ export const NO_DB =
 
 // ── Email normalization ──
 /**
- * One canonical form per human: trimmed, lowercased, and for Gmail the dots
- * and any "+tag" are dropped from the local part (Gmail ignores both, so
- * a.b+x@gmail.com and ab@gmail.com are the same inbox).
+ * One canonical form per human: trimmed and lowercased, with the "+tag"
+ * subaddress dropped from the local part.
+ *
+ * +tag stripping applies to EVERY domain, not just Gmail: outlook, iCloud,
+ * Fastmail and most others deliver me+1@x and me+2@x to the same inbox, so
+ * leaving them distinct would let one person farm the sign-up grant over and
+ * over. Dot stripping stays Gmail-only, because only Gmail ignores dots —
+ * a.b@outlook.com and ab@outlook.com really are different mailboxes.
  */
 export function normalizeEmail(raw: string): string {
   const addr = (raw || '').trim().toLowerCase();
@@ -41,14 +46,15 @@ export function normalizeEmail(raw: string): string {
   if (at <= 0) return addr;
   const local = addr.slice(0, at);
   const domain = addr.slice(at + 1);
+
+  let stripped = local.split('+')[0];
   if (domain === 'gmail.com' || domain === 'googlemail.com') {
-    const stripped = local.split('+')[0].replace(/\./g, '');
-    // Only use the stripped form if something is left of it. "+tag@gmail.com"
-    // would otherwise collapse to "@gmail.com" and make every such address
-    // share one dedupe key.
-    if (stripped) return `${stripped}@${domain}`;
+    stripped = stripped.replace(/\./g, '');
   }
-  return `${local}@${domain}`;
+  // Only use the stripped form if something is left of it. "+tag@example.com"
+  // would otherwise collapse to "@example.com" and make every such address
+  // share one dedupe key.
+  return stripped ? `${stripped}@${domain}` : `${local}@${domain}`;
 }
 
 // ── Supabase REST helpers ──
@@ -92,6 +98,7 @@ export type EntryRow = {
   order_ref: string | null;
   meta: Record<string, unknown> | null;
   voided_at: string | null;
+  void_reason?: string | null;
   created_at: string;
 };
 
@@ -163,9 +170,13 @@ export async function grantSubscription(email: string, origin: string): Promise<
     // Cheap pre-check; the partial unique index on
     // (giveaway_id, normalized_email) where source='subscribe' is the real
     // guarantee, so a 409 here means "already credited", not an error.
+    // &voided_at=is.null matches the index predicate exactly, so a voided
+    // sign-up row doesn't make us report "already credited" for a grant the
+    // database would actually allow.
     const existing = await sbFetch(
       `entries?select=id&giveaway_id=eq.${encodeURIComponent(GIVEAWAY.id)}` +
-        `&normalized_email=eq.${encodeURIComponent(normalized)}&source=eq.${SUBSCRIBE_SOURCE}&limit=1`,
+        `&normalized_email=eq.${encodeURIComponent(normalized)}&source=eq.${SUBSCRIBE_SOURCE}` +
+        '&voided_at=is.null&limit=1',
     );
     const rows = existing.ok ? await existing.json() : [];
     if (rows.length) {
@@ -294,6 +305,37 @@ export async function voidOrderEntries(
   return { ok: true, voided };
 }
 
+/**
+ * Un-void an order's entries — used when a dispute closes in our favour.
+ *
+ * Scoped to `void_reason=eq.chargeback` on purpose: winning a dispute must not
+ * resurrect entries that were voided for a different reason (a genuine refund,
+ * or a failed payment).
+ */
+export async function unvoidOrderEntries(
+  orderRef: string | null,
+  paymentIntent: string | null,
+): Promise<{ ok: boolean; restored: number }> {
+  if (!orderRef && !paymentIntent) return { ok: false, restored: 0 };
+  if (!usingSupabase()) return { ok: false, restored: 0 };
+
+  const filters: string[] = [];
+  if (orderRef) filters.push(`order_ref=eq.${encodeURIComponent(orderRef)}`);
+  if (paymentIntent) filters.push(`meta->>payment_intent=eq.${encodeURIComponent(paymentIntent)}`);
+
+  let restored = 0;
+  for (const filter of filters) {
+    const res = await sbFetch(`entries?${filter}&void_reason=eq.chargeback`, {
+      method: 'PATCH',
+      headers: { Prefer: 'return=representation' },
+      body: JSON.stringify({ voided_at: null, void_reason: null }),
+    });
+    if (!res.ok) throw new Error(`unvoid failed (${res.status})`);
+    restored += ((await res.json().catch(() => [])) as unknown[]).length;
+  }
+  return { ok: true, restored };
+}
+
 // ── Mail-in entries (PII — Supabase only) ──
 export type MailInInput = {
   fullName: string;
@@ -307,7 +349,7 @@ export type MailInRecord = MailInInput & { id: string; entries: number; created_
 
 export async function logMailInEntry(
   input: MailInInput,
-): Promise<{ ok: true; entries: number } | { error: string }> {
+): Promise<{ ok: true; entries: number; eligible: boolean } | { error: string }> {
   if (!usingSupabase()) return { error: NO_DB };
 
   const fullName = (input.fullName || '').trim();
@@ -321,20 +363,31 @@ export async function logMailInEntry(
   const normalized = addr ? normalizeEmail(addr) : null;
   const now = new Date().toISOString();
 
+  // A card is only eligible if its POSTMARK falls inside the entry window.
+  // Outside it (including the "dates not set yet" state) the card is still
+  // recorded — the admin asked to log it and the paper trail matters — but it
+  // is stamped voided so it is worth 0 and can never be drawn. This is the
+  // one admin path that could otherwise mint live entries while the giveaway
+  // is not running.
+  const postmarkMs = Date.parse(`${input.postmarkDate}T12:00:00-04:00`);
+  const eligible = !Number.isNaN(postmarkMs) && isEntryWindowOpen(postmarkMs);
+
   const row: EntryRow = {
     giveaway_id: GIVEAWAY.id,
     email: addr || null,
     normalized_email: normalized,
     entrant_name: fullName,
-    entries: MAIL_IN_ENTRIES,
+    entries: eligible ? MAIL_IN_ENTRIES : 0,
     source: 'mail-in',
     order_ref: null,
     meta: {
       mailing_address: mailingAddress,
       postmark_date: input.postmarkDate,
       received_date: input.receivedDate,
+      outside_window: !eligible,
     },
-    voided_at: null,
+    voided_at: eligible ? null : now,
+    void_reason: eligible ? null : 'postmark outside the entry window',
     created_at: now,
   };
 
@@ -344,7 +397,7 @@ export async function logMailInEntry(
     body: JSON.stringify(row),
   });
   if (!res.ok) return { error: `Could not save the card (${res.status}).` };
-  return { ok: true, entries: MAIL_IN_ENTRIES };
+  return { ok: true, entries: row.entries, eligible };
 }
 
 export async function listMailInEntries(): Promise<MailInRecord[]> {
@@ -370,13 +423,53 @@ export async function listMailInEntries(): Promise<MailInRecord[]> {
 }
 
 // ── The ledger, voided rows excluded ──
+const PAGE = 1000;
+
+/**
+ * Fetch the whole live ledger, paging through PostgREST.
+ *
+ * Supabase caps rows per response (1000 by default). A single unbounded GET
+ * would silently return only the first page, and then getStats, the CSV
+ * ranges and the weighted draw would all be computed over a truncated
+ * ledger — every row past the cap could never be drawn, with nothing
+ * reporting it. So: page until we have them all, and verify the count against
+ * Content-Range, throwing rather than drawing from a partial ledger.
+ */
 async function liveEntryRows(): Promise<(EntryRow & { id: string })[]> {
   if (usingSupabase()) {
-    const res = await sbFetch(
+    const base =
       'entries?select=id,email,normalized_email,entrant_name,entries,source,order_ref,created_at' +
-        `&giveaway_id=eq.${encodeURIComponent(GIVEAWAY.id)}&voided_at=is.null&order=created_at.asc,id.asc`,
-    );
-    return res.ok ? await res.json() : [];
+      `&giveaway_id=eq.${encodeURIComponent(GIVEAWAY.id)}&voided_at=is.null&order=created_at.asc,id.asc`;
+
+    const all: (EntryRow & { id: string })[] = [];
+    let total: number | null = null;
+
+    for (let offset = 0; ; offset += PAGE) {
+      const res = await sbFetch(base, {
+        headers: { Range: `${offset}-${offset + PAGE - 1}`, Prefer: 'count=exact' },
+      });
+      if (!res.ok) throw new Error(`entry ledger read failed (${res.status})`);
+
+      const page = (await res.json()) as (EntryRow & { id: string })[];
+      all.push(...page);
+
+      // "0-999/1234" → 1234
+      const cr = res.headers.get('content-range');
+      if (cr && cr.includes('/')) {
+        const parsed = parseInt(cr.split('/')[1], 10);
+        if (!Number.isNaN(parsed)) total = parsed;
+      }
+
+      if (page.length < PAGE) break;
+      if (total !== null && all.length >= total) break;
+      // Safety stop: never spin forever on an unexpected header.
+      if (offset > 1_000_000) break;
+    }
+
+    if (total !== null && all.length !== total) {
+      throw new Error(`entry ledger incomplete: read ${all.length} of ${total} rows`);
+    }
+    return all;
   }
   const rows = await readJsonl<EntryRow & { id?: string }>(FILES.entries);
   return rows
@@ -550,6 +643,8 @@ export type RecordWinnerInput = {
   teeSize?: string;
   drawVerificationUrl?: string;
   randomNumber?: number;
+  /** entry_id the admin saw when they resolved the number, if any. */
+  expectedEntryId?: string;
   alternateRank?: number;
   notificationDate?: string;
   attemptNumber?: number;
@@ -590,6 +685,30 @@ export async function recordWinner(
     const picked = await pickWeightedEntry(input.randomNumber);
     if ('error' in picked) return { error: picked.error };
     entry = picked.entry;
+
+    // The number is authoritative. If the entry it landed on has an email,
+    // the identity being recorded must match it — otherwise a typo (or a
+    // stale preview) would file one person's name and payout details against
+    // someone else's winning entry, and the public page, the winner email
+    // and the paperwork would all name the wrong person.
+    if (entry.email && normalizeEmail(email) !== entry.entrant) {
+      return {
+        error:
+          `Number ${input.randomNumber} belongs to ${entry.email}, not "${email}". ` +
+          'Re-resolve the number and record the entrant it actually landed on, or clear the number to record by email instead.',
+      };
+    }
+
+    // The expected entry id from the admin's preview, if supplied: guards
+    // against the ledger shifting (a refund voiding rows) between the preview
+    // and the save, which would silently re-point the same number.
+    if (input.expectedEntryId && input.expectedEntryId !== entry.entry_id) {
+      return {
+        error:
+          'The entry list changed since you resolved that number (an order was probably refunded). ' +
+          'Re-download the CSV, re-run the draw, and record the new result.',
+      };
+    }
   } else {
     const ledger = await getLedger();
     entry = ledger.find((e) => e.entrant === normalizeEmail(email)) ?? null;

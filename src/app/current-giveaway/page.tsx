@@ -77,12 +77,17 @@ export default function CurrentGiveawayPage() {
                 </ul>
               </div>
 
-              {/* Countdown Timer */}
+              {/* Countdown Timer — hidden entirely until the owner sets a real
+                  close date. With endDate null, getTimeRemaining returns all
+                  zeros and isExpired false, which would otherwise render a fake
+                  00:00:00:00 countdown under an "ends" heading. */}
               <div>
                 <p className="text-sm text-text-muted uppercase tracking-widest mb-3">
-                  Giveaway Ends {formatEndDate(currentGiveaway.endDate)}
+                  {currentGiveaway.endDate
+                    ? `Giveaway Ends ${formatEndDate(currentGiveaway.endDate)}`
+                    : 'Giveaway dates coming soon'}
                 </p>
-                {!timeRemaining.isExpired ? (
+                {!currentGiveaway.endDate ? null : !timeRemaining.isExpired ? (
                   <div className="flex gap-3 md:gap-4">
                     {[
                       { value: timeRemaining.days, label: 'Days' },

@@ -33,10 +33,23 @@ function rateLimited(ip: string): boolean {
   return recent.length > MAX_PER_WINDOW;
 }
 
+/**
+ * Best-effort client IP for the limiter.
+ *
+ * Deliberately NOT x-forwarded-for[0]: that end of the chain is whatever the
+ * caller sent, so an attacker rotating `X-Forwarded-For: 1.2.3.<n>` would get
+ * a fresh bucket every request. Prefer the platform-set headers, and fall back
+ * to the LAST x-forwarded-for hop (the one appended closest to us).
+ */
 function clientIp(req: Request): string {
+  const platform = req.headers.get('x-vercel-forwarded-for') || req.headers.get('x-real-ip');
+  if (platform) return platform.trim();
   const fwd = req.headers.get('x-forwarded-for');
-  if (fwd) return fwd.split(',')[0].trim();
-  return req.headers.get('x-real-ip') || 'unknown';
+  if (fwd) {
+    const hops = fwd.split(',').map((h) => h.trim()).filter(Boolean);
+    if (hops.length) return hops[hops.length - 1];
+  }
+  return 'unknown';
 }
 
 export async function POST(req: Request) {
@@ -71,12 +84,13 @@ export async function POST(req: Request) {
     if (result.granted > 0 || result.subscriberCreated) {
       await sendWelcome(email, result.granted);
     }
+    // Deliberately does NOT report `alreadyCredited`: that would let anyone
+    // test whether a given address is already on the list. `entered` only
+    // reflects whether the giveaway is running, which is public anyway.
     return NextResponse.json({
       ok: true,
       // The window is shut → this was a mailing-list signup, nothing more.
       entered: result.entered,
-      granted: result.granted,
-      alreadyCredited: result.alreadyCredited,
       windowOpen: isEntryWindowOpen(),
     });
   } catch (e) {
