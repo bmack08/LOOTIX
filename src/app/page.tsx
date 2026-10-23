@@ -3,7 +3,7 @@ import Countdown from '@/components/lootix/v2/Countdown';
 import EmailCapture from '@/components/lootix/v2/EmailCapture';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY, isEntryWindowOpen, STATS, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, PROOF } from '@/lib/site';
-import { ENTRIES_LABEL, FREE_ENTRY_HREF, FREE_SHIPPING_THRESHOLD, SIGNUP_ENTRIES } from '@/config/giveaway';
+import { ENTRIES_LABEL, FREE_ENTRY_HREF, FREE_SHIPPING_THRESHOLD, SIGNUP_ENTRIES, ODDS_LEAD, ODDS_SHORT_REST } from '@/config/giveaway';
 
 // isEntryWindowOpen() is wall-clock dependent, so this page must not be
 // frozen at build time: revalidate so the window state refreshes on its own.
@@ -35,12 +35,18 @@ export default function Home() {
           <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 17, lineHeight: 1.65 }}>
             Legendary streetwear, forged for the fearless. Every dollar you spend on Drop 1 is one entry toward the Lootix Launch Giveaway — <strong className="text-parchment">$250 cash plus a custom Lootix hoodie and tee</strong>, drawn at random on RANDOM.ORG.
           </p>
+          {/* Option B short form (Legal swap list, Oct 23 2026), directly under the
+              line that mentions entries per dollar. "No purchase necessary" stays the
+              link to the free-entry rules. */}
+          <p className="m-0 text-sand" style={{ maxWidth: 480, fontSize: 17, lineHeight: 1.65 }}>
+            <Link href={FREE_ENTRY_HREF} className="underline underline-offset-4 hover:text-parchment">{ODDS_LEAD}</Link>{' '}
+            {ODDS_SHORT_REST}
+          </p>
           <div className="flex items-center gap-4 flex-wrap">
             <Link href="/shop" className="btn-brass">Shop the Drop</Link>
             <Link href="/about" className="btn-ghost-v2">How It Works</Link>
           </div>
           <div className="flex gap-7 flex-wrap font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em', paddingTop: 8 }}>
-            <span>✓ <Link href={FREE_ENTRY_HREF} className="underline underline-offset-4 hover:text-parchment">No purchase necessary</Link></span>
             <span>✓ {ENTRIES_LABEL}</span>
             <span>✓ Ships to the US only</span>
           </div>
