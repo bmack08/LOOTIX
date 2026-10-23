@@ -9,11 +9,12 @@
 // other credential file. It is NOT wired into build/prebuild — it is a thing
 // the owner runs before flipping the switch.
 //
-// It answers four questions:
+// It answers five questions:
 //   01  Are the giveaway dates set, well-formed, and in the right order?
 //   02  Is any copy placeholder still sitting in the shipped source?
 //   03  Does Stripe checkout have shipping rates configured?
 //   04  What close time is the public copy printing right now?
+//   05  Does that close-time label agree with the actual close instant?
 //
 // Exit code 1 if anything FAILed, 0 otherwise. WARN never fails the run.
 // ─────────────────────────────────────────────────────────────
@@ -22,7 +23,13 @@ import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, resolve, dirname, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
-const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..');
+// The project root to read. LAUNCH_CHECK_ROOT exists so the tests can point the
+// script at a throwaway copy of the source tree with mocked values; it changes
+// only what is READ, and the script writes nothing either way. Unset — which is
+// how `npm run check:launch` runs it — means this repo.
+const ROOT = resolve(
+  process.env.LAUNCH_CHECK_ROOT || resolve(dirname(fileURLToPath(import.meta.url)), '..'),
+);
 
 const SITE_TS = 'src/lib/site.ts';
 const GIVEAWAY_TS = 'src/config/giveaway.ts';
@@ -302,14 +309,20 @@ function readFreeShippingThreshold() {
 
 // ═══════════════ 04 · CLOSE TIME LABEL ═══════════════
 
-function checkCloseTimeLabel() {
+/** The close-time LABEL as the public copy prints it. null if it is not there. */
+function readCloseTimeLabel() {
   const text = readRepoFile(GIVEAWAY_TS);
-  if (text === null) {
+  if (text === null) return null;
+  const m = text.match(/GIVEAWAY_CLOSE_TIME_LABEL\s*=\s*'([^']*)'|GIVEAWAY_CLOSE_TIME_LABEL\s*=\s*"([^"]*)"/);
+  return m ? (m[1] ?? m[2]) : null;
+}
+
+function checkCloseTimeLabel() {
+  if (readRepoFile(GIVEAWAY_TS) === null) {
     warn('Entry close time', `Could not read ${GIVEAWAY_TS}.`);
     return;
   }
-  const m = text.match(/GIVEAWAY_CLOSE_TIME_LABEL\s*=\s*'([^']*)'|GIVEAWAY_CLOSE_TIME_LABEL\s*=\s*"([^"]*)"/);
-  const label = m ? (m[1] ?? m[2]) : null;
+  const label = readCloseTimeLabel();
 
   if (!label) {
     warn('Entry close time', `GIVEAWAY_CLOSE_TIME_LABEL not found in ${GIVEAWAY_TS}.`);
@@ -324,12 +337,128 @@ function checkCloseTimeLabel() {
   ]);
 }
 
+// ═══════════════ 05 · CLOSE TIME CONSISTENCY ═══════════════
+//
+// GIVEAWAY_CLOSE_TIME_LABEL is only what the copy PRINTS. The close instant is
+// GIVEAWAY.endDateISO, and that is what the countdowns and the entry window
+// read. The two have to be moved together, so this check reads both and
+// compares the label to the actual Eastern wall-clock time of the instant.
+
+/**
+ * '8:00 PM ET' / '11:59:59 p.m. ET' / '20:00 ET' → { hour, minute, second }.
+ *
+ * The meridiem is optional (no am/pm means the hour is already 24-hour) and may
+ * be written "PM", "p.m." or "p m". `hasSeconds` records whether the label
+ * actually states seconds — when it does not, seconds are not compared, because
+ * "8:00 PM ET" says nothing about them. Returns null if there is no time in it.
+ */
+function parseCloseTimeLabel(label) {
+  const m = label.match(/\b(\d{1,2}):(\d{2})(?::(\d{2}))?\s*(?:([AaPp])\.?\s*[Mm]\.?)?/);
+  if (!m) return null;
+
+  let hour = Number(m[1]);
+  const minute = Number(m[2]);
+  const second = m[3] === undefined ? 0 : Number(m[3]);
+  const meridiem = m[4] ? m[4].toLowerCase() : null;
+
+  if (meridiem) {
+    // 12-hour clock: 12 AM is 00, 12 PM is 12.
+    if (hour < 1 || hour > 12) return null;
+    hour = (hour % 12) + (meridiem === 'p' ? 12 : 0);
+  } else if (hour > 23) {
+    return null;
+  }
+  if (minute > 59 || second > 59) return null;
+
+  return { hour, minute, second, hasSeconds: m[3] !== undefined };
+}
+
+/** The Eastern wall-clock time of day of an ISO instant. null if it won't parse. */
+function etTimeOfDay(iso) {
+  const ms = Date.parse(iso);
+  if (Number.isNaN(ms)) return null;
+  const parts = new Intl.DateTimeFormat('en-US', {
+    timeZone: 'America/New_York',
+    hourCycle: 'h23',
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  }).formatToParts(new Date(ms));
+  const get = (type) => Number(parts.find((p) => p.type === type)?.value);
+  const hour = get('hour');
+  const minute = get('minute');
+  const second = get('second');
+  if ([hour, minute, second].some((n) => !Number.isInteger(n))) return null;
+  return { hour, minute, second };
+}
+
+const pad2 = (n) => String(n).padStart(2, '0');
+const hhmmss = (t) => `${pad2(t.hour)}:${pad2(t.minute)}:${pad2(t.second)}`;
+const hhmm = (t) => `${pad2(t.hour)}:${pad2(t.minute)}`;
+
+function checkCloseTimeConsistency() {
+  const siteText = readRepoFile(SITE_TS);
+  if (siteText === null) {
+    fail('Close time consistency', `Could not read ${SITE_TS}.`);
+    return;
+  }
+
+  const endDate = readGiveawayDates(siteText).endDateISO;
+
+  // Nothing to compare against yet. Check 04 already WARNs about the pending
+  // owner decision and names both files, so this check stays silent rather than
+  // printing the same warning twice — and it must never FAIL on a null date.
+  if (!endDate.present || endDate.value === null) return;
+
+  // A malformed date is check 01's FAIL to report, not this one's.
+  const actual = etTimeOfDay(endDate.value);
+  if (actual === null) return;
+
+  const label = readCloseTimeLabel();
+  if (!label) {
+    fail('Close time consistency', `GIVEAWAY_CLOSE_TIME_LABEL not found in ${GIVEAWAY_TS}.`, [
+      `GIVEAWAY.endDateISO is set to '${endDate.value}', so there is nothing to check it against.`,
+    ]);
+    return;
+  }
+
+  const parsed = parseCloseTimeLabel(label);
+  if (parsed === null) {
+    fail('Close time consistency', `Could not read a time out of GIVEAWAY_CLOSE_TIME_LABEL "${label}".`, [
+      `Expected something like '8:00 PM ET' or '11:59:59 p.m. ET' in ${GIVEAWAY_TS}.`,
+      `It cannot be compared to GIVEAWAY.endDateISO ('${endDate.value}' = ${hhmmss(actual)} ET).`,
+    ]);
+    return;
+  }
+
+  // Minutes always; seconds only when the label actually states them.
+  const show = parsed.hasSeconds ? hhmmss : hhmm;
+  const agrees = parsed.hour === actual.hour
+    && parsed.minute === actual.minute
+    && (!parsed.hasSeconds || parsed.second === actual.second);
+
+  if (agrees) {
+    pass(
+      'Close time consistency',
+      `Label "${label}" matches GIVEAWAY.endDateISO '${endDate.value}' (${show(actual)} America/New_York).`,
+    );
+  } else {
+    fail('Close time consistency', 'The close-time label and the actual close instant disagree.', [
+      `Label:      "${label}" (${GIVEAWAY_TS}) = ${show(parsed)} ET`,
+      `endDateISO: '${endDate.value}' (${SITE_TS}) = ${show(actual)} ET`,
+      'The public copy would print one close time while entries actually close at another.',
+      'Fix BOTH to the same time: GIVEAWAY_CLOSE_TIME_LABEL and GIVEAWAY.endDateISO.',
+    ]);
+  }
+}
+
 // ═══════════════ RUN ═══════════════
 
 checkDates();
 checkPlaceholders();
 checkShippingRates();
 checkCloseTimeLabel();
+checkCloseTimeConsistency();
 
 console.log('');
 console.log('Lootix — pre-launch readiness');
