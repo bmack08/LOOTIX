@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
-import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, FREE_SHIPPING_THRESHOLD, NO_PURCHASE_LINE, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
+import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, FREE_SHIPPING_THRESHOLD, ODDS_LONG_MD, ODDS_SHORT, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
 
 export const metadata: Metadata = {
   title: 'FAQ — Lootix',
@@ -15,9 +15,9 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
     title: 'Giveaways & Entries',
     items: [
       { q: 'How do the giveaways work?', a: <>You earn <strong className="text-parchment">{ENTRIES_LABEL}</strong> — every dollar of your order subtotal is one entry into the current giveaway. A $129.99 order earns 129 entries. You keep your gear either way, and free entry is always available by mail (see the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>).</> },
-      { q: 'Do I have to buy anything to enter?', a: <>No. Free entry is available by mail — {MAIL_IN_ENTRIES} entries per hand-printed card, one card per envelope, with no limit on envelopes. See the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the address and instructions. {NO_PURCHASE_LINE}</> },
+      { q: 'Do I have to buy anything to enter?', a: <>No. Free entry is available by mail — {MAIL_IN_ENTRIES} entries per hand-printed card, one card per envelope, with no limit on envelopes. See the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the address and instructions. {ODDS_LONG_MD}</> },
       { q: 'How are entry counts decided?', a: <>{ENTRIES_LABEL}, counted from your order subtotal after discounts and before tax and shipping, then rounded down. A free mail-in card is worth {MAIL_IN_ENTRIES} entries, and the one-time online sign-up is worth {SIGNUP_ENTRIES}. Your purchase total shows at checkout and in your confirmation email.</> },
-      { q: 'Does spending more improve my odds?', a: <>More entries means more chances, and entries come from dollars spent — but a purchase is never required. The free mail-in method is worth {MAIL_IN_ENTRIES} entries per card with no limit on how many cards you mail, so you can build entries without spending anything. <NoPurchaseNotice as="span" /></> },
+      { q: 'Does spending more improve my odds?', a: <>More entries means more chances, and entries come from dollars spent — but a purchase is never required. The free mail-in method is worth {MAIL_IN_ENTRIES} entries per card with no limit on how many cards you mail, so you can build entries without spending anything. <NoPurchaseNotice as="span" line={ODDS_LONG_MD} /></> },
       { q: 'What is the current prize?', a: 'The Lootix Launch Giveaway: $250 cash plus a custom Lootix hoodie and a custom Lootix tee. Item values and the total are still being finalized. Cash is paid by PayPal. Future giveaways unlock after the current one pays out.' },
       { q: 'What happens to my entries if I get a refund?', a: 'A refund or a chargeback voids that order’s entries. A size exchange keeps them — you still bought the gear.' },
     ],
@@ -53,7 +53,7 @@ export default function FaqPage() {
             Everything on entries, the free mail-in method, the RANDOM.ORG draw, shipping and returns. Still stuck? Email{' '}
             <a href="mailto:hello@getlootix.com" className="text-brass hover:text-brass-lit transition-colors">hello@getlootix.com</a> — we answer within one business day.
           </p>
-          <NoPurchaseNotice className="m-0 text-stone" style={{ maxWidth: 580, fontSize: 12.5, lineHeight: 1.7 }} />
+          <NoPurchaseNotice line={ODDS_SHORT} className="m-0 text-stone" style={{ maxWidth: 580, fontSize: 12.5, lineHeight: 1.7 }} />
         </div>
       </header>
 
@@ -95,7 +95,7 @@ export default function FaqPage() {
             </span>
           </div>
           <Link href="/official-rules" className="btn-ghost-v2 whitespace-nowrap">Read Official Rules →</Link>
-          <NoPurchaseNotice className="m-0 text-stone" style={{ fontSize: 12, lineHeight: 1.7, flexBasis: '100%' }} />
+          <NoPurchaseNotice line={ODDS_SHORT} className="m-0 text-stone" style={{ fontSize: 12, lineHeight: 1.7, flexBasis: '100%' }} />
         </div>
       </section>
     </div>
