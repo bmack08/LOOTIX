@@ -146,8 +146,8 @@ export const PACKS = [
 
 /** Coming-later teasers are hidden (hidden: true) until a giveaway has its own Official Rules. Countdowns use GIVEAWAY.endDateISO only. */
 export const UPCOMING = [
-  { tag: 'Vault 002', name: '$1,000 Cash Drop', status: 'Unlocks next', desc: 'Opens after the Lootix Launch Giveaway winner is drawn and paid. Every Drop 002 order will enter.' },
-  { tag: 'Vault 003', name: 'Battlestation PC', status: 'Locked', desc: 'A full custom build. Unlocks once the guild passes 1,000 members.' },
+  { tag: 'Vault 002', name: '$1,000 Cash Drop', status: 'Unlocks next', desc: 'Opens after the Lootix Launch Giveaway winner is drawn and paid. Every Drop 002 order will enter.', hidden: true },
+  { tag: 'Vault 003', name: 'Battlestation PC', status: 'Locked', desc: 'A full custom build. Unlocks once the guild passes 1,000 members.', hidden: true },
   { tag: 'Vault 004', name: 'Tokyo Trip for 2', status: 'Locked', desc: 'Flights + hotel. The endgame vault — unlocks at 100 verified winners paid.', hidden: true },
 ].filter((u) => !u.hidden); // entries flagged hidden: true are not shown; delete the flag to show them again
 

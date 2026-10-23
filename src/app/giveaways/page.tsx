@@ -153,7 +153,9 @@ export default function GiveawaysPage() {
         </NoPurchaseNotice>
       </section>
 
-      {/* UPCOMING GIVEAWAYS */}
+      {/* COMING LATER - UPCOMING is filtered on hidden:true (site.ts); the whole section,
+          heading included, renders only if something is visible. */}
+      {UPCOMING.length > 0 && (
       <section style={{ padding: '80px 24px', borderBottom: HAIR, background: '#0F0C08' }}>
         <div className="flex flex-col gap-2.5" style={{ marginBottom: 40 }}>
           <span className="v2-eyebrow">The road ahead</span>
@@ -171,7 +173,12 @@ export default function GiveawaysPage() {
             </div>
           ))}
         </div>
-        <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em' }}>
+      </section>
+      )}
+
+      {/* Real-deadlines note - always shown (outside the hideable section above). */}
+      <section style={{ padding: '32px 24px', background: '#0F0C08' }}>
+        <p className="font-plex text-stone" style={{ margin: 0, fontSize: 11, letterSpacing: '0.08em' }}>
           {GIVEAWAY_DATES_SET && closeDate
             ? `Real deadlines only: any countdown on this site counts down to the entry close time in the Official Rules. Entries close ${closeDate} at ${GIVEAWAY_CLOSE_TIME_LABEL}.`
             : 'Dates for the Lootix Launch Giveaway are not set yet. Any countdown on this site will count down to the entry close time in the Official Rules once the dates are set.'}

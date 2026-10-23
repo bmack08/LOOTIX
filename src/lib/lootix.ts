@@ -92,6 +92,7 @@ export const MILESTONES = [
     state: 'locked' as const,
     tag: 'Locked',
     desc: 'Unlocks once the Vault has awarded its first $1,000 in prizes.',
+    hidden: true,
   },
   {
     title: 'Legend Status',
