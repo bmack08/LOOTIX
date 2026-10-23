@@ -43,7 +43,7 @@ const QuickEntryForm: FC<QuickEntryFormProps> = ({ giveaway, onClose }) => {
     }
 
     // TODO: POST to /api/entries
-    console.log('Entry submission:', { email, name, giveawayId: giveaway.id, agreedToRules });
+    // Never log the entrant's email or name.
     setIsSubmitted(true);
 
     // Reset after 2 seconds

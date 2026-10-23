@@ -1,15 +1,16 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { SHOP_PRODUCTS } from '@/lib/site';
+import { SHOP_PRODUCTS, GIVEAWAY } from '@/lib/site';
 
 export const runtime = 'nodejs';
 
 /**
  * Creates a Stripe Checkout Session.
  *
- * SECURITY: the browser only sends {slug, qty}. Price and entry counts are
- * looked up server-side from our own catalog, so a tampered client can't
- * buy a $140 sneaker for $1 or award itself 10,000 entries.
+ * SECURITY: the browser only sends {slug, qty}. Prices are looked up
+ * server-side from our own catalog, so a tampered client can't buy a $140
+ * sneaker for $1. Entries are never sent from here either — the webhook
+ * computes them from the session's own totals after payment succeeds.
  */
 export async function POST(req: Request) {
   const secret = process.env.STRIPE_SECRET_KEY;
@@ -31,7 +32,6 @@ export async function POST(req: Request) {
   }
 
   const line_items: Stripe.Checkout.SessionCreateParams.LineItem[] = [];
-  let totalEntries = 0;
 
   for (const { slug, qty } of items) {
     const product = SHOP_PRODUCTS.find((p) => p.slug === slug);
@@ -45,11 +45,10 @@ export async function POST(req: Request) {
         unit_amount: Math.round(product.priceValue * 100), // cents
         product_data: {
           name: product.name,
-          description: `${product.sub} · Earns ${product.entries} entries`,
+          description: product.sub,
         },
       },
     });
-    totalEntries += product.entries * quantity;
   }
 
   if (!line_items.length) {
@@ -62,10 +61,13 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items,
-      // entries are granted by the webhook after payment succeeds
-      metadata: { totalEntries: String(totalEntries) },
+      // Entries are computed and granted by the webhook from this session's
+      // own subtotal after payment succeeds — nothing about entries is
+      // trusted from, or passed through, the client.
+      metadata: { giveaway_id: GIVEAWAY.id },
       customer_email: body.email || undefined,
-      shipping_address_collection: { allowed_countries: ['US', 'CA', 'GB', 'AU', 'DE', 'FR', 'NL', 'IE', 'NZ'] },
+      // US only (owner decision Oct 22).
+      shipping_address_collection: { allowed_countries: ['US'] },
       success_url: `${origin}/order/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cart`,
     });

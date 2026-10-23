@@ -1,25 +1,25 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { COUNTDOWN_DAYS, COUNTDOWN_EXTRA } from '@/lib/lootix';
+import { GIVEAWAY } from '@/lib/site';
 
 const pad = (n: number) => String(Math.max(0, n)).padStart(2, '0');
 
 type Parts = { d: string; h: string; m: string; s: string };
 
 /**
- * Live draw countdown. Target is fixed on mount (days + extra offset from
- * first load) so server/client render agree until hydration ticks in.
+ * Live draw countdown to the real 8 PM ET close in GIVEAWAY.drawDateISO.
+ *
+ * Renders NOTHING until that date is set — no rolling "N days from page load"
+ * countdown, which is just a fake deadline.
  */
 export default function VaultCountdown() {
   const [parts, setParts] = useState<Parts | null>(null);
+  const drawDateISO = GIVEAWAY.drawDateISO;
 
   useEffect(() => {
-    const target =
-      Date.now() +
-      COUNTDOWN_DAYS * 86400000 +
-      COUNTDOWN_EXTRA.hours * 3600000 +
-      COUNTDOWN_EXTRA.minutes * 60000;
+    if (!drawDateISO) return;
+    const target = Date.parse(drawDateISO);
 
     const tick = () => {
       let ms = Math.max(0, target - Date.now());
@@ -33,7 +33,9 @@ export default function VaultCountdown() {
     tick();
     const t = setInterval(tick, 1000);
     return () => clearInterval(t);
-  }, []);
+  }, [drawDateISO]);
+
+  if (!drawDateISO) return null;
 
   const cells: { k: keyof Parts; label: string; accent?: boolean }[] = [
     { k: 'd', label: 'Days' },

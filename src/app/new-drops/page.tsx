@@ -1,5 +1,5 @@
 import { getPrintfulProducts } from '@/utils/printful';
-import { ENTRY_MULTIPLIER } from '@/config/giveaway';
+import { ENTRIES_LABEL, entriesForSubtotal } from '@/config/giveaway';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -27,10 +27,10 @@ export default async function NewDropsPage() {
             New <span className="text-cta-primary">Drops</span>
           </h1>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto mb-6">
-            The freshest Lootix gear. Every dollar spent = {ENTRY_MULTIPLIER} entries into the current giveaway.
+            The freshest Lootix gear. {ENTRIES_LABEL} into the current giveaway.
           </p>
           <div className="inline-flex items-center gap-2 bg-cta-primary/10 border border-cta-primary/30 rounded-md px-4 py-2">
-            <span className="text-cta-primary font-bold text-sm uppercase">{ENTRY_MULTIPLIER}X Entries Active</span>
+            <span className="text-cta-primary font-bold text-sm uppercase">{ENTRIES_LABEL}</span>
           </div>
         </div>
       </section>
@@ -45,7 +45,7 @@ export default async function NewDropsPage() {
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {products.map((product) => {
-                  const entries = Math.floor(product.price * ENTRY_MULTIPLIER);
+                  const entries = entriesForSubtotal(product.price);
                   return (
                     <Link key={product.id} href={`/product/${product.slug}`}>
                       <div className="product-card group">
@@ -56,7 +56,7 @@ export default async function NewDropsPage() {
                             fill
                             className="object-cover transition-transform duration-500 group-hover:scale-110"
                           />
-                          <span className="badge-entry">{ENTRY_MULTIPLIER}X</span>
+                          <span className="badge-entry">{ENTRIES_LABEL}</span>
                           <span className="absolute top-2 left-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm">
                             NEW
                           </span>

@@ -3,11 +3,15 @@
 import { useState } from 'react';
 import { useCart } from './CartContext';
 import type { ShopProduct } from '@/lib/site';
+import { entriesForSubtotal } from '@/config/giveaway';
 
-/** Add-to-cart with confirmation flip: "Add to cart" → "✓ N entries secured". */
+/** Add-to-cart with confirmation flip: "Add to cart" → "✓ N entries added". */
 export default function AddToCart({ product, full = false }: { product: ShopProduct; full?: boolean }) {
   const { add } = useCart();
   const [added, setAdded] = useState(false);
+
+  // 1 entry per $1 — derived from this item's price, not a per-product count.
+  const entries = entriesForSubtotal(product.priceValue);
 
   function onAdd(e: React.MouseEvent) {
     e.preventDefault();
@@ -16,7 +20,6 @@ export default function AddToCart({ product, full = false }: { product: ShopProd
       slug: product.slug,
       name: product.name,
       price: product.priceValue,
-      entries: product.entries,
       img: product.img,
     });
     setAdded(true);
@@ -40,7 +43,7 @@ export default function AddToCart({ product, full = false }: { product: ShopProd
         whiteSpace: 'nowrap',
       }}
     >
-      {added ? `✓ ${product.entries} entries secured` : `Add to cart — ${product.price}`}
+      {added ? `✓ ${entries} entries added` : `Add to cart — ${product.price}`}
     </button>
   );
 }

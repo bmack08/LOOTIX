@@ -2,7 +2,7 @@
 
 import { FC } from 'react';
 import Image from 'next/image';
-import { currentGiveaway, ENTRY_MULTIPLIER, formatEndDate } from '@/config/giveaway';
+import { currentGiveaway, ENTRIES_LABEL, PRIZE_VALUE_PLACEHOLDER, formatEndDate } from '@/config/giveaway';
 
 const FeaturedPrizes: FC = () => {
   return (
@@ -21,7 +21,7 @@ const FeaturedPrizes: FC = () => {
           />
           {/* Value Badge */}
           <div className="absolute top-4 left-4 bg-urgency text-white px-4 py-2 font-display font-bold">
-            VALUE: ${currentGiveaway.prizeValue.toLocaleString()}
+            VALUE: {currentGiveaway.prizeValue ? `$${currentGiveaway.prizeValue.toLocaleString()}` : PRIZE_VALUE_PLACEHOLDER}
           </div>
         </div>
 
@@ -59,7 +59,7 @@ const FeaturedPrizes: FC = () => {
             <span className="text-cta-primary font-semibold">This purchase = </span>
             <span className="text-[24px] font-display font-bold text-cta-primary">3,000 entries</span>
             <span className="bg-cta-primary text-white text-[11px] font-bold px-2 py-0.5 ml-2">
-              {ENTRY_MULTIPLIER}X ACTIVE
+              {ENTRIES_LABEL.toUpperCase()}
             </span>
           </div>
 

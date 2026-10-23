@@ -22,11 +22,7 @@ const PRINTIFY_SHOP_ID = process.env.PRINTIFY_SHOP_ID;
 
 const isConfigured = !!(PRINTIFY_TOKEN && PRINTIFY_SHOP_ID);
 
-if (process.env.NODE_ENV === 'development') {
-  console.log('Printify API Token present:', !!PRINTIFY_TOKEN);
-  console.log('Printify Shop ID present:', !!PRINTIFY_SHOP_ID);
-}
-
+// NEVER log the token, the shop id, or the `headers` object below.
 const headers: Record<string, string> = PRINTIFY_TOKEN
   ? {
       Authorization: `Bearer ${PRINTIFY_TOKEN}`,

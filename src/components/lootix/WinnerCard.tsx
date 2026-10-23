@@ -1,9 +1,11 @@
 import type { Draw } from '@/lib/raffle';
 
-// Privacy-safe handle when no real name is collected: "wi•••@example.com"
-function maskEmail(email: string) {
-  const [local, domain] = email.split('@');
-  return `${local.slice(0, 2)}${'•'.repeat(Math.max(3, local.length - 2))}@${domain ?? ''}`;
+/** Publish a first name + last initial only — never the full name or email. */
+function publicName(fullName: string) {
+  const parts = (fullName || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return 'Winner';
+  if (parts.length === 1) return parts[0];
+  return `${parts[0]} ${parts[parts.length - 1][0]}.`;
 }
 
 /**
@@ -21,11 +23,11 @@ export default function WinnerCard({
 }: {
   winner: Draw;
   image?: string;       // e.g. '/brand/winners/latest.jpg' once generated
-  name?: string;        // e.g. 'Marcus R.' once collected; falls back to masked email
+  name?: string;        // override; defaults to first name + last initial
   location?: string;    // e.g. 'Austin, TX'
 }) {
-  const displayName = name || maskEmail(winner.winner_email);
-  const date = new Date(winner.created_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
+  const displayName = name || publicName(winner.full_name);
+  const date = new Date(winner.drawn_at).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
 
   return (
     <div className="lx-card grid md:grid-cols-2 mb-10" style={{ border: '1px solid rgba(212,175,55,.35)' }}>
@@ -64,10 +66,15 @@ export default function WinnerCard({
 
         <div className="font-archivo font-black text-gold-bright tracking-[-.02em] mt-5" style={{ fontSize: 24 }}>{winner.prize}</div>
         <div className="font-mono text-[12px] text-muted mt-2">
-          Drawn {date} · from {winner.total_entries.toLocaleString()} entries · independent draw
+          Drawn {date} · from {winner.total_entries.toLocaleString()} entries · RANDOM.ORG
         </div>
+        {winner.draw_verification_url && (
+          <a href={winner.draw_verification_url} target="_blank" rel="noopener noreferrer" className="link-gold mt-3 self-start">
+            Verify the draw on RANDOM.ORG →
+          </a>
+        )}
 
-        <a href="/how-it-works" className="link-gold mt-7 self-start">How the draw works →</a>
+        <a href="/about" className="link-gold mt-7 self-start">How the draw works →</a>
       </div>
     </div>
   );

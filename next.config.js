@@ -37,11 +37,8 @@ const nextConfig = {
       // Everything else folds into its v2 equivalent.
       { source: '/giveaway', destination: '/giveaways', permanent: true },
       { source: '/how-it-works', destination: '/about', permanent: true },
-      { source: '/privacy', destination: '/official-rules', permanent: true },
-      { source: '/terms', destination: '/official-rules', permanent: true },
-      { source: '/returns', destination: '/faq', permanent: true },
-      { source: '/shipping', destination: '/faq', permanent: true },
-      { source: '/contact', destination: '/faq', permanent: true },
+      // /privacy /terms /returns /shipping /contact are served directly —
+      // the legal pages have to be reachable at their own URLs.
     ];
   },
 };

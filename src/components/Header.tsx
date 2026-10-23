@@ -9,7 +9,6 @@ const navLinks = [
   { label: 'MENS', href: '/mens' },
   { label: 'WOMENS', href: '/womens' },
   { label: 'ACCESSORIES', href: '/collections/accessories' },
-  { label: 'QUICK ENTRIES', href: '/quick-entries' },
 ];
 
 export default function Header() {

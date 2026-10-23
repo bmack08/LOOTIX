@@ -5,15 +5,17 @@ import ClaimEntryButton from './ClaimEntryButton';
 import WinnerCard from './WinnerCard';
 import type { Draw } from '@/lib/raffle';
 import {
-  MULT_LABEL, SHOW_SCARCITY, STATS, VAULT, ENTRY_TIERS,
-  HOW_STEPS, DROPS, PRIZES, MILESTONES,
+  STATS, VAULT, ENTRY_TIERS, HOW_STEPS, DROPS, MILESTONES,
 } from '@/lib/lootix';
+import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, PRIZE_VALUE_PLACEHOLDER } from '@/config/giveaway';
 
 // ── shared icons + helpers ──
-export function maskEmail(email: string) {
-  const [local, domain] = email.split('@');
-  const head = local.slice(0, 2);
-  return `${head}${'•'.repeat(Math.max(3, local.length - 2))}@${domain ?? ''}`;
+/** Publish a first name + last initial only — never the full name or email. */
+export function publicName(fullName: string) {
+  const parts = (fullName || '').trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return 'Winner';
+  if (parts.length === 1) return parts[0];
+  return `${parts[0]} ${parts[parts.length - 1][0]}.`;
 }
 export const ArrowRight = () => (
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
@@ -56,7 +58,6 @@ export function PageHero({ eyebrow, title, subtitle }: { eyebrow: string; title:
 
 // ═══════════════ HERO ═══════════════
 export function Hero() {
-  const scarcityPct = Math.min(100, Math.round((VAULT.scarcity.claimed / VAULT.scarcity.goal) * 100));
   return (
     <section className="relative overflow-hidden" style={{ borderBottom: '1px solid rgba(255,255,255,.06)' }}>
       <div className="absolute inset-0" style={{ backgroundImage: "url('/brand/ref-fantasy-1.jpg')", backgroundSize: 'cover', backgroundPosition: '75% 28%', opacity: 0.32 }} />
@@ -73,18 +74,18 @@ export function Hero() {
             <span style={{ background: 'linear-gradient(180deg,#F6D87E,#C99B2C)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Win the vault.</span>
           </h1>
           <p className="font-archivo text-[18px] leading-[1.62] text-[#B7B2A8] max-w-[480px] m-0 mb-[34px]">
-            Legendary fantasy streetwear, forged for the fearless. Every order earns you up to{' '}
-            <strong className="text-gold-bright font-extrabold">{MULT_LABEL} entries</strong> into our launch giveaway —{' '}
-            <strong className="text-cream font-bold">$250 cash + a free merch bundle</strong>.
+            Legendary fantasy streetwear, forged for the fearless. Every order earns{' '}
+            <strong className="text-gold-bright font-extrabold">{ENTRIES_LABEL}</strong> into our launch giveaway —{' '}
+            <strong className="text-cream font-bold">$250 cash plus a custom Lootix hoodie and tee</strong>.
           </p>
           <div className="flex gap-[14px] flex-wrap mb-[30px]">
             <a href="/shop" className="btn-gold">Shop the Drop <ArrowRight /></a>
             <a href="/how-it-works" className="btn-ghost">How It Works</a>
           </div>
           <div className="flex items-center gap-6 flex-wrap font-archivo text-[13px] text-muted-2">
-            <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Winner drawn live &amp; independent</span>
+            <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Winner drawn at random on RANDOM.ORG</span>
             <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> No purchase necessary</span>
-            <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Ships worldwide</span>
+            <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Ships to the US only</span>
           </div>
         </Reveal>
         <Reveal delay={120}>
@@ -100,17 +101,9 @@ export function Hero() {
                 <div key={perk} className="flex items-center gap-[11px] font-archivo text-[14px] text-[#D7D2C8]"><Check /> {perk}</div>
               ))}
             </div>
-            {SHOW_SCARCITY && (
-              <div className="mb-5">
-                <div className="flex justify-between font-mono text-[11px] tracking-[.08em] text-muted mb-[7px]">
-                  <span className="text-gold-bright">{VAULT.scarcity.claimed.toLocaleString()} entries claimed</span>
-                  <span>Goal {VAULT.scarcity.goal.toLocaleString()}</span>
-                </div>
-                <div className="h-[7px] rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,.08)' }}>
-                  <div className="h-full rounded-full" style={{ width: `${scarcityPct}%`, background: 'linear-gradient(90deg,#C99B2C,#F6D87E)' }} />
-                </div>
-              </div>
-            )}
+            <div className="font-mono text-[11px] tracking-[.08em] text-muted mb-5">
+              Approximate retail value: {PRIZE_VALUE_PLACEHOLDER} — still being finalized.
+            </div>
             <div className="mb-[22px]"><VaultCountdown /></div>
             <a href="/giveaways" className="btn-gold w-full !rounded-md">Enter This Giveaway</a>
           </div>
@@ -154,13 +147,14 @@ export function HowItWorks() {
                 <span className="w-[30px] h-[30px] rounded-full grid place-items-center" style={{ border: '1px solid rgba(212,175,55,.35)' }}><Check /></span>
               </div>
               <h3 className="font-archivo font-extrabold text-[23px] uppercase text-cream m-0 mb-3" style={{ letterSpacing: '-.01em' }}>{step.title}</h3>
-              <p className="font-archivo text-[15px] leading-[1.6] text-muted m-0" dangerouslySetInnerHTML={{ __html: step.body.replace(`${MULT_LABEL} entries`, `<strong style="color:#F0CE6B">${MULT_LABEL} entries</strong>`) }} />
+              <p className="font-archivo text-[15px] leading-[1.6] text-muted m-0">{step.body}</p>
             </div>
           </Reveal>
         ))}
       </div>
       <p className="text-center font-mono text-[12px] tracking-[.06em] text-[#6b675f] mt-[30px]">
-        No purchase necessary to enter or win. See <a href="/official-rules" className="underline hover:text-gold transition-colors">Official Rules</a> for the free mail-in entry method. 18+ only.
+        No purchase necessary to enter or win. Free entry by mail is worth {MAIL_IN_ENTRIES} entries per card — see the{' '}
+        <a href="/official-rules" className="underline hover:text-gold transition-colors">Official Rules</a>. 18+ only, US only.
       </p>
     </section>
   );
@@ -180,8 +174,8 @@ export function GiveawayBar() {
           <div className="min-w-[230px]"><VaultCountdown /></div>
         </div>
         <div className="flex flex-col items-start md:items-end gap-2">
-          <a href="/shop" className="btn-gold !py-[13px]">Enter to Win <ArrowRight /></a>
-          <span className="font-mono text-[10px] tracking-[.08em] uppercase text-muted-2">No purchase necessary · free entry available</span>
+          <a href="/shop" className="btn-gold !py-[13px]">Shop the Drop <ArrowRight /></a>
+          <span className="font-mono text-[10px] tracking-[.08em] uppercase text-muted-2">No purchase necessary · free entry by mail</span>
         </div>
       </div>
     </section>
@@ -200,7 +194,7 @@ export function GrandPrizeShowcase() {
         <Reveal delay={100}>
           <div className="lx-eyebrow mb-4" style={{ letterSpacing: '.26em' }}>Launch Giveaway · $250 + Free Merch</div>
           <h2 className="font-archivo font-black uppercase text-cream m-0 mb-5" style={{ fontSize: 'clamp(32px,4vw,52px)', lineHeight: 0.98, letterSpacing: '-.025em' }}>The Launch Vault</h2>
-          <p className="font-archivo text-[16px] leading-[1.62] text-muted m-0 mb-[26px]">One winner takes it all: <strong className="text-cream">$250 cash</strong> plus a <strong className="text-cream">full Lootix merch bundle</strong> — their pick from the launch drop. Grab an entry pack below — bigger packs, better odds, free shipping.</p>
+          <p className="font-archivo text-[16px] leading-[1.62] text-muted m-0 mb-[26px]">One winner takes it all: <strong className="text-cream">$250 cash</strong> plus a <strong className="text-cream">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free US shipping at $100.</p>
           <div className="flex flex-col gap-[11px] mb-[30px]">
             {ENTRY_TIERS.map((tier) => (
               <label key={tier.name} className="flex items-center justify-between gap-4 rounded-tier px-[18px] py-4 cursor-pointer relative" style={tier.popular ? { background: 'linear-gradient(120deg,rgba(212,175,55,.1),rgba(255,255,255,.03))', border: '1px solid rgba(212,175,55,.45)' } : { background: 'rgba(255,255,255,.03)', border: '1px solid rgba(255,255,255,.1)' }}>
@@ -211,21 +205,23 @@ export function GrandPrizeShowcase() {
                 </span>
                 <span className="text-right">
                   <span className="block font-mono font-bold text-[17px] text-cream">{tier.price}</span>
-                  <span className="font-mono text-[11px] text-gold-bright tracking-[.06em]">{tier.entries}</span>
+                  <span className="font-mono text-[11px] text-gold-bright tracking-[.06em]">{ENTRIES_LABEL}</span>
                 </span>
               </label>
             ))}
           </div>
           <div className="flex items-center gap-4 flex-wrap">
             <a href="/shop" className="btn-gold">Enter &amp; Shop <ArrowRight /></a>
-            <span className="font-mono text-[12px] text-muted tracking-[.06em]">Bigger packs, better odds</span>
+            <span className="font-mono text-[12px] text-muted tracking-[.06em]">{ENTRIES_LABEL}</span>
           </div>
           {/* Sweepstakes compliance — surfaced on the giveaway section, not just the footer */}
           <p className="font-mono text-[11px] tracking-[.08em] text-gold-label uppercase mt-6">
             No purchase necessary
-            <span className="text-muted normal-case tracking-normal"> — a purchase does not increase your chances of winning. Free entry via the </span>
+            <span className="text-muted normal-case tracking-normal">
+              {` — free entry by mail is worth ${MAIL_IN_ENTRIES} entries per card, and the one-time online sign-up is worth ${SIGNUP_ENTRIES}. See the `}
+            </span>
             <a href="/official-rules" className="text-gold-label underline hover:text-gold-bright transition-colors normal-case tracking-normal">Official Rules</a>
-            <span className="text-muted normal-case tracking-normal">. 18+.</span>
+            <span className="text-muted normal-case tracking-normal">. 18+, US only.</span>
           </p>
         </Reveal>
       </div>
@@ -255,49 +251,14 @@ export function FeaturedDrops({ full = false }: { full?: boolean }) {
               <div className="p-5">
                 <div className="font-archivo font-extrabold text-[18px] uppercase text-cream tracking-[-.01em] mb-[5px]">{d.name}</div>
                 <div className="font-archivo text-[13px] text-muted-2 mb-[14px]">{d.meta}</div>
+                {/* No star ratings — there are no real reviews yet. */}
                 <div className="flex items-center justify-between">
                   <span className="font-mono font-bold text-[17px] text-gold-bright">{d.price}</span>
-                  <span className="font-archivo text-[12px] text-muted-2">★ {d.rating}</span>
                 </div>
               </div>
             </a>
           </Reveal>
         ))}
-      </div>
-    </section>
-  );
-}
-
-// ═══════════════ PRIZE VAULT GRID ═══════════════
-export function PrizeVault() {
-  return (
-    <section style={{ background: '#0c0c0d', borderTop: '1px solid rgba(255,255,255,.06)' }}>
-      <div className="max-w-site mx-auto px-6 md:px-10 py-[104px]">
-        <Reveal className="text-center mb-14">
-          <div className="lx-eyebrow mb-[14px]">The Prize Vault</div>
-          <h2 className="font-archivo font-black uppercase text-cream m-0 mb-[14px]" style={{ fontSize: 'clamp(34px,4.6vw,56px)', lineHeight: 1, letterSpacing: '-.025em' }}>More ways to win</h2>
-          <p className="font-archivo text-[17px] text-muted max-w-[520px] mx-auto">Every order enters you across all live giveaways. Stack your entries, chase the loot you want.</p>
-        </Reveal>
-        <div className="grid gap-6 md:grid-cols-3">
-          {PRIZES.map((p, i) => (
-            <Reveal key={p.title} delay={i * 90}>
-              <div className="lx-card">
-                <div className="relative">
-                  <span className="absolute top-[14px] left-[14px] z-[2] badge-glass">{p.status}</span>
-                  <img src={p.img} alt={p.title} className="w-full h-[220px] object-cover" />
-                </div>
-                <div className="p-[22px]">
-                  <div className="font-mono text-[11px] tracking-[.16em] uppercase text-muted-2 mb-2">{p.kind}</div>
-                  <div className="font-archivo font-black text-[26px] text-cream tracking-[-.02em] mb-4">{p.title}</div>
-                  <div className="flex justify-between font-mono text-[11px] text-muted mb-[18px]">
-                    <span className="text-gold-label">{p.meta}</span><span>{p.ends}</span>
-                  </div>
-                  <a href="/shop" className={p.primary ? 'btn-gold w-full !py-[13px] !text-[13px]' : 'btn-outline-gold w-full !py-[13px]'}>{p.cta}</a>
-                </div>
-              </div>
-            </Reveal>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -341,11 +302,11 @@ export function WinnersVault({ winner }: { winner: Draw | null }) {
                   {highlight ? <Trophy c="#F0CE6B" s={34} /> : <Lock c="#5e5a52" s={30} />}
                 </div>
                 <div className="font-archivo font-black uppercase tracking-[-.01em] mb-[10px] break-all" style={{ fontSize: unlocked ? 20 : 26, color: highlight ? '#F4F0E6' : '#4f4c46' }}>
-                  {unlocked ? maskEmail(winner!.winner_email) : isNext ? '— Your Name —' : '??????'}
+                  {unlocked ? publicName(winner!.full_name) : isNext ? '— Your Name —' : '??????'}
                 </div>
                 <div className="font-archivo font-extrabold text-[15px] uppercase tracking-[.02em] mb-3" style={{ color: highlight ? '#F0CE6B' : '#6b675f' }}>{m.title}</div>
                 <p className="font-archivo text-[14px] leading-[1.55] m-0 mx-auto max-w-[280px]" style={{ color: highlight ? '#B7B2A8' : '#6b675f' }}>
-                  {unlocked ? `Drawn ${new Date(winner!.created_at).toLocaleDateString()} from ${winner!.total_entries.toLocaleString()} entries. The vault has its first winner.` : m.desc}
+                  {unlocked ? `Drawn ${new Date(winner!.drawn_at).toLocaleDateString()} from ${winner!.total_entries.toLocaleString()} entries. The vault has its first winner.` : m.desc}
                 </p>
                 {isNext && !unlocked && (
                   <ClaimEntryButton className="btn-gold mt-6 !py-[13px] !text-[13px]">Claim It First <ArrowRight /></ClaimEntryButton>
@@ -367,7 +328,7 @@ export function TrustStrip() {
   return (
     <section style={{ background: '#0c0c0d', borderTop: '1px solid rgba(255,255,255,.06)', borderBottom: '1px solid rgba(255,255,255,.06)' }}>
       <div className="max-w-site mx-auto px-6 md:px-10 py-10 grid grid-cols-2 md:grid-cols-5 gap-6">
-        {['Secure Stripe Checkout', '18+ · Play Responsibly', 'No Purchase Necessary', 'Ships Worldwide', 'Live, Verified Draws'].map((label, i) => (
+        {['Secure Stripe Checkout', '18+ · Play Responsibly', 'No Purchase Necessary', 'Ships to the US Only', 'RANDOM.ORG Draws'].map((label, i) => (
           <div key={label} className="flex flex-col items-center text-center gap-[10px]" style={i > 0 ? { borderLeft: '1px solid rgba(255,255,255,.06)' } : undefined}>
             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" strokeWidth="1.6"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z" strokeLinejoin="round" /><path d="M9 12l2 2 4-4" strokeLinecap="round" strokeLinejoin="round" /></svg>
             <span className="font-archivo font-bold text-[12.5px] text-[#C9C4BA] tracking-[.02em]">{label}</span>
@@ -386,8 +347,10 @@ export function EmailSection() {
       <div className="relative max-w-[760px] mx-auto px-6 md:px-10 py-24 text-center">
         <div className="lx-eyebrow mb-4">Join the Guild</div>
         <h2 className="font-archivo font-black uppercase text-cream m-0 mb-4" style={{ fontSize: 'clamp(32px,4.4vw,52px)', lineHeight: 1, letterSpacing: '-.025em' }}>Get first access + bonus entries</h2>
-        <p className="font-archivo text-[16px] text-muted m-0 mb-[30px]">Drop alerts, early access to limited gear, and 25 free bonus entries on your first order.</p>
-        <EmailCapture source="newsletter" buttonLabel="Claim Entries" successMsg="You're in — 25 bonus entries locked. Check your inbox." className="max-w-[480px] mx-auto" />
+        <p className="font-archivo text-[16px] text-muted m-0 mb-[30px]">
+          {`Drop alerts, early access to limited gear, and ${SIGNUP_ENTRIES} free entries — one sign-up per person, no purchase necessary.`}
+        </p>
+        <EmailCapture source="newsletter" buttonLabel="Claim Entries" successMsg={`You're in — ${SIGNUP_ENTRIES} free entries locked. Check your inbox.`} className="max-w-[480px] mx-auto" />
       </div>
     </section>
   );

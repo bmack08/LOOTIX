@@ -5,8 +5,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {
   currentGiveaway,
-  ENTRY_MULTIPLIER,
-  calculateEntries,
+  ENTRIES_LABEL,
+  MAIL_IN_ENTRIES,
+  PRIZE_VALUE_PLACEHOLDER,
+  entriesForSubtotal,
   formatEntries,
   getTimeRemaining,
   formatEndDate,
@@ -41,7 +43,7 @@ export default function CurrentGiveawayPage() {
               />
               {/* Value Badge */}
               <div className="badge-value">
-                VALUE: ${currentGiveaway.prizeValue.toLocaleString()}
+                VALUE: {currentGiveaway.prizeValue ? `$${currentGiveaway.prizeValue.toLocaleString()}` : PRIZE_VALUE_PLACEHOLDER}
               </div>
             </div>
 
@@ -118,8 +120,8 @@ export default function CurrentGiveawayPage() {
 
               {/* CTA Buttons */}
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/quick-entries" className="btn-primary text-center">
-                  ENTER NOW — FREE
+                <Link href="/official-rules" className="btn-primary text-center">
+                  FREE ENTRY BY MAIL
                 </Link>
                 <Link href="/shop" className="btn-secondary text-center">
                   SHOP TO EARN MORE ENTRIES
@@ -147,12 +149,12 @@ export default function CurrentGiveawayPage() {
               <div className="text-sm font-bold text-success uppercase tracking-wider mb-3">Free Entry</div>
               <h3 className="font-display font-bold text-xl text-text-primary mb-3">MAIL-IN METHOD</h3>
               <p className="text-text-secondary text-sm leading-relaxed">
-                Send a 3x5 postcard with your name, email, and "Lootix Giveaway Entry" to our mailing address. One entry per postcard, no purchase necessary.
+                Send a 3x5 card with your name, email, and &quot;Lootix Giveaway Entry&quot; to our mailing address.
+                Each card is worth {MAIL_IN_ENTRIES} entries — one card per envelope, no limit on envelopes, no purchase necessary.
               </p>
               <div className="mt-4 p-3 bg-bg-secondary rounded-sm text-text-muted text-xs">
                 <p className="font-semibold text-text-secondary mb-1">Lootix LLC</p>
-                <p>[Street Address]</p>
-                <p>[City, State ZIP]</p>
+                <p>[MAIL-IN ADDRESS]</p>
               </div>
             </div>
 
@@ -161,14 +163,14 @@ export default function CurrentGiveawayPage() {
               <div className="text-sm font-bold text-cta-primary uppercase tracking-wider mb-3">Bonus Entries</div>
               <h3 className="font-display font-bold text-xl text-text-primary mb-3">PURCHASE METHOD</h3>
               <p className="text-text-secondary text-sm leading-relaxed mb-4">
-                Every $1 spent on Lootix gear earns you {ENTRY_MULTIPLIER} entries into the current giveaway. The more you shop, the better your odds.
+                {ENTRIES_LABEL} of your order subtotal, before tax and shipping. Free entry is also available by mail.
               </p>
               <div className="entry-calculator">
                 <p className="entry-calculator-text">
-                  Example: $50 purchase = {formatEntries(calculateEntries(50))} entries
+                  Example: $50 purchase = {formatEntries(entriesForSubtotal(50))} entries
                 </p>
                 <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm">
-                  {ENTRY_MULTIPLIER}X ACTIVE
+                  {ENTRIES_LABEL.toUpperCase()}
                 </span>
               </div>
             </div>
@@ -185,8 +187,8 @@ export default function CurrentGiveawayPage() {
           <p className="text-text-secondary text-lg leading-relaxed mb-8">
             We're launching soon! Enter our inaugural giveaway for your chance to make history as a Lootix winner. Real prizes. Real winners. Real soon.
           </p>
-          <Link href="/quick-entries" className="btn-primary">
-            ENTER NOW
+          <Link href="/shop" className="btn-primary">
+            SHOP THE DROP
           </Link>
         </div>
       </section>

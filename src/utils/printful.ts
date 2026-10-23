@@ -9,13 +9,9 @@ const DEFAULT_PRODUCT_IMAGE = '/images/product-placeholder.jpg';
 // Check if API key is configured (don't throw at module load time to allow build to succeed)
 const isConfigured = !!PRINTFUL_API_KEY;
 
-// Only log in development
-if (process.env.NODE_ENV === 'development') {
-  console.log('Printful API Key present:', isConfigured);
-  console.log('Using store ID:', PRINTFUL_STORE_ID);
-}
-
-const headers = PRINTFUL_API_KEY ? {
+// NEVER log the API key, the store id, or the `headers` object below: the
+// Authorization header carries the secret and logs are not a safe place for it.
+const headers: Record<string, string> = PRINTFUL_API_KEY ? {
   'Authorization': `Bearer ${PRINTFUL_API_KEY}`,
   'Content-Type': 'application/json',
   'X-PF-Store-ID': PRINTFUL_STORE_ID
@@ -45,7 +41,6 @@ async function getStoreId() {
     }
 
     const data = await response.json();
-    console.log('Store information:', data);
     return data.result[0]?.id || null;
   } catch (error) {
     console.error('Error fetching store information:', error);
@@ -59,31 +54,21 @@ export async function getPrintfulProducts(): Promise<Product[]> {
   }
 
   try {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Making request to Printful API...');
-      console.log('API URL:', `${PRINTFUL_API_URL}/store/products`);
-    }
-
     const response = await fetch(`${PRINTFUL_API_URL}/store/products`, {
       method: 'GET',
       headers,
       next: { revalidate: 3600 } // Cache for 1 hour
     });
 
-    console.log('Response status:', response.status);
-    console.log('Response status text:', response.statusText);
-
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('Printful API error response:', errorText);
-      throw new Error(`Printful API error: ${response.status} ${response.statusText} - ${errorText}`);
+      console.error('Printful API error', response.status);
+      throw new Error(`Printful API error: ${response.status} ${response.statusText}`);
     }
 
     const data: PrintfulResponse<PrintfulProduct[]> = await response.json();
-    console.log('Raw API Response:', JSON.stringify(data, null, 2));
 
     if (!data.result || !Array.isArray(data.result)) {
-      console.error('Invalid response format:', data);
+      console.error('Invalid response format from Printful API');
       throw new Error('Invalid response format from Printful API');
     }
 
@@ -128,13 +113,9 @@ export async function getPrintfulProductById(id: string): Promise<Product | null
 
   try {
     if (!id || isNaN(Number(id))) {
-      console.log('Invalid product ID provided:', id);
       return null;
     }
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Fetching product by ID:', id);
-    }
     const response = await fetch(`${PRINTFUL_API_URL}/store/products/${id}`, {
       method: 'GET',
       headers,
@@ -142,18 +123,15 @@ export async function getPrintfulProductById(id: string): Promise<Product | null
     });
 
     const responseText = await response.text();
-    console.log('Raw response:', responseText);
 
     if (!response.ok) {
-      console.error('Printful API error response:', responseText);
+      console.error('Printful API error', response.status);
       return null;
     }
 
     const data: PrintfulResponse<PrintfulProduct> = JSON.parse(responseText);
-    console.log('Product data received:', data);
 
     if (!data.result || typeof data.result !== 'object') {
-      console.log('No valid product found with ID:', id);
       return null;
     }
 
@@ -203,29 +181,23 @@ export async function getFeaturedProducts(): Promise<PrintfulProduct[]> {
   }
 
   try {
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Fetching featured products from Printful...');
-    }
     const response = await fetch(`${PRINTFUL_API_URL}/store/products`, {
       method: 'GET',
       headers,
       cache: 'no-store',
     });
 
-    console.log('Featured products response status:', response.status);
     const responseText = await response.text();
-    console.log('Raw response:', responseText);
 
     if (!response.ok) {
-      console.error('Printful API error response:', responseText);
+      console.error('Printful API error', response.status);
       throw new Error(`Printful API error: ${response.status} ${response.statusText}`);
     }
 
     const data: PrintfulResponse<PrintfulProduct[]> = JSON.parse(responseText);
-    console.log('Parsed data:', data);
 
     if (!data.result || !Array.isArray(data.result)) {
-      console.error('Invalid response format:', data);
+      console.error('Invalid response format from Printful API');
       throw new Error('Invalid response format from Printful API');
     }
 

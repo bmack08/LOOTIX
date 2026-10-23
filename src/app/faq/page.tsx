@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, FREE_SHIPPING_THRESHOLD } from '@/config/giveaway';
 
 export const metadata: Metadata = {
   title: 'FAQ — Lootix',
-  description: 'Answers on entries, the free entry method, the independent draw, shipping and returns.',
+  description: 'Answers on entries, the free entry method, the RANDOM.ORG draw, shipping and returns.',
 };
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
@@ -12,26 +13,28 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
   {
     title: 'Giveaways & Entries',
     items: [
-      { q: 'How do the giveaways work?', a: 'Every order earns a flat number of entries into the current giveaway — the count is printed on each product card. When the draw closes, an independent third party selects one winner, live on stream. You keep your gear either way.' },
-      { q: 'Do I have to buy anything to enter?', a: <>No. There is always a free mail-in entry method with exactly the same odds as a purchase entry — see the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the address and instructions. No purchase is necessary to enter or win, and buying does not increase your chances.</> },
-      { q: 'How are entry counts decided?', a: 'One flat number per item, printed on the card — no multipliers, no math. Bigger items and bundles carry more entries. Your total shows at checkout and in your confirmation email.' },
-      { q: 'What is the current prize?', a: 'The Launch Vault: $250 cash plus a full Lootix merch bundle — the winner picks from Drop 1. Future vaults unlock after the current one pays out.' },
+      { q: 'How do the giveaways work?', a: <>You earn <strong className="text-parchment">{ENTRIES_LABEL}</strong> — every dollar of your order subtotal is one entry into the current giveaway. A $129.99 order earns 129 entries. You keep your gear either way, and free entry is always available by mail (see the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>).</> },
+      { q: 'Do I have to buy anything to enter?', a: <>No. Free entry is available by mail — {MAIL_IN_ENTRIES} entries per hand-printed card, one card per envelope, with no limit on envelopes. See the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the address and instructions. No purchase is necessary to enter or win.</> },
+      { q: 'How are entry counts decided?', a: <>{ENTRIES_LABEL}, counted from your order subtotal after discounts and before tax and shipping, then rounded down. A free mail-in card is worth {MAIL_IN_ENTRIES} entries, and the one-time online sign-up is worth {SIGNUP_ENTRIES}. Your purchase total shows at checkout and in your confirmation email.</> },
+      { q: 'Does spending more improve my odds?', a: <>More entries means more chances, and entries come from dollars spent — but a purchase is never required. The free mail-in method is worth {MAIL_IN_ENTRIES} entries per card with no limit on how many cards you mail, so you can build entries without spending anything.</> },
+      { q: 'What is the current prize?', a: 'The Launch Vault: $250 cash plus a custom Lootix hoodie and a custom Lootix tee. Item values and the total are still being finalized. Cash is paid by PayPal. Future vaults unlock after the current one pays out.' },
+      { q: 'What happens to my entries if I get a refund?', a: 'A refund or a chargeback voids that order’s entries. A size exchange keeps them — you still bought the gear.' },
     ],
   },
   {
     title: 'The Draw',
     items: [
-      { q: 'How is the winner chosen?', a: 'By an independent third-party administrator using a random draw across all eligible entries — purchase and free entries pooled together. We never touch the draw.' },
-      { q: 'When is the draw?', a: <>Each giveaway runs to the close date shown on the <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">Giveaways page</Link> countdown. Entries apply to the giveaway live at the time of your order.</> },
-      { q: 'How do I know it is legit?', a: <>Every draw is streamed live, archived publicly, and every winner is named on the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners page</Link> with proof of payout. The full process is committed in writing before the first draw.</> },
-      { q: 'Who can enter?', a: <>Legal residents 18+ (or the age of majority in your area), void where prohibited. Full eligibility is in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.</> },
+      { q: 'How is the winner chosen?', a: 'Winner is selected at random using RANDOM.ORG; the draw is screen-recorded and posted.' },
+      { q: 'When is the draw?', a: <>Each giveaway runs to the close date shown on the <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">Giveaways page</Link>, at 8:00 PM Eastern. Entries apply to the giveaway running at the time of your order — nothing is entered before the start or after the close.</> },
+      { q: 'How do I know it is legit?', a: <>Every draw is screen-recorded and posted along with the RANDOM.ORG result link, and every winner is named on the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners page</Link> with proof of payout. The full process is committed in writing in the Official Rules before the first draw.</> },
+      { q: 'Who can enter?', a: <>Legal residents of the 50 United States and D.C. who are 18+ (or the age of majority where they live), void where prohibited. Full eligibility is in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.</> },
     ],
   },
   {
     title: 'Orders & Shipping',
     items: [
-      { q: 'How does shipping work?', a: 'Gear ships worldwide from the US. Domestic orders ship within 2–4 business days; international timelines vary by region. Free shipping on orders over $75 and on Hero and Legend packs.' },
-      { q: 'Can I return or exchange?', a: 'Unworn gear can be returned or exchanged within 30 days. Entries earned from a refunded order are voided per the Official Rules.' },
+      { q: 'How does shipping work?', a: `We ship to the United States only. Orders ship within 2–4 business days, and US shipping is free on orders of $${FREE_SHIPPING_THRESHOLD} or more.` },
+      { q: 'Can I return or exchange?', a: 'Unworn gear can be returned or exchanged within 30 days. A size exchange keeps the entries from that order; a refund voids them, per the Official Rules.' },
       { q: 'Is checkout secure?', a: 'Yes — payments run through Stripe. We never see or store your card details.' },
     ],
   },
@@ -46,7 +49,7 @@ export default function FaqPage() {
           <span className="v2-eyebrow">Support</span>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Frequently asked</h1>
           <p className="m-0 text-sand" style={{ maxWidth: 580, fontSize: 16.5, lineHeight: 1.65 }}>
-            Everything on entries, the free method, the draw, shipping and returns. Still stuck? Email{' '}
+            Everything on entries, the free mail-in method, the RANDOM.ORG draw, shipping and returns. Still stuck? Email{' '}
             <a href="mailto:hello@getlootix.com" className="text-brass hover:text-brass-lit transition-colors">hello@getlootix.com</a> — we answer within one business day.
           </p>
         </div>
@@ -86,7 +89,7 @@ export default function FaqPage() {
           <div className="flex flex-col gap-2">
             <span className="uppercase text-parchment" style={{ fontSize: 20, fontWeight: 800 }}>The full legal terms</span>
             <span className="text-stone" style={{ fontSize: 13.5, lineHeight: 1.6, maxWidth: 520 }}>
-              Eligibility, the free entry method with equal odds, prize details, winner selection, and publicity — all of it.
+              Eligibility, the free mail-in entry method, prize details, how the RANDOM.ORG draw works, and publicity — all of it.
             </span>
           </div>
           <Link href="/official-rules" className="btn-ghost-v2 whitespace-nowrap">Read Official Rules →</Link>

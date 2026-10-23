@@ -16,8 +16,7 @@ const WaitlistModal: FC<WaitlistModalProps> = ({ isOpen, onClose, tierName }) =>
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // TODO: POST to /api/waitlist
-    console.log('Waitlist submission:', { email, tierName });
+    // TODO: POST to /api/waitlist. Never log the address.
     setIsSubmitted(true);
 
     // Reset after 2 seconds

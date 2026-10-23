@@ -4,15 +4,16 @@
 // ─────────────────────────────────────────────────────────────
 
 export const TICKER = [
-  '◆ Every order earns entries',
-  'Drop 1 · Live now',
-  '◆ Win $250 + free merch bundle',
-  'No purchase necessary',
-  '◆ Winner drawn live & independent',
-  'Ships worldwide',
+  '◆ 1 entry per $1 spent',
+  'Drop 1',
+  '◆ Win $250 + custom Lootix hoodie & tee',
+  'No purchase necessary · free entry by mail',
+  '◆ Winner drawn at random on RANDOM.ORG',
+  'Ships to the US only',
 ];
 
-export const NAV = [
+/** `live` marks the tab that gets the LIVE badge — only while entries are open. */
+export const NAV: { label: string; href: string; live?: boolean }[] = [
   { label: 'Shop', href: '/shop' },
   { label: 'Giveaways', href: '/giveaways', live: true },
   { label: 'Winners', href: '/winners' },
@@ -20,19 +21,47 @@ export const NAV = [
   { label: 'FAQ', href: '/faq' },
 ];
 
-/** Live giveaway — drives countdown + progress everywhere. */
-export const GIVEAWAY = {
-  /** Draw close datetime (local ET). */
-  drawDateISO: '2026-08-01T20:00:00',
-  entriesClaimed: 312,
-  entriesGoal: 1000,
+/**
+ * The live giveaway. THE single source for both giveaway dates.
+ *
+ * Dates are stored as Eastern-time ISO strings WITH the offset, so the close
+ * is pinned to 8 PM ET no matter where the server or the visitor is:
+ *   EDT → '-04:00'   ·   EST (after Nov 1) → '-05:00'
+ *
+ * Both are `null` until the owner sets the real dates. While either is null
+ * the site shows no countdown and no "ends/closed" state, says "Join the
+ * list" instead of "enter to win", and creates no entry rows.
+ */
+export const GIVEAWAY: {
+  id: string;
+  startISO: string | null;
+  drawDateISO: string | null;
+} = {
+  id: 'launch-vault',
+  /** Entry window opens (12:00 AM ET on the start date). */
+  startISO: null,
+  /** Entry window closes — the 8:00 PM ET draw close. */
+  drawDateISO: null,
 };
 
+/** True only when both dates are set and `now` is inside [start, close). */
+export function isEntryWindowOpen(now: Date | number = Date.now()): boolean {
+  if (!GIVEAWAY.startISO || !GIVEAWAY.drawDateISO) return false;
+  const t = typeof now === 'number' ? now : now.getTime();
+  const start = Date.parse(GIVEAWAY.startISO);
+  const close = Date.parse(GIVEAWAY.drawDateISO);
+  if (Number.isNaN(start) || Number.isNaN(close)) return false;
+  return t >= start && t < close;
+}
+
+/** True once the dates exist at all — gates every countdown / "ends" state. */
+export const GIVEAWAY_DATES_SET = Boolean(GIVEAWAY.startISO && GIVEAWAY.drawDateISO);
+
 export const STATS = [
-  { value: '$250', label: 'Launch grand prize' },
-  { value: '100+', label: 'Entries per item, printed on every card' },
-  { value: 'FREE', label: 'Entry method · equal odds' },
-  { value: 'LIVE', label: 'Independent recorded draw' },
+  { value: '$250', label: 'Cash in the launch grand prize' },
+  { value: '1 : $1', label: 'One entry per dollar spent' },
+  { value: 'FREE', label: 'Entry by mail · equal odds' },
+  { value: 'RANDOM.ORG', label: 'Random draw, screen-recorded' },
 ];
 
 export type Product = {
@@ -44,46 +73,51 @@ export type Product = {
   price: string;
   /** numeric dollars — the ONLY price Stripe charges from (server-side) */
   priceValue: number;
-  entries: number;
   edition: string;
   img: string;
 };
 
-/** Drop 1 — real brand photography. */
+/**
+ * Drop 1 — real brand photography.
+ *
+ * No per-product entry counts: entries are earned per dollar of the order
+ * subtotal (see ENTRIES_PER_DOLLAR in src/config/giveaway.ts) and are
+ * computed server-side from the Stripe session, never from this file.
+ */
 export const PRODUCTS: Product[] = [
-  { slug: 'guild-hoodie-black', name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', priceValue: 78, entries: 150, edition: 'ED. 500', img: '/brand/v2/model-back.png' },
-  { slug: 'summon-hoodie', name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', priceValue: 74, entries: 150, edition: 'ED. 500', img: '/brand/v2/model-front.png' },
-  { slug: 'lootix-x1-shadow', name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', priceValue: 140, entries: 300, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png' },
-  { slug: 'welcome-looter-kit', name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', priceValue: 48, entries: 100, edition: 'ED. 500', img: '/brand/v2/unboxing.png' },
+  { slug: 'guild-hoodie-black', name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', priceValue: 78, edition: 'ED. 500', img: '/brand/v2/model-back.png' },
+  { slug: 'summon-hoodie', name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', priceValue: 74, edition: 'ED. 500', img: '/brand/v2/model-front.png' },
+  { slug: 'lootix-x1-shadow', name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', priceValue: 140, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png' },
+  { slug: 'welcome-looter-kit', name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', priceValue: 48, edition: 'ED. 500', img: '/brand/v2/unboxing.png' },
 ];
 
-/** Shop grid — Drop 1. `soldPct` renders the claimed bar when present. */
-export type ShopProduct = Product & { category: string; soldPct?: string };
+/** Shop grid — Drop 1. */
+export type ShopProduct = Product & { category: string };
 
-export const SHOP_CATEGORIES = ['All', 'Hoodies', 'Tees', 'Footwear', 'Quick Entries'] as const;
+export const SHOP_CATEGORIES = ['All', 'Hoodies', 'Tees', 'Footwear', 'Accessories'] as const;
 
 export const SHOP_PRODUCTS: ShopProduct[] = [
-  { slug: 'guild-hoodie-black', name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', priceValue: 78, entries: 150, edition: 'ED. 500', img: '/brand/v2/model-back.png', category: 'Hoodies', soldPct: '62%' },
-  { slug: 'summon-hoodie', name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', priceValue: 74, entries: 150, edition: 'ED. 500', img: '/brand/v2/model-front.png', category: 'Hoodies', soldPct: '48%' },
-  { slug: 'lootix-x1-shadow', name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', priceValue: 140, entries: 300, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png', category: 'Footwear', soldPct: '81%' },
-  { slug: 'welcome-looter-kit', name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', priceValue: 48, entries: 100, edition: 'ED. 500', img: '/brand/v2/unboxing.png', category: 'Tees' },
-  { slug: 'lord-of-flame-tee', name: 'Lord of Flame Tee', sub: 'Heavyweight tee · Back print', price: '$42', priceValue: 42, entries: 100, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
-  { slug: 'nat-20-tee', name: 'Nat 20 Tee', sub: 'Regular fit · Front print', price: '$38', priceValue: 38, entries: 80, edition: 'ED. 500', img: '/brand/v2/tags.png', category: 'Tees' },
-  { slug: 'hoard-dragon-tee', name: 'Hoard Dragon Tee', sub: 'Heavyweight · Camo', price: '$44', priceValue: 44, entries: 100, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
-  { slug: 'guild-sticker-pack', name: 'Guild Sticker Pack', sub: 'Quick entries · 6 stickers', price: '$8', priceValue: 8, entries: 15, edition: 'OPEN', img: '/brand/v2/tags.png', category: 'Quick Entries' },
+  { slug: 'guild-hoodie-black', name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$78', priceValue: 78, edition: 'ED. 500', img: '/brand/v2/model-back.png', category: 'Hoodies' },
+  { slug: 'summon-hoodie', name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$74', priceValue: 74, edition: 'ED. 500', img: '/brand/v2/model-front.png', category: 'Hoodies' },
+  { slug: 'lootix-x1-shadow', name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', priceValue: 140, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png', category: 'Footwear' },
+  { slug: 'welcome-looter-kit', name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', priceValue: 48, edition: 'ED. 500', img: '/brand/v2/unboxing.png', category: 'Tees' },
+  { slug: 'lord-of-flame-tee', name: 'Lord of Flame Tee', sub: 'Heavyweight tee · Back print', price: '$42', priceValue: 42, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
+  { slug: 'nat-20-tee', name: 'Nat 20 Tee', sub: 'Regular fit · Front print', price: '$38', priceValue: 38, edition: 'ED. 500', img: '/brand/v2/tags.png', category: 'Tees' },
+  { slug: 'hoard-dragon-tee', name: 'Hoard Dragon Tee', sub: 'Heavyweight · Camo', price: '$44', priceValue: 44, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
+  { slug: 'guild-sticker-pack', name: 'Guild Sticker Pack', sub: '6 die-cut stickers', price: '$8', priceValue: 8, edition: 'OPEN', img: '/brand/v2/tags.png', category: 'Accessories' },
 ];
 
 export const QUICKIES = [
-  { name: 'Guild Sticker Pack', price: '$8', entries: 15 },
-  { name: 'Crest Patch', price: '$12', entries: 25 },
-  { name: 'Looter Beanie', price: '$28', entries: 50 },
-  { name: 'Snap Cap', price: '$32', entries: 60 },
+  { name: 'Guild Sticker Pack', price: '$8' },
+  { name: 'Crest Patch', price: '$12' },
+  { name: 'Looter Beanie', price: '$28' },
+  { name: 'Snap Cap', price: '$32' },
 ];
 
 export const PACKS = [
-  { name: 'Starter Pack', sub: '1 tee · ships free over $75', price: '$35', entries: 60, popular: false, cta: 'Grab Starter' },
-  { name: 'Hero Bundle', sub: 'Hoodie + tee · free shipping', price: '$75', entries: 150, popular: true, cta: 'Grab Hero' },
-  { name: 'Legend Vault', sub: 'Full fit + accessories · best odds', price: '$150', entries: 350, popular: false, cta: 'Grab Legend' },
+  { name: 'Starter Pack', sub: '1 tee', price: '$35', popular: false, cta: 'Grab Starter' },
+  { name: 'Hero Bundle', sub: 'Hoodie + tee', price: '$75', popular: true, cta: 'Grab Hero' },
+  { name: 'Legend Vault', sub: 'Full fit + accessories · ships free over $100', price: '$150', popular: false, cta: 'Grab Legend' },
 ];
 
 /** Future vaults — unlock only after the current one pays out. No fake countdowns. */
@@ -95,15 +129,15 @@ export const UPCOMING = [
 
 export const HOW_STEPS = [
   { n: '01', title: 'Shop the drop', body: 'Cop limited fantasy-streetwear from the current drop. Every piece is numbered — never mass produced.' },
-  { n: '02', title: 'Stack entries', body: 'Every item carries a flat entry count, printed on the card. Your total shows at checkout and in your confirmation email.' },
-  { n: '03', title: 'Win the loot', body: 'An independent third party draws the winner live on stream. Paid fast, announced publicly, verified always.' },
+  { n: '02', title: 'Earn 1 entry per $1', body: 'Every dollar of your order subtotal is one entry. $129.99 earns 129 entries. No purchase necessary — free entry is available by mail.' },
+  { n: '03', title: 'Win the loot', body: 'The winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted, and the winner is named publicly.' },
 ];
 
 export const PROOF = [
-  { icon: '⚖', title: 'Independent draw', body: 'A third-party administrator runs the random draw — never us.' },
-  { icon: '◉', title: 'Recorded live', body: 'Every draw streams live and stays archived on our channels.' },
+  { icon: '⚖', title: 'RANDOM.ORG draw', body: 'The winner is selected at random using RANDOM.ORG, weighted by entry count.' },
+  { icon: '◉', title: 'Screen-recorded', body: 'Every draw is screen-recorded and the recording is posted, with the RANDOM.ORG result link.' },
   { icon: '◆', title: 'Winners published', body: 'Every winner is named on the Winners page and socials, with payout proof.' },
-  { icon: '✉', title: 'Free entry, equal odds', body: 'The mail-in method in the Official Rules carries the same odds as any order.' },
+  { icon: '✉', title: 'Free entry, equal odds', body: 'The free mail-in method in the Official Rules is worth 25 entries per card — no purchase ever required.' },
 ];
 
 export const COMPANY = {
@@ -123,8 +157,8 @@ export const FOOTER_COLS = [
     links: [
       { label: 'Drop 1', href: '/shop' },
       { label: 'Shop All', href: '/shop' },
-      { label: 'Quick Entries', href: '/shop' },
       { label: 'Accessories', href: '/shop' },
+      { label: 'Cart', href: '/cart' },
     ],
   },
   {
@@ -141,9 +175,11 @@ export const FOOTER_COLS = [
     links: [
       { label: 'About', href: '/about' },
       { label: 'FAQ', href: '/faq' },
-      { label: 'Shipping & Returns', href: '/faq' },
-      { label: 'Contact', href: '/faq' },
-      { label: 'Privacy & Terms', href: '/official-rules' },
+      { label: 'Shipping', href: '/shipping' },
+      { label: 'Returns', href: '/returns' },
+      { label: 'Contact', href: '/contact' },
+      { label: 'Privacy', href: '/privacy' },
+      { label: 'Terms', href: '/terms' },
     ],
   },
 ];

@@ -1,5 +1,5 @@
 import { getPrintfulProducts } from '@/utils/printful';
-import { ENTRY_MULTIPLIER } from '@/config/giveaway';
+import { ENTRIES_LABEL, entriesForSubtotal } from '@/config/giveaway';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -27,7 +27,7 @@ export default async function MensPage() {
             <span className="text-cta-primary">Men's</span> Collection
           </h1>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-            Premium streetwear built for gamers who live bold. Every dollar spent = {ENTRY_MULTIPLIER} entries.
+            Premium streetwear built for gamers who live bold. {ENTRIES_LABEL}.
           </p>
         </div>
       </section>
@@ -40,14 +40,14 @@ export default async function MensPage() {
               {products.length > 0 ? `${products.length} products` : 'Collection coming soon'}
             </p>
             <div className="inline-flex items-center gap-2 bg-cta-primary/10 border border-cta-primary/30 rounded-md px-3 py-1.5">
-              <span className="text-cta-primary font-bold text-sm uppercase">{ENTRY_MULTIPLIER}X Entries Active</span>
+              <span className="text-cta-primary font-bold text-sm uppercase">{ENTRIES_LABEL}</span>
             </div>
           </div>
 
           {products.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {products.map((product) => {
-                const entries = Math.floor(product.price * ENTRY_MULTIPLIER);
+                const entries = entriesForSubtotal(product.price);
                 return (
                   <Link key={product.id} href={`/product/${product.slug}`}>
                     <div className="product-card group">
@@ -58,7 +58,7 @@ export default async function MensPage() {
                           fill
                           className="object-cover transition-transform duration-500 group-hover:scale-110"
                         />
-                        <span className="badge-entry">{ENTRY_MULTIPLIER}X</span>
+                        <span className="badge-entry">{ENTRIES_LABEL}</span>
                       </div>
                       <div className="p-4">
                         <h3 className="text-sm font-semibold text-text-primary mb-2 truncate">{product.name}</h3>

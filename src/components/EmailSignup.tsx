@@ -8,8 +8,7 @@ const EmailSignup: FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Integrate with email service
-    console.log('Email submitted:', email);
+    // TODO: Integrate with email service. Never log the address.
     setIsSubmitted(true);
     setEmail('');
   };

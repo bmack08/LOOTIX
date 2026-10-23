@@ -55,22 +55,20 @@ export default function ClaimEntryButton({
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"><path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" /></svg>
         </button>
 
-        <div className="lx-eyebrow mb-3">Launch Giveaway · $250 + Merch</div>
+        <div className="lx-eyebrow mb-3">Launch Giveaway · $250 + Custom Hoodie &amp; Tee</div>
         <h3 className="font-archivo font-black uppercase text-cream text-[26px] leading-[1.05] tracking-[-.02em] mb-2">
           Be the first winner
         </h3>
         <p className="font-archivo text-[14.5px] leading-[1.55] text-muted mb-6">
-          Drop your email to lock in your entries. You&rsquo;ll get a confirmation and first dibs on every drop.
+          Drop your email for drop alerts and first dibs on every release.
         </p>
 
-        <EmailCapture
-          source={source}
-          buttonLabel="Claim My Spot"
-          successMsg="You're entered. Good luck — check your inbox."
-        />
+        {/* Label and success copy come from EmailCapture, which knows whether
+            the entry window is open — no "you're entered" when it isn't. */}
+        <EmailCapture source={source} />
 
         <p className="font-mono text-[10.5px] tracking-[.06em] text-faint mt-5 text-center">
-          No purchase necessary. 18+. See Official Rules for the free entry method.
+          No purchase necessary. 18+, US only. See the Official Rules for the free mail-in entry method.
         </p>
       </div>
     </div>

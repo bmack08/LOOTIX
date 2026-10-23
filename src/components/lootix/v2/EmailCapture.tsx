@@ -1,15 +1,22 @@
 'use client';
 
 import { useState } from 'react';
+import { isEntryWindowOpen } from '@/lib/site';
 
 /**
  * Guild signup — lives on the inverted cream section.
- * Posts to /api/subscribe (Supabase-backed: grants entries + welcome email).
+ * Posts to /api/subscribe (Supabase-backed: list save + sign-up entry).
+ *
+ * Outside the entry window the CTA says "Join the list", never "Enter" —
+ * there is no giveaway to enter and no entry is created.
  */
 export default function EmailCapture({ source = 'newsletter' }: { source?: string }) {
   const [email, setEmail] = useState('');
+  const [honeypot, setHoneypot] = useState('');
   const [state, setState] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
+  const [entered, setEntered] = useState(false);
   const [err, setErr] = useState('');
+  const windowOpen = isEntryWindowOpen();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
@@ -20,10 +27,10 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source }),
+        body: JSON.stringify({ email, source, website: honeypot }),
       });
       const d = await res.json();
-      if (res.ok && d.ok) setState('done');
+      if (res.ok && d.ok) { setEntered(Boolean(d.entered)); setState('done'); }
       else { setState('error'); setErr(d.error || 'Something went wrong.'); }
     } catch {
       setState('error');
@@ -31,8 +38,25 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
     }
   }
 
+  const label = state === 'done'
+    ? (entered ? '✓ Entered' : '✓ On the list')
+    : state === 'loading'
+      ? 'Sending…'
+      : windowOpen ? 'Claim Entries' : 'Join the List';
+
   return (
     <form onSubmit={submit} noValidate className="w-full" style={{ maxWidth: 520 }}>
+      {/* Honeypot — hidden from people, irresistible to bots. */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        value={honeypot}
+        onChange={(e) => setHoneypot(e.target.value)}
+        style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+      />
       <div className="flex gap-3">
         <input
           type="email"
@@ -62,7 +86,7 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
             whiteSpace: 'nowrap',
           }}
         >
-          {state === 'done' ? '✓ In the Guild' : state === 'loading' ? 'Claiming…' : 'Claim Entries'}
+          {label}
         </button>
       </div>
       {state === 'error' && <p className="font-plex mt-3" style={{ fontSize: 12, color: '#8a2c14' }} role="alert">{err}</p>}

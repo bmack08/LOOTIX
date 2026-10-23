@@ -3,7 +3,7 @@
 import { FC, useState, useMemo } from 'react';
 import Image from 'next/image';
 import QuickEntryForm from './QuickEntryForm';
-import { ENTRY_MULTIPLIER, formatEndDate } from '@/config/giveaway';
+import { ENTRIES_LABEL, formatEndDate } from '@/config/giveaway';
 
 // Helper to get a future date
 const getEndDate = (daysFromNow: number = 30) => {
@@ -102,9 +102,9 @@ const ActiveGiveawayGrid: FC = () => {
                 <div className="badge-value">
                   VALUE: {giveaway.value}
                 </div>
-                {/* Entry Multiplier Badge */}
+                {/* Entry rate badge */}
                 <div className="badge-entry">
-                  {ENTRY_MULTIPLIER}X ENTRIES
+                  {ENTRIES_LABEL.toUpperCase()}
                 </div>
               </div>
 

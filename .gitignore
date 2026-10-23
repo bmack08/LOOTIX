@@ -43,3 +43,11 @@ next-env.d.ts
 # Design handoff bundles (reference only, not app code)
 /design_handoff
 /GetLootix Website Evaluation
+
+# Local raffle dev fallback — may contain subscriber emails. Never commit.
+/data
+
+# Installers and test/tooling artifacts
+*.exe
+/.playwright-mcp
+/.tmp-test

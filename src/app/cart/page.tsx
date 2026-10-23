@@ -3,6 +3,8 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useCart } from '@/components/lootix/v2/CartContext';
+import { entriesForSubtotal, ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD } from '@/config/giveaway';
+import { GIVEAWAY_DATES_SET } from '@/lib/site';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -42,7 +44,7 @@ export default function CartPage() {
           <span className="v2-eyebrow">Your cart</span>
           <h1 className="m-0 uppercase" style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: 900 }}>Nothing looted yet</h1>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
-            Every item you add stacks entries toward the Launch Vault — $250 cash + a full merch bundle.
+            Every dollar you spend is one entry toward the Launch Vault — $250 cash plus a custom Lootix hoodie and tee.
           </p>
           <Link href="/shop" className="btn-brass">Shop Drop 1</Link>
         </div>
@@ -73,7 +75,7 @@ export default function CartPage() {
                 <div className="flex-1 min-w-0">
                   <div style={{ fontSize: 15, fontWeight: 700 }}>{l.name}</div>
                   <div className="font-plex text-brass" style={{ fontSize: 11, letterSpacing: '0.06em', marginTop: 3 }}>
-                    ◆ {l.entries * l.qty} ENTRIES
+                    ◆ {entriesForSubtotal(l.price * l.qty)} ENTRIES
                   </div>
                   <button onClick={() => remove(l.slug)} className="font-plex text-stone hover:text-brass-lit transition-colors" style={{ fontSize: 11, marginTop: 6, background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}>
                     Remove
@@ -102,8 +104,11 @@ export default function CartPage() {
 
             {/* the whole point */}
             <div style={{ borderTop: HAIR, borderBottom: HAIR, padding: '16px 0', textAlign: 'center' }}>
-              <div className="font-plex uppercase text-stone" style={{ fontSize: 10.5, letterSpacing: '0.16em' }}>Entries into the Launch Vault</div>
+              <div className="font-plex uppercase text-stone" style={{ fontSize: 10.5, letterSpacing: '0.16em' }}>
+                {GIVEAWAY_DATES_SET ? 'Entries into the Launch Vault' : 'Entries when the giveaway opens'}
+              </div>
               <div className="text-brass-lit" style={{ fontSize: 40, fontWeight: 900, lineHeight: 1.15 }}>{totalEntries.toLocaleString()}</div>
+              <div className="font-plex uppercase text-stone" style={{ fontSize: 10, letterSpacing: '0.12em' }}>{ENTRIES_LABEL}</div>
             </div>
 
             <button onClick={checkout} disabled={busy} className="btn-brass w-full disabled:opacity-70" style={{ cursor: busy ? 'default' : 'pointer' }}>
@@ -112,8 +117,10 @@ export default function CartPage() {
             {err && <p className="font-plex m-0" style={{ fontSize: 11.5, color: '#e08a6b' }} role="alert">{err}</p>}
 
             <p className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>
-              Payments secured by Stripe. Entries are added automatically once payment completes. No purchase necessary to enter — see the{' '}
-              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for the free method with equal odds.
+              Payments secured by Stripe. Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.
+              Entries are {GIVEAWAY_DATES_SET ? 'added automatically once payment completes' : 'credited when the giveaway opens'}, counted
+              from your subtotal before tax and shipping. No purchase necessary to enter — free entry is available by mail, see the{' '}
+              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
             </p>
           </aside>
         </div>

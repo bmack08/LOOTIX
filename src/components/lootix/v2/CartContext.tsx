@@ -1,12 +1,12 @@
 'use client';
 
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { entriesForSubtotal } from '@/config/giveaway';
 
 export type CartLine = {
   slug: string;
   name: string;
   price: number;   // dollars
-  entries: number; // flat entry count per unit
   img: string;
   qty: number;
 };
@@ -19,7 +19,11 @@ type CartCtx = {
   clear: () => void;
   count: number;        // total units
   subtotal: number;     // dollars
-  totalEntries: number; // ← the whole point: entries stack
+  /**
+   * Estimated entries: 1 per $1 of subtotal. An estimate only — the real
+   * count is computed server-side by the Stripe webhook from the paid session.
+   */
+  totalEntries: number;
   ready: boolean;
 };
 
@@ -46,7 +50,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const api = useMemo<CartCtx>(() => {
     const count = lines.reduce((n, l) => n + l.qty, 0);
     const subtotal = lines.reduce((n, l) => n + l.price * l.qty, 0);
-    const totalEntries = lines.reduce((n, l) => n + l.entries * l.qty, 0);
+    const totalEntries = entriesForSubtotal(subtotal);
 
     return {
       lines,

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { useCart } from '@/components/lootix/v2/CartContext';
+import { GIVEAWAY_DATES_SET } from '@/lib/site';
 
 /** Post-payment landing. Stripe redirects here; the webhook grants the entries. */
 export default function OrderSuccessPage() {
@@ -25,15 +26,18 @@ export default function OrderSuccessPage() {
           You&rsquo;re in the vault
         </h1>
         <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7 }}>
-          Payment received — your entries are being added to the Launch Vault right now, and a confirmation email with your
-          entry total is on its way. Gear ships within 2–4 business days.
+          Payment received. {GIVEAWAY_DATES_SET
+            ? 'Your entries — 1 per $1 of your subtotal — are being added to the Launch Vault right now, and a confirmation email with your entry total is on its way.'
+            : 'A confirmation email is on its way. The giveaway has not opened yet, so no entries have been created for this order — we will email you when entries go live.'}{' '}
+          Gear ships within 2–4 business days, to US addresses only.
         </p>
         <div className="flex gap-3.5 flex-wrap justify-center" style={{ marginTop: 8 }}>
           <Link href="/giveaways" className="btn-brass">See the giveaway</Link>
           <Link href="/shop" className="btn-ghost-v2">Keep shopping</Link>
         </div>
         <p className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7, letterSpacing: '0.04em', marginTop: 8 }}>
-          Winner drawn live by an independent third party. No purchase necessary to enter — see the{' '}
+          Winner is selected at random using RANDOM.ORG; the draw is screen-recorded and posted. No purchase necessary to enter —
+          free entry is available by mail, see the{' '}
           <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
         </p>
       </div>

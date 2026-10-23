@@ -1,20 +1,23 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { getLatestWinner } from '@/lib/raffle';
+// Public page: only a PAID, verified winner is named here.
+import { getPublicWinner } from '@/lib/raffle';
+import { GIVEAWAY } from '@/lib/site';
+import { ENTRIES_LABEL, formatEndDate } from '@/config/giveaway';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Winners — The Winners Vault | Lootix',
-  description: 'Every Lootix draw is run by an independent third party, streamed live, and archived. The first name in the Loot Vault is still unclaimed.',
+  description: 'Every Lootix winner is selected at random using RANDOM.ORG, and the draw is screen-recorded and posted. The first name in the Loot Vault is still unclaimed.',
 };
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 const STEPS = [
-  { n: '01', title: 'Independent random draw', body: 'A third-party administrator selects one entry from all eligible entries — purchase and free entries pooled together, equal odds.' },
-  { n: '02', title: 'Streamed live & archived', body: 'The draw is broadcast live on Instagram and Discord and stays archived, timestamped, forever.' },
-  { n: '03', title: 'Verified & paid fast', body: 'Winner confirms eligibility, then cash is paid within days — not weeks. Merch ships immediately.' },
+  { n: '01', title: 'Weighted random draw', body: 'The winner is selected at random using RANDOM.ORG across all eligible entries — purchase, mail-in and sign-up entries pooled into one draw.' },
+  { n: '02', title: 'Screen-recorded & posted', body: 'The draw is screen-recorded and the recording is posted, along with the RANDOM.ORG result page for the drawn number.' },
+  { n: '03', title: 'Verified & paid fast', body: 'Winner confirms eligibility, then the $250 is paid by PayPal within days — not weeks. Merch ships immediately.' },
   { n: '04', title: 'Etched into the vault', body: 'Name, prize, draw date, and proof-of-payout land on this page — a permanent public record.' },
 ];
 
@@ -23,14 +26,20 @@ const LOCKED = [
   { title: 'Legend Status', body: 'Unlocks at 100 verified winners paid. The guild has a long quest ahead.' },
 ];
 
-// Privacy-safe handle until a real name is collected with permission
-function maskEmail(email: string) {
-  const [local, domain] = email.split('@');
-  return `${local.slice(0, 2)}${'•'.repeat(Math.max(3, local.length - 2))}@${domain ?? ''}`;
+/**
+ * Public display name. Winner records hold a real full name collected for the
+ * paperwork, but only a first name + last initial is published here.
+ */
+function publicName(fullName: string) {
+  const parts = fullName.trim().split(/\s+/).filter(Boolean);
+  if (!parts.length) return 'Winner';
+  if (parts.length === 1) return parts[0];
+  return `${parts[0]} ${parts[parts.length - 1][0]}.`;
 }
 
 export default async function WinnersPage() {
-  const winner = await getLatestWinner();
+  const winner = await getPublicWinner();
+  const closeDate = GIVEAWAY.drawDateISO ? formatEndDate(new Date(GIVEAWAY.drawDateISO)) : null;
 
   return (
     <div className="text-parchment">
@@ -46,7 +55,7 @@ export default async function WinnersPage() {
           </h1>
           <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 17, lineHeight: 1.65 }}>
             {winner
-              ? 'We have our first winner. The next vault resets when Drop 002 opens — every order is a shot at it.'
+              ? `We have our first winner. The next vault resets when Drop 002 opens — ${ENTRIES_LABEL}, or enter free by mail.`
               : "No one has won yet — Lootix launched with Drop 1 and the first draw hasn't closed. The first name etched here could be yours."}
           </p>
           <Link href="/shop" className="btn-brass" style={{ marginTop: 10 }}>Claim It First</Link>
@@ -67,15 +76,26 @@ export default async function WinnersPage() {
             >
               {winner ? '◆ Claimed' : '◆ Unclaimed'}
             </span>
-            <span className="text-parchment break-all" style={{ fontSize: winner ? 20 : 28, fontWeight: 900, letterSpacing: '0.04em' }}>
-              {winner ? maskEmail(winner.winner_email) : '— YOUR NAME —'}
+            <span className="text-parchment break-all" style={{ fontSize: winner ? 24 : 28, fontWeight: 900, letterSpacing: '0.04em' }}>
+              {winner ? publicName(winner.full_name) : '— YOUR NAME —'}
             </span>
             <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.14em' }}>First Winner · Launch Vault</span>
             <p className="m-0 text-stone" style={{ fontSize: 14, lineHeight: 1.6 }}>
               {winner
-                ? `Drawn ${new Date(winner.created_at).toLocaleDateString()} from ${winner.total_entries.toLocaleString()} entries by an independent third party.`
-                : 'The first name ever etched into the Loot Vault. Every Drop 1 order is a shot at it.'}
+                ? `Drawn ${formatEndDate(new Date(winner.drawn_at))} at random on RANDOM.ORG from ${winner.total_entries.toLocaleString()} entries.`
+                : `The first name ever etched into the Loot Vault. ${ENTRIES_LABEL}, or enter free by mail.`}
             </p>
+            {winner?.draw_verification_url && (
+              <a
+                href={winner.draw_verification_url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-plex text-brass hover:text-brass-lit transition-colors"
+                style={{ fontSize: 11.5, letterSpacing: '0.06em' }}
+              >
+                Verify the draw on RANDOM.ORG →
+              </a>
+            )}
           </div>
 
           {/* Slots 2 & 3 — locked */}
@@ -124,7 +144,8 @@ export default async function WinnersPage() {
         <div className="flex flex-col gap-1.5">
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>Be the first name in the vault</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
-            LAUNCH VAULT · $250 + MERCH BUNDLE · DRAWN LIVE AUG 1
+            LAUNCH VAULT · $250 + CUSTOM HOODIE &amp; TEE ·{' '}
+            {closeDate ? `DRAWN ${closeDate.toUpperCase()} AT 8 PM ET` : 'DRAW DATE COMING SOON'}
           </span>
         </div>
         <Link

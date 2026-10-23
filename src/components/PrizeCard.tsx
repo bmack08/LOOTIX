@@ -3,7 +3,7 @@
 import { FC } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ENTRY_MULTIPLIER } from '@/config/giveaway';
+import { ENTRIES_LABEL, entriesForSubtotal } from '@/config/giveaway';
 
 interface PrizeCardProps {
   title: string;
@@ -48,7 +48,7 @@ const PrizeCard: FC<PrizeCardProps> = ({
           </div>
           {/* Entry Multiplier Badge */}
           <div className="badge-entry">
-            {ENTRY_MULTIPLIER}X ENTRIES
+            {ENTRIES_LABEL.toUpperCase()}
           </div>
         </div>
 

@@ -1,5 +1,5 @@
 import { getPrintfulProductById } from "@/utils/printful";
-import { ENTRY_MULTIPLIER, calculateEntries, formatEntries } from "@/config/giveaway";
+import { ENTRIES_LABEL, entriesForSubtotal, formatEntries } from "@/config/giveaway";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -31,7 +31,7 @@ export default async function ProductPage({ params }: Props) {
     notFound();
   }
 
-  const entries = calculateEntries(product.price);
+  const entries = entriesForSubtotal(product.price);
 
   return (
     <main className="min-h-screen bg-bg-primary text-text-primary py-8 px-4 sm:px-6 lg:px-8">
@@ -61,7 +61,7 @@ export default async function ProductPage({ params }: Props) {
                 priority
               />
               {/* Entry Badge */}
-              <span className="badge-entry">{ENTRY_MULTIPLIER}X ENTRIES</span>
+              <span className="badge-entry">{ENTRIES_LABEL.toUpperCase()}</span>
             </div>
             {/* Additional product images */}
             {product.images.length > 0 && (
@@ -106,7 +106,7 @@ export default async function ProductPage({ params }: Props) {
                 This purchase = {formatEntries(entries)} entries
               </p>
               <span className="inline-block mt-2 bg-cta-primary text-white text-xs font-bold uppercase px-2 py-1 rounded-sm tracking-wider">
-                {ENTRY_MULTIPLIER}X ACTIVE
+                {ENTRIES_LABEL.toUpperCase()}
               </span>
             </div>
 

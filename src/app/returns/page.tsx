@@ -23,7 +23,14 @@ export default function ReturnsPage() {
       <p>If you received the wrong item or your order is missing something, contact us within 14 days and we&rsquo;ll sort it out at no cost to you.</p>
 
       <h2>Refunds</h2>
-      <p>Approved refunds are issued to your original payment method via Stripe, typically within 5–10 business days. Note that giveaway entries earned from a refunded order may be adjusted per the <a href="/official-rules">Official Rules</a>.</p>
+      <p>Approved refunds are issued to your original payment method via Stripe, typically within 5–10 business days.</p>
+
+      <h2>What happens to my giveaway entries?</h2>
+      <p>
+        A <strong>refund or chargeback voids the entries from that order</strong> — they stop counting in the draw, per the{' '}
+        <a href="/official-rules">Official Rules</a>. A <strong>size exchange keeps them</strong>: you still bought the gear, so
+        the entries stand.
+      </p>
 
       <h2>Questions?</h2>
       <p>Email <a href="mailto:hello@getlootix.com">hello@getlootix.com</a> and we&rsquo;ll help.</p>

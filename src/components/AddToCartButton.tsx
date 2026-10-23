@@ -1,6 +1,6 @@
 'use client';
 
-import { ENTRY_MULTIPLIER } from '@/config/giveaway';
+import { ENTRIES_LABEL, entriesForSubtotal } from '@/config/giveaway';
 
 interface AddToCartButtonProps {
   productId: number;
@@ -9,7 +9,7 @@ interface AddToCartButtonProps {
 }
 
 export default function AddToCartButton({ productId, disabled, price }: AddToCartButtonProps) {
-  const entries = price ? Math.floor(price * ENTRY_MULTIPLIER) : 0;
+  const entries = price ? entriesForSubtotal(price) : 0;
 
   const handleAddToCart = () => {
     console.log(`Adding product ${productId} to cart`);

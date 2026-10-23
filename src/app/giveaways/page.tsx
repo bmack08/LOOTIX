@@ -1,17 +1,28 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import Countdown from '@/components/lootix/v2/Countdown';
-import { GIVEAWAY, PACKS, UPCOMING } from '@/lib/site';
+import { GIVEAWAY, GIVEAWAY_DATES_SET, isEntryWindowOpen, PACKS, UPCOMING } from '@/lib/site';
+import {
+  currentGiveaway,
+  formatEndDate,
+  ENTRIES_LABEL,
+  MAIL_IN_ENTRIES,
+  SIGNUP_ENTRIES,
+  FREE_SHIPPING_THRESHOLD,
+  PRIZE_VALUE_PLACEHOLDER,
+} from '@/config/giveaway';
 
 export const metadata: Metadata = {
   title: 'Giveaways — The Launch Vault | Lootix',
-  description: 'The Launch Vault: $250 cash + a full merch bundle, drawn live by an independent third party. No purchase necessary — free entry with equal odds.',
+  description:
+    'The Launch Vault: $250 cash plus a custom Lootix hoodie and tee, drawn at random on RANDOM.ORG. No purchase necessary — free entry by mail with equal odds.',
 };
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
-const pct = Math.min(100, Math.round((GIVEAWAY.entriesClaimed / GIVEAWAY.entriesGoal) * 100));
 
 export default function GiveawaysPage() {
+  const windowOpen = isEntryWindowOpen();
+  const closeDate = GIVEAWAY.drawDateISO ? formatEndDate(new Date(GIVEAWAY.drawDateISO)) : null;
   return (
     <div className="text-parchment">
       {/* CURRENT GIVEAWAY HERO */}
@@ -23,7 +34,8 @@ export default function GiveawaysPage() {
             className="font-plex absolute flex items-center gap-2 uppercase"
             style={{ top: 24, left: 24, background: '#C6A15B', color: '#0C0A07', fontSize: 11, fontWeight: 600, letterSpacing: '0.14em', padding: '6px 12px', borderRadius: 2 }}
           >
-            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0C0A07' }} />Live now
+            <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#0C0A07' }} />
+            {windowOpen ? 'Live now' : 'Opening soon'}
           </span>
         </div>
 
@@ -32,24 +44,40 @@ export default function GiveawaysPage() {
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,60px)', fontWeight: 900, letterSpacing: '-0.01em', lineHeight: 1 }}>The Launch Vault</h1>
           <div className="flex items-baseline gap-3 flex-wrap">
             <span className="text-brass-lit" style={{ fontSize: 52, fontWeight: 900 }}>$250</span>
-            <span className="text-sand" style={{ fontSize: 16 }}>cash + full merch bundle · winner&rsquo;s pick from Drop 1</span>
+            <span className="text-sand" style={{ fontSize: 16 }}>cash + a custom Lootix hoodie and tee</span>
           </div>
+
+          {/* The prize list and its value — the total is a placeholder on purpose. */}
+          <ul className="m-0 flex flex-col gap-1.5" style={{ listStyle: 'none', padding: 0 }}>
+            {currentGiveaway.prizeDetails.map((d) => (
+              <li key={d} className="text-sand" style={{ fontSize: 14.5 }}>◆ {d}</li>
+            ))}
+          </ul>
+          <span className="font-plex text-stone" style={{ fontSize: 11.5, letterSpacing: '0.06em' }}>
+            Approximate retail value: {PRIZE_VALUE_PLACEHOLDER} — item values and the total are still being finalized.
+          </span>
+
           <div style={{ maxWidth: 420 }}><Countdown size="lg" /></div>
-          <div style={{ maxWidth: 420 }}>
-            <div className="flex justify-between font-plex text-stone" style={{ fontSize: 11, marginBottom: 6 }}>
-              <span className="text-sand">{GIVEAWAY.entriesClaimed.toLocaleString()} entries claimed</span>
-              <span>Goal {GIVEAWAY.entriesGoal.toLocaleString()}</span>
-            </div>
-            <div style={{ height: 6, background: '#131009', borderRadius: 3, overflow: 'hidden', border: '1px solid rgba(198,161,91,0.2)' }}>
-              <div style={{ height: '100%', width: `${pct}%`, background: 'linear-gradient(90deg,#C6A15B,#E6C57E)' }} />
-            </div>
+          {!GIVEAWAY_DATES_SET && (
+            <span className="font-plex text-stone" style={{ fontSize: 11.5, letterSpacing: '0.06em' }}>
+              Start and draw dates are not set yet. Join the list and we will email you the moment entries open.
+            </span>
+          )}
+
+          {/* How to earn entries — three methods, one place. */}
+          <div className="flex flex-col gap-1.5">
+            <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.14em' }}>How to enter</span>
+            <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Order — {ENTRIES_LABEL} of your subtotal</span>
+            <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Free by mail — {MAIL_IN_ENTRIES} entries per card, no purchase necessary</span>
+            <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Online sign-up — {SIGNUP_ENTRIES} entries, once per person</span>
           </div>
+
           <div className="flex gap-3.5 flex-wrap">
-            <Link href="/shop" className="btn-brass">Enter &amp; Shop</Link>
+            <Link href="/shop" className="btn-brass">{windowOpen ? 'Enter & Shop' : 'Shop the Drop'}</Link>
             <Link href="/official-rules" className="btn-ghost-v2">Free Entry Method</Link>
           </div>
           <span className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.08em' }}>
-            No purchase necessary · equal odds · 18+ · drawn live by an independent third party
+            No purchase necessary · 18+ · US only · winner selected at random using RANDOM.ORG, weighted by entry count
           </span>
         </div>
       </section>
@@ -60,7 +88,7 @@ export default function GiveawaysPage() {
           <span className="v2-eyebrow">Entry packs</span>
           <h2 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(30px,4.5vw,44px)', fontWeight: 900 }}>Pick your pack</h2>
           <p className="m-0 text-sand" style={{ maxWidth: 520, fontSize: 16, lineHeight: 1.6 }}>
-            Real gear, flat entry counts. Bigger packs stack more entries and ship free.
+            Real gear, {ENTRIES_LABEL}. Spend more and you earn more entries — free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.
           </p>
         </div>
         <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mx-auto" style={{ maxWidth: 1080 }}>
@@ -80,7 +108,7 @@ export default function GiveawaysPage() {
               )}
               <span className="uppercase text-parchment" style={{ fontSize: 20, fontWeight: 800 }}>{pk.name}</span>
               <span className="text-brass-lit" style={{ fontSize: 44, fontWeight: 900 }}>{pk.price}</span>
-              <span className="font-plex text-brass" style={{ fontSize: 13, letterSpacing: '0.08em' }}>◆ {pk.entries} ENTRIES</span>
+              <span className="font-plex text-brass" style={{ fontSize: 13, letterSpacing: '0.08em' }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
               <span className="text-stone" style={{ fontSize: 14, lineHeight: 1.6 }}>{pk.sub}</span>
               <Link
                 href="/shop"
@@ -103,8 +131,9 @@ export default function GiveawaysPage() {
           ))}
         </div>
         <p className="text-center text-stone" style={{ margin: '32px auto 0', maxWidth: 680, fontSize: 12, lineHeight: 1.7 }}>
-          No purchase necessary — a purchase does not increase your chances of winning. Free entry with equal odds via the{' '}
-          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>. 18+.
+          No purchase necessary. Free entry is available by mail — {MAIL_IN_ENTRIES} entries per card, with the same odds per entry as a
+          purchase. See the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for
+          the address and instructions. 18+, US only.
         </p>
       </section>
 
@@ -128,6 +157,7 @@ export default function GiveawaysPage() {
         </div>
         <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em' }}>
           One giveaway at a time, run properly — future vaults open only after the current one pays out. No fake countdowns.
+          {closeDate ? ` Current draw closes ${closeDate} at 8:00 PM ET.` : ' Dates for the current draw are not set yet.'}
         </p>
       </section>
     </div>

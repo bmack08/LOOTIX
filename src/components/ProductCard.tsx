@@ -3,7 +3,7 @@
 import { FC, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { ENTRY_MULTIPLIER } from '@/config/giveaway';
+import { ENTRIES_LABEL, entriesForSubtotal } from '@/config/giveaway';
 
 interface ProductCardProps {
   id: string | number;
@@ -28,7 +28,7 @@ const ProductCard: FC<ProductCardProps> = ({
 
   // Calculate entries based on price
   const displayPrice = salePrice || price;
-  const entries = Math.floor(displayPrice * ENTRY_MULTIPLIER);
+  const entries = entriesForSubtotal(displayPrice);
 
   const href = slug ? `/product/${slug}` : `/product/${id}`;
 
@@ -62,7 +62,7 @@ const ProductCard: FC<ProductCardProps> = ({
           )}
 
           {/* Entry Multiplier Badge */}
-          <span className="badge-entry">{ENTRY_MULTIPLIER}X</span>
+          <span className="badge-entry">{ENTRIES_LABEL}</span>
 
           {/* Quick View Overlay */}
           <div
