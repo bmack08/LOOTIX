@@ -24,20 +24,19 @@ export const ENTRIES_LABEL = '1 entry per $1 spent';
 
 // ── The standard no-purchase disclosure (owner decision, Oct 22 2026) ──
 //
-// This exact sentence must appear — unchanged — wherever entries are mentioned
-// to the public, always next to a link to the free mail-in entry method.
-// Render it with <NoPurchaseNotice> (src/components/NoPurchaseNotice.tsx) so
-// there is one copy of the wording for the whole site, and the plain string
-// below for email HTML.
+// This line (Legal's short form, Option B) must appear - unchanged - wherever
+// entries are mentioned to the public, always next to a link to the free
+// mail-in entry method. Render it with <NoPurchaseNotice>
+// (src/components/NoPurchaseNotice.tsx) so there is one copy of the wording
+// for the whole site, and the plain string below for email HTML.
 //
-// It says "the odds of any ENTRY being selected" on purpose: entries are
-// weighted per dollar, so buying more earns more entries — what a purchase
-// never does is make one entry more likely to be drawn than another. Do NOT
-// reword it to "a purchase does not increase your chances of winning": with a
-// weighted draw that claim is false.
+// Keep "No purchase necessary to enter or win" in every version, and do NOT
+// add a "a purchase doesn't improve your odds" style sentence (Legal's
+// caution notes). It is identical to ODDS_SHORT further down; the page-level
+// long form is ODDS_LONG / ODDS_LONG_MD.
 /** Second half of the line on its own, for copy that already says sentence 1. */
 export const NO_PURCHASE_ODDS_SENTENCE =
-  'A purchase will not increase the odds of any entry being selected.';
+  'Every entry has an equal chance; purchases earn more entries; free entries are available.';
 
 export const NO_PURCHASE_LINE =
   `No purchase necessary to enter or win. ${NO_PURCHASE_ODDS_SENTENCE}`;
@@ -45,7 +44,7 @@ export const NO_PURCHASE_LINE =
 // Option B odds wording (owner decision Oct 23 2026, 2:31 PM ET). Source of
 // truth: Legal's swap list (odds-sentence-swap-list-2026-10-23.md). DRAFT for
 // counsel review. Pass these to <NoPurchaseNotice line={...}> where Legal wants
-// them. NO_PURCHASE_LINE above is still what the pages not yet swapped use.
+// them. NO_PURCHASE_LINE above is now the same text as ODDS_SHORT.
 /** Lead of the short form on its own, so a page can make it the free-entry link. */
 export const ODDS_LEAD = 'No purchase necessary';
 export const ODDS_SHORT_REST =
