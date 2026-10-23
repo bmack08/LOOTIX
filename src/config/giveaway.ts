@@ -100,6 +100,15 @@ export interface GiveawayConfig {
 /** Shown wherever the total prize value would go, until the owner sets it. */
 export const PRIZE_VALUE_PLACEHOLDER = '[TOTAL VALUE TBD]';
 
+// ── The short prize wording, for headlines ──
+//
+// Single source for the one-line version of what a winner gets. There is no
+// constant for the $250 to derive this from — this string is the one place the
+// headline wording lives, and it must stay in step with the three fuller
+// statements of the same prize: Official Rules § 05, currentGiveaway.description
+// and currentGiveaway.prizeDetails (below). If the prize changes, all four move.
+export const PRIZE_HEADLINE = '$250 cash plus a custom hoodie and tee';
+
 // Current active giveaway - UPDATE THIS FOR NEW GIVEAWAYS
 export const currentGiveaway: GiveawayConfig = {
   id: GIVEAWAY.id,

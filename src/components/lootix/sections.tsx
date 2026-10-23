@@ -8,7 +8,10 @@ import type { Draw } from '@/lib/raffle';
 import {
   STATS, VAULT, ENTRY_TIERS, HOW_STEPS, DROPS, MILESTONES,
 } from '@/lib/lootix';
-import { ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, PRIZE_VALUE_PLACEHOLDER } from '@/config/giveaway';
+import {
+  ENTRIES_LABEL, MAIL_IN_ENTRIES, SIGNUP_ENTRIES, PRIZE_VALUE_PLACEHOLDER,
+  PRIZE_HEADLINE, FREE_ENTRY_HREF,
+} from '@/config/giveaway';
 // GIVEAWAY_DATES_SET is a module constant — it only changes when site.ts is
 // edited and redeployed, so evaluating it at build time is correct. Wall-clock
 // checks (isEntryWindowOpen) are NOT build-safe and must not be used here.
@@ -74,9 +77,12 @@ export function Hero() {
             <span className="w-[7px] h-[7px] rounded-full bg-gold" style={{ boxShadow: '0 0 8px rgba(212,175,55,.55)' }} />
             <span className="font-mono text-[11px] tracking-[.22em] uppercase text-gold-label">Live Giveaway · Draw Ends Soon</span>
           </div>
-          <h1 className="font-archivo font-black uppercase text-cream m-0 mb-[22px]" style={{ fontSize: 'clamp(48px,6.6vw,92px)', lineHeight: 0.92, letterSpacing: '-.03em' }}>
+          {/* The prize line is longer than "Win the vault." was, so the clamp is
+              a step smaller — still the largest heading on the page (section h2s
+              top out at 58px). */}
+          <h1 className="font-archivo font-black uppercase text-cream m-0 mb-[22px]" style={{ fontSize: 'clamp(40px,5.4vw,72px)', lineHeight: 0.92, letterSpacing: '-.03em' }}>
             Cop the gear.<br />
-            <span style={{ background: 'linear-gradient(180deg,#F6D87E,#C99B2C)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Win the vault.</span>
+            <span style={{ background: 'linear-gradient(180deg,#F6D87E,#C99B2C)', WebkitBackgroundClip: 'text', backgroundClip: 'text', color: 'transparent' }}>Win {PRIZE_HEADLINE}.</span>
           </h1>
           <p className="font-archivo text-[18px] leading-[1.62] text-[#B7B2A8] max-w-[480px] m-0 mb-[34px]">
             Legendary fantasy streetwear, forged for the fearless. Every order earns{' '}
@@ -89,7 +95,7 @@ export function Hero() {
           </div>
           <div className="flex items-center gap-6 flex-wrap font-archivo text-[13px] text-muted-2">
             <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Winner drawn at random on RANDOM.ORG</span>
-            <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> No purchase necessary</span>
+            <a href={FREE_ENTRY_HREF} className="inline-flex items-center gap-[7px] hover:underline"><Check c="#C9A94A" s={15} /> No purchase necessary</a>
             <span className="inline-flex items-center gap-[7px]"><Check c="#C9A94A" s={15} /> Ships to the US only</span>
           </div>
         </Reveal>
