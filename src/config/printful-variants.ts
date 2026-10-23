@@ -126,7 +126,7 @@ export function unmappedPurchasableKeys(): string[] {
     if (isComingSoon(product)) continue;
     const sizes: readonly string[] = needsSize(product)
       ? (sizesFor(product) as readonly string[])
-      : [ONE_SIZE];
+      : Array.of<string>(ONE_SIZE);
     for (const size of sizes) {
       if (printfulVariantFor(product.slug, size) === null) {
         keys.push(`${product.slug}:${size}`);
