@@ -47,7 +47,7 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
   {
     title: 'Orders & Shipping',
     items: [
-      { q: 'How does shipping work?', a: `We ship to the United States only. Orders ship within 2–4 business days, and US shipping is free on orders of $${FREE_SHIPPING_THRESHOLD} or more. Entries are earned only on orders shipped to eligible U.S. addresses.` },
+      { q: 'How does shipping work?', a: <>We ship to US addresses only. Items are made to order, so see our <Link href="/shipping" className="text-brass hover:text-brass-lit transition-colors">Shipping Policy</Link> for production and delivery times.</> },
       { q: 'Can I return an item?', a: <>Made-to-order gear cannot be returned for change of mind. If an item arrives damaged, defective, or wrong, email hello@getlootix.com within 14 days of delivery for a replacement or refund; see the <Link href="/returns" className="text-brass hover:text-brass-lit transition-colors">Returns</Link> page. A refund voids the entries from that order, per the Official Rules.</> },
       { q: 'Is checkout secure?', a: 'Yes — payments run through Stripe. We never see or store your card details.' },
     ],
