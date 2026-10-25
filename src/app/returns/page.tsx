@@ -14,7 +14,7 @@ export default function ReturnsPage() {
       subtitle="Our gear is made-to-order — here's how returns, defects, and exchanges work."
     >
       <h2>Made-to-order</h2>
-      <p>Most Lootix products are printed on demand just for you, so we can&rsquo;t accept returns for change of mind or incorrect size choices. Please check the size guide before ordering.</p>
+      <p>Size or color exchanges are available within 30 days of delivery for an equal-value item.</p>
 
       <h2>Damaged or defective items</h2>
       <p>If your item arrives damaged, defective, or misprinted, we&rsquo;ll make it right. Email <a href="mailto:hello@getlootix.com">hello@getlootix.com</a> within <strong>14 days</strong> of delivery with your order number and clear photos of the issue. We&rsquo;ll arrange a free replacement or a refund.</p>
