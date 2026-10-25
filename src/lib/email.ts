@@ -103,3 +103,30 @@ export function sendWinner(to: string, prize: string) {
     `),
   );
 }
+
+/**
+ * Opt-out confirmation. Sent once after someone unsubscribes from marketing
+ * email. Transactional, so it is allowed after opt-out; it must not contain
+ * any promotional content. Not wired yet: there is no unsubscribe/opt-out
+ * route in the app. Call this from that route once it exists.
+ */
+const OPT_OUT_CONTACT = 'hello@getlootix.com';
+
+export function optOutConfirmationEmail() {
+  const subject = "You've been unsubscribed from Lootix marketing emails";
+  const html = `
+  <div style="background:#0a0a0b;color:#f4f0e6;font-family:Arial,Helvetica,sans-serif;padding:32px;border-radius:14px;max-width:520px;margin:auto">
+    <div style="font-weight:900;letter-spacing:.3em;font-size:20px;color:#f4f0e6;margin-bottom:24px">LOOTIX</div>
+    <h1 style="font-size:22px;margin:0 0 12px">You're unsubscribed</h1>
+    <p style="color:#c9c4b8;line-height:1.6">This confirms we've removed your email address from Lootix marketing emails. You won't get any more promotional messages from us.</p>
+    <p style="color:#c9c4b8;line-height:1.6">Any giveaway entries you already have are not affected. We may still email you about an order you placed or if you win a prize.</p>
+    <p style="color:#c9c4b8;line-height:1.6">Questions, or unsubscribed by mistake? Contact us at <a href="mailto:${OPT_OUT_CONTACT}" style="color:#e0b83c">${OPT_OUT_CONTACT}</a>.</p>
+    <p style="color:#6b675f;font-size:11px;margin-top:28px;line-height:1.6">${COMPANY_ADDRESS}</p>
+  </div>`;
+  return { subject, html };
+}
+
+export function sendOptOutConfirmation(to: string) {
+  const { subject, html } = optOutConfirmationEmail();
+  return send(to, subject, html);
+}
