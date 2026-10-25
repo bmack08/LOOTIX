@@ -173,14 +173,14 @@ export const UPCOMING = [
 export const HOW_STEPS = [
   { n: '01', title: 'Shop the drop', body: 'Cop limited fantasy-streetwear from the current drop. Every piece is numbered — never mass produced.' },
   { n: '02', title: 'Earn 1 entry per $1', body: 'Every dollar of your order subtotal is one entry. $129.99 earns 129 entries. No purchase necessary — free entry is available by mail.' },
-  { n: '03', title: 'Win the loot', body: 'The winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. The winner is listed by first name, last initial and state.' },
+  { n: '03', title: 'Win the loot', body: 'The winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. The winner is listed by first name and last initial.' },
 ];
 
 /** PRE-START steps: no "earn entries" / "win" language until entries open. */
 export const HOW_STEPS_PRE_START = [
   HOW_STEPS[0],
   { n: '02', title: 'Join the list', body: 'Sign up to hear first when the dates for the Lootix Launch Giveaway are set.' },
-  { n: '03', title: 'Watch the draw', body: 'When a giveaway runs, the winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. The winner is listed by first name, last initial and state.' },
+  { n: '03', title: 'Watch the draw', body: 'When a giveaway runs, the winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. The winner is listed by first name and last initial.' },
 ];
 
 // NOTE: the "25 entries per card" below mirrors MAIL_IN_ENTRIES in
@@ -192,7 +192,7 @@ export const HOW_STEPS_PRE_START = [
 export const PROOF = [
   { icon: '⚖', title: 'RANDOM.ORG draw', body: 'The winner is selected at random using RANDOM.ORG from all eligible entries.' },
   { icon: '◉', title: 'Screen-recorded', body: 'Every draw is screen-recorded and the recording is posted, with the RANDOM.ORG result link.' },
-  { icon: '◆', title: 'Winners published', body: 'Winners are listed on the Winners page by first name, last initial and state.' },
+  { icon: '◆', title: 'Winners published', body: 'Winners are listed on the Winners page by first name and last initial.' },
   { icon: '✉', title: 'Free entry by mail', body: 'The free mail-in method in the Official Rules is worth 25 entries per card. No purchase necessary to enter or win. Every entry has an equal chance of being selected. Your chance of winning depends on the total number of entries received. Purchases earn more entries. Free entries are available (no purchase necessary).' },
 ];
 
