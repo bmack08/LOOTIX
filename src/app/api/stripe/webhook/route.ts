@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import { grantOrderEntries, voidOrderEntries, unvoidOrderEntries } from '@/lib/raffle';
 import { sendWelcome } from '@/lib/email';
 import { recordPaidOrder } from '@/lib/record-order';
+import { agreementFromMetadata } from '@/config/agreement';
 import { isEntryWindowOpen } from '@/lib/site';
 import { entriesForSubtotalCents } from '@/config/giveaway';
 
@@ -176,7 +177,7 @@ export async function POST(req: Request) {
           payment_intent: pi ?? null,
           amount_subtotal: session.amount_subtotal ?? null,
           amount_discount: session.total_details?.amount_discount ?? null,
-        });
+        }, agreementFromMetadata(session.metadata));
         if (result.granted > 0) {
           await sendWelcome(email, entries);
         }

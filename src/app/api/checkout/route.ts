@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { SHOP_PRODUCTS, GIVEAWAY, type ShopProduct } from '@/lib/site';
 import { isComingSoon, isValidSize, needsSize, ONE_SIZE } from '@/config/sizes';
+import { makeAgreement } from '@/config/agreement';
 
 export const runtime = 'nodejs';
 
@@ -25,12 +26,19 @@ export async function POST(req: Request) {
   }
   const stripe = new Stripe(secret);
 
-  let body: { items?: { slug: string; qty: number; size?: string }[]; email?: string };
+  let body: { items?: { slug: string; qty: number; size?: string }[]; email?: string; agreed?: unknown };
   try {
     body = await req.json();
   } catch {
     return NextResponse.json({ ok: false, error: 'Bad request' }, { status: 400 });
   }
+
+  // The required Terms + Official Rules box (Legal, 2026-10-24). Exactly true,
+  // not truthy - the client UI is not trusted to have enforced it.
+  if (body.agreed !== true) {
+    return NextResponse.json({ ok: false, error: 'Please agree to the Terms of Use and Official Rules.' }, { status: 400 });
+  }
+  const agreement = makeAgreement('checkout');
 
   const items = (body.items || []).filter((i) => i && typeof i.slug === 'string');
   if (!items.length) {
@@ -99,7 +107,7 @@ export async function POST(req: Request) {
   const compactItems = Array.from(merged.values())
     .map((l) => `${l.product.slug}:${l.size}:${l.qty}`)
     .join(',');
-  const metadata: Record<string, string> = { giveaway_id: GIVEAWAY.id };
+  const metadata: Record<string, string> = { giveaway_id: GIVEAWAY.id, ...agreement };
   if (compactItems.length <= METADATA_VALUE_MAX) metadata.items = compactItems;
 
   const origin = req.headers.get('origin') || 'https://www.getlootix.com';

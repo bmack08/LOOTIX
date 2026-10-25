@@ -19,6 +19,7 @@
 // ─────────────────────────────────────────────────────────────
 
 import type Stripe from 'stripe';
+import { agreementFromMetadata } from '@/config/agreement';
 import { printfulVariantFor } from '@/config/printful-variants';
 import { ONE_SIZE } from '@/config/sizes';
 import { insertOrderIfNew, ordersDbConfigured, shortOrderNumber } from '@/lib/orders';
@@ -215,6 +216,8 @@ export async function recordPaidOrder(stripe: Stripe, session: Stripe.Checkout.S
 
       printful_order_id: null,
       printful_external_id: orderNumber,
+
+      ...(agreementFromMetadata(session.metadata) ?? {}),
     };
 
     const stored = await insertOrderIfNew(row);

@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { grantSubscription } from '@/lib/raffle';
 import { sendWelcome } from '@/lib/email';
 import { isEntryWindowOpen } from '@/lib/site';
+import { makeAgreement } from '@/config/agreement';
 
 export const runtime = 'nodejs';
 
@@ -53,7 +54,7 @@ function clientIp(req: Request): string {
 }
 
 export async function POST(req: Request) {
-  let body: { email?: string; source?: string; website?: string };
+  let body: { email?: string; source?: string; website?: string; agreed?: unknown };
   try {
     body = await req.json();
   } catch {
@@ -77,8 +78,13 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: 'Please enter a valid email.' }, { status: 422 });
   }
 
+  // The required Official Rules box (Legal, 2026-10-24). Exactly true.
+  if (body.agreed !== true) {
+    return NextResponse.json({ ok: false, error: 'Please agree to the Official Rules.' }, { status: 400 });
+  }
+
   try {
-    const result = await grantSubscription(email, origin);
+    const result = await grantSubscription(email, origin, makeAgreement('signup'));
     // Email once: on a new entry grant, or on a brand-new list signup when
     // there is no giveaway to enter. Repeat submits send nothing.
     if (result.granted > 0 || result.subscriberCreated) {

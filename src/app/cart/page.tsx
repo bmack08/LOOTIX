@@ -47,7 +47,7 @@ export default function CartPage() {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: lines.map((l) => ({ slug: l.slug, qty: l.qty, size: l.size })) }),
+        body: JSON.stringify({ items: lines.map((l) => ({ slug: l.slug, qty: l.qty, size: l.size })), agreed }),
       });
       const d = await res.json();
       if (res.ok && d.ok && d.url) {

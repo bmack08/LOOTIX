@@ -31,7 +31,7 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, source, website: honeypot }),
+        body: JSON.stringify({ email, source, website: honeypot, agreed }),
       });
       const d = await res.json();
       if (res.ok && d.ok) { setEntered(Boolean(d.entered)); setState('done'); }

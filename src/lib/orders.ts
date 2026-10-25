@@ -29,6 +29,7 @@
 // ─────────────────────────────────────────────────────────────
 
 import { createHash } from 'node:crypto';
+import { isMissingAgreementColumn, withoutAgreementColumns } from '@/config/agreement';
 
 // ── The row ──
 
@@ -86,6 +87,12 @@ export type OrderRow = {
   // Printful
   printful_order_id: string | null;
   printful_external_id: string | null;
+
+
+  // agreement record (Legal, 2026-10-24); optional until 20261024_agreement.sql runs
+  agreed_at?: string | null;
+  agreement_version?: string | null;
+  agreement_box?: string | null;
 
   created_at: string;
   updated_at: string;
@@ -206,11 +213,18 @@ export async function insertOrderIfNew(
   };
 
   try {
-    const res = await sbFetch('orders?on_conflict=stripe_session_id', {
-      method: 'POST',
-      headers: { Prefer: 'resolution=ignore-duplicates,return=representation' },
-      body: JSON.stringify(body),
-    });
+    const headers = { Prefer: 'resolution=ignore-duplicates,return=representation' };
+    let res = await sbFetch('orders?on_conflict=stripe_session_id', { method: 'POST', headers, body: JSON.stringify(body) });
+    if (!res.ok && body.agreed_at) {
+      // Agreement columns not in the database yet (20261024_agreement.sql not
+      // run): store the paid order without them rather than lose it. The
+      // agreement stays in the Stripe session metadata.
+      const text = await res.clone().text().catch(() => '');
+      if (isMissingAgreementColumn(res.status, text)) {
+        console.warn('[orders] agreement columns missing - order stored without them (run 20261024_agreement.sql)');
+        res = await sbFetch('orders?on_conflict=stripe_session_id', { method: 'POST', headers, body: JSON.stringify(withoutAgreementColumns(body)) });
+      }
+    }
     if (!res.ok) return { error: `order insert failed (${res.status})` };
 
     const inserted = (await res.json().catch(() => [])) as OrderRow[];

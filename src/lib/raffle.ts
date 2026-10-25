@@ -1,4 +1,5 @@
 import 'server-only';
+import { type Agreement, isMissingAgreementColumn, withoutAgreementColumns } from '@/config/agreement';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { ENTRY_GRANTS } from './lootix';
@@ -99,10 +100,28 @@ export type EntryRow = {
   meta: Record<string, unknown> | null;
   voided_at: string | null;
   void_reason?: string | null;
+  /** Agreement record (Legal, 2026-10-24). Optional until the migration runs. */
+  agreed_at?: string | null;
+  agreement_version?: string | null;
+  agreement_box?: string | null;
   created_at: string;
 };
 
 const SUBSCRIBE_SOURCE = 'subscribe' as const;
+
+/**
+ * Insert an entry row. If the agreement columns are not in the database yet
+ * (migration 20261024_agreement.sql not run), retry once without them - the
+ * agreement is still kept in meta.agreement - so an entry is never lost.
+ */
+async function postEntry(pathname: string, headers: Record<string, string>, row: EntryRow): Promise<Response> {
+  const res = await sbFetch(pathname, { method: 'POST', headers, body: JSON.stringify(row) });
+  if (res.ok || !row.agreed_at) return res;
+  const text = await res.clone().text().catch(() => '');
+  if (!isMissingAgreementColumn(res.status, text)) return res;
+  console.warn('[entries] agreement columns missing - stored in meta only (run 20261024_agreement.sql)');
+  return sbFetch(pathname, { method: 'POST', headers, body: JSON.stringify(withoutAgreementColumns(row)) });
+}
 
 /** Saves the subscriber. Returns true only when the row was newly created. */
 async function upsertSubscriber(email: string, normalized: string, origin: string): Promise<boolean> {
@@ -141,7 +160,11 @@ export type SubscribeResult = {
  * The mailing list save ALWAYS happens. The entry does not: outside the window
  * there is no giveaway to enter, so the caller must not say "you're entered".
  */
-export async function grantSubscription(email: string, origin: string): Promise<SubscribeResult> {
+export async function grantSubscription(
+  email: string,
+  origin: string,
+  agreement?: Agreement | null,
+): Promise<SubscribeResult> {
   const addr = (email || '').trim().toLowerCase();
   const normalized = normalizeEmail(addr);
   const grant = ENTRY_GRANTS[SUBSCRIBE_SOURCE];
@@ -161,9 +184,10 @@ export async function grantSubscription(email: string, origin: string): Promise<
     entries: grant,
     source: SUBSCRIBE_SOURCE,
     order_ref: null,
-    meta: { origin },
+    meta: agreement ? { origin, agreement } : { origin },
     voided_at: null,
     created_at: now,
+    ...(agreement ?? {}),
   };
 
   if (usingSupabase()) {
@@ -183,11 +207,7 @@ export async function grantSubscription(email: string, origin: string): Promise<
       return { ok: true, granted: 0, entered: true, alreadyCredited: true, subscriberCreated };
     }
 
-    const res = await sbFetch('entries', {
-      method: 'POST',
-      headers: { Prefer: 'return=minimal' },
-      body: JSON.stringify(row),
-    });
+    const res = await postEntry('entries', { Prefer: 'return=minimal' }, row);
     if (res.status === 409) {
       return { ok: true, granted: 0, entered: true, alreadyCredited: true, subscriberCreated };
     }
@@ -214,6 +234,7 @@ export async function grantOrderEntries(
   entries: number,
   orderRef: string,
   meta?: Record<string, unknown>,
+  agreement?: Agreement | null,
 ): Promise<{ ok: boolean; granted: number; duplicate?: boolean }> {
   const addr = (email || '').trim().toLowerCase();
   const normalized = normalizeEmail(addr);
@@ -228,19 +249,16 @@ export async function grantOrderEntries(
     entries,
     source: 'order',
     order_ref: orderRef,
-    meta: meta ?? null,
+    meta: agreement ? { ...(meta ?? {}), agreement } : meta ?? null,
     voided_at: null,
     created_at: now,
+    ...(agreement ?? {}),
   };
 
   if (usingSupabase()) {
     await upsertSubscriber(addr, normalized, 'order');
     // on_conflict=order_ref + ignore-duplicates → Stripe retries are no-ops.
-    const res = await sbFetch('entries?on_conflict=order_ref', {
-      method: 'POST',
-      headers: { Prefer: 'resolution=ignore-duplicates,return=representation' },
-      body: JSON.stringify(row),
-    });
+    const res = await postEntry('entries?on_conflict=order_ref', { Prefer: 'resolution=ignore-duplicates,return=representation' }, row);
     if (!res.ok) throw new Error(`order entries insert failed (${res.status})`);
     const inserted = (await res.json().catch(() => [])) as unknown[];
     if (!inserted.length) return { ok: true, granted: 0, duplicate: true };
