@@ -15,10 +15,10 @@ export default function TermsPage() {
       <p>{"Last updated: [EFFECTIVE DATE]. These Terms are between you and Lootix LLC, a Maryland limited liability company (\"Lootix,\" \"we\"), Lootix LLC, 9 Aberdeen Shopping Plz, Unit B #3017, Aberdeen, MD 21001, hello@getlootix.com. By using the site, placing an order, signing up, or entering a giveaway, you agree to these Terms and the Privacy Policy."}</p>
 
       <h2>{"1. Eligibility and accounts"}</h2>
-      <p>{"You must be 18 or older to use the site or buy. You're responsible for your account and its activity. We ship to [U.S. only / the countries shown at checkout]. "}<strong>{"Only U.S. residents (50 states + D.C.) are eligible for sweepstakes entries; orders shipped outside the U.S. do not earn entries."}</strong></p>
+      <p>{"You must be 18 or older to use the site or buy. You're responsible for your account and its activity. We ship to U.S. addresses only. "}<strong>{"Only U.S. residents (50 states + D.C.) are eligible for sweepstakes entries; orders shipped outside the U.S. do not earn entries."}</strong></p>
 
       <h2>{"2. Orders and payments"}</h2>
-      <p>{"Payments are processed by Stripe. Prices are in USD. We may cancel orders for suspected fraud or pricing errors and refund you. Products are made to order; production takes [2\u20137] business days plus shipping transit (see "}<a href="/shipping">{"/shipping"}</a>{")."}</p>
+      <p>{"Payments are processed by Stripe. Prices are in USD. We may cancel orders for suspected fraud or pricing errors and refund you. Products are made to order; production takes 2\u20137 business days plus shipping transit (see "}<a href="/shipping">{"/shipping"}</a>{")."}</p>
 
       <h2>{"3. Returns and refunds"}</h2>
       <p>{"Made-to-order items can't be returned for change of mind. Defective, damaged, or wrong items must be reported within 14 days of delivery for a replacement or refund. Size exchanges: allowed within [30] days of delivery for an equal-value item in a different size or color; the exchange keeps any sweepstakes entries the order earned. If an order is fully refunded or charged back, any sweepstakes entry it earned is void. If there is a problem with an order, please email hello@getlootix.com first so we can try to fix it before you dispute the charge with your bank; this does not limit any right you have with your card issuer. If a refund or chargeback is reversed or resolved in your favor and the order stands, the entries are restored."}</p>
