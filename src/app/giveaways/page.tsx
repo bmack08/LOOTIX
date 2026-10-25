@@ -60,13 +60,16 @@ export default function GiveawaysPage() {
 
           {/* The prize list and its value — the total is a placeholder on purpose. */}
           <ul className="m-0 flex flex-col gap-1.5" style={{ listStyle: 'none', padding: 0 }}>
-            {currentGiveaway.prizeDetails.map((d) => (
+            {/* Legal 2026-10-24: no ARV / dollar value of the prize items pre-start. */}
+            {currentGiveaway.prizeDetails.map((d) => (windowOpen ? d : d.replace(/\s*\(ARV [^)]*\)/, ''))).map((d) => (
               <li key={d} className="text-sand" style={{ fontSize: 14.5 }}>◆ {d}</li>
             ))}
           </ul>
-          <span className="font-plex text-stone" style={{ fontSize: 11.5, letterSpacing: '0.06em' }}>
-            Approximate retail value: {PRIZE_VALUE_PLACEHOLDER} — item values and the total are still being finalized.
-          </span>
+          {windowOpen && (
+            <span className="font-plex text-stone" style={{ fontSize: 11.5, letterSpacing: '0.06em' }}>
+              Approximate retail value: {PRIZE_VALUE_PLACEHOLDER} — item values and the total are still being finalized.
+            </span>
+          )}
 
           <div style={{ maxWidth: 420 }}><Countdown size="lg" /></div>
           {drawDate && (
@@ -99,15 +102,18 @@ export default function GiveawaysPage() {
 
           <div className="flex gap-3.5 flex-wrap">
             <Link href="/shop" className="btn-brass">{windowOpen ? 'Enter & Shop' : 'Shop the Drop'}</Link>
-            <Link href="/official-rules" className="btn-ghost-v2">Free Entry Method</Link>
+            {windowOpen && <Link href="/official-rules" className="btn-ghost-v2">Free Entry Method</Link>}
           </div>
+          {!windowOpen && (
+            <span className="text-sand" style={{ fontSize: 14.5 }}>Free ways to enter will be in the Official Rules when the giveaway opens.</span>
+          )}
           {windowOpen ? (
             <NoPurchaseNotice as="span" className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
               18+ · US only · winner selected at random using RANDOM.ORG, from all eligible entries.
             </NoPurchaseNotice>
           ) : (
             <span className="font-plex text-stone" style={{ fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
-              18+ \u00b7 US only \u00b7 winner selected at random using RANDOM.ORG from all eligible entries.
+              18+ · US only · winner selected at random using RANDOM.ORG from all eligible entries.
             </span>
           )}
         </div>
@@ -120,8 +126,8 @@ export default function GiveawaysPage() {
           <h2 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(30px,4.5vw,44px)', fontWeight: 900 }}>Pick your pack</h2>
           <p className="m-0 text-sand" style={{ maxWidth: 520, fontSize: 16, lineHeight: 1.6 }}>
             {windowOpen
-              ? <>Real gear, {ENTRIES_LABEL}. Spend more and you earn more entries \u2014 free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.</>
-              : <>Real gear, limited and numbered \u2014 free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.</>}
+              ? <>Real gear, {ENTRIES_LABEL}. Spend more and you earn more entries — free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.</>
+              : <>Real gear, limited and numbered — free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.</>}
           </p>
         </div>
         <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mx-auto" style={{ maxWidth: 1080 }}>
