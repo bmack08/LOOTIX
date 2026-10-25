@@ -24,7 +24,7 @@ const VALUES = [
 const QUEST = [
   { n: '01', title: 'Shop the drop', body: <>Each drop is a limited, numbered collection. When it&rsquo;s gone, it&rsquo;s gone.</> },
   { n: '02', title: `Earn ${ENTRIES_LABEL}`, body: <>Every dollar of your order subtotal is one entry — a $129.99 order earns 129 entries. Your total shows at checkout and in your confirmation email. Prefer not to buy? The free mail-in method in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> is worth {MAIL_IN_ENTRIES} entries per card, with no limit on envelopes.</> },
-  { n: '03', title: 'Watch the draw', body: <>When the window closes at {GIVEAWAY_CLOSE_TIME_LABEL}, the winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted with the RANDOM.ORG result link — no hidden draws, ever.</> },
+  { n: '03', title: 'Watch the draw', body: <>Entries close at {GIVEAWAY_CLOSE_TIME_LABEL}. The winner is drawn on RANDOM.ORG and the draw is screen-recorded. The recording is posted with the RANDOM.ORG result link.</> },
   { n: '04', title: 'Claim the loot', body: <>Cash is sent by PayPal and the merch ships after the winner is verified. With the winner&rsquo;s permission, the name goes on the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners page</Link>.</> },
 ];
 
