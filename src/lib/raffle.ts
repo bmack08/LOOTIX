@@ -1,5 +1,5 @@
 import 'server-only';
-import { type Agreement, isMissingAgreementColumn, withoutAgreementColumns } from '@/config/agreement';
+import { type Agreement, makeAgreement, isMissingAgreementColumn, withoutAgreementColumns } from '@/config/agreement';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { ENTRY_GRANTS } from './lootix';
@@ -124,20 +124,32 @@ async function postEntry(pathname: string, headers: Record<string, string>, row:
 }
 
 /** Saves the subscriber. Returns true only when the row was newly created. */
-async function upsertSubscriber(email: string, normalized: string, origin: string): Promise<boolean> {
+async function upsertSubscriber(
+  email: string,
+  normalized: string,
+  origin: string,
+  agreement?: Agreement | null,
+): Promise<boolean> {
   const now = new Date().toISOString();
+  const sub: Record<string, unknown> = { email, normalized_email: normalized, source: origin, created_at: now, ...(agreement ?? {}) };
   if (usingSupabase()) {
-    const res = await sbFetch('subscribers?on_conflict=normalized_email', {
-      method: 'POST',
-      headers: { Prefer: 'resolution=ignore-duplicates,return=representation' },
-      body: JSON.stringify({ email, normalized_email: normalized, source: origin, created_at: now }),
-    });
+    const headers = { Prefer: 'resolution=ignore-duplicates,return=representation' };
+    let res = await sbFetch('subscribers?on_conflict=normalized_email', { method: 'POST', headers, body: JSON.stringify(sub) });
+    if (!res.ok && agreement) {
+      // Agreement columns not added yet (20261024_agreement.sql not run):
+      // save the subscriber without them rather than lose the sign-up.
+      const text = await res.clone().text().catch(() => '');
+      if (isMissingAgreementColumn(res.status, text)) {
+        console.warn('[subscribers] agreement columns missing - saved without them (run 20261024_agreement.sql)');
+        res = await sbFetch('subscribers?on_conflict=normalized_email', { method: 'POST', headers, body: JSON.stringify(withoutAgreementColumns(sub)) });
+      }
+    }
     if (!res.ok) throw new Error(`subscriber upsert failed (${res.status})`);
     return ((await res.json().catch(() => [])) as unknown[]).length > 0;
   }
   const subs = await readJsonl<{ normalized_email?: string; email: string }>(FILES.subscribers);
   if (subs.some((s) => (s.normalized_email ?? s.email) === normalized)) return false;
-  await appendJsonl(FILES.subscribers, { email, normalized_email: normalized, source: origin, created_at: now });
+  await appendJsonl(FILES.subscribers, sub);
   return true;
 }
 
@@ -170,7 +182,7 @@ export async function grantSubscription(
   const grant = ENTRY_GRANTS[SUBSCRIBE_SOURCE];
   const now = new Date().toISOString();
 
-  const subscriberCreated = await upsertSubscriber(addr, normalized, origin);
+  const subscriberCreated = await upsertSubscriber(addr, normalized, origin, agreement);
 
   if (!isEntryWindowOpen()) {
     return { ok: true, granted: 0, entered: false, alreadyCredited: false, subscriberCreated };
@@ -387,6 +399,12 @@ export async function logMailInEntry(
   // is stamped voided so it is worth 0 and can never be drawn. This is the
   // one admin path that could otherwise mint live entries while the giveaway
   // is not running.
+  // No checkbox on a card: mailing it is the agreement to the Official Rules,
+  // dated the day the card was received (Legal, 2026-10-25).
+  const receivedMs = Date.parse(`${input.receivedDate}T12:00:00-04:00`);
+  if (Number.isNaN(receivedMs)) return { error: 'Received date is not a valid date.' };
+  const agreement = makeAgreement('mail-in', new Date(receivedMs));
+
   const postmarkMs = Date.parse(`${input.postmarkDate}T12:00:00-04:00`);
   const eligible = !Number.isNaN(postmarkMs) && isEntryWindowOpen(postmarkMs);
 
@@ -403,17 +421,15 @@ export async function logMailInEntry(
       postmark_date: input.postmarkDate,
       received_date: input.receivedDate,
       outside_window: !eligible,
+      agreement,
     },
     voided_at: eligible ? null : now,
     void_reason: eligible ? null : 'postmark outside the entry window',
     created_at: now,
+    ...agreement,
   };
 
-  const res = await sbFetch('entries', {
-    method: 'POST',
-    headers: { Prefer: 'return=minimal' },
-    body: JSON.stringify(row),
-  });
+  const res = await postEntry('entries', { Prefer: 'return=minimal' }, row);
   if (!res.ok) return { error: `Could not save the card (${res.status}).` };
   return { ok: true, entries: row.entries, eligible };
 }

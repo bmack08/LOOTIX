@@ -7,7 +7,8 @@
 export const TERMS_VERSION = 'terms-2026-10-24';
 export const RULES_VERSION = 'rules-2026-10-24';
 
-export type AgreementBox = 'checkout' | 'signup';
+/** 'mail-in' has no checkbox: mailing the card is the agreement (Legal, 2026-10-25). */
+export type AgreementBox = 'checkout' | 'signup' | 'mail-in';
 
 export type Agreement = {
   agreed_at: string;
@@ -15,7 +16,7 @@ export type Agreement = {
   agreement_box: AgreementBox;
 };
 
-/** Checkout agrees to Terms + Rules; the sign-up box is Rules-only. */
+/** Checkout agrees to Terms + Rules; sign-up and mail-in are Rules-only. */
 export function makeAgreement(box: AgreementBox, at: Date = new Date()): Agreement {
   return {
     agreed_at: at.toISOString(),
