@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useEntryWindow } from '../useEntryWindow';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
+import Link from 'next/link';
 import AgreeCheckbox from '@/components/AgreeCheckbox';
 
 /**
@@ -94,7 +95,10 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
         >
           {label}
         </button>
-      </div>$1      <AgreeCheckbox checked={agreed} onChange={setAgreed} id={`agree-${source}`} disabled={state === 'done'} linkClassName="underline" className="font-plex text-left" style={{ marginTop: 12, fontSize: 12.5, lineHeight: 1.5 }} />$1      {state === 'error' && <p className="font-plex mt-3" style={{ fontSize: 12, color: '#8a2c14' }} role="alert">{err}</p>}
+      </div>
+      <AgreeCheckbox rulesOnly checked={agreed} onChange={setAgreed} id={`agree-${source}`} disabled={state === 'done'} linkClassName="underline" className="font-plex text-left" style={{ marginTop: 12, fontSize: 12.5, lineHeight: 1.5 }} />
+      <p className="font-plex text-left" style={{ marginTop: 6, fontSize: 12.5, lineHeight: 1.5 }}>See our <Link href="/terms" target="_blank" className="underline">Terms of Use</Link> and <Link href="/privacy" target="_blank" className="underline">Privacy Policy</Link>.</p>
+      {state === 'error' && <p className="font-plex mt-3" style={{ fontSize: 12, color: '#8a2c14' }} role="alert">{err}</p>}
       {/* Required on every entry-bearing sign-up form. Colours are inherited
           so this reads correctly on both the dark and the cream sections. */}
       <NoPurchaseNotice
