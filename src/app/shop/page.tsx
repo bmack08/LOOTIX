@@ -108,7 +108,7 @@ export default function ShopPage() {
           </NoPurchaseNotice>
         ) : (
           <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
-            Ships to the US only \u00b7 free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+. See the{' '}
+            Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+. See the{' '}
             <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
           </p>
         )}
