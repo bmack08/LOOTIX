@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { useCart, type CartLine } from '@/components/lootix/v2/CartContext';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
+import AgreeCheckbox from '@/components/AgreeCheckbox';
 import { useEntryWindow } from '@/components/lootix/useEntryWindow';
 import { entriesForSubtotal, ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD } from '@/config/giveaway';
 import { isComingSoon, isValidSize, needsSize } from '@/config/sizes';
@@ -32,13 +33,14 @@ export default function CartPage() {
   const { lines, setQty, remove, subtotal, totalEntries, count, ready } = useCart();
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState('');
+  const [agreed, setAgreed] = useState(false);
   // LIVE only: per-dollar entry cues. PRE-START (default) shows none of them.
   const windowOpen = useEntryWindow();
 
   const hasBlocked = lines.some((l) => blockedReason(l) !== null);
 
   async function checkout() {
-    if (hasBlocked) return;
+    if (hasBlocked || !agreed) return;
     setBusy(true);
     setErr('');
     try {
@@ -156,9 +158,7 @@ export default function CartPage() {
                 <div className="text-brass-lit" style={{ fontSize: 40, fontWeight: 900, lineHeight: 1.15 }}>{totalEntries.toLocaleString()}</div>
                 <div className="font-plex uppercase text-stone" style={{ fontSize: 10, letterSpacing: '0.12em' }}>{ENTRIES_LABEL}</div>
               </div>
-            )}
-
-            <button onClick={checkout} disabled={busy || hasBlocked} className="btn-brass w-full disabled:opacity-70" style={{ cursor: busy || hasBlocked ? 'default' : 'pointer' }}>
+            )}$1<AgreeCheckbox checked={agreed} onChange={setAgreed} id="agree-checkout" className="font-plex text-sand" style={{ fontSize: 13, lineHeight: 1.5 }} />$1<button onClick={checkout} disabled={busy || hasBlocked || !agreed} className="btn-brass w-full disabled:opacity-70" style={{ cursor: busy || hasBlocked || !agreed ? 'default' : 'pointer' }}>
               {busy ? 'Starting checkout…' : 'Secure checkout →'}
             </button>
             {hasBlocked && (
