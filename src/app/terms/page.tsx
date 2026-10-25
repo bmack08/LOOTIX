@@ -29,7 +29,7 @@ export default function TermsPage() {
       <p>{"Entries are earned as stated in the Official Rules (one ("}{ENTRIES_PER_DOLLAR}{") entry per whole U.S. dollar on purchases, twenty-five ("}{MAIL_IN_ENTRIES}{") per free mail-in card, ten ("}{SIGNUP_ENTRIES}{") for a free online sign-up). "}{"Giveaways are not sponsored, endorsed, or administered by Instagram/Meta, TikTok, YouTube, X, Discord, Apple, or Google. If these Terms and a giveaway's Official Rules differ on that giveaway, the Official Rules control. Questions about an entry or a winner decision start with hello@getlootix.com and the steps in the Official Rules (Sections 8A and 11A), then Sections 11 and 12 of these Terms."}</p>
 
       <h2>{"5. Intellectual property"}</h2>
-      <p>{"All site content, designs, and the LOOTIX name and logo belong to Lootix LLC. You may not copy or resell them. See our DMCA policy for copyright complaints."}</p>
+      <p>{"All site content, designs, and the LOOTIX name and logo belong to Lootix LLC. You may not copy or resell them. See "}<a href="/dmca">{"/dmca"}</a>{" for copyright complaints."}</p>
 
       <h2>{"6. Prohibited conduct"}</h2>
       <p>{"No fraud, bots, scraping, multiple identities to gain entries, interference with the site, or buying with intent to return to obtain entries."}</p>
