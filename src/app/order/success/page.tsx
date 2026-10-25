@@ -1,20 +1,26 @@
-'use client';
-
 import Link from 'next/link';
-import { useEffect } from 'react';
-import { useCart } from '@/components/lootix/v2/CartContext';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
-import { GIVEAWAY_DATES_SET } from '@/lib/site';
+import { getOrderEntryCount } from '@/lib/raffle';
+import ClearCart from './ClearCart';
 
-/** Post-payment landing. Stripe redirects here; the webhook grants the entries. */
-export default function OrderSuccessPage() {
-  const { clear } = useCart();
+// Per-request: the entry message depends on what the webhook recorded for this session.
+export const dynamic = 'force-dynamic';
 
-  // payment succeeded — empty the cart
-  useEffect(() => { clear(); }, [clear]);
+/**
+ * Post-payment landing. Stripe redirects here with ?session_id=cs_...; the
+ * webhook grants entries (only inside the entry window, judged at payment
+ * time). We only mention entries the DB actually holds for this session;
+ * otherwise (none yet, out of window, unknown id, DB unavailable) the page
+ * shows a neutral thank-you with no entry claim.
+ */
+export default async function OrderSuccessPage({ searchParams }: { searchParams: Promise<{ session_id?: string | string[] }> }) {
+  const sp = await searchParams;
+  const sid = typeof sp.session_id === 'string' ? sp.session_id : '';
+  const entries = sid ? await getOrderEntryCount(sid) : null;
 
   return (
     <div className="text-parchment" style={{ padding: '96px 24px' }}>
+      <ClearCart />
       <div className="mx-auto text-center flex flex-col gap-5 items-center" style={{ maxWidth: 560 }}>
         <span
           className="grid place-items-center"
@@ -24,12 +30,12 @@ export default function OrderSuccessPage() {
         </span>
         <span className="v2-eyebrow">Order confirmed</span>
         <h1 className="m-0 uppercase" style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: 900, letterSpacing: '-0.01em' }}>
-          You&rsquo;re in the vault
+          {entries ? <>You&rsquo;re in the vault</> : <>Thanks for your order</>}
         </h1>
         <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7 }}>
-          Payment received. {GIVEAWAY_DATES_SET
-            ? 'Your entries — 1 per $1 of your subtotal — are being added to the Lootix Launch Giveaway right now, and a confirmation email with your entry total is on its way.'
-            : 'A confirmation email is on its way. The giveaway has not opened yet, so no entries have been created for this order — we will email you when entries go live.'}{' '}
+          Payment received. {entries
+            ? `${entries} ${entries === 1 ? 'entry was' : 'entries were'} recorded for this order in the Lootix Launch Giveaway, and a confirmation email is on its way.`
+            : 'A confirmation email is on its way.'}{' '}
           Gear ships within 2–4 business days, to US addresses only.
         </p>
         <div className="flex gap-3.5 flex-wrap justify-center" style={{ marginTop: 8 }}>

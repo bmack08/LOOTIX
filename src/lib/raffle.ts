@@ -895,3 +895,30 @@ export async function updateWinner(
   if (!res.ok) return { error: `Could not update the record (${res.status}).` };
   return { ok: true };
 }
+
+/**
+ * Read-only: how many live (non-voided) order entries were recorded for one
+ * Stripe Checkout session. Used by /order/success so the page only claims
+ * entries the webhook actually wrote. Returns null if unknown (bad id,
+ * storage unavailable, any error) so callers fall back to a neutral message.
+ */
+export async function getOrderEntryCount(orderRef: string): Promise<number | null> {
+  if (!/^cs_(test|live)_[A-Za-z0-9]{1,200}$/.test(orderRef)) return null;
+  try {
+    if (usingSupabase()) {
+      const res = await sbFetch(
+        `entries?select=entries&order_ref=eq.${encodeURIComponent(orderRef)}&source=eq.order&voided_at=is.null`,
+        { cache: 'no-store' },
+      );
+      if (!res.ok) return null;
+      const rows = (await res.json()) as { entries: number }[];
+      return rows.reduce((n, r) => n + (Number(r.entries) || 0), 0);
+    }
+    const rows = await readJsonl<EntryRow>(FILES.entries);
+    return rows
+      .filter((r) => r.order_ref === orderRef && r.source === 'order' && !r.voided_at)
+      .reduce((n, r) => n + (Number(r.entries) || 0), 0);
+  } catch {
+    return null;
+  }
+}
