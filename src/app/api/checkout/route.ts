@@ -9,6 +9,36 @@ export const runtime = 'nodejs';
 /** Stripe's hard cap on a single metadata VALUE. */
 const METADATA_VALUE_MAX = 500;
 
+// Per-IP rate limit: 20 checkout attempts / 10 min, in-process (same pattern
+// as /api/subscribe). Best effort only - it stops one instance being hammered
+// into creating Stripe sessions; it is not a global limit.
+const RL_WINDOW_MS = 10 * 60 * 1000;
+const RL_MAX = 20;
+const rlHits = new Map<string, number[]>();
+
+function rateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (rlHits.get(ip) ?? []).filter((t) => now - t < RL_WINDOW_MS);
+  recent.push(now);
+  rlHits.set(ip, recent);
+  if (rlHits.size > 5000) {
+    for (const [k, v] of rlHits) if (!v.some((t) => now - t < RL_WINDOW_MS)) rlHits.delete(k);
+  }
+  return recent.length > RL_MAX;
+}
+
+function clientIp(req: Request): string {
+  const platform = req.headers.get('x-vercel-forwarded-for') || req.headers.get('x-real-ip');
+  if (platform) return platform.trim();
+  const fwd = req.headers.get('x-forwarded-for');
+  if (fwd) {
+    const hops = fwd.split(',').map((h) => h.trim()).filter(Boolean);
+    if (hops.length) return hops[hops.length - 1];
+  }
+  return 'unknown';
+}
+
+
 /**
  * Creates a Stripe Checkout Session.
  *
@@ -20,6 +50,9 @@ const METADATA_VALUE_MAX = 500;
  * payment succeeds.
  */
 export async function POST(req: Request) {
+  if (rateLimited(clientIp(req))) {
+    return NextResponse.json({ ok: false, error: 'Too many attempts. Try again later.' }, { status: 429 });
+  }
   const secret = process.env.STRIPE_SECRET_KEY;
   if (!secret) {
     return NextResponse.json({ ok: false, error: 'Checkout is not configured yet.' }, { status: 503 });
