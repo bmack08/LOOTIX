@@ -10,7 +10,6 @@ import {
   PRIZE_VALUE_PLACEHOLDER,
   PRIZE_HOODIE_ARV,
   PRIZE_TEE_ARV,
-  FREE_SHIPPING_THRESHOLD,
   GIVEAWAY_CLOSE_TIME_LABEL,
   ODDS_SHORT,
   ODDS_LONG,
@@ -136,7 +135,7 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
   { num: '15', title: 'Official Rules', paras: ['These Official Rules are posted at https://www.getlootix.com/official-rules. In case of conflict between these rules and any advertising, FAQ, or social post, these rules control.'] },
   // Threshold comes from src/config/giveaway.ts so the Rules, the FAQ, the
   // shipping page and the cart can never quote different numbers.
-  { num: '16', title: 'Shipping', paras: [`Merchandise ships to addresses in the United States only. Free U.S. shipping applies when the order subtotal is $${FREE_SHIPPING_THRESHOLD} or more, after discounts. Entries are earned only on orders shipped to eligible U.S. addresses.`] },
+  { num: '16', title: 'Shipping', paras: [`Merchandise ships to addresses in the United States only. Shipping charges, if any, do not earn entries. Entries are earned only on orders shipped to eligible U.S. addresses.`] },
 ];
 
 export default function OfficialRulesPage() {
