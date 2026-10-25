@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
-import { GIVEAWAY, isEntryWindowOpen } from '@/lib/site';
+import { GIVEAWAY, GIVEAWAY_DATES_SET, isEntryWindowOpen } from '@/lib/site';
 import { ENTRIES_LABEL, MAIL_IN_ENTRIES, formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
 
 export const metadata: Metadata = {
@@ -18,7 +18,9 @@ const VALUES = [
   { icon: '🛡', title: 'Premium quality', body: 'Built to last. Heavyweight fabrics, embroidered details.' },
   { icon: '◆', title: 'Limited edition', body: 'Numbered runs. Never mass produced, never restocked.' },
   { icon: '⚔', title: 'Designed for adventurers', body: 'Fantasy-forged graphics with streetwear cut and fit.' },
-  { icon: '⚖', title: 'Clear giveaways', body: 'RANDOM.ORG draws, free entry by mail, winners listed with permission.' },
+  { icon: '⚖', title: 'Clear giveaways', body: GIVEAWAY_DATES_SET
+    ? 'RANDOM.ORG draw, screen-recorded \u00b7 free entry by mail or online sign-up \u00b7 winners listed by first name and last initial'
+    : 'RANDOM.ORG draw, screen-recorded \u00b7 free ways to enter once it opens \u00b7 winners listed by first name and last initial' },
 ];
 
 const QUEST = [
