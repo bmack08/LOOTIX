@@ -126,8 +126,8 @@ export default function GiveawaysPage() {
           <h2 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(30px,4.5vw,44px)', fontWeight: 900 }}>Pick your pack</h2>
           <p className="m-0 text-sand" style={{ maxWidth: 520, fontSize: 16, lineHeight: 1.6 }}>
             {windowOpen
-              ? <>Real gear, {ENTRIES_LABEL}. Spend more and you earn more entries — free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.</>
-              : <>Real gear, limited and numbered — free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.</>}
+              ? <>Real gear, {ENTRIES_LABEL}. Spend more and you earn more entries — free shipping during launch.</>
+              : <>Real gear, limited and numbered — free shipping during launch.</>}
           </p>
         </div>
         <div className="grid gap-5 grid-cols-1 md:grid-cols-3 mx-auto" style={{ maxWidth: 1080 }}>

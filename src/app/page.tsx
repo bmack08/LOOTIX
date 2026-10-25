@@ -227,7 +227,7 @@ export default function Home() {
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
             {windowOpen ? (
               <>
-              One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free US shipping at ${FREE_SHIPPING_THRESHOLD}.
+              One winner takes it all: <strong className="text-parchment">$250 cash</strong> plus a <strong className="text-parchment">custom Lootix hoodie and a custom Lootix tee</strong>. Item values and the total are still being finalized. {ENTRIES_LABEL} — free shipping during launch.
               </>
             ) : (
               'The Lootix Launch Giveaway has not opened yet. Join the list to hear when entries open.'

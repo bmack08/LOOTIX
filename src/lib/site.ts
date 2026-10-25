@@ -160,7 +160,7 @@ export const QUICKIES = [
 export const PACKS = [
   { name: 'Starter Pack', sub: '1 tee', price: '$45', popular: false, cta: 'Grab Starter' },
   { name: 'Hero Bundle', sub: 'Hoodie + tee', price: '$130', popular: true, cta: 'Grab Hero' },
-  { name: 'Legend Vault', sub: 'Full fit + accessories · ships free over $100', price: '$150', popular: false, cta: 'Grab Legend' },
+  { name: 'Legend Vault', sub: 'Full fit + accessories · free shipping during launch', price: '$150', popular: false, cta: 'Grab Legend' },
 ];
 
 /** Coming-later teasers are hidden (hidden: true) until a giveaway has its own Official Rules. Countdowns use GIVEAWAY.endDateISO only. */

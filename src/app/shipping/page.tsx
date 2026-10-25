@@ -29,7 +29,7 @@ export default function ShippingPage() {
 
       <h2>Shipping costs</h2>
       <p>
-        Shipping is calculated at checkout. <strong>US shipping is free on orders of ${FREE_SHIPPING_THRESHOLD} or more.</strong>
+        <strong>Shipping is free during launch.</strong>
       </p>
 
       <h2>Tracking</h2>

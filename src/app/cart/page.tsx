@@ -170,14 +170,14 @@ export default function CartPage() {
 
             {windowOpen ? (
               <NoPurchaseNotice className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>
-                Payments secured by Stripe. Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.
+                Payments secured by Stripe. Ships to the US only · free shipping during launch.
                 Entries are {GIVEAWAY_DATES_SET ? 'added automatically once payment completes' : 'credited when the giveaway opens'}, counted
                 from your subtotal before tax and shipping. See the{' '}
                 <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
               </NoPurchaseNotice>
             ) : (
               <p className="font-plex m-0 text-stone" style={{ fontSize: 10.5, lineHeight: 1.7, letterSpacing: '0.04em' }}>
-                Payments secured by Stripe. Ships to the US only · free US shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.
+                Payments secured by Stripe. Ships to the US only · free shipping during launch.
               </p>
             )}
           </aside>
