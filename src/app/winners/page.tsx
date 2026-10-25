@@ -19,7 +19,7 @@ const STEPS = [
   { n: '01', title: 'Random draw', body: 'The winner is selected at random using RANDOM.ORG across all eligible entries — purchase, mail-in and sign-up entries pooled into one draw.' },
   { n: '02', title: 'Screen-recorded & posted', body: 'The draw is screen-recorded and the recording is posted, along with the RANDOM.ORG result page for the drawn number.' },
   { n: '03', title: 'Verified & paid', body: 'After verification, the cash is sent by PayPal and the merch ships; the timing is in the Official Rules.' },
-  { n: '04', title: 'Listed on this page', body: 'After the winner is verified, this page shows their first name, last initial, state, the prize and the draw date. A full name, city, photo, video or proof of payout is shown only if the winner signs our publicity release.' },
+  { n: '04', title: 'Listed on this page', body: 'After the winner is verified, this page shows their first name and last initial, the prize and the draw date. A full name, city, photo, video or proof of payout is shown only if the winner signs our publicity release.' },
 ];
 
 const LOCKED = [
@@ -158,7 +158,7 @@ export default async function WinnersPage() {
         <div className="flex flex-col gap-1.5">
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>{windowOpen ? 'Be the first name in the vault' : 'The Lootix Launch Giveaway'}</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
-            {windowOpen && <>LOOTIX LAUNCH GIVEAWAY \u00b7 $250 CASH PLUS A CUSTOM HOODIE &amp; TEE \u00b7{' '}</>}
+            {windowOpen && <>LOOTIX LAUNCH GIVEAWAY · $250 CASH PLUS A CUSTOM HOODIE &amp; TEE ·{' '}</>}
             {closeDate ? `ENTRIES CLOSE ${closeDate.toUpperCase()} AT ${GIVEAWAY_CLOSE_TIME_LABEL.toUpperCase()}` : 'DATES COMING SOON'}
           </span>
         </div>

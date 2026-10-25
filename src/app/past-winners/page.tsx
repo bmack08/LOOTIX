@@ -48,7 +48,7 @@ export default function PastWinnersPage() {
               : 'No one has won yet. The Lootix Launch Giveaway has not been drawn. The winner will be listed here after the drawing and verification.'}
           </p>
           <p className="text-text-muted text-sm mb-8">
-            We list the winner&apos;s first name, last initial and state. A full name, city, photo or video is shown only if the winner signs our publicity release.
+            We list the winner&apos;s first name and last initial. A full name, city, photo or video is shown only if the winner signs our publicity release.
           </p>
 
           {/* What winners get - prize details only once the giveaway has started (LIVE). */}
