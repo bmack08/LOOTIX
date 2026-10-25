@@ -36,7 +36,8 @@ export default async function OrderSuccessPage({ searchParams }: { searchParams:
           Payment received. {entries
             ? `${entries} ${entries === 1 ? 'entry was' : 'entries were'} recorded for this order in the Lootix Launch Giveaway, and a confirmation email is on its way.`
             : 'A confirmation email is on its way.'}{' '}
-          Gear ships within 2–4 business days, to US addresses only.
+          We ship to US addresses only; see our{' '}
+          <Link href="/shipping" className="text-brass hover:text-brass-lit transition-colors">Shipping Policy</Link> for timing.
         </p>
         <div className="flex gap-3.5 flex-wrap justify-center" style={{ marginTop: 8 }}>
           <Link href="/giveaways" className="btn-brass">See the giveaway</Link>
