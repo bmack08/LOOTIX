@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { NO_PURCHASE_LINE, FREE_ENTRY_HREF, FREE_ENTRY_LINK_TEXT, ODDS_LEAD } from '@/config/giveaway';
+import { GIVEAWAY_DATES_SET } from '@/lib/site';
 
 /**
  * The standard no-purchase disclosure + a link to the free mail-in entry
@@ -39,6 +40,16 @@ export default function NoPurchaseNotice({
   linkLead?: boolean;
   children?: React.ReactNode;
 }) {
+  // PRE-START (dates not set): Legal's pre-start line only (2026-10-24 ruling 7) -
+  // no odds wording, no mail-in link, no page-specific children tail.
+  if (!GIVEAWAY_DATES_SET) {
+    return (
+      <Tag className={className} style={style}>
+        No purchase necessary. The Lootix Launch Giveaway has not started and dates are not set yet.{' '}
+        <Link href="/official-rules" className={linkClassName} style={linkStyle}>Official Rules</Link> will apply once it opens.
+      </Tag>
+    );
+  }
   if (linkLead && line.startsWith(ODDS_LEAD)) {
     return (
       <Tag className={className} style={style}>
