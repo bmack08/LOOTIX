@@ -158,7 +158,9 @@ export default function CartPage() {
                 <div className="text-brass-lit" style={{ fontSize: 40, fontWeight: 900, lineHeight: 1.15 }}>{totalEntries.toLocaleString()}</div>
                 <div className="font-plex uppercase text-stone" style={{ fontSize: 10, letterSpacing: '0.12em' }}>{ENTRIES_LABEL}</div>
               </div>
-            )}$1<AgreeCheckbox checked={agreed} onChange={setAgreed} id="agree-checkout" className="font-plex text-sand" style={{ fontSize: 13, lineHeight: 1.5 }} />$1<button onClick={checkout} disabled={busy || hasBlocked || !agreed} className="btn-brass w-full disabled:opacity-70" style={{ cursor: busy || hasBlocked || !agreed ? 'default' : 'pointer' }}>
+            )}
+            <AgreeCheckbox checked={agreed} onChange={setAgreed} id="agree-checkout" className="font-plex text-sand" style={{ fontSize: 13, lineHeight: 1.5 }} />
+            <button onClick={checkout} disabled={busy || hasBlocked || !agreed} className="btn-brass w-full disabled:opacity-70" style={{ cursor: busy || hasBlocked || !agreed ? 'default' : 'pointer' }}>
               {busy ? 'Starting checkout…' : 'Secure checkout →'}
             </button>
             {hasBlocked && (
