@@ -76,8 +76,8 @@ export default function TermsPage() {
       <h2>{"15. Changes"}</h2>
       <p>{"We may update these Terms; the \"Last updated\" date will change. Material changes apply prospectively: they do not apply to a dispute that began before the change, and we will post them on the site and, where we have your email from an order or account, email you. Changes to Section 12 are governed only by Section 12.11; this Section 15 does not apply to Section 12."}</p>
 
-      <h2>{"16. Accessibility"}</h2>
-      <p>{"We aim to meet WCAG 2.1 AA. If you have trouble using the site, email hello@getlootix.com and we'll help and fix the issue."}</p>
+      <h2 id="accessibility">{"16. Accessibility"}</h2>
+      <p>{"We aim to meet WCAG 2.1 AA. If you have trouble using the site, email hello@getlootix.com and we'll help and fix the issue. (See "}<a href="/terms#accessibility">{"/accessibility"}</a>{".)"}</p>
     </ContentPage>
   );
 }
