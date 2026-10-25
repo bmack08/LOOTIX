@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useEntryWindow } from '../useEntryWindow';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
+import AgreeCheckbox from '@/components/AgreeCheckbox';
 
 /**
  * Guild signup — lives on the inverted cream section.
@@ -17,11 +18,12 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
   const [state, setState] = useState<'idle' | 'loading' | 'done' | 'error'>('idle');
   const [entered, setEntered] = useState(false);
   const [err, setErr] = useState('');
+  const [agreed, setAgreed] = useState(false);
   const windowOpen = useEntryWindow();
 
   async function submit(e: React.FormEvent) {
     e.preventDefault();
-    if (state === 'loading' || state === 'done') return;
+    if (state === 'loading' || state === 'done' || !agreed) return;
     setState('loading');
     setErr('');
     try {
@@ -74,7 +76,7 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
         />
         <button
           type="submit"
-          disabled={state === 'loading' || state === 'done'}
+          disabled={state === 'loading' || state === 'done' || !agreed}
           className="font-archivo uppercase transition-colors"
           style={{
             background: '#171208',
@@ -85,14 +87,14 @@ export default function EmailCapture({ source = 'newsletter' }: { source?: strin
             fontSize: 13,
             fontWeight: 800,
             letterSpacing: '0.12em',
-            cursor: state === 'done' ? 'default' : 'pointer',
+            cursor: state === 'done' || !agreed ? 'default' : 'pointer',
+            opacity: agreed || state === 'done' ? 1 : 0.6,
             whiteSpace: 'nowrap',
           }}
         >
           {label}
         </button>
-      </div>
-      {state === 'error' && <p className="font-plex mt-3" style={{ fontSize: 12, color: '#8a2c14' }} role="alert">{err}</p>}
+      </div>$1      <AgreeCheckbox checked={agreed} onChange={setAgreed} id={`agree-${source}`} disabled={state === 'done'} linkClassName="underline" className="font-plex text-left" style={{ marginTop: 12, fontSize: 12.5, lineHeight: 1.5 }} />$1      {state === 'error' && <p className="font-plex mt-3" style={{ fontSize: 12, color: '#8a2c14' }} role="alert">{err}</p>}
       {/* Required on every entry-bearing sign-up form. Colours are inherited
           so this reads correctly on both the dark and the cream sections. */}
       <NoPurchaseNotice
