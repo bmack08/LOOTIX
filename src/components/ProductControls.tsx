@@ -102,6 +102,7 @@ export default function ProductControls({ productId, variants }: ProductControls
           <button
             className="w-10 h-10 rounded-sm border border-accent-earth/30 flex items-center justify-center hover:border-cta-primary text-text-secondary hover:text-text-primary transition-colors disabled:opacity-30"
             onClick={decreaseQuantity}
+            aria-label="Decrease quantity"
             disabled={quantity <= 1}
           >
             -
@@ -110,6 +111,7 @@ export default function ProductControls({ productId, variants }: ProductControls
           <button
             className="w-10 h-10 rounded-sm border border-accent-earth/30 flex items-center justify-center hover:border-cta-primary text-text-secondary hover:text-text-primary transition-colors disabled:opacity-30"
             onClick={increaseQuantity}
+            aria-label="Increase quantity"
             disabled={quantity >= 10}
           >
             +

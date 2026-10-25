@@ -36,7 +36,7 @@ const EmailSignup: FC = () => {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="Enter your email"
+                placeholder="Enter your email" aria-label="Email address"
                 required
                 className="flex-1 min-w-[200px] px-4 py-3 bg-white text-bg-dark border-none outline-none text-sm"
               />

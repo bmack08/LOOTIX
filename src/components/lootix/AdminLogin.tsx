@@ -34,7 +34,7 @@ export default function AdminLogin() {
           type="password"
           value={pw}
           onChange={(e) => setPw(e.target.value)}
-          placeholder="Admin password"
+          placeholder="Admin password" aria-label="Admin password"
           className="w-full rounded-btn px-4 py-3 font-archivo text-[15px] text-cream outline-none mb-3"
           style={{ background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.16)' }}
         />

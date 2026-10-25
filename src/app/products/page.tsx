@@ -30,7 +30,7 @@ export default async function ProductsPage() {
               <div className="flex justify-between items-center mb-8">
                 <h1 className="heading-2">All Products</h1>
                 <div className="flex items-center gap-4">
-                  <select className="bg-surface border border-lootix-silver/20 rounded-md px-3 py-2 text-sm">
+                  <select aria-label="Sort products" className="bg-surface border border-lootix-silver/20 rounded-md px-3 py-2 text-sm">
                     <option value="newest">Newest</option>
                     <option value="price-low">Price: Low to High</option>
                     <option value="price-high">Price: High to Low</option>

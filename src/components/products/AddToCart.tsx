@@ -43,6 +43,7 @@ export default function AddToCart({ product }: AddToCartProps) {
         <div className="flex items-center space-x-2">
           <button
             onClick={() => setQuantity(Math.max(1, quantity - 1))}
+            aria-label="Decrease quantity"
             className="btn btn-outline w-10 h-10"
             disabled={quantity <= 1}
           >
@@ -51,6 +52,7 @@ export default function AddToCart({ product }: AddToCartProps) {
           <input
             type="number"
             id="quantity"
+            aria-label="Quantity"
             value={quantity}
             onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value) || 1))}
             className="w-20 text-center bg-surface border border-lootix-silver/20 rounded-md"
@@ -58,6 +60,7 @@ export default function AddToCart({ product }: AddToCartProps) {
           />
           <button
             onClick={() => setQuantity(quantity + 1)}
+            aria-label="Increase quantity"
             className="btn btn-outline w-10 h-10"
           >
             +
