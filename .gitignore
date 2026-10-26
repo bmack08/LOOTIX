@@ -51,3 +51,6 @@ next-env.d.ts
 *.exe
 /.playwright-mcp
 /.tmp-test
+
+# Printful design masters (large PNGs) - kept local, not committed
+/design-assets

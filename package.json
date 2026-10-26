@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "check:launch": "node scripts/check-launch-readiness.mjs"
+    "check:launch": "node scripts/check-launch-readiness.mjs",
+    "printful:products": "node scripts/printful-products.mjs"
   },
   "dependencies": {
     "next": "^16.0.7",

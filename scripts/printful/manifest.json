@@ -1,0 +1,27 @@
+{
+  "_note": "Printful first-set manifest. Products are created in the Printful store as store (sync) products only - no orders, no publishing to any sales channel. Fields marked TODO must be filled before --live.",
+  "designDir": "design-assets/first-set",
+  "fileBaseUrl": "TODO_PUBLIC_HTTPS_BASE_URL_FOR_DESIGN_FILES",
+  "colorways": ["Black"],
+  "products": [
+    { "key": "tee-men", "name": "Lootix Box Tee (Men)", "catalogProductId": 917, "status": "LOCKED (placement guide 4.2)",
+      "colors": ["Black", "Vintage Black"], "sizes": ["S","M","L","XL","2XL","3XL"],
+      "retailPrice": "TODO", "files": [{ "type": "default", "placement": "front print", "file": "tee-front.png" }] },
+    { "key": "tee-women", "name": "Lootix Boxy Tee (Women)", "catalogProductId": 862, "status": "CANDIDATE (research: CC 3023CL as women's cut)",
+      "colors": ["Black"], "sizes": ["S","M","L","XL","2XL"],
+      "retailPrice": "TODO", "files": [{ "type": "default", "placement": "front print", "file": "tee-front.png" }] },
+    { "key": "hoodie-men", "name": "Lootix Urban Hoodie (Men)", "catalogProductId": 1420, "status": "LOCKED (placement guide 4.1, unisex blank)",
+      "colors": ["Black"], "sizes": ["S","M","L","XL","2XL","3XL"],
+      "retailPrice": "TODO", "files": [{ "type": "default", "placement": "front print", "file": "hoodie-front.png" }] },
+    { "key": "hoodie-women", "name": "Lootix Relax Hoodie (Women)", "catalogProductId": 1412, "status": "TODO-CONFIRM (placeholder pick: AS Colour 4161)",
+      "colors": ["Black"], "sizes": ["XS","S","M","L","XL","2XL"],
+      "retailPrice": "TODO", "files": [{ "type": "default", "placement": "front print", "file": "hoodie-front.png" }] },
+    { "key": "hat", "name": "Lootix Dad Hat", "catalogProductId": 206, "status": "CANDIDATE (Yupoong 6245CM)",
+      "colors": ["Black"], "sizes": ["One size"],
+      "retailPrice": "TODO", "options": [{ "id": "thread_colors", "value": ["TODO_THREAD_HEX"] }],
+      "files": [{ "type": "default", "placement": "front embroidery", "file": "hat-front-embroidery.png" }] },
+    { "key": "accessory-tote", "name": "Lootix Eco Tote", "catalogProductId": 367, "status": "CANDIDATE (Econscious EC8000)",
+      "colors": ["Black"], "sizes": ["One size"],
+      "retailPrice": "TODO", "files": [{ "type": "default", "placement": "front print", "file": "tote-front.png" }] }
+  ]
+}

@@ -1,0 +1,713 @@
+{
+ "_source": "https://api.printful.com/products/{id} (public, no auth), pulled 2026-10-25",
+ "products": {
+  "917": {
+   "title": "Men's Box Tee | Cotton Heritage MC1087",
+   "file_types": [
+    "embroidery_chest_left",
+    "embroidery_chest_center",
+    "embroidery_sleeve_left_top",
+    "embroidery_sleeve_right_top",
+    "default",
+    "front_large",
+    "back",
+    "back_large",
+    "label_inside",
+    "label_outside",
+    "sleeve_left",
+    "sleeve_right",
+    "front_dtf",
+    "back_dtf",
+    "preview"
+   ],
+   "variants": [
+    {
+     "id": 23581,
+     "color": "Black",
+     "size": "2XL"
+    },
+    {
+     "id": 23582,
+     "color": "Black",
+     "size": "3XL"
+    },
+    {
+     "id": 23583,
+     "color": "Black",
+     "size": "4XL"
+    },
+    {
+     "id": 23579,
+     "color": "Black",
+     "size": "L"
+    },
+    {
+     "id": 23578,
+     "color": "Black",
+     "size": "M"
+    },
+    {
+     "id": 23577,
+     "color": "Black",
+     "size": "S"
+    },
+    {
+     "id": 23580,
+     "color": "Black",
+     "size": "XL"
+    },
+    {
+     "id": 23588,
+     "color": "Navy Blazer",
+     "size": "2XL"
+    },
+    {
+     "id": 23589,
+     "color": "Navy Blazer",
+     "size": "3XL"
+    },
+    {
+     "id": 23590,
+     "color": "Navy Blazer",
+     "size": "4XL"
+    },
+    {
+     "id": 23586,
+     "color": "Navy Blazer",
+     "size": "L"
+    },
+    {
+     "id": 23585,
+     "color": "Navy Blazer",
+     "size": "M"
+    },
+    {
+     "id": 23584,
+     "color": "Navy Blazer",
+     "size": "S"
+    },
+    {
+     "id": 23587,
+     "color": "Navy Blazer",
+     "size": "XL"
+    },
+    {
+     "id": 23595,
+     "color": "Vintage Black",
+     "size": "2XL"
+    },
+    {
+     "id": 23596,
+     "color": "Vintage Black",
+     "size": "3XL"
+    },
+    {
+     "id": 23597,
+     "color": "Vintage Black",
+     "size": "4XL"
+    },
+    {
+     "id": 23593,
+     "color": "Vintage Black",
+     "size": "L"
+    },
+    {
+     "id": 23592,
+     "color": "Vintage Black",
+     "size": "M"
+    },
+    {
+     "id": 23591,
+     "color": "Vintage Black",
+     "size": "S"
+    },
+    {
+     "id": 23594,
+     "color": "Vintage Black",
+     "size": "XL"
+    },
+    {
+     "id": 23602,
+     "color": "Vintage White",
+     "size": "2XL"
+    },
+    {
+     "id": 23603,
+     "color": "Vintage White",
+     "size": "3XL"
+    },
+    {
+     "id": 23604,
+     "color": "Vintage White",
+     "size": "4XL"
+    },
+    {
+     "id": 23600,
+     "color": "Vintage White",
+     "size": "L"
+    },
+    {
+     "id": 23599,
+     "color": "Vintage White",
+     "size": "M"
+    },
+    {
+     "id": 23598,
+     "color": "Vintage White",
+     "size": "S"
+    },
+    {
+     "id": 23601,
+     "color": "Vintage White",
+     "size": "XL"
+    },
+    {
+     "id": 23609,
+     "color": "White",
+     "size": "2XL"
+    },
+    {
+     "id": 23610,
+     "color": "White",
+     "size": "3XL"
+    },
+    {
+     "id": 23611,
+     "color": "White",
+     "size": "4XL"
+    },
+    {
+     "id": 23607,
+     "color": "White",
+     "size": "L"
+    },
+    {
+     "id": 23606,
+     "color": "White",
+     "size": "M"
+    },
+    {
+     "id": 23605,
+     "color": "White",
+     "size": "S"
+    },
+    {
+     "id": 23608,
+     "color": "White",
+     "size": "XL"
+    }
+   ]
+  },
+  "862": {
+   "title": "Women's Heavyweight Boxy T-Shirt | Comfort Colors 3023CL",
+   "file_types": [
+    "embroidery_chest_left",
+    "embroidery_chest_center",
+    "default",
+    "back",
+    "sleeve_left",
+    "sleeve_right",
+    "embroidery_sleeve_left_top",
+    "embroidery_sleeve_right_top",
+    "label_outside",
+    "preview"
+   ],
+   "variants": [
+    {
+     "id": 22604,
+     "color": "Black",
+     "size": "2XL"
+    },
+    {
+     "id": 22594,
+     "color": "Black",
+     "size": "L"
+    },
+    {
+     "id": 22589,
+     "color": "Black",
+     "size": "M"
+    },
+    {
+     "id": 22584,
+     "color": "Black",
+     "size": "S"
+    },
+    {
+     "id": 22599,
+     "color": "Black",
+     "size": "XL"
+    },
+    {
+     "id": 22605,
+     "color": "Ivory",
+     "size": "2XL"
+    },
+    {
+     "id": 22595,
+     "color": "Ivory",
+     "size": "L"
+    },
+    {
+     "id": 22590,
+     "color": "Ivory",
+     "size": "M"
+    },
+    {
+     "id": 22585,
+     "color": "Ivory",
+     "size": "S"
+    },
+    {
+     "id": 22600,
+     "color": "Ivory",
+     "size": "XL"
+    },
+    {
+     "id": 22606,
+     "color": "Orchid",
+     "size": "2XL"
+    },
+    {
+     "id": 22596,
+     "color": "Orchid",
+     "size": "L"
+    },
+    {
+     "id": 22591,
+     "color": "Orchid",
+     "size": "M"
+    },
+    {
+     "id": 22586,
+     "color": "Orchid",
+     "size": "S"
+    },
+    {
+     "id": 22601,
+     "color": "Orchid",
+     "size": "XL"
+    },
+    {
+     "id": 22607,
+     "color": "Pepper",
+     "size": "2XL"
+    },
+    {
+     "id": 22597,
+     "color": "Pepper",
+     "size": "L"
+    },
+    {
+     "id": 22592,
+     "color": "Pepper",
+     "size": "M"
+    },
+    {
+     "id": 22587,
+     "color": "Pepper",
+     "size": "S"
+    },
+    {
+     "id": 22602,
+     "color": "Pepper",
+     "size": "XL"
+    },
+    {
+     "id": 22608,
+     "color": "White",
+     "size": "2XL"
+    },
+    {
+     "id": 22598,
+     "color": "White",
+     "size": "L"
+    },
+    {
+     "id": 22593,
+     "color": "White",
+     "size": "M"
+    },
+    {
+     "id": 22588,
+     "color": "White",
+     "size": "S"
+    },
+    {
+     "id": 22603,
+     "color": "White",
+     "size": "XL"
+    }
+   ]
+  },
+  "1420": {
+   "title": "Unisex Urban Hoodie | Lane Seven LS16001",
+   "file_types": [
+    "embroidery_chest_left",
+    "embroidery_chest_center",
+    "embroidery_wrist_left",
+    "embroidery_wrist_right",
+    "default",
+    "back",
+    "back_large",
+    "sleeve_left",
+    "sleeve_right",
+    "label_outside",
+    "label_inside_dtf",
+    "preview"
+   ],
+   "variants": [
+    {
+     "id": 34390,
+     "color": "Black",
+     "size": "2XL"
+    },
+    {
+     "id": 34393,
+     "color": "Black",
+     "size": "3XL"
+    },
+    {
+     "id": 34384,
+     "color": "Black",
+     "size": "L"
+    },
+    {
+     "id": 34381,
+     "color": "Black",
+     "size": "M"
+    },
+    {
+     "id": 34378,
+     "color": "Black",
+     "size": "S"
+    },
+    {
+     "id": 34387,
+     "color": "Black",
+     "size": "XL"
+    },
+    {
+     "id": 34391,
+     "color": "Sandshell",
+     "size": "2XL"
+    },
+    {
+     "id": 34394,
+     "color": "Sandshell",
+     "size": "3XL"
+    },
+    {
+     "id": 34385,
+     "color": "Sandshell",
+     "size": "L"
+    },
+    {
+     "id": 34382,
+     "color": "Sandshell",
+     "size": "M"
+    },
+    {
+     "id": 34379,
+     "color": "Sandshell",
+     "size": "S"
+    },
+    {
+     "id": 34388,
+     "color": "Sandshell",
+     "size": "XL"
+    },
+    {
+     "id": 34392,
+     "color": "White",
+     "size": "2XL"
+    },
+    {
+     "id": 34395,
+     "color": "White",
+     "size": "3XL"
+    },
+    {
+     "id": 34386,
+     "color": "White",
+     "size": "L"
+    },
+    {
+     "id": 34383,
+     "color": "White",
+     "size": "M"
+    },
+    {
+     "id": 34380,
+     "color": "White",
+     "size": "S"
+    },
+    {
+     "id": 34389,
+     "color": "White",
+     "size": "XL"
+    }
+   ]
+  },
+  "1412": {
+   "title": "Women's Relax Hoodie | AS Colour 4161",
+   "file_types": [
+    "embroidery_chest_left",
+    "embroidery_chest_center",
+    "embroidery_wrist_left",
+    "embroidery_wrist_right",
+    "default",
+    "back",
+    "back_large",
+    "label_outside",
+    "sleeve_left",
+    "sleeve_right",
+    "preview"
+   ],
+   "variants": [
+    {
+     "id": 32057,
+     "color": "Athletic Heather",
+     "size": "2XL"
+    },
+    {
+     "id": 32037,
+     "color": "Athletic Heather",
+     "size": "L"
+    },
+    {
+     "id": 32027,
+     "color": "Athletic Heather",
+     "size": "M"
+    },
+    {
+     "id": 32017,
+     "color": "Athletic Heather",
+     "size": "S"
+    },
+    {
+     "id": 32047,
+     "color": "Athletic Heather",
+     "size": "XL"
+    },
+    {
+     "id": 32007,
+     "color": "Athletic Heather",
+     "size": "XS"
+    },
+    {
+     "id": 32058,
+     "color": "Black",
+     "size": "2XL"
+    },
+    {
+     "id": 32038,
+     "color": "Black",
+     "size": "L"
+    },
+    {
+     "id": 32028,
+     "color": "Black",
+     "size": "M"
+    },
+    {
+     "id": 32018,
+     "color": "Black",
+     "size": "S"
+    },
+    {
+     "id": 32048,
+     "color": "Black",
+     "size": "XL"
+    },
+    {
+     "id": 32008,
+     "color": "Black",
+     "size": "XS"
+    },
+    {
+     "id": 32060,
+     "color": "Charity Pink",
+     "size": "2XL"
+    },
+    {
+     "id": 32040,
+     "color": "Charity Pink",
+     "size": "L"
+    },
+    {
+     "id": 32030,
+     "color": "Charity Pink",
+     "size": "M"
+    },
+    {
+     "id": 32020,
+     "color": "Charity Pink",
+     "size": "S"
+    },
+    {
+     "id": 32050,
+     "color": "Charity Pink",
+     "size": "XL"
+    },
+    {
+     "id": 32010,
+     "color": "Charity Pink",
+     "size": "XS"
+    },
+    {
+     "id": 32062,
+     "color": "Hazy Pink",
+     "size": "2XL"
+    },
+    {
+     "id": 32042,
+     "color": "Hazy Pink",
+     "size": "L"
+    },
+    {
+     "id": 32032,
+     "color": "Hazy Pink",
+     "size": "M"
+    },
+    {
+     "id": 32022,
+     "color": "Hazy Pink",
+     "size": "S"
+    },
+    {
+     "id": 32052,
+     "color": "Hazy Pink",
+     "size": "XL"
+    },
+    {
+     "id": 32012,
+     "color": "Hazy Pink",
+     "size": "XS"
+    },
+    {
+     "id": 32064,
+     "color": "Orchid",
+     "size": "2XL"
+    },
+    {
+     "id": 32044,
+     "color": "Orchid",
+     "size": "L"
+    },
+    {
+     "id": 32034,
+     "color": "Orchid",
+     "size": "M"
+    },
+    {
+     "id": 32024,
+     "color": "Orchid",
+     "size": "S"
+    },
+    {
+     "id": 32054,
+     "color": "Orchid",
+     "size": "XL"
+    },
+    {
+     "id": 32014,
+     "color": "Orchid",
+     "size": "XS"
+    }
+   ]
+  },
+  "206": {
+   "title": "Classic Dad Hat | Yupoong 6245CM",
+   "file_types": [
+    "default",
+    "embroidery_front_large",
+    "back",
+    "right",
+    "left",
+    "front_dtf_hat",
+    "preview"
+   ],
+   "variants": [
+    {
+     "id": 7854,
+     "color": "Black",
+     "size": "One size"
+    },
+    {
+     "id": 9794,
+     "color": "Green Camo",
+     "size": "One size"
+    },
+    {
+     "id": 7855,
+     "color": "Khaki",
+     "size": "One size"
+    },
+    {
+     "id": 7856,
+     "color": "Light Blue",
+     "size": "One size"
+    },
+    {
+     "id": 7857,
+     "color": "Navy",
+     "size": "One size"
+    },
+    {
+     "id": 7858,
+     "color": "Pink",
+     "size": "One size"
+    },
+    {
+     "id": 8745,
+     "color": "Spruce",
+     "size": "One size"
+    },
+    {
+     "id": 7859,
+     "color": "Stone",
+     "size": "One size"
+    },
+    {
+     "id": 7853,
+     "color": "White",
+     "size": "One size"
+    },
+    {
+     "id": 12735,
+     "color": "Cranberry",
+     "size": "One size"
+    },
+    {
+     "id": 12736,
+     "color": "Dark Grey",
+     "size": "One size"
+    }
+   ]
+  },
+  "367": {
+   "title": "Eco Tote Bag | Econscious EC8000",
+   "file_types": [
+    "default",
+    "back",
+    "embroidery_apparel_front",
+    "front_dtf_tote",
+    "back_dtf_tote",
+    "preview"
+   ],
+   "variants": [
+    {
+     "id": 10457,
+     "color": "Black",
+     "size": "One size"
+    },
+    {
+     "id": 10458,
+     "color": "Oyster",
+     "size": "One size"
+    }
+   ]
+  }
+ }
+}
