@@ -31,7 +31,7 @@ export default function ShippingPage() {
       <p>We ship to U.S. addresses only. Shipping is a flat rate per order:</p>
       <ul>
         <li>$8.95 for any order that includes a hoodie</li>
-        <li>$5.95 for orders of tees only</li>
+        <li>$5.95 for orders without a hoodie (tees, hats, accessories)</li>
         <li>Free on orders of $100 or more (merchandise subtotal after discounts, before tax)</li>
       </ul>
       <p>Items are made to order. Please allow 2–7 business days for production, then 3–7 business days in transit. Giveaway entries are based on the merchandise total and never on shipping charges.</p>

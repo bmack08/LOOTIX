@@ -8,7 +8,7 @@ export const FREE_SHIPPING_THRESHOLD = 100;
 
 /** Flat rate, in cents, for any order that includes a hoodie. */
 export const SHIPPING_HOODIE_CENTS = 895;
-/** Flat rate, in cents, for orders of tees only. */
+/** Flat rate, in cents, for orders of tees only (hats/accessories: SHIPPING_OTHER_CENTS, same $5.95). */
 export const SHIPPING_TEES_CENTS = 595;
 /**
  * Flat rate, in cents, for an order without a hoodie that includes a hat,
