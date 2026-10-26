@@ -24,6 +24,7 @@ export default function DmcaPage() {
         <li>A statement that the information in the notice is accurate and, under penalty of perjury, that you are the copyright owner or authorized to act on the owner&rsquo;s behalf.</li>
       </ol>
       <p>Notices missing these elements may not be acted on. Knowingly misrepresenting that material is infringing can make you liable for damages under 17 U.S.C. &sect;512(f).</p>
+      <p>When we receive a valid notice, we will remove or disable access to the material promptly and tell the user who posted it.</p>
 
       <h2>2. Counter-notice</h2>
       <p>If material you posted or supplied was removed because of a takedown notice and you believe it was removed by mistake or misidentification, you may send a counter-notice to our Designated Agent. Under 17 U.S.C. &sect;512(g)(3), it must include:</p>
@@ -36,11 +37,12 @@ export default function DmcaPage() {
       <p>When we receive a valid counter-notice, we will send a copy to the person who sent the original notice. We will restore the material no less than 10 and no more than 14 business days after we receive the counter-notice, unless our Designated Agent first receives notice that the complaining party has filed a court action seeking to stop the activity.</p>
 
       <h2>3. Repeat infringers</h2>
-      <p>In appropriate circumstances, Lootix will terminate the accounts and access of users who are repeat infringers.</p>
+      <p>In appropriate circumstances, Lootix will terminate the accounts, orders, or site access of users who are repeat infringers.</p>
 
       <h2>4. Designated Agent</h2>
       <p>Send notices and counter-notices to our Designated Agent:</p>
       <p>Bennie McCoy<br />Lootix LLC<br />[DMCA AGENT ADDRESS]<br />Email: <a href="mailto:hello@getlootix.com">hello@getlootix.com</a><br />Phone: [PHONE]</p>
+      <p>This contact information matches our designated agent filing with the U.S. Copyright Office.</p>
       <p>Use the subject line &ldquo;DMCA Notice&rdquo; or &ldquo;DMCA Counter-Notice.&rdquo; This contact is for copyright matters only; other messages may not get a response here.</p>
     </ContentPage>
   );
