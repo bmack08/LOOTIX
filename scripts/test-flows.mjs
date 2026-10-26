@@ -70,7 +70,7 @@ for (const [name, lines, cents, rule] of [
   ['hoodie $85 -> $8.95', [{ ...hoodie, qty: 1 }], 895, 'hoodie'],
   ['hoodie+tee $130 -> free', [{ ...hoodie, qty: 1 }, { ...tee, qty: 1 }], 0, 'free'],
   ['3 tees $135 -> free', [{ ...tee, qty: 3 }], 0, 'free'],
-  ['hat-only $30 (hypothetical, no hat in catalog) -> provisional $5.95', [{ category: 'Hats', unitPrice: 30, qty: 1 }], 595, 'other-provisional'],
+  ['hat-only $30 (no hat in catalog yet) -> $5.95', [{ category: 'Hats', unitPrice: 30, qty: 1 }], 595, 'other'],
 ]) {
   await test(`shipping: ${name}`, () => { const q = quoteShipping(lines); eq([q.amountCents, q.rule], [cents, rule], name); });
 }

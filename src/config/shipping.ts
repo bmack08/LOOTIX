@@ -11,11 +11,11 @@ export const SHIPPING_HOODIE_CENTS = 895;
 /** Flat rate, in cents, for orders of tees only. */
 export const SHIPPING_TEES_CENTS = 595;
 /**
- * PROVISIONAL: hats, beanies, accessories, footwear - anything that is not a
- * tee or a hoodie - have no approved rate yet (open owner pick). Until then an
- * order without a hoodie is charged the tee rate. check:launch WARNs on this.
+ * Flat rate, in cents, for an order without a hoodie that includes a hat,
+ * beanie, accessory or other non-tee item (owner decision Oct 25 2026: same
+ * $5.95 as tees - every order without a hoodie ships for $5.95).
  */
-export const SHIPPING_OTHER_CENTS_PROVISIONAL = 595;
+export const SHIPPING_OTHER_CENTS = 595;
 
 /** Delivery estimate shown in Stripe Checkout: 2-7 production + 3-7 transit (see /shipping). */
 export const SHIPPING_DELIVERY_BUSINESS_DAYS = { min: 5, max: 14 } as const;
@@ -32,7 +32,7 @@ export type ShippingLine = { category: string; unitPrice: number; qty: number };
 export type ShippingQuote = {
   amountCents: number;
   label: string;
-  rule: 'free' | 'hoodie' | 'tees' | 'other-provisional';
+  rule: 'free' | 'hoodie' | 'tees' | 'other';
   /** Merchandise subtotal in cents that the rule was judged on. */
   subtotalCents: number;
 };
@@ -40,7 +40,7 @@ export type ShippingQuote = {
 /**
  * Flat shipping for one order.
  * subtotal (after discounts, before tax) >= $100 -> $0; else any hoodie -> $8.95;
- * else tees only -> $5.95; else (contains a non-tee, non-hoodie item) -> provisional $5.95.
+ * else tees only -> $5.95; else (no hoodie, has a hat/beanie/accessory) -> $5.95.
  * `discountCents` is 0 today: checkout offers no discounts or promo codes.
  */
 export function quoteShipping(lines: ShippingLine[], discountCents = 0): ShippingQuote {
@@ -56,5 +56,5 @@ export function quoteShipping(lines: ShippingLine[], discountCents = 0): Shippin
   if (items.every((l) => TEE_CATEGORIES.includes(l.category))) {
     return { amountCents: SHIPPING_TEES_CENTS, label: SHIPPING_LABEL_STANDARD, rule: 'tees', subtotalCents };
   }
-  return { amountCents: SHIPPING_OTHER_CENTS_PROVISIONAL, label: SHIPPING_LABEL_STANDARD, rule: 'other-provisional', subtotalCents };
+  return { amountCents: SHIPPING_OTHER_CENTS, label: SHIPPING_LABEL_STANDARD, rule: 'other', subtotalCents };
 }

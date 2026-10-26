@@ -297,13 +297,6 @@ function checkShippingRates() {
     pass('Stripe shipping rates', codeDefined
       ? `${CHECKOUT_TS} sets code-defined flat rates (inline shipping_rate_data via quoteShipping in ${SHIPPING_TS}).`
       : `${CHECKOUT_TS} configures shipping_options / shipping_rate.`);
-    const ship = readRepoFile(SHIPPING_TS) || '';
-    if (/SHIPPING_OTHER_CENTS_PROVISIONAL/.test(ship)) {
-      warn('Shipping rate for hats/accessories', 'No approved rate for non-tee, non-hoodie items (hats, beanies, accessories, footwear).', [
-        `Code applies the $5.95 tee rate provisionally (SHIPPING_OTHER_CENTS_PROVISIONAL in ${SHIPPING_TS}).`,
-        'Owner pick needed; then set the constant and drop the PROVISIONAL marker.',
-      ]);
-    }
   } else {
     fail('Stripe shipping rates', `${CHECKOUT_TS} sets no shipping_options / shipping_rate.`, [
       `Owner decision: pick a shipping rate for orders under $${threshold}.`,
