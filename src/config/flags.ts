@@ -15,3 +15,7 @@ export const JOIN_LIST_NOTE =
 
 /** Pre-start note on store surfaces and above the checkout button (shown only while off). */
 export const PRE_START_ORDER_NOTE = 'Orders placed before the giveaway starts do not earn entries.';
+
+/** /giveaways body while off: no prize, ARV or dates. */
+export const GIVEAWAY_PLACEHOLDER_BODY =
+  'Coming soon. Official Rules will be posted before entries open. Open to legal U.S. and D.C. residents 18+. No purchase necessary.';

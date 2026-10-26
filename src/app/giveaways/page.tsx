@@ -15,11 +15,13 @@ import {
   ODDS_SHORT,
   ODDS_LONG_MD,
 } from '@/config/giveaway';
+import { GIVEAWAY_ENABLED, GIVEAWAY_PLACEHOLDER_BODY } from '@/config/flags';
 
 export const metadata: Metadata = {
   title: 'Giveaways — Lootix Launch Giveaway | Lootix',
-  description:
-    `The Lootix Launch Giveaway: $250 cash plus a custom Lootix hoodie and tee, drawn at random on RANDOM.ORG. ${ODDS_SHORT}`,
+  description: GIVEAWAY_ENABLED
+    ? `The Lootix Launch Giveaway: $250 cash plus a custom Lootix hoodie and tee, drawn at random on RANDOM.ORG. ${ODDS_SHORT}`
+    : GIVEAWAY_PLACEHOLDER_BODY,
 };
 
 // isEntryWindowOpen() is wall-clock dependent, so this page must not be
@@ -29,6 +31,21 @@ export const revalidate = 60;
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 export default function GiveawaysPage() {
+  // Giveaway off: placeholder only - no prize, ARV, countdown or dates.
+  if (!GIVEAWAY_ENABLED) {
+    return (
+      <div className="text-parchment">
+        <section className="text-center" style={{ padding: '96px 24px', borderBottom: HAIR }}>
+          <div className="mx-auto flex flex-col gap-5 items-center" style={{ maxWidth: 640 }}>
+            <span className="v2-eyebrow">Launch Giveaway</span>
+            <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(36px,6vw,56px)', fontWeight: 900, letterSpacing: '-0.01em', lineHeight: 1 }}>Lootix Launch Giveaway</h1>
+            <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>{GIVEAWAY_PLACEHOLDER_BODY}</p>
+            <Link href="/shop" className="btn-brass">Shop the Drop</Link>
+          </div>
+        </section>
+      </div>
+    );
+  }
   const windowOpen = isEntryWindowOpen();
   // Two different dates: entries close on endDateISO, the draw happens on
   // drawDateISO. Official Rules § 07 points at the draw date shown below.
