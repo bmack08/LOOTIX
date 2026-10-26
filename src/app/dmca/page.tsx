@@ -1,5 +1,5 @@
-// DRAFT FOR LEGAL REVIEW (2026-10-25). Fill [DMCA AGENT ADDRESS] and [PHONE]
-// before launch. Never put a home address here - use a business/agent address.
+// DRAFT FOR LEGAL REVIEW (2026-10-25). Designated agent filled 2026-10-26
+// (Copyright Office registration DMCA-1082295). Never put a home address here - use a business/agent address.
 import type { Metadata } from 'next';
 import ContentPage from '@/components/lootix/ContentPage';
 
@@ -41,7 +41,7 @@ export default function DmcaPage() {
 
       <h2>4. Designated Agent</h2>
       <p>Send notices and counter-notices to our Designated Agent:</p>
-      <p>Bennie McCoy<br />Lootix LLC<br />[DMCA AGENT ADDRESS]<br />Email: <a href="mailto:hello@getlootix.com">hello@getlootix.com</a><br />Phone: [PHONE]</p>
+      <p>Bennie McCoy<br />Lootix LLC<br />9 Aberdeen Shopping Plz, Unit B #3017<br />Aberdeen, MD 21001<br />Phone: 301-605-5308<br />Email: <a href="mailto:admin@getlootix.com">admin@getlootix.com</a><br />Registration number: DMCA-1082295</p>
       <p>This contact information matches our designated agent filing with the U.S. Copyright Office.</p>
       <p>Use the subject line &ldquo;DMCA Notice&rdquo; or &ldquo;DMCA Counter-Notice.&rdquo; This contact is for copyright matters only; other messages may not get a response here.</p>
     </ContentPage>
