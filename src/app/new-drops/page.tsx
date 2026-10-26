@@ -4,6 +4,7 @@ import EntryGate from '@/components/EntryGate';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import Image from 'next/image';
 import Link from 'next/link';
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 
 export const metadata = {
   title: 'New Drops | Lootix',
@@ -92,9 +93,9 @@ export default async function NewDropsPage() {
               <p className="text-text-secondary max-w-md mx-auto mb-6">
                 New designs are in the pipeline. Sign up to get notified when they go live.
               </p>
-              <Link href="/current-giveaway" className="btn-primary">
+              {GIVEAWAY_ENABLED && <Link href="/current-giveaway" className="btn-primary">
                 Enter Giveaway — Free
-              </Link>
+              </Link>}
             </div>
           )}
         </div>

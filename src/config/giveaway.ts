@@ -14,6 +14,7 @@
 // ─────────────────────────────────────────────────────────────
 
 import { GIVEAWAY, SHOP_PRODUCTS } from '@/lib/site';
+export { GIVEAWAY_ENABLED } from './flags';
 
 export const ENTRIES_PER_DOLLAR = 1;
 export const MAIL_IN_ENTRIES = 25;

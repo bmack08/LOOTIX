@@ -7,6 +7,7 @@ import { createPortal } from 'react-dom';
 import { NAV, TICKER, TICKER_PRE_START } from '@/lib/site';
 import { useEntryWindow } from '../useEntryWindow';
 import { useCart } from './CartContext';
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -106,7 +107,7 @@ export default function SiteHeader() {
 
         <div className="flex items-center gap-5 flex-none">
           {/* CTA is contextual, per the designs: Shop page pushes the giveaway, everywhere else pushes the drop */}
-          {pathname.startsWith('/shop') ? (
+          {pathname.startsWith('/shop') && GIVEAWAY_ENABLED ? (
             <Link href="/giveaways" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Enter Giveaway</Link>
           ) : (
             <Link href="/shop" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Shop Drop 1</Link>

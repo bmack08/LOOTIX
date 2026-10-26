@@ -4,6 +4,7 @@ import EntryGate from '@/components/EntryGate';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import Image from 'next/image';
 import Link from 'next/link';
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 
 export const metadata = {
   title: "Men's Collection | Lootix",
@@ -90,11 +91,11 @@ export default async function MensPage() {
                 Drops Coming Soon
               </h2>
               <p className="text-text-secondary max-w-md mx-auto mb-6">
-                Our men's collection is almost ready. Enter the giveaway while you wait.
+                Our men's collection is almost ready.{GIVEAWAY_ENABLED && ' Enter the giveaway while you wait.'}
               </p>
-              <Link href="/current-giveaway" className="btn-primary">
+              {GIVEAWAY_ENABLED && <Link href="/current-giveaway" className="btn-primary">
                 Enter Giveaway — Free
-              </Link>
+              </Link>}
             </div>
           )}
         </div>

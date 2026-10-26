@@ -4,6 +4,7 @@ import EmailCapture from '@/components/lootix/v2/EmailCapture';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY, isEntryWindowOpen, STATS, STATS_PRE_START, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, HOW_STEPS_PRE_START, PROOF, PROOF_PRE_START } from '@/lib/site';
 import { ENTRIES_LABEL, FREE_ENTRY_HREF, FREE_SHIPPING_THRESHOLD, SIGNUP_ENTRIES, ODDS_LEAD, ODDS_SHORT_REST } from '@/config/giveaway';
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 
 // isEntryWindowOpen() is wall-clock dependent, so this page must not be
 // frozen at build time: revalidate so the window state refreshes on its own.
@@ -338,7 +339,7 @@ export default function Home() {
             <EmailCapture source="newsletter" />
           </div>
           <span className="font-plex" style={{ fontSize: 10, letterSpacing: '0.08em', color: '#7A6231' }}>
-            No spam. Unsubscribe anytime. Free entries subject to the Official Rules.
+            No spam. Unsubscribe anytime.{GIVEAWAY_ENABLED && ' Free entries subject to the Official Rules.'}
           </span>
         </div>
       </section>

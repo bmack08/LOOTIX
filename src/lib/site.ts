@@ -1,3 +1,4 @@
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 // ─────────────────────────────────────────────────────────────
 // LOOTIX v2 — "Earn it. Wear it. Loot it."
 // Content config mirroring the GetLootix Website Evaluation designs.
@@ -80,6 +81,7 @@ export const GIVEAWAY: {
 
 /** True only when start + end are set and `now` is inside [start, end). */
 export function isEntryWindowOpen(now: Date | number = Date.now()): boolean {
+  if (!GIVEAWAY_ENABLED) return false;
   if (!GIVEAWAY.startISO || !GIVEAWAY.endDateISO) return false;
   const t = typeof now === 'number' ? now : now.getTime();
   const start = Date.parse(GIVEAWAY.startISO);

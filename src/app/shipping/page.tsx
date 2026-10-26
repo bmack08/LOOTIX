@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import ContentPage from '@/components/lootix/ContentPage';
 import { FREE_SHIPPING_THRESHOLD } from '@/config/giveaway';
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 
 export const metadata: Metadata = {
   title: 'Shipping — Lootix',
@@ -17,8 +18,8 @@ export default function ShippingPage() {
       <h2>Where we ship</h2>
       <p>
         We ship to addresses in the <strong>United States only</strong> (the 50 states and D.C.). We do not ship
-        internationally, and checkout will not accept a non-US shipping address. Giveaway entries are earned only on
-        orders shipped to eligible U.S. addresses — see the <a href="/official-rules">Official Rules</a>.
+        internationally, and checkout will not accept a non-US shipping address.{GIVEAWAY_ENABLED && <> Giveaway entries are earned only on
+        orders shipped to eligible U.S. addresses — see the <a href="/official-rules">Official Rules</a>.</>}
       </p>
 
       <h2>Processing time</h2>
@@ -34,7 +35,7 @@ export default function ShippingPage() {
         <li>$5.95 for orders without a hoodie (tees, hats, accessories)</li>
         <li>Free on orders of $100 or more (merchandise subtotal after discounts, before tax)</li>
       </ul>
-      <p>Items are made to order. Please allow 2–7 business days for production, then 3–7 business days in transit. Giveaway entries are based on the merchandise total and never on shipping charges.</p>
+      <p>Items are made to order. Please allow 2–7 business days for production, then 3–7 business days in transit.{GIVEAWAY_ENABLED && ' Giveaway entries are based on the merchandise total and never on shipping charges.'}</p>
 
       <h2>Tracking</h2>
       <p>You&rsquo;ll get a tracking link by email as soon as your order ships. Questions? Email <a href="mailto:hello@getlootix.com">hello@getlootix.com</a>.</p>
