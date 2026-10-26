@@ -12,3 +12,6 @@ export const GIVEAWAY_ENABLED: boolean = process.env.NEXT_PUBLIC_GIVEAWAY_ENABLE
 /** Pre-start note under the home 'Join the list' line and giveaway card (shown only while off). */
 export const JOIN_LIST_NOTE =
   'Joining the list does not enter you in the giveaway. Entries open when it starts. No purchase necessary.';
+
+/** Pre-start note on store surfaces and above the checkout button (shown only while off). */
+export const PRE_START_ORDER_NOTE = 'Orders placed before the giveaway starts do not earn entries.';

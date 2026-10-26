@@ -1,4 +1,5 @@
 'use client';
+import { GIVEAWAY_ENABLED, PRE_START_ORDER_NOTE } from '@/config/flags';
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
@@ -37,6 +38,9 @@ export default function ShopPage() {
             <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
               Limited, numbered gear. Join the list to hear when the Lootix Launch Giveaway opens.
             </p>
+          )}
+          {!GIVEAWAY_ENABLED && (
+            <p className="m-0 font-plex text-stone" style={{ maxWidth: 560, fontSize: 12, lineHeight: 1.6 }}>{PRE_START_ORDER_NOTE}</p>
           )}
         </div>
         <div className="flex flex-col items-start md:items-end gap-2 font-plex text-stone" style={{ fontSize: 12, letterSpacing: '0.08em' }}>
