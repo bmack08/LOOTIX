@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "check:launch": "node scripts/check-launch-readiness.mjs",
-    "printful:products": "node scripts/printful-products.mjs"
+    "printful:products": "node scripts/printful-products.mjs",
+    "test:shipping": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON scripts/test-shipping.mjs"
   },
   "dependencies": {
     "next": "^16.0.7",
