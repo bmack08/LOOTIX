@@ -1,5 +1,5 @@
 {
- "_source": "https://api.printful.com/products/{id} (public, no auth), pulled 2026-10-25",
+ "_source": "Public Printful v1 catalog (no auth): GET /products/{id}, pulled 2026-10-25 ET",
  "products": {
   "917": {
    "title": "Men's Box Tee | Cotton Heritage MC1087",
@@ -19,6 +19,14 @@
     "front_dtf",
     "back_dtf",
     "preview"
+   ],
+   "option_ids": [
+    "thread_colors_chest_left",
+    "thread_colors_chest_center",
+    "thread_colors_sleeve_left_top",
+    "thread_colors_sleeve_right_top",
+    "notes",
+    "license_type"
    ],
    "variants": [
     {
@@ -212,6 +220,14 @@
     "label_outside",
     "preview"
    ],
+   "option_ids": [
+    "thread_colors_chest_left",
+    "thread_colors_chest_center",
+    "thread_colors_sleeve_left_top",
+    "thread_colors_sleeve_right_top",
+    "notes",
+    "license_type"
+   ],
    "variants": [
     {
      "id": 22604,
@@ -356,6 +372,14 @@
     "label_inside_dtf",
     "preview"
    ],
+   "option_ids": [
+    "thread_colors_chest_left",
+    "thread_colors_chest_center",
+    "thread_colors_wrist_left",
+    "thread_colors_wrist_right",
+    "notes",
+    "license_type"
+   ],
    "variants": [
     {
      "id": 34390,
@@ -463,6 +487,14 @@
     "sleeve_left",
     "sleeve_right",
     "preview"
+   ],
+   "option_ids": [
+    "thread_colors_chest_left",
+    "thread_colors_chest_center",
+    "thread_colors_wrist_left",
+    "thread_colors_wrist_right",
+    "notes",
+    "license_type"
    ],
    "variants": [
     {
@@ -628,6 +660,17 @@
     "front_dtf_hat",
     "preview"
    ],
+   "option_ids": [
+    "embroidery_type",
+    "thread_colors_3d",
+    "thread_colors_front_large",
+    "thread_colors_3d_front_large",
+    "thread_colors_back",
+    "thread_colors_right",
+    "thread_colors_left",
+    "notes",
+    "license_type"
+   ],
    "variants": [
     {
      "id": 7854,
@@ -686,28 +729,98 @@
     }
    ]
   },
-  "367": {
-   "title": "Eco Tote Bag | Econscious EC8000",
+  "266": {
+   "title": "Cuffed Beanie | Yupoong 1501KC",
    "file_types": [
     "default",
-    "back",
-    "embroidery_apparel_front",
-    "front_dtf_tote",
-    "back_dtf_tote",
     "preview"
+   ],
+   "option_ids": [
+    "embroidery_type",
+    "thread_colors",
+    "thread_colors_3d",
+    "notes",
+    "license_type"
    ],
    "variants": [
     {
-     "id": 10457,
+     "id": 17494,
+     "color": "Baby Pink",
+     "size": "One size"
+    },
+    {
+     "id": 8936,
      "color": "Black",
      "size": "One size"
     },
     {
-     "id": 10458,
-     "color": "Oyster",
+     "id": 12880,
+     "color": "Brown",
+     "size": "One size"
+    },
+    {
+     "id": 12881,
+     "color": "Dark Grey",
+     "size": "One size"
+    },
+    {
+     "id": 12882,
+     "color": "Gold",
+     "size": "One size"
+    },
+    {
+     "id": 8937,
+     "color": "Heather Grey",
+     "size": "One size"
+    },
+    {
+     "id": 8940,
+     "color": "Navy",
+     "size": "One size"
+    },
+    {
+     "id": 17495,
+     "color": "Olive",
+     "size": "One size"
+    },
+    {
+     "id": 8939,
+     "color": "Red",
+     "size": "One size"
+    },
+    {
+     "id": 17496,
+     "color": "Royal",
+     "size": "One size"
+    },
+    {
+     "id": 8941,
+     "color": "Spruce",
+     "size": "One size"
+    },
+    {
+     "id": 8938,
+     "color": "White",
      "size": "One size"
     }
    ]
   }
+ },
+ "thread_palette": {
+  "#FFFFFF": "1801 White",
+  "#000000": "1800 Black",
+  "#96A1A8": "1718 Grey",
+  "#A67843": "1672 Old Gold",
+  "#FFCC00": "1951 Gold",
+  "#E25C27": "1987 Orange",
+  "#CC3366": "1910 Flamingo",
+  "#CC3333": "1839 Red",
+  "#660000": "1784 Maroon",
+  "#333366": "1966 Navy",
+  "#005397": "1842 Royal",
+  "#3399FF": "1695 Aqua/Teal",
+  "#6B5294": "1832 Purple",
+  "#01784E": "1751 Kelly Green",
+  "#7BA35A": "1848 Kiwi Green"
  }
 }
