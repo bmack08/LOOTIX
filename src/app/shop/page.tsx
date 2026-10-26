@@ -138,7 +138,7 @@ export default function ShopPage() {
             />
             </>
           ) : (
-            <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>DATES COMING SOON \u00b7 JOIN THE LIST</span>
+            <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>{'DATES COMING SOON \u00b7 JOIN THE LIST'}</span>
           )}
         </div>
         <Link
