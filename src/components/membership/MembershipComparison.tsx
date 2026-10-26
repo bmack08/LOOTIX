@@ -13,7 +13,8 @@ const MembershipComparison: FC = () => {
     { label: 'Exclusive giveaways', getValue: (tier: typeof paidTiers[0]) => tier.name === 'Bronze' ? '✗' : '✓' },
     { label: 'Early access', getValue: (tier: typeof paidTiers[0]) => tier.name === 'Bronze' ? '✗' : '✓' },
     { label: 'VIP Discord', getValue: (tier: typeof paidTiers[0]) => tier.name === 'Gold' ? '✓' : '✗' },
-    { label: 'Free shipping', getValue: (tier: typeof paidTiers[0]) => tier.name === 'Gold' ? '✓' : '✗' },
+    // Standard for every order, not a tier benefit - same value in every column.
+    { label: 'Free U.S. shipping on orders of $100 or more (merchandise subtotal after discounts, before tax).', getValue: () => 'Standard' },
   ];
 
   return (

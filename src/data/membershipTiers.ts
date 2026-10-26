@@ -68,7 +68,7 @@ export const membershipTiers: MembershipTier[] = [
       'Access to GOLD-tier exclusive giveaways ($1000+ prizes)',
       'VIP early access to all drops',
       'Exclusive Discord channel access',
-      'Free shipping on all orders',
+      'Free U.S. shipping on orders of $100 or more (merchandise subtotal after discounts, before tax).',
       '24/7 priority support',
     ],
     entriesPerWeek: -1, // unlimited
