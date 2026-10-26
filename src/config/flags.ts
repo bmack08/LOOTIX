@@ -8,3 +8,7 @@
 //   - /api/subscribe still saves the email as a plain list sign-up.
 // No imports here on purpose: src/lib/site.ts depends on this file.
 export const GIVEAWAY_ENABLED: boolean = process.env.NEXT_PUBLIC_GIVEAWAY_ENABLED === 'true';
+
+/** Pre-start note under the home 'Join the list' line and giveaway card (shown only while off). */
+export const JOIN_LIST_NOTE =
+  'Joining the list does not enter you in the giveaway. Entries open when it starts. No purchase necessary.';

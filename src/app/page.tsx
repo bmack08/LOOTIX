@@ -4,7 +4,7 @@ import EmailCapture from '@/components/lootix/v2/EmailCapture';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY, isEntryWindowOpen, STATS, STATS_PRE_START, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, HOW_STEPS_PRE_START, PROOF, PROOF_PRE_START } from '@/lib/site';
 import { ENTRIES_LABEL, FREE_ENTRY_HREF, FREE_SHIPPING_THRESHOLD, SIGNUP_ENTRIES, ODDS_LEAD, ODDS_SHORT_REST } from '@/config/giveaway';
-import { GIVEAWAY_ENABLED } from '@/config/flags';
+import { GIVEAWAY_ENABLED, JOIN_LIST_NOTE } from '@/config/flags';
 
 // isEntryWindowOpen() is wall-clock dependent, so this page must not be
 // frozen at build time: revalidate so the window state refreshes on its own.
@@ -45,6 +45,9 @@ export default function Home() {
               'Legendary streetwear, forged for the fearless. Join the list for the Lootix Launch Giveaway.'
             )}
           </p>
+          {!GIVEAWAY_ENABLED && (
+            <p className="m-0 text-stone" style={{ maxWidth: 480, fontSize: 13, lineHeight: 1.6 }}>{JOIN_LIST_NOTE}</p>
+          )}
           {/* Option B short form (Legal swap list, Oct 23 2026), directly under the
               giveaway/prize line, same size. "No purchase necessary" stays the
               link to the free-entry rules. */}
@@ -84,7 +87,10 @@ export default function Home() {
                 <span className="text-sand" style={{ fontSize: 13, fontWeight: 500 }}>+ custom hoodie &amp; tee</span>
               </div>
             ) : (
-              <p className="m-0 text-sand" style={{ fontSize: 14, lineHeight: 1.6 }}>Dates coming soon. Join the list to hear when entries open.</p>
+              <>
+                <p className="m-0 text-sand" style={{ fontSize: 14, lineHeight: 1.6 }}>Dates coming soon. Join the list to hear when entries open.</p>
+                {!GIVEAWAY_ENABLED && <p className="m-0 text-stone" style={{ fontSize: 12, lineHeight: 1.6 }}>{JOIN_LIST_NOTE}</p>}
+              </>
             )}
             <Countdown />
             {windowOpen && (
