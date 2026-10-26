@@ -27,7 +27,7 @@ const AnnouncementBar: FC = () => {
         <span className="animate-pulse-slow">🔥</span>
         <span>{ENTRIES_LABEL.toUpperCase()}</span>
         <span className="hidden sm:inline">—</span>
-        <span className="hidden sm:inline">FREE SHIPPING DURING LAUNCH</span>
+        <span className="hidden sm:inline">FREE U.S. SHIPPING ON ORDERS $100+</span>
         <span className="animate-pulse-slow">🔥</span>
       </div>
 

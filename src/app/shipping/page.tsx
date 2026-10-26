@@ -28,9 +28,13 @@ export default function ShippingPage() {
       <p><strong>United States:</strong> 3–7 business days after shipping. These are estimates, not guarantees — carrier delays can happen.</p>
 
       <h2>Shipping costs</h2>
-      <p>
-        <strong>Shipping is free during launch.</strong>
-      </p>
+      <p>We ship to U.S. addresses only. Shipping is a flat rate per order:</p>
+      <ul>
+        <li>$8.95 for any order that includes a hoodie</li>
+        <li>$5.95 for orders of tees only</li>
+        <li>Free on orders of $100 or more (merchandise subtotal after discounts, before tax)</li>
+      </ul>
+      <p>Items are made to order. Please allow 2–7 business days for production, then 3–7 business days in transit. Giveaway entries are based on the merchandise total and never on shipping charges.</p>
 
       <h2>Tracking</h2>
       <p>You&rsquo;ll get a tracking link by email as soon as your order ships. Questions? Email <a href="mailto:hello@getlootix.com">hello@getlootix.com</a>.</p>
