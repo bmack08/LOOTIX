@@ -10,7 +10,8 @@ export const metadata: Metadata = {
 
 export default function DmcaPage() {
   return (
-    <ContentPage eyebrow="Legal" title="DMCA Copyright Policy" updated="[EFFECTIVE DATE]">
+    <ContentPage eyebrow="Legal" title="DMCA Copyright Policy">
+      <p className="font-mono text-[11px] tracking-[.14em] uppercase text-faint">Effective October 26, 2026</p>
       <p>Lootix LLC respects the intellectual property rights of others and responds to notices of claimed copyright infringement under the Digital Millennium Copyright Act (DMCA), 17 U.S.C. &sect;512.</p>
 
       <h2>1. Reporting infringement (takedown notice)</h2>
