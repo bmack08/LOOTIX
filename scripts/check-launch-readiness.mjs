@@ -33,6 +33,7 @@ const ROOT = resolve(
 
 const SITE_TS = 'src/lib/site.ts';
 const GIVEAWAY_TS = 'src/config/giveaway.ts';
+const SHIPPING_TS = 'src/config/shipping.ts';
 const CHECKOUT_TS = 'src/app/api/checkout/route.ts';
 const OFFICIAL_RULES_TS = 'src/app/official-rules/page.tsx';
 
@@ -286,15 +287,27 @@ function checkShippingRates() {
 
   // shipping_address_collection only asks the buyer WHERE to ship. What costs
   // money is shipping_options / shipping_rate — that is what we look for.
+  // Rates may be code-defined (inline shipping_rate_data from src/config/shipping.ts,
+  // option B) - that counts as configured; no dashboard rate is required.
   const configured = /shipping_options|shipping_rate/.test(text);
+  const codeDefined = /shipping_rate_data/.test(text) && /quoteShipping/.test(text);
   const threshold = readFreeShippingThreshold();
 
   if (configured) {
-    pass('Stripe shipping rates', `${CHECKOUT_TS} configures shipping_options / shipping_rate.`);
+    pass('Stripe shipping rates', codeDefined
+      ? `${CHECKOUT_TS} sets code-defined flat rates (inline shipping_rate_data via quoteShipping in ${SHIPPING_TS}).`
+      : `${CHECKOUT_TS} configures shipping_options / shipping_rate.`);
+    const ship = readRepoFile(SHIPPING_TS) || '';
+    if (/SHIPPING_OTHER_CENTS_PROVISIONAL/.test(ship)) {
+      warn('Shipping rate for hats/accessories', 'No approved rate for non-tee, non-hoodie items (hats, beanies, accessories, footwear).', [
+        `Code applies the $5.95 tee rate provisionally (SHIPPING_OTHER_CENTS_PROVISIONAL in ${SHIPPING_TS}).`,
+        'Owner pick needed; then set the constant and drop the PROVISIONAL marker.',
+      ]);
+    }
   } else {
     fail('Stripe shipping rates', `${CHECKOUT_TS} sets no shipping_options / shipping_rate.`, [
       `Owner decision: pick a shipping rate for orders under $${threshold}.`,
-      `US shipping is advertised as free at $${threshold}+ (FREE_SHIPPING_THRESHOLD in ${GIVEAWAY_TS}),`,
+      `US shipping is advertised as free at $${threshold}+ (FREE_SHIPPING_THRESHOLD in ${SHIPPING_TS}),`,
       'so every order below that needs a rate the buyer actually pays at checkout.',
       'Today checkout collects a US shipping address but charges nothing for shipping.',
     ]);
@@ -302,7 +315,7 @@ function checkShippingRates() {
 }
 
 function readFreeShippingThreshold() {
-  const text = readRepoFile(GIVEAWAY_TS);
+  const text = readRepoFile(SHIPPING_TS);
   const m = text && text.match(/FREE_SHIPPING_THRESHOLD\s*=\s*(\d+)/);
   return m ? m[1] : '<unknown>';
 }

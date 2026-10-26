@@ -3,6 +3,7 @@ import Stripe from 'stripe';
 import { SHOP_PRODUCTS, GIVEAWAY, type ShopProduct } from '@/lib/site';
 import { isComingSoon, isValidSize, needsSize, ONE_SIZE } from '@/config/sizes';
 import { makeAgreement } from '@/config/agreement';
+import { quoteShipping, SHIPPING_DELIVERY_BUSINESS_DAYS } from '@/config/shipping';
 
 export const runtime = 'nodejs';
 
@@ -143,6 +144,29 @@ export async function POST(req: Request) {
   const metadata: Record<string, string> = { giveaway_id: GIVEAWAY.id, ...agreement };
   if (compactItems.length <= METADATA_VALUE_MAX) metadata.items = compactItems;
 
+  // Flat shipping per order (option B), computed here from the server-side
+  // catalog prices - never from the client. No discounts exist at checkout
+  // today, so the subtotal it is judged on is the plain merchandise total.
+  // Inline shipping_rate_data: no Stripe dashboard rate is needed.
+  const shipping = quoteShipping(
+    Array.from(merged.values()).map((l) => ({ category: l.product.category, unitPrice: l.product.priceValue, qty: l.qty })),
+  );
+  const shipping_options: Stripe.Checkout.SessionCreateParams.ShippingOption[] = [
+    {
+      shipping_rate_data: {
+        type: 'fixed_amount',
+        fixed_amount: { amount: shipping.amountCents, currency: 'usd' },
+        display_name: shipping.label,
+        delivery_estimate: {
+          minimum: { unit: 'business_day', value: SHIPPING_DELIVERY_BUSINESS_DAYS.min },
+          maximum: { unit: 'business_day', value: SHIPPING_DELIVERY_BUSINESS_DAYS.max },
+        },
+        metadata: { rule: shipping.rule },
+      },
+    },
+  ];
+  metadata.shipping_rule = shipping.rule;
+
   const origin = req.headers.get('origin') || 'https://www.getlootix.com';
 
   try {
@@ -156,6 +180,7 @@ export async function POST(req: Request) {
       customer_email: body.email || undefined,
       // US only (owner decision Oct 22).
       shipping_address_collection: { allowed_countries: ['US'] },
+      shipping_options,
       success_url: `${origin}/order/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/cart`,
     });

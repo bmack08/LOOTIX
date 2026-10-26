@@ -9,6 +9,7 @@ import { useEntryWindow } from '@/components/lootix/useEntryWindow';
 import { entriesForSubtotal, ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD } from '@/config/giveaway';
 import { isComingSoon, isValidSize, needsSize } from '@/config/sizes';
 import { GIVEAWAY_DATES_SET, SHOP_PRODUCTS } from '@/lib/site';
+import { quoteShipping } from '@/config/shipping';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -38,6 +39,10 @@ export default function CartPage() {
   const windowOpen = useEntryWindow();
 
   const hasBlocked = lines.some((l) => blockedReason(l) !== null);
+  // Same pure function /api/checkout charges with; this is only an estimate.
+  const shipping = quoteShipping(
+    lines.map((l) => ({ category: SHOP_PRODUCTS.find((p) => p.slug === l.slug)?.category ?? '', unitPrice: l.price, qty: l.qty })),
+  );
 
   async function checkout() {
     if (hasBlocked || !agreed) return;
@@ -147,6 +152,12 @@ export default function CartPage() {
             <div className="flex justify-between items-baseline">
               <span className="text-sand" style={{ fontSize: 14 }}>Subtotal</span>
               <span className="font-plex text-parchment" style={{ fontSize: 22, fontWeight: 600 }}>${subtotal.toFixed(0)}</span>
+            </div>
+            <div className="flex justify-between items-baseline">
+              <span className="text-sand" style={{ fontSize: 14 }}>Estimated shipping</span>
+              <span className="font-plex text-parchment" style={{ fontSize: 15, fontWeight: 600 }}>
+                {shipping.amountCents === 0 ? 'Free' : `$${(shipping.amountCents / 100).toFixed(2)}`}
+              </span>
             </div>
 
             {/* the whole point (LIVE only; before entries open there is nothing to count) */}

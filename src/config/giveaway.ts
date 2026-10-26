@@ -66,8 +66,8 @@ export const FREE_ENTRY_HREF = '/official-rules#free-entry';
 export const FREE_ENTRY_URL = `${SITE_ORIGIN}${FREE_ENTRY_HREF}`;
 export const FREE_ENTRY_LINK_TEXT = 'Free entry by mail';
 
-/** Free US shipping threshold, in dollars. */
-export const FREE_SHIPPING_THRESHOLD = 100;
+/** Free US shipping threshold, in dollars. Defined once in ./shipping (option B rates). */
+export { FREE_SHIPPING_THRESHOLD } from './shipping';
 
 // ── The entry-close time, as the public copy prints it ──
 //
