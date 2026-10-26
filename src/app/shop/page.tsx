@@ -103,12 +103,12 @@ export default function ShopPage() {
         </div>
         {windowOpen ? (
           <NoPurchaseNotice className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
-            Ships to the US only · free U.S. shipping on orders $100+. See the{' '}
+            Ships to U.S. addresses only · free shipping on orders of $100+. See the{' '}
             <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
           </NoPurchaseNotice>
         ) : (
           <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
-            Ships to the US only · free U.S. shipping on orders $100+. See the{' '}
+            Ships to U.S. addresses only · free shipping on orders of $100+. See the{' '}
             <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
           </p>
         )}

@@ -61,7 +61,7 @@ export const VAULT = {
 export const ENTRY_TIERS = [
   { name: 'Starter Pack', desc: '1 tee', price: '$45', popular: false },
   { name: 'Hero Bundle', desc: 'Hoodie + tee', price: '$130', popular: true },
-  { name: 'Legend Vault', desc: 'Full fit + accessories · free U.S. shipping on orders $100+', price: '$150', popular: false },
+  { name: 'Legend Vault', desc: 'Full fit + accessories · free U.S. shipping on orders of $100+', price: '$150', popular: false },
 ];
 
 export const HOW_STEPS = [
