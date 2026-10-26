@@ -19,3 +19,14 @@ export const PRE_START_ORDER_NOTE = 'Orders placed before the giveaway starts do
 /** /giveaways body while off: no prize, ARV or dates. */
 export const GIVEAWAY_PLACEHOLDER_BODY =
   'Coming soon. Official Rules will be posted before entries open. Open to legal U.S. and D.C. residents 18+. No purchase necessary.';
+
+// Teaser switch. GIVEAWAY_TEASERS_ENABLED is true unless NEXT_PUBLIC_GIVEAWAY_TEASERS
+// is exactly "false" at build time. When it is false AND the giveaway is off, every
+// giveaway teaser is hidden (ticker line, nav/footer links, home giveaway sections,
+// store/cart giveaway links and notes, footer no-purchase line) and /giveaways and
+// /winners redirect to / (so do /current-giveaway and /past-winners, which redirect
+// to them in next.config).
+export const GIVEAWAY_TEASERS_ENABLED: boolean = process.env.NEXT_PUBLIC_GIVEAWAY_TEASERS !== 'false';
+
+/** True when any giveaway mention may render: giveaway on, or teasers on. */
+export const SHOW_GIVEAWAY_TEASERS: boolean = GIVEAWAY_ENABLED || GIVEAWAY_TEASERS_ENABLED;

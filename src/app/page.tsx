@@ -4,7 +4,7 @@ import EmailCapture from '@/components/lootix/v2/EmailCapture';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { GIVEAWAY, isEntryWindowOpen, STATS, STATS_PRE_START, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, HOW_STEPS_PRE_START, PROOF, PROOF_PRE_START } from '@/lib/site';
 import { ENTRIES_LABEL, FREE_ENTRY_HREF, FREE_SHIPPING_THRESHOLD, SIGNUP_ENTRIES, ODDS_LEAD, ODDS_SHORT_REST } from '@/config/giveaway';
-import { GIVEAWAY_ENABLED, JOIN_LIST_NOTE } from '@/config/flags';
+import { GIVEAWAY_ENABLED, JOIN_LIST_NOTE, SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
 
 // isEntryWindowOpen() is wall-clock dependent, so this page must not be
 // frozen at build time: revalidate so the window state refreshes on its own.
@@ -23,7 +23,11 @@ export default function Home() {
   const windowOpen = isEntryWindowOpen();
   // PRE-START (dates not both set) is the default state: no prize pitch, no per-dollar
   // cue, no "enter" / "win" language. LIVE (window open) shows the full copy.
-  const stats = windowOpen ? STATS : STATS_PRE_START;
+  const stats = windowOpen
+    ? STATS
+    : SHOW_GIVEAWAY_TEASERS
+      ? STATS_PRE_START
+      : STATS_PRE_START.filter((s) => s.value !== 'Dates TBA' && s.value !== 'RANDOM.ORG');
   return (
     <div className="text-parchment">
       {/* ───────────── HERO ───────────── */}
@@ -31,7 +35,7 @@ export default function Home() {
         <div className="flex flex-col justify-center gap-7" style={{ padding: '72px 24px' }}>
           <div className="flex items-center gap-3 font-plex uppercase text-brass" style={{ fontSize: 12, letterSpacing: '0.18em' }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#C6A15B', boxShadow: '0 0 10px #C6A15B' }} />
-            {endShort ? `Launch Giveaway · Drop 1 · Ends ${endShort}` : 'Launch Giveaway · Drop 1 · Dates coming soon'}
+            {!SHOW_GIVEAWAY_TEASERS ? 'Drop 1' : endShort ? `Launch Giveaway · Drop 1 · Ends ${endShort}` : 'Launch Giveaway · Drop 1 · Dates coming soon'}
           </div>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(52px,7vw,88px)', lineHeight: 0.95, fontWeight: 900, letterSpacing: '-0.02em' }}>
             Earn it.<br />Wear it.<br /><span className="text-brass">Loot it.</span>
@@ -42,10 +46,12 @@ export default function Home() {
                 Legendary streetwear, forged for the fearless. Enter the Lootix Launch Giveaway — <strong className="text-parchment">$250 cash plus a custom Lootix hoodie and tee</strong>, drawn at random on RANDOM.ORG.
               </>
             ) : (
-              'Legendary streetwear, forged for the fearless. Join the list for the Lootix Launch Giveaway.'
+              SHOW_GIVEAWAY_TEASERS
+                ? 'Legendary streetwear, forged for the fearless. Join the list for the Lootix Launch Giveaway.'
+                : 'Legendary streetwear, forged for the fearless.'
             )}
           </p>
-          {!GIVEAWAY_ENABLED && (
+          {!GIVEAWAY_ENABLED && SHOW_GIVEAWAY_TEASERS && (
             <p className="m-0 text-stone" style={{ maxWidth: 480, fontSize: 13, lineHeight: 1.6 }}>{JOIN_LIST_NOTE}</p>
           )}
           {/* Option B short form (Legal swap list, Oct 23 2026), directly under the
@@ -71,6 +77,7 @@ export default function Home() {
           <img src="/brand/v2/hero-duo.png" alt="Lootix Drop 1 hoodies" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, #0C0A07 0%, rgba(12,10,7,0) 22%)' }} />
           {/* Giveaway card overlay */}
+          {SHOW_GIVEAWAY_TEASERS && (
           <div
             className="absolute flex flex-col gap-4"
             style={{ right: 24, bottom: 24, width: 330, maxWidth: 'calc(100% - 48px)', background: 'rgba(12,10,7,0.9)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', border: '1px solid rgba(198,161,91,0.4)', borderRadius: 4, padding: 24 }}
@@ -107,6 +114,7 @@ export default function Home() {
               {windowOpen ? 'Enter This Giveaway' : 'See the Giveaway'}
             </Link>
           </div>
+          )}
         </div>
       </section>
 
@@ -193,6 +201,7 @@ export default function Home() {
       </section>
 
       {/* ───────────── HOW IT WORKS ───────────── */}
+      {SHOW_GIVEAWAY_TEASERS && (
       <section style={{ padding: '88px 24px', borderBottom: HAIR }}>
         <div className="flex flex-col gap-2.5 items-center text-center" style={{ marginBottom: 56 }}>
           <span className="v2-eyebrow">How it works</span>
@@ -218,8 +227,10 @@ export default function Home() {
           </NoPurchaseNotice>
         )}
       </section>
+      )}
 
       {/* ───────────── THE GIVEAWAY ───────────── */}
+      {SHOW_GIVEAWAY_TEASERS && (
       <section className="grid lg:grid-cols-2" style={{ borderBottom: HAIR }}>
         <div className="relative overflow-hidden" style={{ minHeight: 440 }}>
           <img src="/brand/v2/unboxing.png" alt="Lootix Launch Giveaway welcome kit" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover' }} />
@@ -276,8 +287,10 @@ export default function Home() {
           )}
         </div>
       </section>
+      )}
 
       {/* ───────────── PROOF ───────────── */}
+      {SHOW_GIVEAWAY_TEASERS && (
       <section style={{ padding: '88px 24px', borderBottom: HAIR, background: '#0F0C08' }}>
         <div className="flex flex-col gap-2.5 items-center text-center" style={{ marginBottom: 52 }}>
           <span className="v2-eyebrow">No hidden draws.</span>
@@ -299,8 +312,10 @@ export default function Home() {
           <span>Ships to the US only</span>
         </div>
       </section>
+      )}
 
       {/* ───────────── WINNERS TEASER ───────────── */}
+      {SHOW_GIVEAWAY_TEASERS && (
       <section className="grid lg:grid-cols-[1.1fr_1fr]" style={{ borderBottom: HAIR }}>
         <div className="flex flex-col justify-center gap-5" style={{ padding: '80px 24px' }}>
           <span className="v2-eyebrow">The Winners Vault</span>
@@ -328,6 +343,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+      )}
 
       {/* ───────────── GUILD SIGNUP (inverted cream) ───────────── */}
       <section style={{ background: '#E4D5B4', color: '#171208', padding: '80px 24px' }}>
@@ -339,7 +355,9 @@ export default function Home() {
           <p className="m-0" style={{ maxWidth: 540, fontSize: 16, lineHeight: 1.6, color: '#4A3D22' }}>
             {windowOpen
               ? `Drop alerts, early access to limited gear, and ${SIGNUP_ENTRIES} free entries — one sign-up per person, no purchase necessary.`
-              : 'Drop alerts and early access to limited gear. We will email you the moment giveaway entries open.'}
+              : SHOW_GIVEAWAY_TEASERS
+                ? 'Drop alerts and early access to limited gear. We will email you the moment giveaway entries open.'
+                : 'Drop alerts and early access to limited gear.'}
           </p>
           <div className="w-full flex justify-center" style={{ marginTop: 8 }}>
             <EmailCapture source="newsletter" />

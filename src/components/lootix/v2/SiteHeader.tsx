@@ -7,13 +7,17 @@ import { createPortal } from 'react-dom';
 import { NAV, TICKER, TICKER_PRE_START } from '@/lib/site';
 import { useEntryWindow } from '../useEntryWindow';
 import { useCart } from './CartContext';
-import { GIVEAWAY_ENABLED } from '@/config/flags';
+import { GIVEAWAY_ENABLED, SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
+
+// Teasers off: no giveaway ticker line and no Giveaways / Winners nav links.
+const NAV_SHOWN = SHOW_GIVEAWAY_TEASERS ? NAV : NAV.filter((l) => l.href !== '/giveaways' && l.href !== '/winners');
+const TICKER_PRE_START_SHOWN = SHOW_GIVEAWAY_TEASERS ? TICKER_PRE_START : TICKER_PRE_START.filter((t) => !/giveaway/i.test(t));
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 function Ticker() {
   // PRE-START (default) ticker has no prize or entry cue; LIVE swaps in the full one.
-  const items = useEntryWindow() ? TICKER : TICKER_PRE_START;
+  const items = useEntryWindow() ? TICKER : TICKER_PRE_START_SHOWN;
   const Row = () => (
     <div className="inline-flex gap-12 pr-12 font-plex uppercase" style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.14em' }}>
       {items.map((t, i) => <span key={i}>{t}</span>)}
@@ -63,7 +67,7 @@ export default function SiteHeader() {
         </button>
       </div>
       <nav className="flex flex-col px-6 pt-4">
-        {NAV.map((l) => (
+        {NAV_SHOWN.map((l) => (
           <Link
             key={l.href}
             href={l.href}
@@ -93,7 +97,7 @@ export default function SiteHeader() {
         </Link>
 
         <div className="hidden lg:flex items-center gap-9 uppercase" style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.12em' }}>
-          {NAV.map((l) => (
+          {NAV_SHOWN.map((l) => (
             <Link
               key={l.href}
               href={l.href}

@@ -10,7 +10,7 @@ import { entriesForSubtotal, ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD } from '@/co
 import { isComingSoon, isValidSize, needsSize } from '@/config/sizes';
 import { GIVEAWAY_DATES_SET, SHOP_PRODUCTS } from '@/lib/site';
 import { quoteShipping } from '@/config/shipping';
-import { GIVEAWAY_ENABLED, PRE_START_ORDER_NOTE } from '@/config/flags';
+import { GIVEAWAY_ENABLED, PRE_START_ORDER_NOTE, SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -79,7 +79,9 @@ export default function CartPage() {
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>
             {windowOpen
               ? 'Every $1 you spend on merchandise earns one entry in the Lootix Launch Giveaway \u2014 $250 cash plus a custom Lootix hoodie and tee.'
-              : 'Join the list to hear when the Lootix Launch Giveaway opens.'}
+              : SHOW_GIVEAWAY_TEASERS
+                ? 'Join the list to hear when the Lootix Launch Giveaway opens.'
+                : 'Limited, numbered Drop 1 gear.'}
           </p>
           {windowOpen && (
             <NoPurchaseNotice linkLead className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7 }} />
@@ -172,7 +174,7 @@ export default function CartPage() {
               </div>
             )}
             <AgreeCheckbox checked={agreed} onChange={setAgreed} id="agree-checkout" className="font-plex text-sand" style={{ fontSize: 13, lineHeight: 1.5 }} />
-            {!GIVEAWAY_ENABLED && (
+            {!GIVEAWAY_ENABLED && SHOW_GIVEAWAY_TEASERS && (
               <p className="font-plex m-0 text-stone" style={{ fontSize: 11.5, lineHeight: 1.6 }}>{PRE_START_ORDER_NOTE}</p>
             )}
             <button onClick={checkout} disabled={busy || hasBlocked || !agreed} className="btn-brass w-full disabled:opacity-70" style={{ cursor: busy || hasBlocked || !agreed ? 'default' : 'pointer' }}>

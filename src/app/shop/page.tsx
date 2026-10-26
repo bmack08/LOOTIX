@@ -1,5 +1,5 @@
 'use client';
-import { GIVEAWAY_ENABLED, PRE_START_ORDER_NOTE } from '@/config/flags';
+import { GIVEAWAY_ENABLED, PRE_START_ORDER_NOTE, SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
@@ -36,13 +36,14 @@ export default function ShopPage() {
             </p>
           ) : (
             <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
-              Limited, numbered gear. Join the list to hear when the Lootix Launch Giveaway opens.
+              {SHOW_GIVEAWAY_TEASERS ? 'Limited, numbered gear. Join the list to hear when the Lootix Launch Giveaway opens.' : 'Limited, numbered gear.'}
             </p>
           )}
-          {!GIVEAWAY_ENABLED && (
+          {!GIVEAWAY_ENABLED && SHOW_GIVEAWAY_TEASERS && (
             <p className="m-0 font-plex text-stone" style={{ maxWidth: 560, fontSize: 12, lineHeight: 1.6 }}>{PRE_START_ORDER_NOTE}</p>
           )}
         </div>
+        {SHOW_GIVEAWAY_TEASERS && (
         <div className="flex flex-col items-start md:items-end gap-2 font-plex text-stone" style={{ fontSize: 12, letterSpacing: '0.08em' }}>
           <span className="text-brass-lit">{windowOpen ? '\u25c6 LOOTIX LAUNCH GIVEAWAY \u00b7 $250 CASH PLUS A CUSTOM HOODIE & TEE' : '\u25c6 LOOTIX LAUNCH GIVEAWAY'}</span>
           <span>
@@ -50,6 +51,7 @@ export default function ShopPage() {
             <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">view giveaway →</Link>
           </span>
         </div>
+        )}
       </header>
 
       {/* FILTER BAR */}
@@ -119,6 +121,7 @@ export default function ShopPage() {
       </section>
 
       {/* ENTRY BANNER (inverted cream) */}
+      {SHOW_GIVEAWAY_TEASERS && (
       <section className="flex items-center justify-between gap-8 flex-wrap" style={{ padding: '40px 24px', background: '#E4D5B4', color: '#171208' }}>
         <div className="flex flex-col gap-1.5">
           <span className="uppercase" style={{ fontSize: 24, fontWeight: 900 }}>{windowOpen ? 'Every dollar is an entry' : 'Lootix Launch Giveaway'}</span>
@@ -146,6 +149,7 @@ export default function ShopPage() {
           {windowOpen ? 'See the Prize \u2192' : 'See the Giveaway \u2192'}
         </Link>
       </section>
+      )}
     </div>
   );
 }

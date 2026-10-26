@@ -2,6 +2,10 @@ import Link from 'next/link';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { COMPANY, FOOTER_COLS, GIVEAWAY_DATES_SET } from '@/lib/site';
 import { ODDS_SHORT } from '@/config/giveaway';
+import { SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
+
+// Teasers off: drop the Giveaways column (Current Giveaway, How It Works, Winners, Official Rules).
+const COLS_SHOWN = SHOW_GIVEAWAY_TEASERS ? FOOTER_COLS : FOOTER_COLS.filter((c) => c.title !== 'Giveaways');
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
@@ -26,7 +30,7 @@ export default function SiteFooter() {
           </span>
         </div>
 
-        {FOOTER_COLS.map((col) => (
+        {COLS_SHOWN.map((col) => (
           <div key={col.title} className="flex flex-col gap-3">
             <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.16em', marginBottom: 6 }}>{col.title}</span>
             {col.links.map((l) => (
@@ -42,7 +46,7 @@ export default function SiteFooter() {
         <span className="font-plex text-ash" style={{ fontSize: 11 }}>© 2026 {COMPANY.legalName} · All rights reserved</span>
         {/* Legal 2026-10-24: PRE-START (start and end dates not both set = !GIVEAWAY_DATES_SET) shows the
             pre-start text below; once the dates are set (LIVE, and before/after the window) the short Option B line. */}
-        {GIVEAWAY_DATES_SET ? (
+        {!SHOW_GIVEAWAY_TEASERS ? null : GIVEAWAY_DATES_SET ? (
           <NoPurchaseNotice as="span" line={ODDS_SHORT} className="text-ash" style={{ fontSize: 11, lineHeight: 1.7, maxWidth: 640 }}>
             Void where prohibited. Open to legal residents 18+. Odds depend on the number of entries. See the{' '}
             <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for full details.

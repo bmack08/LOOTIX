@@ -5,7 +5,8 @@ import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { getPublicWinner } from '@/lib/raffle';
 import { GIVEAWAY, isEntryWindowOpen } from '@/lib/site';
 import { formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
-import { GIVEAWAY_ENABLED } from '@/config/flags';
+import { GIVEAWAY_ENABLED, SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
+import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,6 +41,7 @@ function publicName(fullName: string) {
 }
 
 export default async function WinnersPage() {
+  if (!SHOW_GIVEAWAY_TEASERS) redirect('/');
   const winner = await getPublicWinner();
   const closeDate = GIVEAWAY.endDateISO ? formatEndDate(new Date(GIVEAWAY.endDateISO)) : null;
   // LIVE = entries open (force-dynamic page, so this is evaluated per request).

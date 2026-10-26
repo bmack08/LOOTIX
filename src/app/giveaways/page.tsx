@@ -15,7 +15,8 @@ import {
   ODDS_SHORT,
   ODDS_LONG_MD,
 } from '@/config/giveaway';
-import { GIVEAWAY_ENABLED, GIVEAWAY_PLACEHOLDER_BODY } from '@/config/flags';
+import { GIVEAWAY_ENABLED, GIVEAWAY_PLACEHOLDER_BODY, SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
+import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
   title: 'Giveaways — Lootix Launch Giveaway | Lootix',
@@ -31,6 +32,7 @@ export const revalidate = 60;
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
 export default function GiveawaysPage() {
+  if (!SHOW_GIVEAWAY_TEASERS) redirect('/');
   // Giveaway off: placeholder only - no prize, ARV, countdown or dates.
   if (!GIVEAWAY_ENABLED) {
     return (
