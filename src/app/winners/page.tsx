@@ -5,6 +5,7 @@ import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { getPublicWinner } from '@/lib/raffle';
 import { GIVEAWAY, isEntryWindowOpen } from '@/lib/site';
 import { formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 
 export const dynamic = 'force-dynamic';
 
@@ -81,6 +82,10 @@ export default async function WinnersPage() {
             className="text-center flex flex-col gap-3.5 items-center"
             style={{ border: '1px solid rgba(198,161,91,0.5)', borderRadius: 4, background: '#131009', padding: '40px 32px', boxShadow: '0 24px 60px rgba(0,0,0,0.4)' }}
           >
+            {!winner && !GIVEAWAY_ENABLED ? (
+              <span className="text-parchment" style={{ fontSize: 24, fontWeight: 900, letterSpacing: '0.04em' }}>No winners yet.</span>
+            ) : (
+            <>
             <span
               className="font-plex uppercase text-brass-lit"
               style={{ border: '1px solid rgba(198,161,91,0.45)', fontSize: 10, letterSpacing: '0.14em', padding: '4px 12px', borderRadius: 2 }}
@@ -109,6 +114,8 @@ export default async function WinnersPage() {
               >
                 Verify the draw on RANDOM.ORG →
               </a>
+            )}
+            </>
             )}
           </div>
 
