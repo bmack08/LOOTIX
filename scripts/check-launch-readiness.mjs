@@ -312,6 +312,15 @@ function checkShippingRates() {
       'Today checkout collects a US shipping address but charges nothing for shipping.',
     ]);
   }
+  // Membership Gold lists free shipping. Not changed here: Legal must review it
+  // (and the membership's auto-renewal terms) before membership launches.
+  const goldFiles = ['src/data/membershipTiers.ts', 'src/components/membership/MembershipComparison.tsx'];
+  const goldHits = goldFiles.filter((f) => /free shipping/i.test(readRepoFile(f) || ''));
+  if (goldHits.length) {
+    warn('Membership Gold free-shipping perk', 'Legal review before membership launch (auto-renewal terms/disclosures; perk must say U.S. only).', [
+      `Perk text found in: ${goldHits.join(', ')}.`,
+    ]);
+  }
 }
 
 function readFreeShippingThreshold() {
