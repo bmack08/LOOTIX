@@ -119,7 +119,7 @@ export default function GiveawaysPage() {
           </div>
 
           <div className="flex gap-3.5 flex-wrap">
-            <Link href="/shop" className="btn-brass">{windowOpen ? 'Enter & Shop' : 'Shop the launch'}</Link>
+            <Link href="/shop" className="btn-brass">{windowOpen ? 'Enter & Shop' : 'Shop now'}</Link>
             {windowOpen && <Link href="/official-rules" className="btn-ghost-v2">Free Entry Method</Link>}
           </div>
           {!windowOpen && (

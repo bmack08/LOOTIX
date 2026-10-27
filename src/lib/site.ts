@@ -173,7 +173,7 @@ export const UPCOMING = [
 ].filter((u) => !u.hidden); // entries flagged hidden: true are not shown; delete the flag to show them again
 
 export const HOW_STEPS = [
-  { n: '01', title: 'Shop the launch', body: 'Cop limited fantasy-streetwear from the current collection. Every piece is numbered — never mass produced.' },
+  { n: '01', title: 'Shop', body: 'Cop limited fantasy-streetwear from the current collection. Every piece is numbered — never mass produced.' },
   { n: '02', title: 'Earn 1 entry per $1', body: 'Every dollar of your order subtotal is one entry. $129.99 earns 129 entries. No purchase necessary — free entry is available by mail.' },
   { n: '03', title: 'Win the loot', body: 'The winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. The winner is listed by first name and last initial.' },
 ];

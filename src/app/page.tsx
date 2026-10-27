@@ -64,7 +64,7 @@ export default function Home() {
             </p>
           )}
           <div className="flex items-center gap-4 flex-wrap">
-            <Link href="/shop" className="btn-brass">Shop the launch</Link>
+            <Link href="/shop" className="btn-brass">Shop now</Link>
             <Link href="/about" className="btn-ghost-v2">How It Works</Link>
           </div>
           <div className="flex gap-7 flex-wrap font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em', paddingTop: 8 }}>

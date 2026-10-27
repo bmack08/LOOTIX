@@ -176,7 +176,7 @@ export default async function WinnersPage() {
           className="uppercase transition-colors whitespace-nowrap"
           style={{ background: '#171208', color: '#E4D5B4', padding: '16px 32px', fontSize: 13, fontWeight: 800, letterSpacing: '0.12em', borderRadius: 2 }}
         >
-          {windowOpen ? 'Shop the launch \u2192' : 'See the Giveaway \u2192'}
+          {windowOpen ? 'Shop now \u2192' : 'See the Giveaway \u2192'}
         </Link>
       </section>
     </div>

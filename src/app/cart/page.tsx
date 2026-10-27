@@ -86,7 +86,7 @@ export default function CartPage() {
           {windowOpen && (
             <NoPurchaseNotice linkLead className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7 }} />
           )}
-          <Link href="/shop" className="btn-brass">Shop the launch</Link>
+          <Link href="/shop" className="btn-brass">Shop now</Link>
         </div>
       </div>
     );
