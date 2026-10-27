@@ -5,6 +5,7 @@ import { GIVEAWAY_ENABLED } from '@/config/flags';
 // ─────────────────────────────────────────────────────────────
 
 import { COMPANY_ADDRESS } from '@/config/legal';
+import { PRINTFUL_CATALOG } from '@/config/printful-catalog';
 
 export const TICKER = [
   // Order matters: the prize line is followed by the free-entry line, and the
@@ -130,33 +131,42 @@ export type Product = {
  * computed server-side from the Stripe session, never from this file.
  */
 export const PRODUCTS: Product[] = [
-  { slug: 'guild-hoodie-black', name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$85', priceValue: 85, edition: 'ED. 500', img: '/brand/v2/model-back.png' },
-  { slug: 'summon-hoodie', name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$85', priceValue: 85, edition: 'ED. 500', img: '/brand/v2/model-front.png' },
-  { slug: 'lootix-x1-shadow', name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', priceValue: 140, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png' },
-  { slug: 'welcome-looter-kit', name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', priceValue: 48, edition: 'ED. 500', img: '/brand/v2/unboxing.png' },
-];
+  'mark-oversized-hoodie-bone-on-black',
+  'wordmark-oversized-hoodie-loot-gold-on-black',
+  'mark-box-tee-bone-on-black',
+  'wordmark-box-tee-white-on-black',
+].map((slug) => {
+  const e = PRINTFUL_CATALOG.find((p) => p.slug === slug);
+  if (!e) throw new Error(`site.ts: featured product '${slug}' is not in PRINTFUL_CATALOG`);
+  return { slug: e.slug, name: e.name, sub: e.sub, price: e.price, priceValue: e.priceValue, edition: e.edition, img: e.img };
+});
 
 /** Shop grid — launch collection. */
-export type ShopProduct = Product & { category: string };
+export type ShopProduct = Product & {
+  category: string;
+  /** Size run in picker order; null = unsized (ONE). Absent = category default. */
+  sizes?: readonly string[] | null;
+  colour?: string;
+};
 
-export const SHOP_CATEGORIES = ['All', 'Hoodies', 'Tees', 'Footwear', 'Accessories'] as const;
+export const SHOP_CATEGORIES = ['All', 'Hoodies', 'Tees', 'Hats'] as const;
 
-export const SHOP_PRODUCTS: ShopProduct[] = [
-  { slug: 'guild-hoodie-black', name: 'Guild Hoodie — Black', sub: 'Heavyweight · Back print', price: '$85', priceValue: 85, edition: 'ED. 500', img: '/brand/v2/model-back.png', category: 'Hoodies' },
-  { slug: 'summon-hoodie', name: 'Summon Hoodie', sub: 'Heavyweight · Chest logo', price: '$85', priceValue: 85, edition: 'ED. 500', img: '/brand/v2/model-front.png', category: 'Hoodies' },
-  { slug: 'lootix-x1-shadow', name: 'Lootix X1 — Shadow', sub: 'Limited sneaker · Numbered', price: '$140', priceValue: 140, edition: 'ED. 250', img: '/brand/v2/box-sneakers.png', category: 'Footwear' },
-  { slug: 'welcome-looter-kit', name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', priceValue: 48, edition: 'ED. 500', img: '/brand/v2/unboxing.png', category: 'Tees' },
-  { slug: 'lord-of-flame-tee', name: 'Lord of Flame Tee', sub: 'Heavyweight tee · Back print', price: '$45', priceValue: 45, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
-  { slug: 'nat-20-tee', name: 'Nat 20 Tee', sub: 'Regular fit · Front print', price: '$45', priceValue: 45, edition: 'ED. 500', img: '/brand/v2/tags.png', category: 'Tees' },
-  { slug: 'hoard-dragon-tee', name: 'Hoard Dragon Tee', sub: 'Heavyweight · Camo', price: '$45', priceValue: 45, edition: 'ED. 500', img: '/brand/v2/wrap.png', category: 'Tees' },
-  { slug: 'guild-sticker-pack', name: 'Guild Sticker Pack', sub: '6 die-cut stickers', price: '$8', priceValue: 8, edition: 'OPEN', img: '/brand/v2/tags.png', category: 'Accessories' },
-];
+/** Every listed product is a Printful store product x colour (src/config/printful-catalog.ts). */
+export const SHOP_PRODUCTS: ShopProduct[] = PRINTFUL_CATALOG.map((e) => ({
+  slug: e.slug,
+  name: e.name,
+  sub: e.sub,
+  price: e.price,
+  priceValue: e.priceValue,
+  edition: e.edition,
+  img: e.img,
+  category: e.category,
+  sizes: e.sizes,
+  colour: e.colour,
+}));
 
 export const QUICKIES = [
-  { name: 'Guild Sticker Pack', price: '$8' },
-  { name: 'Crest Patch', price: '$12' },
-  { name: 'Looter Beanie', price: '$28' },
-  { name: 'Snap Cap', price: '$32' },
+  { name: 'Lootix Dad Hat', price: '$32' },
 ];
 
 export const PACKS = [

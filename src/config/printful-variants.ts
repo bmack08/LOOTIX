@@ -1,8 +1,7 @@
 // ─────────────────────────────────────────────────────────────
-// Printful SYNC variant ids — PLACEHOLDERS. OWNER MUST FILL IN.
-//
-// Every value below is `null`. Nothing here is a real id: no number in
-// this file was guessed, inferred or copied from anywhere.
+// Printful SYNC variant ids, built from src/config/printful-catalog.ts
+// (a read-only GET of Printful store 15871910, Oct 27 2026). Every listed
+// shop product x size has a real id; to add a product, regenerate the catalog.
 //
 // WHAT GOES IN HERE
 //   The `id` of an entry in the `sync_variants` array of a SYNCED store
@@ -25,8 +24,7 @@
 //   in Supabase, with status `needs_variant`, and NO Printful order is
 //   created for it. Filling the id is what unblocks that order.
 //
-// Coming-soon products (welcome-looter-kit, lootix-x1-shadow) are not
-// sold in checkout and are deliberately absent from this map. The PACKS
+// The PACKS
 // in src/lib/site.ts are display-only and never reach checkout either.
 //
 // This file is plain data + pure lookups: no secrets, no network calls,
@@ -34,51 +32,16 @@
 // ─────────────────────────────────────────────────────────────
 
 import { SHOP_PRODUCTS } from '@/lib/site';
+import { PRINTFUL_CATALOG } from '@/config/printful-catalog';
 import { ONE_SIZE, isComingSoon, needsSize, sizesFor } from '@/config/sizes';
 
 /**
  * `${slug}:${size}` → Printful sync variant id, or `null` when the owner
  * has not mapped it yet. Hand-written, one line per sellable combination.
  */
-export const PRINTFUL_SYNC_VARIANT_IDS: Record<string, number | null> = {
-  // TODO(owner): Guild Hoodie — Black ($85, Hoodies) — 5 sync variant ids
-  'guild-hoodie-black:S': null,
-  'guild-hoodie-black:M': null,
-  'guild-hoodie-black:L': null,
-  'guild-hoodie-black:XL': null,
-  'guild-hoodie-black:2XL': null,
-
-  // TODO(owner): Summon Hoodie ($85, Hoodies) — 5 sync variant ids
-  'summon-hoodie:S': null,
-  'summon-hoodie:M': null,
-  'summon-hoodie:L': null,
-  'summon-hoodie:XL': null,
-  'summon-hoodie:2XL': null,
-
-  // TODO(owner): Lord of Flame Tee ($45, Tees) — 5 sync variant ids
-  'lord-of-flame-tee:S': null,
-  'lord-of-flame-tee:M': null,
-  'lord-of-flame-tee:L': null,
-  'lord-of-flame-tee:XL': null,
-  'lord-of-flame-tee:2XL': null,
-
-  // TODO(owner): Nat 20 Tee ($45, Tees) — 5 sync variant ids
-  'nat-20-tee:S': null,
-  'nat-20-tee:M': null,
-  'nat-20-tee:L': null,
-  'nat-20-tee:XL': null,
-  'nat-20-tee:2XL': null,
-
-  // TODO(owner): Hoard Dragon Tee ($45, Tees) — 5 sync variant ids
-  'hoard-dragon-tee:S': null,
-  'hoard-dragon-tee:M': null,
-  'hoard-dragon-tee:L': null,
-  'hoard-dragon-tee:XL': null,
-  'hoard-dragon-tee:2XL': null,
-
-  // TODO(owner): Guild Sticker Pack ($8, Accessories) — unsized, one id
-  'guild-sticker-pack:ONE': null,
-};
+export const PRINTFUL_SYNC_VARIANT_IDS: Record<string, number | null> = Object.fromEntries(
+  PRINTFUL_CATALOG.flatMap((e) => Object.entries(e.variants).map(([size, id]) => [`${e.slug}:${size}`, id])),
+);
 
 /**
  * The sync variant id for a shop line, or `null` when it cannot be used.

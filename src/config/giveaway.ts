@@ -133,11 +133,11 @@ function shopPriceValue(slug: string): number {
 /** Cash half of the Grand Prize, in dollars — paid by PayPal (or check). */
 export const PRIZE_CASH = 250;
 
-/** ARV of the custom hoodie = regular Website price of the Guild Hoodie. */
-export const PRIZE_HOODIE_ARV = shopPriceValue('guild-hoodie-black');
+/** ARV of the custom hoodie = regular Website price of a Lootix hoodie ($85; every hoodie is $85). */
+export const PRIZE_HOODIE_ARV = shopPriceValue('mark-oversized-hoodie-bone-on-black');
 
-/** ARV of the custom tee = regular Website price of the Lord of Flame Tee. */
-export const PRIZE_TEE_ARV = shopPriceValue('lord-of-flame-tee');
+/** ARV of the custom tee = regular Website price of a Lootix tee ($45; every tee is $45). */
+export const PRIZE_TEE_ARV = shopPriceValue('mark-box-tee-bone-on-black');
 
 /** Total ARV of the Grand Prize: cash + hoodie + tee. */
 export const PRIZE_TOTAL_VALUE = PRIZE_CASH + PRIZE_HOODIE_ARV + PRIZE_TEE_ARV;

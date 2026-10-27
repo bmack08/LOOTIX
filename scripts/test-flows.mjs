@@ -30,8 +30,8 @@ const json = (body, status = 200) => new Response(JSON.stringify(body), { status
 const lineItems = {
   object: 'list', has_more: false, url: '/v1/checkout/sessions/cs_test_flow/line_items',
   data: [
-    { id: 'li_1', object: 'item', description: 'Summon Hoodie', quantity: 1, price: { id: 'price_1', object: 'price', product: { id: 'prod_1', object: 'product', name: 'Summon Hoodie', metadata: { slug: 'summon-hoodie', size: 'L' } } } },
-    { id: 'li_2', object: 'item', description: 'Nat 20 Tee', quantity: 2, price: { id: 'price_2', object: 'price', product: { id: 'prod_2', object: 'product', name: 'Nat 20 Tee', metadata: { slug: 'nat-20-tee', size: 'M' } } } },
+    { id: 'li_1', object: 'item', description: 'Lootix Mark Oversized Hoodie', quantity: 1, price: { id: 'price_1', object: 'price', product: { id: 'prod_1', object: 'product', name: 'Lootix Mark Oversized Hoodie', metadata: { slug: 'mark-oversized-hoodie-bone-on-black', size: 'L' } } } },
+    { id: 'li_2', object: 'item', description: 'Lootix Mark Box Tee', quantity: 2, price: { id: 'price_2', object: 'price', product: { id: 'prod_2', object: 'product', name: 'Lootix Mark Box Tee', metadata: { slug: 'mark-box-tee-bone-on-black', size: 'M' } } } },
   ],
 };
 globalThis.fetch = async (input, init = {}) => {
@@ -104,7 +104,7 @@ for (const [label, agreed, ip] of [['missing', undefined, '10.0.0.1'], ['false',
 // ---- agreement: /api/checkout ----
 const checkout = await import('../src/app/api/checkout/route.ts');
 const cpost = (body, ip) => new Request('http://localhost/api/checkout', { method: 'POST', headers: { 'content-type': 'application/json', 'x-real-ip': ip, origin: 'http://localhost:3000' }, body: JSON.stringify(body) });
-const teeLine = [{ slug: 'nat-20-tee', qty: 1, size: 'M' }];
+const teeLine = [{ slug: 'mark-box-tee-bone-on-black', qty: 1, size: 'M' }];
 await test('checkout: no STRIPE_SECRET_KEY -> 503, no Stripe call', async () => {
   const res = await checkout.POST(cpost({ items: teeLine, agreed: true }, '10.1.0.1'));
   eq(res.status, 503, 'status');
@@ -134,11 +134,11 @@ await test('checkout (fake key, mocked Stripe): tee -> shipping_options $5.95, U
   assert(p.get('metadata[agreed_at]'), 'agreed_at missing');
 });
 await test('checkout (fake key, mocked Stripe): hoodie+tee $130 -> free shipping option', async () => {
-  const { amount } = await checkoutShipping([{ slug: 'summon-hoodie', qty: 1, size: 'L' }, ...teeLine], '10.1.0.6');
+  const { amount } = await checkoutShipping([{ slug: 'mark-oversized-hoodie-bone-on-black', qty: 1, size: 'L' }, ...teeLine], '10.1.0.6');
   eq(amount, 0, 'amount');
 });
 await test('checkout (fake key, mocked Stripe): hoodie $85 -> $8.95', async () => {
-  const { amount } = await checkoutShipping([{ slug: 'summon-hoodie', qty: 1, size: 'L' }], '10.1.0.7');
+  const { amount } = await checkoutShipping([{ slug: 'mark-oversized-hoodie-bone-on-black', qty: 1, size: 'L' }], '10.1.0.7');
   eq(amount, 895, 'amount');
 });
 
@@ -151,19 +151,20 @@ const variants = await import('../src/config/printful-variants.ts');
 const { recordPaidOrder } = await import('../src/lib/record-order.ts');
 const webhook = await import('../src/app/api/stripe/webhook/route.ts');
 
-await test('variants: every key is still null (owner TODO), lookup returns null', () => {
-  assert(Object.values(variants.PRINTFUL_SYNC_VARIANT_IDS).every((v) => v === null), 'a real id is filled in');
-  eq(variants.printfulVariantFor('summon-hoodie', 'L'), null, 'unmapped');
+await test('variants: every listed product size has a real Printful sync id', () => {
+  eq(variants.unmappedPurchasableKeys(), [], 'unmapped listed keys');
+  assert(Object.values(variants.PRINTFUL_SYNC_VARIANT_IDS).every((v) => Number.isInteger(v) && v > 0), 'a null or bad id');
+  eq(variants.printfulVariantFor('mark-oversized-hoodie-bone-on-black', '5XL'), null, 'size not sold');
   eq(variants.printfulVariantFor('nope', 'L'), null, 'unknown');
 });
 // fake ids for this test run only (in memory)
-variants.PRINTFUL_SYNC_VARIANT_IDS['summon-hoodie:L'] = 111;
-variants.PRINTFUL_SYNC_VARIANT_IDS['nat-20-tee:M'] = 222;
+variants.PRINTFUL_SYNC_VARIANT_IDS['mark-oversized-hoodie-bone-on-black:L'] = 111;
+variants.PRINTFUL_SYNC_VARIANT_IDS['mark-box-tee-bone-on-black:M'] = 222;
 await test('variants: slug:size mapping (fake ids), wrong size and bad ids rejected', () => {
-  eq(variants.printfulVariantFor('summon-hoodie', 'L'), 111, 'L');
-  eq(variants.printfulVariantFor('summon-hoodie', 'l'), null, 'lowercase key');
-  eq(variants.printfulVariantFor('summon-hoodie', 'XL'), null, 'XL unmapped');
-  eq(variants.missingVariantKeys([{ slug: 'summon-hoodie', size: 'L' }, { slug: 'summon-hoodie', size: 'XL' }, { slug: 'summon-hoodie', size: 'XL' }]), ['summon-hoodie:XL'], 'missing');
+  eq(variants.printfulVariantFor('mark-oversized-hoodie-bone-on-black', 'L'), 111, 'L');
+  eq(variants.printfulVariantFor('mark-oversized-hoodie-bone-on-black', 'l'), null, 'lowercase key');
+  eq(variants.printfulVariantFor('mark-oversized-hoodie-bone-on-black', '5XL'), null, '5XL unmapped');
+  eq(variants.missingVariantKeys([{ slug: 'mark-oversized-hoodie-bone-on-black', size: 'L' }, { slug: 'mark-oversized-hoodie-bone-on-black', size: '5XL' }, { slug: 'mark-oversized-hoodie-bone-on-black', size: '5XL' }]), ['mark-oversized-hoodie-bone-on-black:5XL'], 'missing');
 });
 
 const session = {
@@ -171,7 +172,7 @@ const session = {
   amount_subtotal: 17500, amount_total: 17500, currency: 'usd', payment_intent: 'pi_test_flow',
   customer_details: { email: 'buyer@example.test', name: 'Test Buyer', phone: null },
   collected_information: { shipping_details: { name: 'Test Buyer', address: { line1: '1 Test St', line2: null, city: 'Testville', state: 'NY', postal_code: '10001', country: 'US' } } },
-  metadata: { items: 'summon-hoodie:L:1,nat-20-tee:M:2', agreed_at: '2026-10-25T21:00:00.000Z', agreement_version: 'terms-2026-10-24+rules-2026-10-24', agreement_box: 'checkout', shipping_rule: 'free' },
+  metadata: { items: 'mark-oversized-hoodie-bone-on-black:L:1,mark-box-tee-bone-on-black:M:2', agreed_at: '2026-10-25T21:00:00.000Z', agreement_version: 'terms-2026-10-24+rules-2026-10-24', agreement_box: 'checkout', shipping_rule: 'free' },
 };
 const signer = new Real('sk_test_FAKE_signer_only');
 function signed(payload) {
@@ -200,7 +201,7 @@ await test('webhook (paid): 200, order row stored with items, address, agreement
   const insert = flowCalls.find((c) => c.method === 'POST' && c.url.includes('/rest/v1/orders'));
   assert(insert, 'no order insert');
   const row = JSON.parse(insert.body);
-  eq(row.items.map((i) => [i.slug, i.size, i.qty, i.variant_id]), [['summon-hoodie', 'L', 1, 111], ['nat-20-tee', 'M', 2, 222]], 'items');
+  eq(row.items.map((i) => [i.slug, i.size, i.qty, i.variant_id]), [['mark-oversized-hoodie-bone-on-black', 'L', 1, 111], ['mark-box-tee-bone-on-black', 'M', 2, 222]], 'items');
   eq([row.agreed_at, row.agreement_version, row.agreement_box], [session.metadata.agreed_at, session.metadata.agreement_version, 'checkout'], 'agreement');
   eq([row.ship_state, row.ship_country, row.status, row.amount_subtotal], ['NY', 'US', 'new', 17500], 'row');
 });
@@ -230,22 +231,22 @@ await test('webhook (replay of same event): no second Printful draft', async () 
 await test('record order: unmapped size -> needs_variant, no Printful call', async () => {
   orderRow = null;
   const before = calls.length;
-  const fakeStripe = { checkout: { sessions: { listLineItems: async () => ({ data: [{ ...lineItems.data[0], price: { product: { id: 'p', object: 'product', name: 'Summon Hoodie', metadata: { slug: 'summon-hoodie', size: 'XL' } } } }] }) } } };
+  const fakeStripe = { checkout: { sessions: { listLineItems: async () => ({ data: [{ ...lineItems.data[0], price: { product: { id: 'p', object: 'product', name: 'Lootix Mark Oversized Hoodie', metadata: { slug: 'mark-oversized-hoodie-bone-on-black', size: '5XL' } } } }] }) } } };
   mute(); await recordPaidOrder(fakeStripe, { ...session, id: 'cs_test_xl' }); unmute();
   assert(!calls.slice(before).some((c) => c.url.includes('api.printful.com')), 'Printful called');
   eq(orderRow.status, 'needs_variant', 'status');
-  assert(String(orderRow.status_detail).includes('summon-hoodie:XL'), 'detail');
+  assert(String(orderRow.status_detail).includes('mark-oversized-hoodie-bone-on-black:5XL'), 'detail');
 });
 await test('record order: compact fallback uppercases size, unknown line kept as needs_variant', async () => {
   orderRow = null;
   const fakeStripe = { checkout: { sessions: { listLineItems: async () => ({ data: [] }) } } };
-  mute(); await recordPaidOrder(fakeStripe, { ...session, id: 'cs_test_compact', metadata: { ...session.metadata, items: 'nat-20-tee:m:2,mystery::1' } }); unmute();
-  eq(orderRow.items.map((i) => [i.slug, i.size, i.qty]), [['nat-20-tee', 'M', 2], ['mystery', 'ONE', 1]], 'items');
+  mute(); await recordPaidOrder(fakeStripe, { ...session, id: 'cs_test_compact', metadata: { ...session.metadata, items: 'mark-box-tee-bone-on-black:m:2,mystery::1' } }); unmute();
+  eq(orderRow.items.map((i) => [i.slug, i.size, i.qty]), [['mark-box-tee-bone-on-black', 'M', 2], ['mystery', 'ONE', 1]], 'items');
   eq(orderRow.status, 'needs_variant', 'status');
 });
 await test('record order: no agreement metadata -> no agreement fields written', async () => {
   orderRow = null;
-  const md = { items: 'nat-20-tee:M:1' };
+  const md = { items: 'mark-box-tee-bone-on-black:M:1' };
   const fakeStripe = { checkout: { sessions: { listLineItems: async () => ({ data: [] }) } } };
   const before = calls.length;
   mute(); await recordPaidOrder(fakeStripe, { ...session, id: 'cs_test_noagree', metadata: md }); unmute();

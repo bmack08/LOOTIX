@@ -6,6 +6,7 @@
 
 import { MAIL_IN_ENTRIES, SIGNUP_ENTRIES, ENTRIES_LABEL } from '@/config/giveaway';
 import { COMPANY_ADDRESS } from '@/config/legal';
+import { PRINTFUL_CATALOG } from '@/config/printful-catalog';
 
 /**
  * Entries granted per non-purchase action. The numbers themselves live in
@@ -77,13 +78,12 @@ export const HOW_STEPS_PRE_START = [
   { n: '03', title: 'Watch the draw', body: 'When a giveaway runs, the winner is selected at random using RANDOM.ORG. The draw is screen-recorded and posted. The winner is listed by first name and last initial.', warm: false },
 ];
 
-// Real Lootix product designs (from the MERCH folder). `well` sets the photo
-// backdrop tone; `size`/`pos` crop the source (the tee mockups share one 2-up image).
-export const DROPS = [
-  { name: 'Lord of Flame', meta: 'Fantasy Streetwear · Heavyweight Tee', price: '$45', entries: ENTRIES_LABEL, img: '/brand/products/lord-of-flame.png', well: 'dark', size: 'cover', pos: 'center' },
-  { name: 'Nat 20 Tee', meta: 'Fantasy Streetwear · Regular Fit', price: '$45', entries: ENTRIES_LABEL, img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '24% 42%' },
-  { name: 'Hoard Dragon Tee', meta: 'Fantasy Streetwear · Camo', price: '$45', entries: ENTRIES_LABEL, img: '/brand/products/tees-2up.png', well: 'light', size: '240%', pos: '77% 42%' },
-];
+// Featured Lootix products: Printful mockups of the store's Mark/Wordmark pieces.
+export const DROPS = ['mark-oversized-hoodie-bone-on-black', 'mark-box-tee-bone-on-black', 'wordmark-box-tee-white-on-black'].map((slug) => {
+  const e = PRINTFUL_CATALOG.find((p) => p.slug === slug);
+  if (!e) throw new Error(`lootix.ts: featured product '${slug}' is not in PRINTFUL_CATALOG`);
+  return { name: e.name, meta: e.sub, price: e.price, entries: ENTRIES_LABEL, img: e.img, well: 'light', size: 'contain', pos: 'center' };
+});
 
 // Locked "achievement" milestones — the Winners Vault hasn't been unlocked yet.
 // The first is claimable NOW ("be our first winner"); the rest are future unlocks.

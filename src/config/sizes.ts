@@ -18,7 +18,10 @@
 import type { ShopProduct } from '@/lib/site';
 
 /** The apparel size run. Order matters — the picker renders it as-is. */
-export const SIZES = ['S', 'M', 'L', 'XL', '2XL'] as const;
+export const SIZES = ['S', 'M', 'L', 'XL', '2XL', '3XL', '4XL'] as const;
+
+/** Default run for a sized product that does not list its own sizes. */
+const DEFAULT_SIZES: readonly Size[] = ['S', 'M', 'L', 'XL', '2XL'];
 
 export type Size = (typeof SIZES)[number];
 
@@ -41,11 +44,14 @@ export const COMING_SOON_SLUGS: ReadonlySet<string> = new Set([
 ]);
 
 /** Everything these helpers need from a product. */
-type Sizeable = Pick<ShopProduct, 'category'>;
+type Sizeable = Pick<ShopProduct, 'category'> & { sizes?: readonly string[] | null };
 
 /** The sizes a product is sold in, or `null` when it has no size. */
 export function sizesFor(product: Sizeable): readonly Size[] | null {
-  return SIZED_CATEGORIES.includes(product.category) ? SIZES : null;
+  if (product.sizes !== undefined) {
+    return product.sizes === null ? null : (product.sizes.filter((s) => (SIZES as readonly string[]).includes(s)) as Size[]);
+  }
+  return SIZED_CATEGORIES.includes(product.category) ? DEFAULT_SIZES : null;
 }
 
 /** True when a product can only be bought in one of SIZES. */
