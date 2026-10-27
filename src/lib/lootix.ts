@@ -116,7 +116,7 @@ export const COMPANY = {
   address: COMPANY_ADDRESS,
   email: 'hello@getlootix.com',
   socials: {
-    instagram: 'https://instagram.com/getlootix',
+    instagram: 'https://www.instagram.com/wearlootix',
     tiktok: 'https://tiktok.com/@getlootix',
     discord: 'https://discord.gg/lootix',
   },

@@ -34,7 +34,7 @@ const BonusEntryActions: FC = () => {
       action: 'Follow on Instagram',
       entries: 3,
       icon: '📸',
-      link: 'https://instagram.com/getlootix',
+      link: 'https://www.instagram.com/wearlootix',
       completed: false,
     },
     {
