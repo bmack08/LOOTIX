@@ -24,6 +24,7 @@ export default function TermsPage() {
         <li>Payment is processed securely through our third-party provider (Stripe).</li>
         <li>You agree to pay all charges incurred, including applicable taxes and shipping.</li>
         <li>Because products are made-to-order, we do not accept returns for change of mind. See our <a href="/returns">Returns</a> policy for defective items.</li>
+        <li>Size exchanges: allowed within 30 days of delivery.</li>
       </ul>
 
       <h2>5. Giveaways &amp; Sweepstakes</h2>
