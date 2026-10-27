@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
@@ -118,8 +118,7 @@ export default function Tracking() {
           style={{ left: 16, right: 16, bottom: 16, maxWidth: 560, margin: '0 auto', background: '#131009', border: '1px solid rgba(198,161,91,0.4)', borderRadius: 4, padding: '20px 22px' }}
         >
           <p className="m-0 text-sand" style={{ fontSize: 14, lineHeight: 1.6 }}>
-            We use essential cookies to run the store. With your OK, we also use Meta and TikTok pixels to measure and
-            show our ads. See our <a href="/privacy" className="text-brass hover:text-brass-lit">Privacy Policy</a>.
+            We use cookies to run the store. Ad tracking only loads if you accept.
           </p>
           {gpc && (
             <p className="m-0 text-stone" style={{ fontSize: 12, lineHeight: 1.6, marginTop: 8 }}>
@@ -127,8 +126,13 @@ export default function Tracking() {
             </p>
           )}
           <div className="flex gap-3 flex-wrap" style={{ marginTop: 14 }}>
-            <button type="button" className="btn-brass" onClick={() => choose('accepted')}>Accept</button>
-            <button type="button" className="btn-ghost-v2" onClick={() => choose('rejected')}>Reject</button>
+            {/* Accept and Decline: same class, size and weight - equally prominent, one click each. */}
+            <button type="button" className="btn-brass" style={{ minWidth: 120 }} onClick={() => choose('accepted')}>Accept</button>
+            <button type="button" className="btn-brass" style={{ minWidth: 120 }} onClick={() => choose('rejected')}>Decline</button>
+          </div>
+          <div className="flex gap-4 flex-wrap font-plex" style={{ marginTop: 12, fontSize: 12 }}>
+            <button type="button" className="text-brass hover:text-brass-lit" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={() => setBannerOpen(true)}>Your Privacy Choices</button>
+            <a href="/privacy" className="text-brass hover:text-brass-lit">Privacy Policy</a>
           </div>
         </div>
       )}
