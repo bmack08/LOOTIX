@@ -41,7 +41,7 @@ export default function PrivacyPolicyPage() {
         <li><strong>Winner Announcements:</strong> we may publish a winner&rsquo;s first name, last initial, and state. Nothing more is published unless the winner signs the publicity release in the Affidavit.</li>
       </ul>
 
-      <h2>5. Cookies &amp; Tracking</h2>
+      <h2 id="cookies">5. Cookies &amp; Tracking</h2>
       <p>We use cookies and similar technologies to enhance your experience and analyze traffic. You can control cookies through your browser; disabling them may affect certain features.</p>
 
       <h2>6. Data Security</h2>

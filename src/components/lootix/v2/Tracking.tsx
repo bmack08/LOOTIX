@@ -131,7 +131,7 @@ export default function Tracking() {
             <button type="button" className="btn-brass" style={{ minWidth: 120 }} onClick={() => choose('rejected')}>Decline</button>
           </div>
           <div className="flex gap-4 flex-wrap font-plex" style={{ marginTop: 12, fontSize: 12 }}>
-            <button type="button" className="text-brass hover:text-brass-lit" style={{ background: 'none', border: 0, padding: 0, cursor: 'pointer' }} onClick={() => setBannerOpen(true)}>Your Privacy Choices</button>
+            <a href="/privacy#cookies" className="text-brass hover:text-brass-lit">Your Privacy Choices</a>
             <a href="/privacy" className="text-brass hover:text-brass-lit">Privacy Policy</a>
           </div>
         </div>
