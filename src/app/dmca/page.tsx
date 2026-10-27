@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     'How to report copyright infringement on Lootix, submit a counter-notification, and contact our DMCA Designated Agent.',
 };
 
-const DMCA_EMAIL = 'bmccoy67@gmail.com';
+const DMCA_EMAIL = 'admin@getlootix.com';
 const SUPPORT_EMAIL = 'hello@getlootix.com';
 
 export default function DmcaPolicyPage() {
@@ -19,7 +19,7 @@ export default function DmcaPolicyPage() {
       subtitle="How to report copyright infringement, respond to a takedown, and reach our Designated Agent."
     >
       <p>
-        <strong>Effective date:</strong> October 8, 2026
+        <strong>Effective October 26, 2026</strong>
       </p>
 
       <p>
@@ -168,11 +168,15 @@ export default function DmcaPolicyPage() {
         <br />
         Lootix LLC
         <br />
-        212 Whirlaway Ln, Havre De Grace, MD 21078
+        9 Aberdeen Shopping Plz, Unit B #3017
+        <br />
+        Aberdeen, MD 21001
         <br />
         Phone: <a href="tel:+13016055308">301-605-5308</a>
         <br />
         Email: <a href={`mailto:${DMCA_EMAIL}`}>{DMCA_EMAIL}</a>
+        <br />
+        U.S. Copyright Office DMCA Designated Agent registration: DMCA-1082295
       </address>
       <p>
         Please include &ldquo;DMCA Notice&rdquo; or &ldquo;DMCA Counter-Notice&rdquo; in the subject line. Our
