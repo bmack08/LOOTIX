@@ -2,6 +2,7 @@
 
 import { FC, useState, useMemo } from 'react';
 import Image from 'next/image';
+import { MEMBERSHIP_ENABLED } from '@/config/flags';
 import QuickEntryForm from './QuickEntryForm';
 import { ENTRIES_LABEL } from '@/config/giveaway';
 import EntryGate from '@/components/EntryGate';
@@ -80,7 +81,7 @@ const ActiveGiveawayGrid: FC = () => {
           Active <span className="text-cta-primary">Giveaways</span>
         </h2>
         <p className="text-center text-text-secondary mb-12 max-w-2xl mx-auto">
-          Choose a giveaway below and enter with your email. Members get automatic entries!
+          Choose a giveaway below and enter with your email.{MEMBERSHIP_ENABLED && ' Members get automatic entries!'}
         </p>
 
         {/* Giveaway Grid */}

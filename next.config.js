@@ -25,7 +25,14 @@ const nextConfig = {
     return [
       { source: '/current-giveaway', destination: '/giveaways', permanent: true },
       { source: '/past-winners', destination: '/winners', permanent: true },
-      { source: '/membership', destination: '/giveaways', permanent: true },
+      // Membership is hidden unless NEXT_PUBLIC_MEMBERSHIP_ENABLED=true (src/config/flags.ts).
+      // Off: /membership (and sub-paths) go to /. On: no redirect, the page is served.
+      ...(process.env.NEXT_PUBLIC_MEMBERSHIP_ENABLED === 'true'
+        ? []
+        : [
+            { source: '/membership', destination: '/', permanent: false },
+            { source: '/membership/:path*', destination: '/', permanent: false },
+          ]),
       { source: '/quick-entries', destination: '/giveaways', permanent: true },
       { source: '/products', destination: '/shop', permanent: true },
       { source: '/mens', destination: '/shop', permanent: true },

@@ -30,3 +30,10 @@ export const GIVEAWAY_TEASERS_ENABLED: boolean = process.env.NEXT_PUBLIC_GIVEAWA
 
 /** True when any giveaway mention may render: giveaway on, or teasers on. */
 export const SHOW_GIVEAWAY_TEASERS: boolean = GIVEAWAY_ENABLED || GIVEAWAY_TEASERS_ENABLED;
+
+// Membership switch (owner 2026-10-26). MEMBERSHIP_ENABLED is false unless
+// NEXT_PUBLIC_MEMBERSHIP_ENABLED is exactly "true" at build time (default OFF). When it is
+// false the /membership route redirects to / (next.config.js, plus a page-level redirect),
+// and the membership copy in the quick-entries grid is hidden. Tier data, components and
+// pages are kept in the repo so membership can be switched back on without code changes.
+export const MEMBERSHIP_ENABLED: boolean = process.env.NEXT_PUBLIC_MEMBERSHIP_ENABLED === 'true';

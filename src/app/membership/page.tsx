@@ -1,3 +1,5 @@
+import { redirect } from 'next/navigation';
+import { MEMBERSHIP_ENABLED } from '@/config/flags';
 import MembershipHero from '@/components/membership/MembershipHero';
 import MembershipTierGrid from '@/components/membership/MembershipTierGrid';
 import MembershipComparison from '@/components/membership/MembershipComparison';
@@ -9,6 +11,7 @@ export const metadata = {
 };
 
 export default function MembershipPage() {
+  if (!MEMBERSHIP_ENABLED) redirect('/');
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
