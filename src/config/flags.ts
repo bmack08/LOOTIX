@@ -37,3 +37,9 @@ export const SHOW_GIVEAWAY_TEASERS: boolean = GIVEAWAY_ENABLED || GIVEAWAY_TEASE
 // and the membership copy in the quick-entries grid is hidden. Tier data, components and
 // pages are kept in the repo so membership can be switched back on without code changes.
 export const MEMBERSHIP_ENABLED: boolean = process.env.NEXT_PUBLIC_MEMBERSHIP_ENABLED === 'true';
+
+// Tracking switch (Legal 2026-10-27). TRACKING_ENABLED is false unless
+// NEXT_PUBLIC_TRACKING_ENABLED is exactly "true" at build time (default OFF). While false
+// nothing loads: no cookie banner, no "Your Privacy Choices" link, no Meta/TikTok pixels and
+// no Vercel Analytics. Turn on only after Legal's Privacy update (pixels/cookies, Section 6) is live.
+export const TRACKING_ENABLED: boolean = process.env.NEXT_PUBLIC_TRACKING_ENABLED === 'true';

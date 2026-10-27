@@ -4,6 +4,7 @@ import '../styles/globals.css';
 import SiteHeader from '@/components/lootix/v2/SiteHeader';
 import SiteFooter from '@/components/lootix/v2/SiteFooter';
 import { CartProvider } from '@/components/lootix/v2/CartContext';
+import Tracking from '@/components/lootix/v2/Tracking';
 import { ODDS_SHORT } from '@/config/giveaway';
 
 const archivo = Archivo({
@@ -52,6 +53,7 @@ export default function RootLayout({
           <main id="main-content">{children}</main>
           <SiteFooter />
         </CartProvider>
+        <Tracking />
       </body>
     </html>
   );

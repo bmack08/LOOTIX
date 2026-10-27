@@ -3,6 +3,7 @@ import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { COMPANY, FOOTER_COLS, GIVEAWAY_DATES_SET } from '@/lib/site';
 import { ODDS_SHORT } from '@/config/giveaway';
 import { SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
+import PrivacyChoicesLink from './PrivacyChoicesLink';
 
 // Teasers off: drop the Giveaways column (Current Giveaway, How It Works, Winners, Official Rules).
 const COLS_SHOWN = SHOW_GIVEAWAY_TEASERS ? FOOTER_COLS : FOOTER_COLS.filter((c) => c.title !== 'Giveaways');
@@ -44,6 +45,7 @@ export default function SiteFooter() {
 
       <div className="flex justify-between items-center gap-6 flex-wrap" style={{ paddingTop: 28 }}>
         <span className="font-plex text-ash" style={{ fontSize: 11 }}>© 2026 {COMPANY.legalName} · All rights reserved</span>
+        <PrivacyChoicesLink className="font-plex text-ash hover:text-brass-lit transition-colors" style={{ fontSize: 11 }} />
         {/* Legal 2026-10-24: PRE-START (start and end dates not both set = !GIVEAWAY_DATES_SET) shows the
             pre-start text below; once the dates are set (LIVE, and before/after the window) the short Option B line. */}
         {!SHOW_GIVEAWAY_TEASERS ? null : GIVEAWAY_DATES_SET ? (
