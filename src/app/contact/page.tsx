@@ -20,8 +20,8 @@ export default function ContactPage() {
 
       <h2>Follow</h2>
       <ul>
-        <li><a href={COMPANY.socials.instagram}>Instagram</a> — drops, behind-the-scenes, winner announcements</li>
-        <li><a href={COMPANY.socials.tiktok}>TikTok</a> — draws and drop reveals</li>
+        <li><a href={COMPANY.socials.instagram}>Instagram</a> — new releases, behind-the-scenes, winner announcements</li>
+        <li><a href={COMPANY.socials.tiktok}>TikTok</a> — draws and new release reveals</li>
         <li><a href={COMPANY.socials.discord}>Discord</a> — the guild hangout</li>
       </ul>
 

@@ -64,11 +64,11 @@ export function sendWelcome(to: string, entries: number) {
       shell(`
         <h1 style="font-size:24px;font-weight:900;text-transform:uppercase;margin:0 0 12px">You're on the list.</h1>
         <p style="color:#b7b2a8;font-size:15px;line-height:1.6;margin:0 0 16px">
-          You'll get drop alerts and first access to limited gear. The next giveaway hasn't opened yet —
+          You'll get new release alerts and first access to limited gear. The next giveaway hasn't opened yet —
           we'll email you the moment entries are live. The
           <a href="${FREE_ENTRY_URL}" style="color:#e0b83c">free mail-in entry method</a> is in the Official Rules.
         </p>
-        <a href="https://getlootix.com/shop" style="display:inline-block;background:#e0b83c;color:#0a0a0b;font-weight:800;text-decoration:none;padding:14px 24px;border-radius:5px;text-transform:uppercase;font-size:13px;letter-spacing:.06em">Shop the Drop</a>
+        <a href="https://getlootix.com/shop" style="display:inline-block;background:#e0b83c;color:#0a0a0b;font-weight:800;text-decoration:none;padding:14px 24px;border-radius:5px;text-transform:uppercase;font-size:13px;letter-spacing:.06em">Shop the launch</a>
       `),
     );
   }
@@ -85,7 +85,7 @@ export function sendWelcome(to: string, entries: number) {
         Want more? Every $1 you spend is 1 more entry, and free entry is always available by mail —
         <a href="${FREE_ENTRY_URL}" style="color:#e0b83c">see the Official Rules</a>.
       </p>
-      <a href="https://getlootix.com/shop" style="display:inline-block;background:#e0b83c;color:#0a0a0b;font-weight:800;text-decoration:none;padding:14px 24px;border-radius:5px;text-transform:uppercase;font-size:13px;letter-spacing:.06em">Shop the Drop</a>
+      <a href="https://getlootix.com/shop" style="display:inline-block;background:#e0b83c;color:#0a0a0b;font-weight:800;text-decoration:none;padding:14px 24px;border-radius:5px;text-transform:uppercase;font-size:13px;letter-spacing:.06em">Shop the launch</a>
     `),
   );
 }

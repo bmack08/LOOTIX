@@ -64,7 +64,7 @@ export default function Home() {
             </p>
           )}
           <div className="flex items-center gap-4 flex-wrap">
-            <Link href="/shop" className="btn-brass">Shop the Drop</Link>
+            <Link href="/shop" className="btn-brass">Shop the launch</Link>
             <Link href="/about" className="btn-ghost-v2">How It Works</Link>
           </div>
           <div className="flex gap-7 flex-wrap font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em', paddingTop: 8 }}>
@@ -350,14 +350,14 @@ export default function Home() {
         <div className="mx-auto text-center flex flex-col gap-4 items-center" style={{ maxWidth: 820 }}>
           <span className="font-plex uppercase" style={{ fontSize: 12, letterSpacing: '0.18em', color: '#7A6231' }}>Join the Looters Guild</span>
           <h2 className="m-0 uppercase" style={{ fontSize: 'clamp(30px,4.5vw,44px)', fontWeight: 900, letterSpacing: '-0.01em' }}>
-            {windowOpen ? `First access + ${SIGNUP_ENTRIES} free entries` : 'First access to every drop'}
+            {windowOpen ? `First access + ${SIGNUP_ENTRIES} free entries` : 'First access to every release'}
           </h2>
           <p className="m-0" style={{ maxWidth: 540, fontSize: 16, lineHeight: 1.6, color: '#4A3D22' }}>
             {windowOpen
-              ? `Drop alerts, early access to limited gear, and ${SIGNUP_ENTRIES} free entries — one sign-up per person, no purchase necessary.`
+              ? `New release alerts, early access to limited gear, and ${SIGNUP_ENTRIES} free entries — one sign-up per person, no purchase necessary.`
               : SHOW_GIVEAWAY_TEASERS
-                ? 'Drop alerts and early access to limited gear. We will email you the moment giveaway entries open.'
-                : 'Drop alerts and early access to limited gear.'}
+                ? 'New release alerts and early access to limited gear. We will email you the moment giveaway entries open.'
+                : 'New release alerts and early access to limited gear.'}
           </p>
           <div className="w-full flex justify-center" style={{ marginTop: 8 }}>
             <EmailCapture source="newsletter" />

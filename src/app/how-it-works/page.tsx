@@ -4,7 +4,7 @@ import { isEntryWindowOpen } from '@/lib/site';
 
 export const metadata: Metadata = {
   title: 'How It Works — Lootix',
-  description: 'How Lootix works: limited, numbered drops and honest giveaways drawn at random on RANDOM.ORG.',
+  description: 'How Lootix works: limited, numbered collections and honest giveaways drawn at random on RANDOM.ORG.',
 };
 
 // isEntryWindowOpen() is wall-clock dependent: revalidate so the LIVE / PRE-START copy refreshes.

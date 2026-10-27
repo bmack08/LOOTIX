@@ -27,7 +27,7 @@ export default function ShopPage() {
       <header className="flex justify-between items-end gap-8 flex-wrap" style={{ padding: '72px 24px 44px', borderBottom: HAIR }}>
         <div className="flex flex-col gap-3">
           <span className="v2-eyebrow">Launch Collection · Summon the Loot · Limited to 500</span>
-          <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Shop the drop</h1>
+          <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Shop the launch</h1>
           {windowOpen ? (
             <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
               {ENTRIES_LABEL} — every dollar of your order subtotal is one entry into the giveaway. You keep the gear either way, and

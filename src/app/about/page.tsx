@@ -7,7 +7,7 @@ import { ENTRIES_LABEL, MAIL_IN_ENTRIES, formatEndDate, GIVEAWAY_CLOSE_TIME_LABE
 
 export const metadata: Metadata = {
   title: 'About — This is your loot | Lootix',
-  description: 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Limited, numbered drops — and honest giveaways drawn at random on RANDOM.ORG.',
+  description: 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Limited, numbered collections — and honest giveaways drawn at random on RANDOM.ORG.',
 };
 
 // isEntryWindowOpen() is wall-clock dependent: revalidate so the LIVE / PRE-START copy refreshes.
@@ -25,7 +25,7 @@ const VALUES = [
 ];
 
 const QUEST = [
-  { n: '01', title: 'Shop the drop', body: <>Each drop is a limited, numbered collection. When it&rsquo;s gone, it&rsquo;s gone.</> },
+  { n: '01', title: 'Shop the launch', body: <>Each release is a limited, numbered collection. When it&rsquo;s gone, it&rsquo;s gone.</> },
   { n: '02', title: `Earn ${ENTRIES_LABEL}`, body: <>Every dollar of your order subtotal is one entry — a $129.99 order earns 129 entries. Your total shows at checkout and in your confirmation email. Prefer not to buy? The free mail-in method in the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> is worth {MAIL_IN_ENTRIES} entries per card, with no limit on envelopes.</> },
   { n: '03', title: 'Watch the draw', body: <>{GIVEAWAY_ENABLED && <>Entries close at {GIVEAWAY_CLOSE_TIME_LABEL}. </>}The winner is drawn on RANDOM.ORG and the draw is screen-recorded. The recording is posted with the RANDOM.ORG result link.</> },
   { n: '04', title: 'Claim the loot', body: <>Cash is sent by PayPal and the merch ships after the winner is verified. With the winner&rsquo;s permission, the name goes on the <Link href="/winners" className="text-brass hover:text-brass-lit transition-colors">Winners page</Link>.</> },
@@ -56,8 +56,8 @@ export default function AboutPage() {
           </h1>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7, maxWidth: 520 }}>
             {windowOpen
-              ? 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every drop is limited, numbered, and never mass produced \u2014 and every dollar you spend earns an entry toward a vault of real prizes, drawn at random and in the open.'
-              : 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every drop is limited, numbered, and never mass produced.'}
+              ? 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every collection is limited, numbered, and never mass produced \u2014 and every dollar you spend earns an entry toward a vault of real prizes, drawn at random and in the open.'
+              : 'Lootix was built on a simple idea: the gear you wear should feel like treasure you earned. Every collection is limited, numbered, and never mass produced.'}
           </p>
           <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.7, maxWidth: 520 }}>
             We&rsquo;re a small crew out of Maryland — adventurers, gamers, collectors. We built the brand we wanted to exist: premium quality, built to last, designed for the fearless.
@@ -105,7 +105,7 @@ export default function AboutPage() {
       {/* CTA (inverted cream) */}
       <section className="flex items-center justify-between gap-8 flex-wrap" style={{ padding: '48px 24px', background: '#E4D5B4', color: '#171208' }}>
         <div className="flex flex-col gap-1.5">
-          <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>{windowOpen ? 'Ready to earn your loot?' : 'Ready for the drop?'}</span>
+          <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>{windowOpen ? 'Ready to earn your loot?' : 'Ready for the launch?'}</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
             THE LAUNCH COLLECTION IS LIVE ·{' '}
             {GIVEAWAY.endDateISO
