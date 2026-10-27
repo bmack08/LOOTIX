@@ -13,7 +13,7 @@
 -- Entry model (owner decision Oct 22, 2026): entries are PER DOLLAR.
 --   order    → 1 entry per $1 of subtotal, after discounts, before tax/shipping
 --   mail-in  → 25 entries per card (one card per envelope, no cap)
---   subscribe→ 10 entries, once per normalized email per giveaway
+--   subscribe→ 25 entries, once per normalized email per giveaway
 -- The `entries` column is the weight: a row worth 129 counts 129 times in the
 -- draw. Voided rows (refund / chargeback) count 0 and are never deleted.
 -- ─────────────────────────────────────────────────────────────

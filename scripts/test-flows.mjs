@@ -256,6 +256,16 @@ await test('source: no confirm call anywhere in Printful order code', () => {
   const s = readFileSync('src/utils/printful.ts', 'utf8').split('export async function createDraftOrder')[1];
   assert(!/confirm\s*[:=]\s*(true|1)|\/confirm|[?&]confirm/.test(s), 'confirm found');
 });
+await test('sign-up entries: 25, once per person (config, grant table, rules and terms copy)', async () => {
+  const g = await import('../src/config/giveaway.ts');
+  const l = await import('../src/lib/lootix.ts');
+  eq(g.SIGNUP_ENTRIES, 25, 'SIGNUP_ENTRIES');
+  eq(l.ENTRY_GRANTS.subscribe, 25, 'ENTRY_GRANTS.subscribe');
+  eq(g.SIGNUP_LABEL, 'Free online sign-up: 25 entries, once per person.', 'SIGNUP_LABEL');
+  eq(g.MAIL_IN_ENTRIES, 25, 'MAIL_IN_ENTRIES');
+  eq(g.ENTRIES_PER_DOLLAR, 1, 'ENTRIES_PER_DOLLAR');
+  assert(!/\bten\s*\(\$\{SIGNUP_ENTRIES\}|ten \("\}\{SIGNUP_ENTRIES/.test(readFileSync('src/app/official-rules/page.tsx', 'utf8') + readFileSync('src/app/terms/page.tsx', 'utf8')), 'word "ten" still next to SIGNUP_ENTRIES');
+});
 await test('no unexpected network hosts were contacted', () => eq(unexpected().length, 0, 'unexpected'));
 
 const failed = results.filter((r) => !r[1]).length;

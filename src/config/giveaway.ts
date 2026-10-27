@@ -5,7 +5,7 @@
 //   · Order    → 1 entry per $1 of the order subtotal, after discounts and
 //                before tax and shipping. $129.99 → 129 entries.
 //   · Mail-in  → 25 entries per card (one card per envelope, no cap).
-//   · Sign-up  → 10 entries, once per normalized email for the whole giveaway.
+//   · Sign-up  → 25 entries, once per normalized email for the whole giveaway.
 //
 // These numbers live HERE and nowhere else. Order entries are always computed
 // server-side from the Stripe session, never from client data.
@@ -18,7 +18,11 @@ export { GIVEAWAY_ENABLED } from './flags';
 
 export const ENTRIES_PER_DOLLAR = 1;
 export const MAIL_IN_ENTRIES = 25;
-export const SIGNUP_ENTRIES = 10;
+// Legal ruling (owner decision 2026-10-26): free online sign-up is 25 entries (was 10).
+export const SIGNUP_ENTRIES = 25;
+
+/** The one public-facing phrase for the free online sign-up entry method. */
+export const SIGNUP_LABEL = `Free online sign-up: ${SIGNUP_ENTRIES} entries, once per person.`;
 
 /** The one public-facing phrase for how purchase entries work. */
 export const ENTRIES_LABEL = '1 entry per $1 spent';

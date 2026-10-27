@@ -8,7 +8,7 @@ import {
   formatEndDate,
   ENTRIES_LABEL,
   MAIL_IN_ENTRIES,
-  SIGNUP_ENTRIES,
+  SIGNUP_LABEL,
   FREE_SHIPPING_THRESHOLD,
   PRIZE_VALUE_PLACEHOLDER,
   GIVEAWAY_CLOSE_TIME_LABEL,
@@ -109,7 +109,7 @@ export default function GiveawaysPage() {
               <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.14em' }}>How to enter</span>
               <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Order — {ENTRIES_LABEL} of your subtotal</span>
               <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Free by mail — {MAIL_IN_ENTRIES} entries per card, no purchase necessary</span>
-              <span className="text-sand" style={{ fontSize: 14.5 }}>◆ Online sign-up — {SIGNUP_ENTRIES} entries, once per person</span>
+              <span className="text-sand" style={{ fontSize: 14.5 }}>◆ {SIGNUP_LABEL}</span>
               </>
             ) : (
               <>
