@@ -1,7 +1,8 @@
 import Link from 'next/link';
 import Countdown from '@/components/lootix/v2/Countdown';
 import EmailCapture from '@/components/lootix/v2/EmailCapture';
-import { GIVEAWAY, STATS, PRODUCTS, QUICKIES, PACKS, HOW_STEPS, PROOF } from '@/lib/site';
+import { GIVEAWAY, STATS, PACKS, HOW_STEPS, PROOF } from '@/lib/site';
+import { getShopItems } from '@/lib/printful-shop';
 import { etWallClockToEpochMs, formatInET } from '@/lib/time';
 import { SWEEPSTAKES_OPEN, COMING_SOON_LABEL } from '@/config/sweepstakes';
 
@@ -14,7 +15,17 @@ const drawShort = SWEEPSTAKES_OPEN
   ? formatInET(etWallClockToEpochMs(GIVEAWAY.drawDateISO), { month: 'short', day: 'numeric' })
   : null;
 
-export default function Home() {
+// Featured row reads the Printful store (cached; refreshed at most every 15 minutes).
+export const revalidate = 900;
+
+export default async function Home() {
+  const all = await getShopItems();
+  const mens = all.filter((i) => !i.womens);
+  const featured = (mens.filter((i) => / — Black ink$/.test(i.name)).length >= 4
+    ? mens.filter((i) => / — Black ink$/.test(i.name))
+    : mens
+  ).slice(0, 4);
+
   return (
     <div className="text-parchment">
       {/* ───────────── HERO ───────────── */}
@@ -98,57 +109,32 @@ export default function Home() {
             Shop all gear →
           </Link>
         </div>
+        {featured.length > 0 && (
         <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {PRODUCTS.map((p) => (
-            <Link key={p.name} href="/shop" className="v2-card flex flex-col overflow-hidden text-parchment">
-              <div className="relative overflow-hidden" style={{ aspectRatio: '4/4.4' }}>
-                <img src={p.img} alt={p.name} className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
-                <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>
-                  {SWEEPSTAKES_OPEN ? `◆ ${p.entries} ENTRIES` : '◆ ENTRIES COMING SOON'}
-                </span>
-                <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span>
+          {featured.map((p) => (
+            <Link key={p.id} href="/shop" className="v2-card flex flex-col overflow-hidden text-parchment">
+              <div className="relative overflow-hidden" style={{ aspectRatio: '4/4.4', background: '#17130C' }}>
+                {p.img && <img src={p.img} alt={p.name} loading="lazy" className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />}
+                {!SWEEPSTAKES_OPEN && (
+                  <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ ENTRIES COMING SOON</span>
+                )}
               </div>
               <div className="flex flex-col gap-1.5" style={{ padding: 18 }}>
                 <div className="flex justify-between items-baseline gap-2">
                   <span style={{ fontSize: 16, fontWeight: 700 }}>{p.name}</span>
-                  <span className="font-plex text-brass-lit" style={{ fontSize: 15, fontWeight: 600 }}>{p.price}</span>
+                  {p.price && <span className="font-plex text-brass-lit whitespace-nowrap" style={{ fontSize: 15, fontWeight: 600 }}>{p.price}</span>}
                 </div>
                 <span className="uppercase text-stone" style={{ fontSize: 12, letterSpacing: '0.06em' }}>{p.sub}</span>
               </div>
             </Link>
           ))}
         </div>
+        )}
         <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em' }}>
           {SWEEPSTAKES_OPEN
             ? 'Entry counts are printed on every product — one flat number, no math.'
             : 'Entry counts will be printed on every product — one flat number, no math — once the giveaway opens.'}
         </p>
-      </section>
-
-      {/* ───────────── QUICK ENTRIES ───────────── */}
-      <section style={{ padding: '64px 24px', borderBottom: HAIR, background: '#0F0C08' }}>
-        <div className="flex justify-between items-center gap-4 flex-wrap" style={{ marginBottom: 32 }}>
-          <div className="flex items-center gap-4 flex-wrap">
-            <h3 className="m-0 uppercase text-parchment" style={{ fontSize: 26, fontWeight: 900 }}>Quick entries</h3>
-            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.12em' }}>
-              {SWEEPSTAKES_OPEN ? 'Small loot · fast stacks' : 'Small loot · entries open when the giveaway starts'}
-            </span>
-          </div>
-          <Link href="/shop" className="uppercase text-brass hover:text-brass-lit transition-colors" style={{ fontSize: 12, fontWeight: 700, letterSpacing: '0.12em' }}>View all →</Link>
-        </div>
-        <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {QUICKIES.map((q) => (
-            <Link key={q.name} href="/shop" className="v2-card flex items-center justify-between gap-3 text-parchment" style={{ padding: '18px 20px' }}>
-              <div className="flex flex-col gap-1">
-                <span style={{ fontSize: 15, fontWeight: 700 }}>{q.name}</span>
-                <span className="font-plex text-brass" style={{ fontSize: 11, letterSpacing: '0.06em' }}>
-                  {SWEEPSTAKES_OPEN ? `◆ ${q.entries} ENTRIES` : '◆ ENTRIES COMING SOON'}
-                </span>
-              </div>
-              <span className="font-plex text-brass-lit" style={{ fontSize: 15, fontWeight: 600 }}>{q.price}</span>
-            </Link>
-          ))}
-        </div>
       </section>
 
       {/* ───────────── HOW IT WORKS ───────────── */}
