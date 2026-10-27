@@ -144,7 +144,7 @@ export default function OfficialRulesPage() {
       {/* HEADER */}
       <header className="text-center" style={{ padding: '88px 24px 56px', borderBottom: HAIR }}>
         <div className="flex flex-col gap-3.5 items-center mx-auto" style={{ maxWidth: 760 }}>
-          <span className="v2-eyebrow">Sweepstakes · Drop 1</span>
+          <span className="v2-eyebrow">Sweepstakes · Launch Giveaway</span>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Official Rules</h1>
           <span className="font-plex text-stone" style={{ fontSize: 12, letterSpacing: '0.1em' }}>
             Lootix Launch Giveaway · Last updated October 23, 2026

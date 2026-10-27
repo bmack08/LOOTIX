@@ -46,7 +46,7 @@ export default function AboutPage() {
       {/* STORY HERO */}
       <section className="grid lg:grid-cols-2" style={{ borderBottom: HAIR }}>
         <div className="relative overflow-hidden" style={{ minHeight: 440 }}>
-          <img src="/brand/v2/hero-duo.png" alt="Lootix Drop 1" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
+          <img src="/brand/v2/hero-duo.png" alt="Lootix launch collection" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(270deg, #0C0A07 0%, rgba(12,10,7,0) 32%)' }} />
         </div>
         <div className="flex flex-col justify-center gap-6" style={{ padding: '80px 24px' }}>
@@ -107,7 +107,7 @@ export default function AboutPage() {
         <div className="flex flex-col gap-1.5">
           <span className="uppercase" style={{ fontSize: 26, fontWeight: 900 }}>{windowOpen ? 'Ready to earn your loot?' : 'Ready for the drop?'}</span>
           <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
-            DROP 1 IS LIVE ·{' '}
+            THE LAUNCH COLLECTION IS LIVE ·{' '}
             {GIVEAWAY.endDateISO
               ? `LAUNCH GIVEAWAY CLOSES ${formatEndDate(new Date(GIVEAWAY.endDateISO)).toUpperCase()} AT ${GIVEAWAY_CLOSE_TIME_LABEL.toUpperCase()}`
               : 'LAUNCH GIVEAWAY DATES COMING SOON'}
@@ -118,7 +118,7 @@ export default function AboutPage() {
           className="uppercase transition-colors whitespace-nowrap"
           style={{ background: '#171208', color: '#E4D5B4', padding: '16px 32px', fontSize: 13, fontWeight: 800, letterSpacing: '0.12em', borderRadius: 2 }}
         >
-          Shop Drop 1 →
+          Shop Now →
         </Link>
       </section>
     </div>

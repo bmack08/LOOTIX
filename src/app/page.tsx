@@ -35,7 +35,7 @@ export default function Home() {
         <div className="flex flex-col justify-center gap-7" style={{ padding: '72px 24px' }}>
           <div className="flex items-center gap-3 font-plex uppercase text-brass" style={{ fontSize: 12, letterSpacing: '0.18em' }}>
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#C6A15B', boxShadow: '0 0 10px #C6A15B' }} />
-            {!SHOW_GIVEAWAY_TEASERS ? 'Drop 1' : endShort ? `Launch Giveaway · Drop 1 · Ends ${endShort}` : 'Launch Giveaway · Drop 1 · Dates coming soon'}
+            {!SHOW_GIVEAWAY_TEASERS ? 'Launch Collection' : endShort ? `Launch Giveaway · Ends ${endShort}` : 'Launch Giveaway · Dates coming soon'}
           </div>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(52px,7vw,88px)', lineHeight: 0.95, fontWeight: 900, letterSpacing: '-0.02em' }}>
             Earn it.<br />Wear it.<br /><span className="text-brass">Loot it.</span>
@@ -74,7 +74,7 @@ export default function Home() {
         </div>
 
         <div className="relative overflow-hidden" style={{ minHeight: 440 }}>
-          <img src="/brand/v2/hero-duo.png" alt="Lootix Drop 1 hoodies" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
+          <img src="/brand/v2/hero-duo.png" alt="Lootix launch collection hoodies" className="absolute inset-0 w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
           <div className="absolute inset-0" style={{ background: 'linear-gradient(90deg, #0C0A07 0%, rgba(12,10,7,0) 22%)' }} />
           {/* Giveaway card overlay */}
           {SHOW_GIVEAWAY_TEASERS && (
@@ -141,7 +141,7 @@ export default function Home() {
       <section style={{ padding: '88px 24px', borderBottom: HAIR }}>
         <div className="flex justify-between items-end gap-6 flex-wrap" style={{ marginBottom: 44 }}>
           <div className="flex flex-col gap-2.5">
-            <span className="v2-eyebrow">Drop 1 · Summon the Loot</span>
+            <span className="v2-eyebrow">Launch Collection · Summon the Loot</span>
             <h2 className="v2-h2">{windowOpen ? 'Gear worth winning in' : 'Gear worth wearing'}</h2>
           </div>
           <Link href="/shop" className="uppercase text-brass hover:text-brass-lit transition-colors" style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.12em', borderBottom: '1px solid rgba(198,161,91,0.45)', paddingBottom: 4 }}>
@@ -337,7 +337,7 @@ export default function Home() {
           >
             <span className="font-plex uppercase text-brass" style={{ fontSize: 11, letterSpacing: '0.2em' }}>◆ First Winner ◆</span>
             <span className="text-parchment" style={{ fontSize: 32, fontWeight: 900, letterSpacing: '0.04em' }}>{windowOpen ? '\u2014 YOUR NAME \u2014' : '\u2014 NO WINNER YET \u2014'}</span>
-            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Drop 1 · Lootix Launch Giveaway</span>
+            <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.14em' }}>Lootix Launch Giveaway</span>
             <div style={{ height: 1, background: 'rgba(198,161,91,0.25)', margin: '6px 0' }} />
             <span className="text-sand" style={{ fontSize: 13, lineHeight: 1.6 }}>The first winner will be listed on the Winners page after the drawing.</span>
           </div>

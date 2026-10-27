@@ -14,7 +14,7 @@ export const TICKER = [
   // Legal's short line (ODDS_SHORT in config/giveaway.ts; spelled out because that
   // file imports this one).
   'No purchase necessary to enter or win. Every entry has an equal chance; purchases earn more entries; free entries are available.',
-  'Drop 1',
+  'Launch Collection',
   '◆ 1 entry per $1 spent',
   'Ships to the US only',
   '◆ Winner drawn at random on RANDOM.ORG',
@@ -23,7 +23,7 @@ export const TICKER = [
 /** PRE-START ticker (dates not both set): no prize, no entry cue, no "win". Legal ruling 5. */
 export const TICKER_PRE_START = [
   '\u25c6 Lootix Launch Giveaway \u2014 dates coming soon',
-  'Drop 1',
+  'Launch Collection',
   '\u25c6 Join the list',
   'Ships to the US only',
 ];
@@ -103,7 +103,7 @@ export const STATS = [
 
 /** PRE-START stats: no prize amount, no per-dollar cue. The "Dates TBA" card is Legal's wording; the others are neutral. */
 export const STATS_PRE_START = [
-  { value: 'Drop 1', label: 'Limited, numbered gear' },
+  { value: 'Launch', label: 'Limited, numbered gear' },
   { value: 'Dates TBA', label: 'Join the list to hear first' },
   { value: 'US only', label: 'Ships to the US only' },
   { value: 'RANDOM.ORG', label: 'Random draw, screen-recorded' },
@@ -123,7 +123,7 @@ export type Product = {
 };
 
 /**
- * Drop 1 — real brand photography.
+ * Launch collection — real brand photography.
  *
  * No per-product entry counts: entries are earned per dollar of the order
  * subtotal (see ENTRIES_PER_DOLLAR in src/config/giveaway.ts) and are
@@ -136,7 +136,7 @@ export const PRODUCTS: Product[] = [
   { slug: 'welcome-looter-kit', name: 'Welcome Looter Kit', sub: 'Tee + patch + guild card', price: '$48', priceValue: 48, edition: 'ED. 500', img: '/brand/v2/unboxing.png' },
 ];
 
-/** Shop grid — Drop 1. */
+/** Shop grid — launch collection. */
 export type ShopProduct = Product & { category: string };
 
 export const SHOP_CATEGORIES = ['All', 'Hoodies', 'Tees', 'Footwear', 'Accessories'] as const;
@@ -217,7 +217,7 @@ export const FOOTER_COLS = [
   {
     title: 'Shop',
     links: [
-      { label: 'Drop 1', href: '/shop' },
+      { label: 'Shop', href: '/shop' },
       { label: 'Shop All', href: '/shop' },
       { label: 'Accessories', href: '/shop' },
       { label: 'Cart', href: '/cart' },

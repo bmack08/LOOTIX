@@ -2,7 +2,7 @@
 // Sizes — the ONE place that says which shop items have a size, which
 // sizes they come in, and which items are listed but not on sale yet.
 //
-// Drop 1 apparel (Hoodies, Tees) is sold S–2XL. Every other category
+// Launch-collection apparel (Hoodies, Tees) is sold S–2XL. Every other category
 // has no size at all; those lines are recorded as ONE_SIZE server-side
 // so an order row always has something to key a Printful variant on.
 //
