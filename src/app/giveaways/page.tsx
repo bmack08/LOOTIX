@@ -42,7 +42,6 @@ export default function GiveawaysPage() {
             <span className="v2-eyebrow">Launch Giveaway</span>
             <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(36px,6vw,56px)', fontWeight: 900, letterSpacing: '-0.01em', lineHeight: 1 }}>Lootix Launch Giveaway</h1>
             <p className="m-0 text-sand" style={{ fontSize: 16, lineHeight: 1.65 }}>{GIVEAWAY_PLACEHOLDER_BODY}</p>
-            <Link href="/shop" className="btn-brass">Shop the launch</Link>
           </div>
         </section>
       </div>
