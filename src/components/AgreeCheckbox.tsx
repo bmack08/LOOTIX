@@ -44,7 +44,8 @@ export default function AgreeCheckbox({
         I agree to the{' '}
         {rulesOnly ? null : (
           <>
-            <Link href="/terms" target="_blank" className={linkClassName}>Terms of Use</Link> and{' '}
+            <Link href="/terms" target="_blank" className={linkClassName}>Terms of Use</Link>,{' '}
+            <Link href="/privacy" target="_blank" className={linkClassName}>Privacy Policy</Link> and{' '}
           </>
         )}
         <Link href="/official-rules" target="_blank" className={linkClassName}>Official Rules</Link>
