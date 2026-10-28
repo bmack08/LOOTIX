@@ -5,6 +5,7 @@ import { sendWelcome } from '@/lib/email';
 import { recordPaidOrder } from '@/lib/record-order';
 import { agreementFromMetadata } from '@/config/agreement';
 import { isEntryWindowOpen } from '@/lib/site';
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 import { entriesForSubtotalCents } from '@/config/giveaway';
 
 export const runtime = 'nodejs';
@@ -159,6 +160,13 @@ export async function POST(req: Request) {
           await recordPaidOrder(stripe, session);
         } catch {
           console.error(`order ${session.id}: recording the order failed — entries are unaffected`);
+        }
+
+        // Giveaway off: plain store. The order above is recorded as usual, but
+        // no entries are written and no entry email is sent.
+        if (!GIVEAWAY_ENABLED) {
+          console.log(`order ${session.id}: giveaway disabled, no entries granted`);
+          break;
         }
 
         const email = (session.customer_details?.email || session.customer_email || '').toLowerCase();

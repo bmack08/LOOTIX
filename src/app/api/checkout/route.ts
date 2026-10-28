@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 import { SHOP_PRODUCTS, GIVEAWAY, type ShopProduct } from '@/lib/site';
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 import { isComingSoon, isValidSize, needsSize, ONE_SIZE } from '@/config/sizes';
 import { makeAgreement } from '@/config/agreement';
 import { quoteShipping, SHIPPING_DELIVERY_BUSINESS_DAYS } from '@/config/shipping';
@@ -141,7 +142,8 @@ export async function POST(req: Request) {
   const compactItems = Array.from(merged.values())
     .map((l) => `${l.product.slug}:${l.size}:${l.qty}`)
     .join(',');
-  const metadata: Record<string, string> = { giveaway_id: GIVEAWAY.id, ...agreement };
+  // giveaway_id is tagged only while the giveaway is on; off, this is a plain store order.
+  const metadata: Record<string, string> = { ...(GIVEAWAY_ENABLED ? { giveaway_id: GIVEAWAY.id } : {}), ...agreement };
   if (compactItems.length <= METADATA_VALUE_MAX) metadata.items = compactItems;
 
   // Flat shipping per order (option B), computed here from the server-side

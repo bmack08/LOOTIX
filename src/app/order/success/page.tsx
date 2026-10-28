@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { getOrderEntryCount } from '@/lib/raffle';
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 import ClearCart from './ClearCart';
 
 // Per-request: the entry message depends on what the webhook recorded for this session.
@@ -16,7 +17,7 @@ export const dynamic = 'force-dynamic';
 export default async function OrderSuccessPage({ searchParams }: { searchParams: Promise<{ session_id?: string | string[] }> }) {
   const sp = await searchParams;
   const sid = typeof sp.session_id === 'string' ? sp.session_id : '';
-  const entries = sid ? await getOrderEntryCount(sid) : null;
+  const entries = GIVEAWAY_ENABLED && sid ? await getOrderEntryCount(sid) : null;
 
   return (
     <div className="text-parchment" style={{ padding: '96px 24px' }}>

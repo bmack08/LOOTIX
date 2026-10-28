@@ -37,7 +37,9 @@ export default function CartPage() {
   const [err, setErr] = useState('');
   const [agreed, setAgreed] = useState(false);
   // LIVE only: per-dollar entry cues. PRE-START (default) shows none of them.
-  const windowOpen = useEntryWindow();
+  // GIVEAWAY_ENABLED off: plain store, no entry counts or entry copy anywhere in the cart.
+  const entryWindow = useEntryWindow();
+  const windowOpen = GIVEAWAY_ENABLED && entryWindow;
 
   const hasBlocked = lines.some((l) => blockedReason(l) !== null);
   // Same pure function /api/checkout charges with; this is only an estimate.
