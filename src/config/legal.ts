@@ -65,3 +65,10 @@ export const WINNERS_LIST_ADDRESS_LINES: string[] = [
 
 /** Winners list address, single line, for running prose and instructions. */
 export const WINNERS_LIST_ADDRESS = WINNERS_LIST_ADDRESS_LINES.join(', ');
+
+/**
+ * Effective / "Last updated" date for the Terms of Use and Privacy Policy, and the
+ * "Last reviewed" date of the Accessibility Statement (end of the Terms page).
+ * PLACEHOLDER: set to the real date on the day the site is pushed live.
+ */
+export const LEGAL_EFFECTIVE_DATE = '[EFFECTIVE DATE - SET ON PUSH DAY]';
