@@ -46,9 +46,9 @@ export default function PrivacyPolicyPage() {
       <h2>{"8. State privacy laws"}</h2>
       <p>{"We extend the rights in Section 7 to everyone, whether or not a specific law applies to us. Status of key laws:"}</p>
       <ul>
-        <li><strong>{"Maryland Online Data Privacy Act (MODPA, effective Oct 1, 2025):"}</strong>{" applies to businesses that process data of 35,000+ Maryland consumers (or 10,000+ and derive 20%+ of revenue from selling data). We currently [do not meet / meet] these thresholds. We do not sell data and do not process sensitive data beyond what's needed for the service."}</li>
+        <li><strong>{"Maryland Online Data Privacy Act (MODPA, effective Oct 1, 2025):"}</strong>{" applies to businesses that process data of 35,000+ Maryland consumers (or 10,000+ and derive 20%+ of revenue from selling data). We currently do not meet these thresholds. We do not sell data and do not process sensitive data beyond what's needed for the service."}</li>
         <li><strong>{"California (CCPA/CPRA):"}</strong>{" applies to businesses with $25M+ revenue, or that buy/sell/share data of 100,000+ CA consumers, or derive 50%+ revenue from selling/sharing. We currently do not meet these thresholds. "}<strong>{"Shine the Light:"}</strong>{" we don't share personal information with third parties for their direct marketing."}</li>
-        <li><strong>{"Colorado, Connecticut, Virginia, Utah, Texas, Oregon, Delaware, and other comprehensive state laws:"}</strong>{" thresholds generally based on number of state residents' data processed; we currently [do not meet] them, except that Texas' law applies to businesses that are not small businesses under SBA definitions \u2014 we are a small business."}</li>
+        <li><strong>{"Colorado, Connecticut, Virginia, Utah, Texas, Oregon, Delaware, and other comprehensive state laws:"}</strong>{" thresholds generally based on number of state residents' data processed; we currently do not meet them, except that Texas' law applies to businesses that are not small businesses under SBA definitions \u2014 we are a small business."}</li>
         <li><strong>{"Nevada:"}</strong>{" we don't sell covered information; you may still submit an opt-out request to privacy@getlootix.com."}</li>
       </ul>
       <h2>{"9. Children"}</h2>
