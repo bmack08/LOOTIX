@@ -218,7 +218,7 @@ export const COMPANY = {
   email: 'hello@getlootix.com',
   socials: {
     instagram: 'https://www.instagram.com/wearlootix',
-    tiktok: 'https://tiktok.com/@getlootix',
+    tiktok: 'https://tiktok.com/@wearlootix',
     discord: 'https://discord.gg/lootix',
   },
 };
