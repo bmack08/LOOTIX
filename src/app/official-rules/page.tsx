@@ -59,7 +59,7 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
   ] },
   { num: '04', title: 'How to Enter', id: 'free-entry', paras: [
     'There are three (3) ways to enter. All entries go into the same drawing. Entries count only if received between the start and the close of the Sweepstakes Period in Section 02.',
-    `A. Purchase entry. Each purchase at getlootix.com during the Sweepstakes Period automatically earns one (${ENTRIES_PER_DOLLAR}) entry for every whole U.S. dollar spent, calculated on the merchandise total after discounts, before tax and excluding shipping and handling (fractions rounded down; for example, $129.99 = 129 entries). Entries are credited when the order is paid, and you will receive a confirmation email with your entry total. If an order is refunded, canceled, or charged back, in whole or in part, the matching entries are void. A size or color exchange of equal value keeps its entries. Buying items to obtain entries and then returning them is fraud and will result in disqualification. Before you dispute a charge with your bank, please email hello@getlootix.com so we can try to fix the problem first; this does not limit any right you have with your card issuer. If a refund or chargeback is reversed or resolved in your favor and the order stands, the entries are restored. [DRAFT - counsel to review]`,
+    `A. Purchase entry. Each purchase at getlootix.com during the Sweepstakes Period automatically earns one (${ENTRIES_PER_DOLLAR}) entry for every whole U.S. dollar spent, calculated on the merchandise total after discounts, before tax and excluding shipping and handling (fractions rounded down; for example, $129.99 = 129 entries). Entries are credited when the order is paid, and you will receive a confirmation email with your entry total. If an order is refunded, canceled, or charged back, in whole or in part, the matching entries are void. A size or color exchange of equal value keeps its entries. Buying items to obtain entries and then returning them is fraud and will result in disqualification. Before you dispute a charge with your bank, please email hello@getlootix.com so we can try to fix the problem first; this does not limit any right you have with your card issuer. If a refund or chargeback is reversed or resolved in your favor and the order stands, the entries are restored.`,
     `B. Free mail-in entry (no purchase necessary). Hand-print your full name, complete mailing address, email address, phone number, and date of birth on a 3" x 5" card. Mail it in a #10 envelope with proper postage to: ${MAIL_IN_ADDRESS}. Each eligible card earns twenty-five (${MAIL_IN_ENTRIES}) entries. One (1) card per envelope; no limit on the number of envelopes. Cards must be postmarked by ${END_DATE} and received by [RECEIPT DEADLINE]. Mechanically reproduced, illegible, incomplete, postage-due, late, bulk, or third-party-submitted cards are void. Sponsor is not responsible for lost, late, damaged, or misdirected mail. Cards will not be acknowledged or returned. If Sponsor ever offers a bonus multiplier on purchases, mail-in cards postmarked in that period receive the same multiplier.`,
     `C. Free online sign-up (no purchase necessary). Submit a valid email address through the sign-up form on getlootix.com to earn twenty-five (${SIGNUP_ENTRIES}) entries, once per person and email address for the entire Sweepstakes Period. People who join the mailing list before the start date are on the mailing list only; they must confirm after the start date to receive entries. Multiple identities, throwaway addresses, or automated entries are void.`,
     `Entry limit. There is no limit on the number of purchase or mail-in entries per person. Online sign-up is limited to once per person and per email address. Use of multiple identities or email addresses, scripts, bots, or other automated means to obtain entries is prohibited and voids all of that person's entries. In a dispute over who submitted an online entry, the entry is deemed made by the authorized account holder of the email address submitted. Proof of sending is not proof of receipt.`,
@@ -73,9 +73,8 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
   // Legal's 01-official-rules.md. The long form and the Maryland line live in
   // src/config/giveaway.ts so the Rules, Terms and FAQ print the same words.
   { num: '06', title: 'Odds and Required Disclosures', paras: [
-    '[DRAFT - counsel to review. Option B decided by owner Oct 23, 2026 2:31 PM ET.]',
     `${ODDS_LONG} Every eligible entry, from any method, has the same chance of being selected; a person with more entries has more chances. ${MARYLAND_ODDS_LINE}`,
-    `Maryland disclosures (Md. Code, Com. Law Sec. 13-305(g)) [DRAFT - counsel to review]: (1) One (1) Grand Prize will be offered (Section 05). (2) Its approximate retail value is stated in Section 05. (3) Odds: ${MARYLAND_ODDS_LINE} (4) The Grand Prize will be awarded unless the Sweepstakes is canceled or no eligible winner can be confirmed (Section 08, item 4, and Section 11); the drawing is on or about the draw date referred to in Section 07. (5) Conditions to receive the prize are in Section 08. (6) A winner's name can be requested as stated in Section 14. (7) You are not required to purchase anything or pay any money to receive the prize.`,
+    `Maryland disclosures (Md. Code, Com. Law Sec. 13-305(g)): (1) One (1) Grand Prize will be offered (Section 05). (2) Its approximate retail value is stated in Section 05. (3) Odds: ${MARYLAND_ODDS_LINE} (4) The Grand Prize will be awarded unless the Sweepstakes is canceled or no eligible winner can be confirmed (Section 08, item 4, and Section 11); the drawing is on or about the draw date referred to in Section 07. (5) Conditions to receive the prize are in Section 08. (6) A winner's name can be requested as stated in Section 14. (7) You are not required to purchase anything or pay any money to receive the prize.`,
   ] },
   { num: '07', title: 'Drawing', paras: [`On or about the draw date shown on the Giveaways page, Sponsor will select one (1) potential winner in a random drawing from all eligible entries using RANDOM.ORG. Sponsor will screen-record the drawing and post the recording with the RANDOM.ORG result page on the Website. Mail-in entries are added to the drawing pool before the draw. Each entry occupies one number in the draw, so a purchase worth 129 entries has 129 chances and a mail-in card has ${MAIL_IN_ENTRIES}. Sponsor's decisions are final and binding on all matters relating to the Sweepstakes.`] },
   { num: '08', title: 'Winner Notification and Verification', paras: [
@@ -88,7 +87,7 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
   // Winner review (Legal's 8A). Item 5 is Legal's stand-alone text (no Section 12
   // dependency), so it reads the same whether or not the arbitration clause is
   // ever published.
-  { num: '08A', title: 'Winner Questions and Review [DRAFT - counsel to review]', paras: [
+  { num: '08A', title: 'Winner Questions and Review', paras: [
     '1. If Sponsor tells a potential winner that they are disqualified or that the prize is forfeited, the notice will say why in plain words.',
     '2. The potential winner may reply to hello@getlootix.com within [5] business days after the notice with the subject "Winner Review Request," a short explanation, and any documents that help (for example ID, an order confirmation, or proof of address).',
     '3. Sponsor will review the request and send a written decision by email within [10] business days after it arrives. If Sponsor finds it made a mistake, it will fix it, including awarding the prize if the disqualification was wrong. [COUNSEL/OWNER: consider having someone other than the first decision-maker do the review.]',
@@ -105,7 +104,7 @@ const SECTIONS: { num: string; title: string; paras: string[]; id?: string }[] =
   // Entry records, errors, disqualification, prize terms (Legal's 11A). Legal's
   // "Promotion Period" is "Sweepstakes Period" on this page, and section
   // references use the page's zero-padded numbers.
-  { num: '11A', title: 'Entry Records, Errors, Disqualification and Prize Terms [DRAFT - counsel to review]', paras: [
+  { num: '11A', title: 'Entry Records, Errors, Disqualification and Prize Terms', paras: [
     `11A.1 Entry records. Sponsor's electronic records of orders and online sign-ups, and its log of mail-in cards received, are the official record of the Sweepstakes. Absent manifest error, they are conclusive on how many entries an entrant earned. An entrant who thinks a record is wrong may email hello@getlootix.com within [14] days after the drawing with proof (order confirmation, receipt, postal receipt, or screenshot). Sponsor will review it in good faith and correct any error it confirms. [COUNSEL: "conclusive" can read as one-sided; the review step is there to balance it.]`,
     `11A.2 Entry count on request. Until the end of the Sweepstakes Period, an entrant may email hello@getlootix.com to ask how many entries Sponsor has recorded for that entrant. Sponsor will reply by email, normally within [3] business days, with the entry count shown in its records at the time of the reply. Sponsor may first ask the entrant to confirm identity, for example by name and an order number, the email address used to enter, or the mail-in card mailing date. The count is a snapshot and does not change the records under Section 11A.1. Sponsor does not provide an automated count or an account dashboard.`,
     `11A.3 Errors. If a typing, pricing, counting, system, or posting error affects the Sweepstakes, Sponsor may correct it. Sponsor is not bound by a mistaken statement of entries, dates, or odds. If an error cannot be fixed fairly, Sponsor may act under Section 11 (cancel, modify, or suspend and draw from eligible entries received before the event).`,
@@ -167,7 +166,6 @@ export default function OfficialRulesPage() {
           />
           <span style={{ fontSize: 14, color: '#4A3D22' }}>
             Free entry is available by mail — {MAIL_IN_ENTRIES} entries per card, with no limit on envelopes.
-            [DRAFT - counsel to review. Option B decided by owner Oct 23, 2026 2:31 PM ET.]
           </span>
           <span className="uppercase" style={{ fontSize: 13, color: '#4A3D22' }}>
             Void where prohibited or restricted by law. Open only to legal residents of the 50 United States and the
@@ -176,18 +174,6 @@ export default function OfficialRulesPage() {
         </div>
       </section>
 
-      {/* ATTORNEY NOTICE — placeholder copy, must be reviewed before launch */}
-      <section style={{ padding: '28px 24px 0' }}>
-        <div
-          className="mx-auto flex gap-3"
-          style={{ maxWidth: 880, border: '1px solid rgba(220,140,60,.4)', background: 'rgba(220,140,60,.07)', borderRadius: 4, padding: '16px 20px' }}
-        >
-          <span style={{ fontSize: 16 }}>⚠</span>
-          <p className="font-plex m-0" style={{ fontSize: 11.5, lineHeight: 1.7, color: '#e0a86b', letterSpacing: '0.04em' }}>
-            DRAFT — structural placeholder. Bracketed <strong className="text-parchment">[values]</strong> and the full legal language must be reviewed and finalized by a sweepstakes attorney before this giveaway goes live.
-          </p>
-        </div>
-      </section>
 
       {/* NUMBERED SECTIONS */}
       <section style={{ padding: '56px 24px 80px' }}>
