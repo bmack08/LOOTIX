@@ -54,8 +54,8 @@ export const VAULT = {
   subtitle: '+ Custom Hoodie & Tee · Launch Drop',
   perks: [
     '$250 cash, paid by PayPal',
-    'Custom Lootix hoodie (value TBD)',
-    'Custom Lootix tee (value TBD)',
+    'Custom Lootix hoodie',
+    'Custom Lootix tee',
   ],
 };
 

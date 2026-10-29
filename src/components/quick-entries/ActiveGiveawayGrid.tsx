@@ -55,15 +55,6 @@ const getActiveGiveaways = (): Giveaway[] => [
     link: '/current-giveaway',
     endDate: getEndDate(33),
   },
-  {
-    id: 4,
-    title: 'Gaming Collectibles Pack',
-    description: 'Limited edition figurines, art prints, and memorabilia from popular franchises.',
-    value: '$400',
-    image: 'https://images.unsplash.com/photo-1600721391776-b5cd0e0048a9',
-    link: '/current-giveaway',
-    endDate: getEndDate(35),
-  },
 ];
 
 const ActiveGiveawayGrid: FC = () => {

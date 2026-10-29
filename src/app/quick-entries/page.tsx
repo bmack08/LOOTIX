@@ -1,23 +1,7 @@
-import QuickEntriesHero from '@/components/quick-entries/QuickEntriesHero';
-import ActiveGiveawayGrid from '@/components/quick-entries/ActiveGiveawayGrid';
-import BonusEntryActions from '@/components/quick-entries/BonusEntryActions';
+import { redirect } from 'next/navigation';
 
-export const metadata = {
-  title: 'Quick Entries | Lootix - Enter Giveaways in Seconds',
-  description: 'Enter active giveaways quickly and easily. Earn bonus entries with social actions. Free to enter, no purchase necessary.',
-};
-
+// Old quick-entries page held placeholder prizes and stock photos. Hidden:
+// the route always sends visitors to /giveaways (also redirected in next.config.js).
 export default function QuickEntriesPage() {
-  return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <QuickEntriesHero />
-
-      {/* Active Giveaways */}
-      <ActiveGiveawayGrid />
-
-      {/* Bonus Entry Actions */}
-      <BonusEntryActions />
-    </div>
-  );
+  redirect('/giveaways');
 }
