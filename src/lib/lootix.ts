@@ -62,8 +62,8 @@ export const VAULT = {
 export const ENTRY_TIERS = [
   { name: 'Starter Pack', desc: '1 tee', price: '$45', popular: false },
   { name: 'Hero Bundle', desc: 'Hoodie + tee', price: '$130', popular: true },
-  { name: 'Legend Vault', desc: 'Full fit + accessories · free U.S. shipping on orders of $100+', price: '$150', popular: false },
-];
+  { name: 'Legend Vault', desc: 'Full fit + accessories · free U.S. shipping on orders of $100+', price: '$150', popular: false, hidden: true },
+].filter((t) => !t.hidden); // Legend Vault ($150) hidden by owner decision; delete hidden: true to show it again
 
 export const HOW_STEPS = [
   { n: '01', title: 'Shop the drop', body: 'Pick your legendary gear from fantasy-streetwear collections. New drops land every month.', warm: false },

@@ -172,8 +172,8 @@ export const QUICKIES = [
 export const PACKS = [
   { name: 'Starter Pack', sub: '1 tee', price: '$45', popular: false, cta: 'Grab Starter' },
   { name: 'Hero Bundle', sub: 'Hoodie + tee', price: '$130', popular: true, cta: 'Grab Hero' },
-  { name: 'Legend Vault', sub: 'Full fit + accessories · free U.S. shipping on orders of $100+', price: '$150', popular: false, cta: 'Grab Legend' },
-];
+  { name: 'Legend Vault', sub: 'Full fit + accessories · free U.S. shipping on orders of $100+', price: '$150', popular: false, cta: 'Grab Legend', hidden: true },
+].filter((p) => !p.hidden); // Legend Vault ($150) hidden by owner decision; delete hidden: true to show it again
 
 /** Coming-later teasers are hidden (hidden: true) until a giveaway has its own Official Rules. Countdowns use GIVEAWAY.endDateISO only. */
 export const UPCOMING = [
