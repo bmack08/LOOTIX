@@ -26,7 +26,7 @@ export default function ShopPage() {
       {/* PAGE HEADER */}
       <header className="flex justify-between items-end gap-8 flex-wrap" style={{ padding: '72px 24px 44px', borderBottom: HAIR }}>
         <div className="flex flex-col gap-3">
-          <span className="v2-eyebrow">Launch Collection · Summon the Loot · Limited to 500</span>
+          <span className="v2-eyebrow">Launch Collection · Summon the Loot</span>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Shop</h1>
           {windowOpen ? (
             <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
@@ -36,7 +36,7 @@ export default function ShopPage() {
             </p>
           ) : (
             <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
-              {SHOW_GIVEAWAY_TEASERS ? 'Limited, numbered gear. Join the list to hear when the Lootix Launch Giveaway opens.' : 'Limited, numbered gear.'}
+              {SHOW_GIVEAWAY_TEASERS ? 'Lootix launch gear. Join the list to hear when the Lootix Launch Giveaway opens.' : 'Lootix launch gear.'}
             </p>
           )}
           {!GIVEAWAY_ENABLED && SHOW_GIVEAWAY_TEASERS && (
@@ -94,7 +94,7 @@ export default function ShopPage() {
                 {windowOpen && (
                   <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
                 )}
-                <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span>
+                {p.edition ? <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span> : null}
               </div>
               <div className="flex flex-col gap-1.5" style={{ padding: 18 }}>
                 <div className="flex justify-between items-baseline gap-2">

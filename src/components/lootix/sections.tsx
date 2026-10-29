@@ -371,8 +371,8 @@ export function EmailSection() {
         </h2>
         <p className="font-archivo text-[16px] text-muted m-0 mb-[30px]">
           {GIVEAWAY_DATES_SET
-            ? `Drop alerts, early access to limited gear, and ${SIGNUP_ENTRIES} free entries — one sign-up per person, no purchase necessary.`
-            : 'Drop alerts and early access to limited gear. We will email you the moment giveaway entries open.'}
+            ? `Drop alerts, early access to new gear, and ${SIGNUP_ENTRIES} free entries — one sign-up per person, no purchase necessary.`
+            : 'Drop alerts and early access to new gear. We will email you the moment giveaway entries open.'}
         </p>
         {/* No buttonLabel/successMsg overrides: EmailCapture picks its own
             window-aware copy, so this never claims entries that were not

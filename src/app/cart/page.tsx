@@ -83,7 +83,7 @@ export default function CartPage() {
               ? 'Every $1 you spend on merchandise earns one entry in the Lootix Launch Giveaway \u2014 $250 cash plus a custom Lootix hoodie and tee.'
               : SHOW_GIVEAWAY_TEASERS
                 ? 'Join the list to hear when the Lootix Launch Giveaway opens.'
-                : 'Limited, numbered launch gear.'}
+                : 'Lootix launch gear.'}
           </p>
           {windowOpen && (
             <NoPurchaseNotice linkLead className="font-plex m-0 text-stone" style={{ fontSize: 11, lineHeight: 1.7 }} />

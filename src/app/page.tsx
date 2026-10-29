@@ -156,7 +156,7 @@ export default function Home() {
                 {windowOpen && (
                   <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
                 )}
-                <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span>
+                {p.edition ? <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span> : null}
               </div>
               <div className="flex flex-col gap-1.5" style={{ padding: 18 }}>
                 <div className="flex justify-between items-baseline gap-2">
@@ -354,10 +354,10 @@ export default function Home() {
           </h2>
           <p className="m-0" style={{ maxWidth: 540, fontSize: 16, lineHeight: 1.6, color: '#4A3D22' }}>
             {windowOpen
-              ? `New release alerts, early access to limited gear, and ${SIGNUP_ENTRIES} free entries — one sign-up per person, no purchase necessary.`
+              ? `New release alerts, early access to new gear, and ${SIGNUP_ENTRIES} free entries — one sign-up per person, no purchase necessary.`
               : SHOW_GIVEAWAY_TEASERS
-                ? 'New release alerts and early access to limited gear. We will email you the moment giveaway entries open.'
-                : 'New release alerts and early access to limited gear.'}
+                ? 'New release alerts and early access to new gear. We will email you the moment giveaway entries open.'
+                : 'New release alerts and early access to new gear.'}
           </p>
           <div className="w-full flex justify-center" style={{ marginTop: 8 }}>
             <EmailCapture source="newsletter" />

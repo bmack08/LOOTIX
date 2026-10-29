@@ -64,7 +64,7 @@ export function sendWelcome(to: string, entries: number) {
       shell(`
         <h1 style="font-size:24px;font-weight:900;text-transform:uppercase;margin:0 0 12px">You're on the list.</h1>
         <p style="color:#b7b2a8;font-size:15px;line-height:1.6;margin:0 0 16px">
-          You'll get new release alerts and first access to limited gear. The next giveaway hasn't opened yet —
+          You'll get new release alerts and first access to new gear. The next giveaway hasn't opened yet —
           we'll email you the moment entries are live. The
           <a href="${FREE_ENTRY_URL}" style="color:#e0b83c">free mail-in entry method</a> is in the Official Rules.
         </p>
