@@ -28,6 +28,14 @@ const RXN: Piece[] = [
   { name: 'Night Market Mimic', note: 'Concept. Vintage-wash black.', front: '/preview/rxn/05-night-market-mimic_front.webp', back: '/preview/rxn/05-night-market-mimic_back.webp' },
 ];
 
+const STREETWEAR: Piece[] = [
+  { name: 'Lootix Owners Club', note: 'LS16001 hoodie.', front: '/preview/streetwear/01-owners-club_front.webp', back: '/preview/streetwear/01-owners-club_back.webp' },
+  { name: 'Evolution of the Logo', note: 'LS16001 hoodie.', front: '/preview/streetwear/02-evolution-of-the-logo_front.webp', back: '/preview/streetwear/02-evolution-of-the-logo_back.webp' },
+  { name: 'Pixel Stack', note: 'MC1087 tee.', front: '/preview/streetwear/03-pixel-stack_front.webp', back: '/preview/streetwear/03-pixel-stack_back.webp' },
+  { name: 'Sigil Crest', note: 'LS16001 hoodie.', front: '/preview/streetwear/04-sigil-crest_front.webp', back: '/preview/streetwear/04-sigil-crest_back.webp' },
+  { name: 'Signature Script', note: 'MC1087 tee.', front: '/preview/streetwear/05-signature-script_front.webp', back: '/preview/streetwear/05-signature-script_back.webp' },
+];
+
 function Card({ p, primary }: { p: Piece; primary?: boolean }) {
   return (
     <div style={{ border: HAIR, background: '#0F0C08' }} className="flex flex-col">
@@ -77,6 +85,7 @@ export default function NewDesignsPreviewPage() {
       <Section eyebrow="Drop 01" title="First drop" items={FIRST_DROP} primary cols="md:grid-cols-2" />
       <Section eyebrow="Lootix Streetwear" title="v6 line" items={V6_LINE} cols="md:grid-cols-2" />
       <Section eyebrow="Concepts" title="Represent x Nikifilini concepts" items={RXN} cols="md:grid-cols-2 lg:grid-cols-3" />
+      <Section eyebrow="Brand line" title="LOOTIX STREETWEAR" items={STREETWEAR} cols="md:grid-cols-2 lg:grid-cols-3" />
     </main>
   );
 }
