@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Archivo, Space_Mono, IBM_Plex_Mono } from 'next/font/google';
 import '../styles/globals.css';
+import '../styles/store.css';
 import SiteHeader from '@/components/lootix/v2/SiteHeader';
 import SiteFooter from '@/components/lootix/v2/SiteFooter';
 import { CartProvider } from '@/components/lootix/v2/CartContext';

@@ -90,7 +90,7 @@ export default function ShopPage() {
           {products.map((p) => {
             const lead = p.colourways[0];
             return (
-            <Link key={p.slug} href={`/shop/${p.slug}`} className="v2-card flex flex-col overflow-hidden text-parchment">
+            <Link key={p.handle} href={`/products/${p.handle}`} className="v2-card flex flex-col overflow-hidden text-parchment">
               <div className="relative overflow-hidden" style={{ aspectRatio: '4/4.4', background: '#17130C' }}>
                 <img src={lead.images[0].url} alt={p.title} className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
                 {windowOpen && (

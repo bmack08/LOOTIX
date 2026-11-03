@@ -33,7 +33,7 @@ const BTN: React.CSSProperties = {
  *
  * `product` is one colourway (the cart key). For sized products the picker
  * below is the size picker: nothing can be added until a size is chosen.
- * The colourway picker lives on the product page (/shop/[slug]). Products that are not on sale yet show a disabled "Coming soon".
+ * The colourway picker lives on the product page (/products/[handle]). Products that are not on sale yet show a disabled "Coming soon".
  */
 export default function AddToCart({ product, full = false }: { product: ShopProduct; full?: boolean }) {
   const { add } = useCart();

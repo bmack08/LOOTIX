@@ -1,0 +1,52 @@
+/* Store UX (PDP, grid, header). Plain CSS so breakpoints match SPEC.md:
+   <768 one column, 768-1023 two columns, >=1024 thumbs | main | panel. */
+
+.skel { display: block; background: #17130C; border-radius: 2px; animation: skel 1.2s ease-in-out infinite alternate; }
+@keyframes skel { from { opacity: .55 } to { opacity: 1 } }
+
+.pdp-page { padding-bottom: 96px; }
+.pdp-crumbs { padding: 16px; font-size: 11px; letter-spacing: .1em; }
+.pdp-crumbs ol { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.pdp-crumbs a:hover { color: #E6C57E; }
+
+.pdp-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; padding: 0 16px; }
+@media (min-width: 768px) { .pdp-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 32px; padding: 0 24px; } .pdp-crumbs { padding: 20px 24px; } }
+@media (min-width: 1024px) {
+  .pdp-grid { grid-template-columns: minmax(0, 1fr) 440px; gap: 48px; padding: 0 40px; max-width: 1440px; margin: 0 auto; }
+  .pdp-crumbs { padding: 20px 40px; max-width: 1440px; margin: 0 auto; }
+  .pdp-panel { position: sticky; top: 88px; align-self: start; }
+}
+
+/* Gallery: thumbs left (>=1024), under (768-1023), dots (<768). */
+.pdp-gallery { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.pdp-main { position: relative; aspect-ratio: 1 / 1; background: #131009; border: 1px solid rgba(198,161,91,.16); overflow: hidden; }
+.pdp-main img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.pdp-thumbs { display: flex; gap: 8px; }
+.pdp-thumbs button { width: 72px; height: 72px; padding: 0; background: #131009; border: 1px solid rgba(198,161,91,.16); cursor: pointer; flex: none; }
+.pdp-thumbs button[data-on] { border-color: #C6A15B; }
+.pdp-thumbs img { width: 100%; height: 100%; object-fit: contain; }
+@media (min-width: 1024px) {
+  .pdp-gallery { flex-direction: row-reverse; align-items: flex-start; }
+  .pdp-main { flex: 1; }
+  .pdp-thumbs { flex-direction: column; width: 96px; flex: none; }
+  .pdp-thumbs button { width: 96px; height: 96px; }
+}
+
+/* Colour swatches: 34px circle in a 44px target, 2px brass ring offset 2. */
+.pdp-swatches { display: grid; grid-template-columns: repeat(8, 44px); gap: 6px; }
+@media (max-width: 400px) { .pdp-swatches { grid-template-columns: repeat(6, 44px); } }
+.pdp-swatch { width: 44px; height: 44px; display: grid; place-items: center; padding: 0; background: none; border: 0; cursor: pointer; border-radius: 50%; position: relative; }
+.pdp-swatch span { width: 34px; height: 34px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(239,229,207,.22); }
+.pdp-swatch[data-on] span { outline: 2px solid #C6A15B; outline-offset: 2px; }
+.pdp-swatch[data-out]::after { content: ''; position: absolute; width: 38px; height: 1.5px; background: #EFE5CF; transform: rotate(-45deg); box-shadow: 0 0 0 1px #0C0A07; }
+.pdp-swatch[data-out] span { opacity: .45; }
+
+/* Sizes */
+.pdp-sizes { display: flex; flex-wrap: wrap; gap: 8px; border-radius: 2px; }
+.pdp-sizes[data-error] { outline: 1px solid #C6A15B; outline-offset: 4px; }
+.pdp-size { min-width: 56px; height: 44px; padding: 0 12px; background: transparent; color: #EFE5CF; border: 1px solid rgba(198,161,91,.3); font: 600 13px/1 var(--font-plex, inherit); letter-spacing: .06em; cursor: pointer; }
+.pdp-size:hover { border-color: #C6A15B; }
+.pdp-size[data-on] { background: #C6A15B; color: #0C0A07; border-color: #C6A15B; }
+.pdp-size[data-out] { color: #8A7D5F; text-decoration: line-through; cursor: not-allowed; border-style: dashed; }
+
+@media (prefers-reduced-motion: reduce) { .skel { animation: none; } }
