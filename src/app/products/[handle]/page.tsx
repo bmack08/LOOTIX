@@ -5,6 +5,7 @@ import { PRODUCT_GROUPS, getProductGroup, type ProductGroup } from '@/config/pro
 import { SITE_ORIGIN } from '@/config/giveaway';
 import { SHOP_PRODUCTS } from '@/lib/site';
 import { isComingSoon } from '@/config/sizes';
+import { sizeChartFor } from '@/config/size-charts';
 import ProductView from './ProductView';
 
 // Unknown handles are a real 404 (not-found.tsx), not a redirect.
@@ -105,7 +106,7 @@ export default async function ProductPage({ params }: Params) {
           <li aria-current="page" className="text-sand">{g.title}</li>
         </ol>
       </nav>
-      <ProductView group={g} comingSoon={comingSoon} />
+      <ProductView group={g} comingSoon={comingSoon} chart={sizeChartFor(g.blankId, g.sizes)} />
     </div>
   );
 }

@@ -8,10 +8,12 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { Colourway, ProductGroup } from '@/config/product-groups';
 import { useCart } from '@/components/lootix/v2/CartContext';
 import Gallery from './Gallery';
+import type { SizeChart } from '@/config/size-charts';
+import { Accordions, ShippingBox, openSizeChart } from './ProductInfo';
 
-type Props = { group: ProductGroup; comingSoon: readonly string[] };
+type Props = { group: ProductGroup; comingSoon: readonly string[]; chart: SizeChart };
 
-export default function ProductView({ group, comingSoon }: Props) {
+export default function ProductView({ group, comingSoon, chart }: Props) {
   const { add } = useCart();
   const [key, setKey] = useState(group.defaultColour);
   const [size, setSize] = useState<string | null>(null);
@@ -114,6 +116,7 @@ export default function ProductView({ group, comingSoon }: Props) {
               <span id="pdp-size-label" className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em' }}>
                 Size{size ? <>: <span className="text-parchment">{size}</span></> : null}
               </span>
+              <button type="button" className="pdp-link" onClick={openSizeChart}>Size chart</button>
             </div>
             <Sizes
               refEl={sizesRef}
@@ -145,6 +148,9 @@ export default function ProductView({ group, comingSoon }: Props) {
           {buttonLabel}
         </button>
         <p className="sr-only" role="status" aria-live="polite">{announce}</p>
+
+        <ShippingBox />
+        <Accordions group={group} chart={chart} />
       </div>
     </section>
   );

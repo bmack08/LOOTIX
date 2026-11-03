@@ -78,3 +78,25 @@
 .store-card-name { font-size: 14px; font-weight: 700; line-height: 1.25; }
 .store-dots { display: flex; align-items: center; gap: 6px; font-size: 11px; }
 .store-dots > span[style] { width: 12px; height: 12px; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(239,229,207,.25); }
+
+/* Shipping box + accordions */
+.pdp-ship { display: flex; flex-direction: column; gap: 4px; padding: 16px; border: 1px solid rgba(198,161,91,.16); background: #0F0C08; color: #B4A88C; font-size: 13px; line-height: 1.6; }
+.pdp-ship-title { color: #EFE5CF; text-transform: uppercase; letter-spacing: .1em; font-size: 11px; margin-bottom: 4px; }
+.pdp-acc details { border-top: 1px solid rgba(198,161,91,.16); }
+.pdp-acc details:last-child { border-bottom: 1px solid rgba(198,161,91,.16); }
+.pdp-acc summary { display: flex; justify-content: space-between; align-items: center; min-height: 52px; cursor: pointer; list-style: none; text-transform: uppercase; letter-spacing: .1em; font-size: 12px; font-weight: 700; color: #EFE5CF; scroll-margin-top: 96px; }
+.pdp-acc summary::-webkit-details-marker { display: none; }
+.pdp-acc summary::after { content: '+'; color: #C6A15B; font-size: 18px; }
+.pdp-acc details[open] summary::after { content: '\2013'; }
+.pdp-acc ul, .pdp-acc p { margin: 0 0 16px; color: #B4A88C; font-size: 14px; line-height: 1.6; }
+.pdp-acc ul { padding-left: 18px; list-style: disc; }
+.pdp-acc details { scroll-margin-top: 96px; }
+.pdp-unit { display: inline-flex; margin-bottom: 12px; border: 1px solid rgba(198,161,91,.3); }
+.pdp-unit button { min-width: 64px; height: 32px; background: transparent; color: #B4A88C; border: 0; font-size: 12px; cursor: pointer; }
+.pdp-unit button[aria-pressed='true'] { background: #C6A15B; color: #0C0A07; }
+.pdp-table-wrap { overflow-x: auto; margin-bottom: 12px; }
+.pdp-table-wrap table { border-collapse: collapse; min-width: 100%; font-size: 13px; }
+.pdp-table-wrap th, .pdp-table-wrap td { padding: 8px 10px; border-bottom: 1px solid rgba(198,161,91,.12); text-align: center; white-space: nowrap; color: #EFE5CF; }
+.pdp-table-wrap th[scope='row'] { text-align: left; color: #B4A88C; font-weight: 600; }
+.pdp-table-wrap thead th { color: #C6A15B; font-weight: 700; }
+.pdp-link { background: none; border: 0; padding: 0; color: #C6A15B; text-decoration: underline; font-size: 12px; cursor: pointer; min-height: 24px; }
