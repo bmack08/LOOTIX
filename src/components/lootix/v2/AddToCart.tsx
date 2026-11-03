@@ -9,8 +9,8 @@ import { useEntryWindow } from '../useEntryWindow';
 import { GIVEAWAY_ENABLED } from '@/config/flags';
 
 /**
- * The shop card wraps this in a <Link href="/shop">, so every control here
- * swallows its click instead of letting the card navigate.
+ * Every control here swallows its click, so the component is safe inside a
+ * card <Link> as well as on the product page.
  */
 function swallow(e: React.MouseEvent) {
   e.preventDefault();
@@ -31,9 +31,9 @@ const BTN: React.CSSProperties = {
 /**
  * Add-to-cart with confirmation flip: "Add to cart" → "✓ N entries added".
  *
- * SHOP_PRODUCTS have no product page of their own, so for sized products the
- * picker below IS the size picker: nothing can be added until a size is
- * chosen. Products that are not on sale yet show a disabled "Coming soon".
+ * `product` is one colourway (the cart key). For sized products the picker
+ * below is the size picker: nothing can be added until a size is chosen.
+ * The colourway picker lives on the product page (/shop/[slug]). Products that are not on sale yet show a disabled "Coming soon".
  */
 export default function AddToCart({ product, full = false }: { product: ShopProduct; full?: boolean }) {
   const { add } = useCart();
