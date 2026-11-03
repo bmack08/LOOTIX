@@ -10,6 +10,8 @@ import { useCart } from '@/components/lootix/v2/CartContext';
 import Gallery from './Gallery';
 import type { SizeChart } from '@/config/size-charts';
 import { Accordions, ShippingBox, openSizeChart } from './ProductInfo';
+import StickyBar from './StickyBar';
+import { payLaterLine } from '@/config/pay-later';
 
 type Props = { group: ProductGroup; comingSoon: readonly string[]; chart: SizeChart };
 
@@ -147,11 +149,21 @@ export default function ProductView({ group, comingSoon, chart }: Props) {
         >
           {buttonLabel}
         </button>
+        {payLaterLine(cw.priceValue) ? (
+          <span className="font-plex text-sand" style={{ fontSize: 13 }}>{payLaterLine(cw.priceValue)}</span>
+        ) : null}
         <p className="sr-only" role="status" aria-live="polite">{announce}</p>
 
         <ShippingBox />
         <Accordions group={group} chart={chart} />
       </div>
+      <StickyBar
+        title={group.title}
+        detail={`${cw.swatchLabel}${sized && size ? ` \u00b7 ${size}` : ''} \u00b7 ${cw.price}`}
+        label={blocked(cw) ? 'Sold out' : added ? 'Added \u2713' : 'Add to cart'}
+        disabled={blocked(cw)}
+        onAdd={addToCart}
+      />
     </section>
   );
 }

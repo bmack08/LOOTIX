@@ -115,3 +115,13 @@
 .pdp-table-wrap th[scope='row'] { text-align: left; color: #B4A88C; font-weight: 600; }
 .pdp-table-wrap thead th { color: #C6A15B; font-weight: 700; }
 .pdp-link { background: none; border: 0; padding: 0; color: #C6A15B; text-decoration: underline; font-size: 12px; cursor: pointer; min-height: 24px; }
+
+/* Sticky add-to-cart */
+.pdp-sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 10px max(16px, calc((100vw - 1200px) / 2)); padding-bottom: calc(10px + env(safe-area-inset-bottom)); background: rgba(12,10,7,.96); border-top: 1px solid rgba(198,161,91,.25); transform: translateY(110%); transition: transform .2s ease; }
+.pdp-sticky[data-show] { transform: none; }
+.pdp-sticky-text { display: flex; flex-direction: column; min-width: 0; font-size: 13px; color: #B4A88C; }
+.pdp-sticky-text strong { color: #EFE5CF; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pdp-sticky-btn { flex: none; min-width: 160px; height: 48px; background: #C6A15B; color: #0C0A07; border: 0; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; font-size: 13px; cursor: pointer; }
+.pdp-sticky-btn:disabled { opacity: .5; cursor: not-allowed; }
+@media (prefers-reduced-motion: reduce) { .pdp-sticky { transition: none; } }
+@media (max-width: 480px) { .pdp-sticky-text strong { display: none; } .pdp-sticky-btn { min-width: 140px; } }
