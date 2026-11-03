@@ -1,7 +1,8 @@
 {
- "mode": "test",
+ "mode": "live",
  "klarna": "on",
- "afterpay": "off",
- "note": "1 configs; using default",
- "checkedAt": "2026-11-03T22:27:45.858Z"
+ "afterpay": "on",
+ "googlePay": "on",
+ "note": "live default config pmc_1TueX9GhlckTQWgIc9IoBxZq read via Stripe connector (read-only); local test key shows afterpay/googlePay off",
+ "checkedAt": "2026-11-03T23:05:00.000Z"
 }

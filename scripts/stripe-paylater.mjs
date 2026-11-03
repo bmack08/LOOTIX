@@ -14,7 +14,7 @@ function envFromFile(name) {
 }
 const KEY = envFromFile('STRIPE_SECRET_KEY');
 const mode = !KEY ? 'none' : /^(sk|rk)_live_/.test(KEY) ? 'live' : /^(sk|rk)_test_/.test(KEY) ? 'test' : 'unknown';
-let klarna = 'unknown', afterpay = 'unknown', note = '';
+let klarna = 'unknown', afterpay = 'unknown', googlePay = 'unknown', note = '';
 if (KEY) {
   const res = await fetch('https://api.stripe.com/v1/payment_method_configurations?limit=100', { method: 'GET', headers: { Authorization: `Bearer ${KEY}` } });
   if (!res.ok) note = `HTTP ${res.status}`;
@@ -23,10 +23,10 @@ if (KEY) {
     const cfg = data.find((c) => c.is_default && c.active) || data.find((c) => c.active);
     note = `${data.length} configs; using ${cfg ? (cfg.is_default ? 'default' : 'first active') : 'none'}`;
     const st = (pm) => (!cfg || !cfg[pm] ? 'unknown' : cfg[pm].available && cfg[pm].display_preference?.value === 'on' ? 'on' : 'off');
-    if (cfg) { klarna = st('klarna'); afterpay = st('afterpay_clearpay'); }
-    for (const c of data) console.log(`config ${c.is_default ? 'default' : '-'} active=${c.active} klarna=${c.klarna?.available}/${c.klarna?.display_preference?.value} afterpay=${c.afterpay_clearpay?.available}/${c.afterpay_clearpay?.display_preference?.value}`);
+    if (cfg) { klarna = st('klarna'); afterpay = st('afterpay_clearpay'); googlePay = st('google_pay'); }
+    for (const c of data) console.log(`config ${c.is_default ? 'default' : '-'} active=${c.active} klarna=${c.klarna?.available}/${c.klarna?.display_preference?.value} afterpay=${c.afterpay_clearpay?.available}/${c.afterpay_clearpay?.display_preference?.value} google_pay=${c.google_pay?.available}/${c.google_pay?.display_preference?.value}`);
   }
 }
-const out = { mode, klarna, afterpay, note, checkedAt: new Date().toISOString() };
+const out = { mode, klarna, afterpay, googlePay, note, checkedAt: new Date().toISOString() };
 fs.writeFileSync('src/config/pay-later.json', JSON.stringify(out, null, 1) + '\n');
 console.log(JSON.stringify(out));
