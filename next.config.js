@@ -35,10 +35,10 @@ const nextConfig = {
           ]),
       { source: '/quick-entries', destination: '/giveaways', permanent: true },
       { source: '/products', destination: '/shop', permanent: true },
-      { source: '/mens', destination: '/shop', permanent: true },
-      { source: '/womens', destination: '/shop', permanent: true },
-      { source: '/new-drops', destination: '/shop', permanent: true },
-      { source: '/collections/:category', destination: '/shop', permanent: true },
+      { source: '/mens', destination: '/collections/mens', statusCode: 301 },
+      { source: '/womens', destination: '/collections/womens', statusCode: 301 },
+      { source: '/new-drops', destination: '/collections/new', statusCode: 301 },
+      { source: '/collections/all', destination: '/shop', statusCode: 301 },
       // Old product URLs -> the new product pages where a mapping exists
       // (scripts/gen-legacy-redirects.ts), 301.
       ...Object.entries(require('./src/config/legacy-product-redirects.json')).flatMap(([slug, destination]) =>

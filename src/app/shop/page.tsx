@@ -1,160 +1,21 @@
-'use client';
-import { GIVEAWAY_ENABLED, PRE_START_ORDER_NOTE, SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
+import type { Metadata } from 'next';
+import CollectionView from '@/components/store/CollectionView';
+import { CHIP_HANDLES, cardsFor, getCollection } from '@/config/collections';
+import { SITE_ORIGIN } from '@/config/giveaway';
+import ShopNotes from './ShopNotes';
 
-import Link from 'next/link';
-import { useMemo, useState } from 'react';
-import { SHOP_CATEGORIES, GIVEAWAY } from '@/lib/site';
-import { PRODUCT_GROUPS } from '@/config/product-groups';
-import NoPurchaseNotice from '@/components/NoPurchaseNotice';
-import { useEntryWindow } from '@/components/lootix/useEntryWindow';
-import { ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD, formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
-
-const HAIR = '1px solid rgba(198,161,91,0.16)';
+export const metadata: Metadata = {
+  title: { absolute: 'Shop \u2013 Lootix' },
+  description: 'Lootix launch collection: hoodies, tees and hats. Ships to the US only.',
+  alternates: { canonical: `${SITE_ORIGIN}/shop` },
+};
 
 export default function ShopPage() {
-  // LIVE only: per-dollar cues and the prize pitch. PRE-START (default) shows none of them.
-  const windowOpen = useEntryWindow();
-  const [cat, setCat] = useState<string>('All');
-  const closeDate = GIVEAWAY.endDateISO ? formatEndDate(new Date(GIVEAWAY.endDateISO)) : null;
-  const products = useMemo(
-    () => (cat === 'All' ? PRODUCT_GROUPS : PRODUCT_GROUPS.filter((p) => p.category === cat)),
-    [cat],
-  );
-
+  const chips = CHIP_HANDLES.map((h) => ({ handle: h, title: h === 'all' ? 'All' : getCollection(h)!.title }));
   return (
     <div className="text-parchment">
-      {/* PAGE HEADER */}
-      <header className="flex justify-between items-end gap-8 flex-wrap" style={{ padding: '72px 24px 44px', borderBottom: HAIR }}>
-        <div className="flex flex-col gap-3">
-          <span className="v2-eyebrow">Launch Collection · Summon the Loot</span>
-          <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(40px,6vw,64px)', fontWeight: 900, letterSpacing: '-0.01em' }}>Shop</h1>
-          {windowOpen ? (
-            <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
-              {ENTRIES_LABEL} — every dollar of your order subtotal is one entry into the giveaway. You keep the gear either way, and
-              free entry is always available by mail (see the{' '}
-              <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>).
-            </p>
-          ) : (
-            <p className="m-0 text-sand" style={{ maxWidth: 560, fontSize: 16, lineHeight: 1.6 }}>
-              {SHOW_GIVEAWAY_TEASERS ? 'Lootix launch gear. Join the list to hear when the Lootix Launch Giveaway opens.' : 'Lootix launch gear.'}
-            </p>
-          )}
-          {!GIVEAWAY_ENABLED && SHOW_GIVEAWAY_TEASERS && (
-            <p className="m-0 font-plex text-stone" style={{ maxWidth: 560, fontSize: 12, lineHeight: 1.6 }}>{PRE_START_ORDER_NOTE}</p>
-          )}
-        </div>
-        {SHOW_GIVEAWAY_TEASERS && (
-        <div className="flex flex-col items-start md:items-end gap-2 font-plex text-stone" style={{ fontSize: 12, letterSpacing: '0.08em' }}>
-          <span className="text-brass-lit">{windowOpen ? '\u25c6 LOOTIX LAUNCH GIVEAWAY \u00b7 $250 CASH PLUS A CUSTOM HOODIE & TEE' : '\u25c6 LOOTIX LAUNCH GIVEAWAY'}</span>
-          <span>
-            {closeDate ? `Draw closes ${closeDate} (${GIVEAWAY_CLOSE_TIME_LABEL}) · ` : 'Draw date coming soon · '}
-            <Link href="/giveaways" className="text-brass hover:text-brass-lit transition-colors">view giveaway →</Link>
-          </span>
-        </div>
-        )}
-      </header>
-
-      {/* FILTER BAR */}
-      <div className="flex items-center justify-between gap-4 flex-wrap" style={{ padding: '20px 24px', borderBottom: HAIR, background: '#0F0C08' }}>
-        <div className="flex gap-2.5 flex-wrap">
-          {SHOP_CATEGORIES.map((c) => {
-            const active = c === cat;
-            return (
-              <button
-                key={c}
-                onClick={() => setCat(c)}
-                className="font-archivo uppercase transition-colors"
-                style={{
-                  background: active ? '#C6A15B' : 'transparent',
-                  color: active ? '#0C0A07' : '#B4A88C',
-                  border: active ? 'none' : '1px solid rgba(198,161,91,0.25)',
-                  borderRadius: 2,
-                  padding: '9px 18px',
-                  fontSize: 12,
-                  fontWeight: active ? 700 : 600,
-                  letterSpacing: '0.1em',
-                  cursor: 'pointer',
-                }}
-              >
-                {c}
-              </button>
-            );
-          })}
-        </div>
-        <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em' }}>{products.length} products · Sort: Newest</span>
-      </div>
-
-      {/* PRODUCT GRID */}
-      <section style={{ padding: 24, borderBottom: HAIR }}>
-        <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((p) => {
-            const lead = p.colourways[0];
-            return (
-            <Link key={p.handle} href={`/products/${p.handle}`} className="v2-card flex flex-col overflow-hidden text-parchment">
-              <div className="relative overflow-hidden" style={{ aspectRatio: '4/4.4', background: '#17130C' }}>
-                <img src={lead.images[0].url} alt={p.title} className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
-                {windowOpen && (
-                  <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
-                )}
-              </div>
-              <div className="flex flex-col gap-1.5" style={{ padding: 18 }}>
-                <div className="flex justify-between items-baseline gap-2">
-                  <span style={{ fontSize: 16, fontWeight: 700 }}>{p.title}</span>
-                  <span className="font-plex text-brass-lit" style={{ fontSize: 15, fontWeight: 600 }}>{p.price}</span>
-                </div>
-                <span className="uppercase text-stone" style={{ fontSize: 12, letterSpacing: '0.06em' }}>{p.sub}</span>
-                <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.08em' }}>
-                  {p.colourways.length} colourway{p.colourways.length === 1 ? '' : 's'}{p.sizes ? ` · ${p.sizes[0]}\u2013${p.sizes[p.sizes.length - 1]}` : ''}
-                </span>
-                <span className="font-archivo uppercase text-brass" style={{ marginTop: 10, fontSize: 12, fontWeight: 800, letterSpacing: '0.1em' }}>View product {'\u2192'}</span>
-              </div>
-            </Link>
-            );
-          })}
-        </div>
-        {windowOpen ? (
-          <NoPurchaseNotice className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
-            Ships to U.S. addresses only · free shipping on orders of $100+. See the{' '}
-            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-          </NoPurchaseNotice>
-        ) : (
-          <p className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
-            Ships to U.S. addresses only · free shipping on orders of $100+. See the{' '}
-            <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
-          </p>
-        )}
-      </section>
-
-      {/* ENTRY BANNER (inverted cream) */}
-      {SHOW_GIVEAWAY_TEASERS && (
-      <section className="flex items-center justify-between gap-8 flex-wrap" style={{ padding: '40px 24px', background: '#E4D5B4', color: '#171208' }}>
-        <div className="flex flex-col gap-1.5">
-          <span className="uppercase" style={{ fontSize: 24, fontWeight: 900 }}>{windowOpen ? 'Every dollar is an entry' : 'Lootix Launch Giveaway'}</span>
-          {windowOpen ? (
-            <>
-            <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>
-              {ENTRIES_LABEL.toUpperCase()} · YOUR ENTRY TOTAL SHOWS AT CHECKOUT · RANDOM.ORG DRAW
-            </span>
-            <NoPurchaseNotice
-              className="m-0"
-              style={{ fontSize: 11.5, lineHeight: 1.7, color: '#4A3D22', maxWidth: 560 }}
-              linkClassName="underline"
-              linkStyle={{ color: '#7A6231' }}
-            />
-            </>
-          ) : (
-            <span className="font-plex" style={{ fontSize: 12, letterSpacing: '0.1em', color: '#7A6231' }}>{'DATES COMING SOON \u00b7 JOIN THE LIST'}</span>
-          )}
-        </div>
-        <Link
-          href="/giveaways"
-          className="uppercase transition-colors whitespace-nowrap"
-          style={{ background: '#171208', color: '#E4D5B4', padding: '16px 32px', fontSize: 13, fontWeight: 800, letterSpacing: '0.12em', borderRadius: 2 }}
-        >
-          {windowOpen ? 'See the Prize \u2192' : 'See the Giveaway \u2192'}
-        </Link>
-      </section>
-      )}
+      <CollectionView handle="all" title="Shop" cards={cardsFor('all')} chips={chips} crumbs={[{ href: '/', label: 'Home' }, { label: 'Shop' }]} />
+      <ShopNotes />
     </div>
   );
 }
