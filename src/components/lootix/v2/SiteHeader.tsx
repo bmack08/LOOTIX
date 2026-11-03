@@ -1,22 +1,30 @@
 'use client';
 
+// Store header. ≥1024: logo · SHOP ▾ HOODIES TEES HATS ABOUT · search · ♡ · cart.
+// <1024: logo · search icon · ♡ · cart · ☰ (64px tall). No giveaway links here.
+
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { NAV, TICKER, TICKER_PRE_START } from '@/lib/site';
+import { TICKER, TICKER_PRE_START } from '@/lib/site';
 import { useEntryWindow } from '../useEntryWindow';
 import { useCart } from './CartContext';
-import { GIVEAWAY_ENABLED, SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
+import { SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
+import { useWishlist } from '@/lib/wishlist';
+import SearchBox from '@/components/store/header/SearchBox';
+import ShopMenu, { MENU_GROUPS } from '@/components/store/header/ShopMenu';
 
-// Teasers off: no giveaway ticker line and no Giveaways / Winners nav links.
-const NAV_SHOWN = SHOW_GIVEAWAY_TEASERS ? NAV : NAV.filter((l) => l.href !== '/giveaways' && l.href !== '/winners');
 const TICKER_PRE_START_SHOWN = SHOW_GIVEAWAY_TEASERS ? TICKER_PRE_START : TICKER_PRE_START.filter((t) => !/giveaway/i.test(t));
-
-const HAIR = '1px solid rgba(198,161,91,0.16)';
+const LINKS = [
+  { label: 'Hoodies', href: '/collections/hoodies' },
+  { label: 'Tees', href: '/collections/tees' },
+  { label: 'Hats', href: '/collections/hats' },
+  { label: 'About', href: '/about' },
+];
+const LOGO = '/brand/lootix-main-logo.svg';
 
 function Ticker() {
-  // PRE-START (default) ticker has no prize or entry cue; LIVE swaps in the full one.
   const items = useEntryWindow() ? TICKER : TICKER_PRE_START_SHOWN;
   const Row = () => (
     <div className="inline-flex gap-12 pr-12 font-plex uppercase" style={{ fontSize: 12, fontWeight: 600, letterSpacing: '0.14em' }}>
@@ -30,108 +38,89 @@ function Ticker() {
   );
 }
 
-export default function SiteHeader() {
+const Icon = {
+  search: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><circle cx="11" cy="11" r="7" /><path d="M20 20l-4-4" strokeLinecap="round" /></svg>,
+  heart: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z" strokeLinejoin="round" /></svg>,
+  bag: <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z" strokeLinejoin="round" /><path d="M9 8V6a3 3 0 0 1 6 0v2" /></svg>,
+  menu: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" /></svg>,
+  close: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" /></svg>,
+};
+
+const Badge = ({ n }: { n: number }) => (n > 0 ? <span className="hdr-badge" aria-hidden="true">{n}</span> : null);
+
+export default function SiteHeader({ feature = null }: { feature?: { title: string; img: string; href: string } | null }) {
   const pathname = usePathname() || '/';
   const { count } = useCart();
+  const { items } = useWishlist();
   const [open, setOpen] = useState(false);
+  const [searching, setSearching] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const menuBtn = useRef<HTMLButtonElement>(null);
+  const searchBtn = useRef<HTMLButtonElement>(null);
+  const drawerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => setMounted(true), []);
+  useEffect(() => { setOpen(false); setSearching(false); }, [pathname]);
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [open]);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === 'Escape' && setOpen(false);
+    if (open) drawerRef.current?.querySelector<HTMLElement>('button, a')?.focus();
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape' && open) { setOpen(false); menuBtn.current?.focus(); } };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, []);
+    return () => { document.body.style.overflow = ''; window.removeEventListener('keydown', onKey); };
+  }, [open]);
 
-  const active = (href: string) => pathname === href || (href !== '/' && pathname.startsWith(href));
-  // The LIVE badge only shows while the entry window is actually open.
-  const windowOpen = useEntryWindow();
-
-  const LiveBadge = () => (
-    <span className="font-plex" style={{ background: '#C6A15B', color: '#0C0A07', fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 2 }}>LIVE</span>
-  );
+  const active = (href: string) => pathname === href || pathname.startsWith(href + '/');
+  const saved = mounted ? items.length : 0;
+  const cart = mounted ? count : 0;
+  const closeDrawer = () => { setOpen(false); menuBtn.current?.focus(); };
 
   const drawer = (
-    <div
-      className="lg:hidden fixed inset-0 z-[100] transition-opacity duration-300"
-      style={{ background: '#0C0A07', opacity: open ? 1 : 0, pointerEvents: open ? 'auto' : 'none' }}
-    >
-      <div className="flex items-center justify-between px-6" style={{ height: 76, borderBottom: HAIR }}>
-        <img src="/brand/v2/logo-clean.png" alt="Lootix Streetwear" style={{ height: 38 }} />
-        <button type="button" aria-label="Close menu" onClick={() => setOpen(false)} className="text-parchment p-1">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" /></svg>
-        </button>
+    <div ref={drawerRef} className="hdr-drawer lg:hidden" role="dialog" aria-modal="true" aria-label="Menu" hidden={!open}>
+      <div className="hdr-drawer-top">
+        <img src={LOGO} alt="Lootix" className="hdr-logo" />
+        <button type="button" aria-label="Close menu" onClick={closeDrawer} className="hdr-icon">{Icon.close}</button>
       </div>
-      <nav className="flex flex-col px-6 pt-4">
-        {NAV_SHOWN.map((l) => (
-          <Link
-            key={l.href}
-            href={l.href}
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-3 uppercase text-parchment py-4 hover:text-brass-lit transition-colors"
-            style={{ fontSize: 24, fontWeight: 900, borderBottom: HAIR }}
-          >
-            {l.label} {l.live && windowOpen && <LiveBadge />}
-          </Link>
+      <nav aria-label="Menu" className="hdr-drawer-nav">
+        {MENU_GROUPS.map((g, k) => (
+          <details key={g.title} open={k === 0}>
+            <summary>{g.title}</summary>
+            <ul>{g.links.map((l) => <li key={l.href}><Link href={l.href} onClick={() => setOpen(false)}>{l.label}</Link></li>)}</ul>
+          </details>
         ))}
+        <Link href="/about" className="hdr-drawer-link" onClick={() => setOpen(false)}>About</Link>
+        <Link href="/saved" className="hdr-drawer-link" onClick={() => setOpen(false)}>Saved ({saved})</Link>
       </nav>
-      <div className="px-6 mt-8">
-        <Link href="/shop" onClick={() => setOpen(false)} className="btn-brass w-full">Shop now</Link>
-      </div>
     </div>
   );
 
   return (
     <div>
       <Ticker />
-      <nav
-        className="sticky top-0 z-50 flex items-center justify-between"
-        style={{ padding: '0 24px', height: 76, background: 'rgba(12,10,7,0.92)', backdropFilter: 'blur(12px)', WebkitBackdropFilter: 'blur(12px)', borderBottom: HAIR }}
-      >
-        <Link href="/" className="flex items-center flex-none" aria-label="Lootix — home">
-          <img src="/brand/v2/logo-clean.png" alt="Lootix Streetwear" style={{ height: 44, display: 'block' }} />
-        </Link>
-
-        <div className="hidden lg:flex items-center gap-9 uppercase" style={{ fontSize: 13, fontWeight: 600, letterSpacing: '0.12em' }}>
-          {NAV_SHOWN.map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="flex items-center gap-2 transition-colors hover:text-brass-lit"
-              style={{ color: active(l.href) ? '#E6C57E' : '#EFE5CF' }}
-            >
-              {l.label} {l.live && windowOpen && <LiveBadge />}
-            </Link>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-5 flex-none">
-          {/* CTA is contextual, per the designs: Shop page pushes the giveaway, everywhere else pushes the drop */}
-          {pathname.startsWith('/shop') && GIVEAWAY_ENABLED ? (
-            <Link href="/giveaways" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Enter Giveaway</Link>
-          ) : (
-            <Link href="/shop" className="hidden sm:inline-flex btn-brass" style={{ padding: '11px 22px', fontSize: 12 }}>Shop now</Link>
-          )}
-          <Link href="/cart" aria-label={`Cart (${count} items)`} className="relative text-parchment hover:text-brass-lit transition-colors" style={{ fontSize: 20 }}>
-            ⌾
-            {mounted && count > 0 && (
-              <span
-                className="font-plex absolute grid place-items-center"
-                style={{ top: -6, right: -10, background: '#C6A15B', color: '#0C0A07', fontSize: 10, fontWeight: 600, width: 16, height: 16, borderRadius: '50%' }}
-              >
-                {count}
-              </span>
-            )}
+      <header className="hdr">
+        <div className="hdr-bar">
+          <Link href="/" className="flex-none" aria-label="Lootix home">
+            <img src={LOGO} alt="Lootix" className="hdr-logo" />
           </Link>
-          <button type="button" aria-label="Open menu" onClick={() => setOpen(true)} className="lg:hidden flex text-parchment p-1 -mr-1">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6"><path d="M4 7h16M4 12h16M4 17h16" strokeLinecap="round" /></svg>
-          </button>
+          <nav aria-label="Main" className="hdr-nav hidden lg:flex">
+            <ShopMenu feature={feature} />
+            {LINKS.map((l) => (
+              <Link key={l.href} href={l.href} className="hdr-link" aria-current={active(l.href) ? 'page' : undefined}>{l.label}</Link>
+            ))}
+          </nav>
+          <div className="hidden lg:block hdr-search-wrap"><SearchBox /></div>
+          <div className="hdr-actions">
+            <button ref={searchBtn} type="button" className="hdr-icon lg:hidden" aria-label="Search" aria-expanded={searching} onClick={() => setSearching((s) => !s)}>{Icon.search}</button>
+            <Link href="/saved" className="hdr-icon" aria-label={`Saved items (${saved})`}>{Icon.heart}<Badge n={saved} /></Link>
+            <Link href="/cart" className="hdr-icon" aria-label={`Cart (${cart} items)`}>{Icon.bag}<Badge n={cart} /></Link>
+            <button ref={menuBtn} type="button" className="hdr-icon lg:hidden" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>{Icon.menu}</button>
+          </div>
         </div>
-      </nav>
+        {searching && (
+          <div className="hdr-search-row lg:hidden">
+            <SearchBox autoFocus onDone={() => { setSearching(false); searchBtn.current?.focus(); }} />
+          </div>
+        )}
+      </header>
       {mounted && createPortal(drawer, document.body)}
     </div>
   );

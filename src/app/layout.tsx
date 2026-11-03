@@ -3,6 +3,13 @@ import { Archivo, Space_Mono, IBM_Plex_Mono } from 'next/font/google';
 import '../styles/globals.css';
 import '../styles/store.css';
 import SiteHeader from '@/components/lootix/v2/SiteHeader';
+import { PRODUCT_GROUPS } from '@/config/product-groups';
+
+const FEATURE = (() => {
+  const g = PRODUCT_GROUPS.find((p) => p.category === 'Hoodies') ?? PRODUCT_GROUPS[0];
+  const cw = g?.colourways.find((c) => c.key === g.defaultColour) ?? g?.colourways[0];
+  return g && cw ? { title: g.title, img: cw.images[0]?.url ?? '', href: `/products/${g.handle}` } : null;
+})();
 import SiteFooter from '@/components/lootix/v2/SiteFooter';
 import { CartProvider } from '@/components/lootix/v2/CartContext';
 import Tracking from '@/components/lootix/v2/Tracking';
@@ -50,7 +57,7 @@ export default function RootLayout({
       >
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <CartProvider>
-          <SiteHeader />
+          <SiteHeader feature={FEATURE} />
           <main id="main-content">{children}</main>
           <SiteFooter />
         </CartProvider>
