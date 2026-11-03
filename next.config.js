@@ -39,6 +39,13 @@ const nextConfig = {
       { source: '/womens', destination: '/shop', permanent: true },
       { source: '/new-drops', destination: '/shop', permanent: true },
       { source: '/collections/:category', destination: '/shop', permanent: true },
+      // Old product URLs -> the new product pages where a mapping exists
+      // (scripts/gen-legacy-redirects.ts); the rest fall through to /shop.
+      ...Object.entries(require('./src/config/legacy-product-redirects.json')).map(([slug, destination]) => ({
+        source: `/product/${slug}`,
+        destination,
+        permanent: true,
+      })),
       { source: '/product/:slug', destination: '/shop', permanent: true },
       // v2 has 7 routes: / /shop /giveaways /winners /about /faq /official-rules.
       // Everything else folds into its v2 equivalent.
