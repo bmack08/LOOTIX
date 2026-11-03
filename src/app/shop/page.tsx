@@ -3,8 +3,8 @@ import { GIVEAWAY_ENABLED, PRE_START_ORDER_NOTE, SHOW_GIVEAWAY_TEASERS } from '@
 
 import Link from 'next/link';
 import { useMemo, useState } from 'react';
-import { SHOP_CATEGORIES, SHOP_PRODUCTS, GIVEAWAY } from '@/lib/site';
-import AddToCart from '@/components/lootix/v2/AddToCart';
+import { SHOP_CATEGORIES, GIVEAWAY } from '@/lib/site';
+import { PRODUCT_GROUPS } from '@/config/product-groups';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { useEntryWindow } from '@/components/lootix/useEntryWindow';
 import { ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD, formatEndDate, GIVEAWAY_CLOSE_TIME_LABEL } from '@/config/giveaway';
@@ -17,7 +17,7 @@ export default function ShopPage() {
   const [cat, setCat] = useState<string>('All');
   const closeDate = GIVEAWAY.endDateISO ? formatEndDate(new Date(GIVEAWAY.endDateISO)) : null;
   const products = useMemo(
-    () => (cat === 'All' ? SHOP_PRODUCTS : SHOP_PRODUCTS.filter((p) => p.category === cat)),
+    () => (cat === 'All' ? PRODUCT_GROUPS : PRODUCT_GROUPS.filter((p) => p.category === cat)),
     [cat],
   );
 
@@ -81,31 +81,36 @@ export default function ShopPage() {
             );
           })}
         </div>
-        <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em' }}>{products.length} items · Sort: Newest</span>
+        <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em' }}>{products.length} products · Sort: Newest</span>
       </div>
 
       {/* PRODUCT GRID */}
       <section style={{ padding: 24, borderBottom: HAIR }}>
         <div className="grid gap-5 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
-          {products.map((p) => (
-            <Link key={p.name} href="/shop" className="v2-card flex flex-col overflow-hidden text-parchment">
+          {products.map((p) => {
+            const lead = p.colourways[0];
+            return (
+            <Link key={p.slug} href={`/shop/${p.slug}`} className="v2-card flex flex-col overflow-hidden text-parchment">
               <div className="relative overflow-hidden" style={{ aspectRatio: '4/4.4', background: '#17130C' }}>
-                <img src={p.img} alt={p.name} className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
+                <img src={lead.images[0].url} alt={p.title} className="w-full h-full" style={{ objectFit: 'cover', objectPosition: 'center top' }} />
                 {windowOpen && (
                   <span className="v2-chip absolute" style={{ top: 12, left: 12 }}>◆ {ENTRIES_LABEL.toUpperCase()}</span>
                 )}
-                {p.edition ? <span className="font-plex absolute text-sand" style={{ top: 12, right: 12, background: 'rgba(12,10,7,0.85)', fontSize: 10, letterSpacing: '0.1em', padding: '4px 8px', borderRadius: 2 }}>{p.edition}</span> : null}
               </div>
               <div className="flex flex-col gap-1.5" style={{ padding: 18 }}>
                 <div className="flex justify-between items-baseline gap-2">
-                  <span style={{ fontSize: 16, fontWeight: 700 }}>{p.name}</span>
+                  <span style={{ fontSize: 16, fontWeight: 700 }}>{p.title}</span>
                   <span className="font-plex text-brass-lit" style={{ fontSize: 15, fontWeight: 600 }}>{p.price}</span>
                 </div>
                 <span className="uppercase text-stone" style={{ fontSize: 12, letterSpacing: '0.06em' }}>{p.sub}</span>
-                <div style={{ marginTop: 10 }}><AddToCart product={p} full /></div>
+                <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.08em' }}>
+                  {p.colourways.length} colourway{p.colourways.length === 1 ? '' : 's'}{p.sizes ? ` · ${p.sizes[0]}\u2013${p.sizes[p.sizes.length - 1]}` : ''}
+                </span>
+                <span className="font-archivo uppercase text-brass" style={{ marginTop: 10, fontSize: 12, fontWeight: 800, letterSpacing: '0.1em' }}>View product {'\u2192'}</span>
               </div>
             </Link>
-          ))}
+            );
+          })}
         </div>
         {windowOpen ? (
           <NoPurchaseNotice className="font-plex text-stone" style={{ margin: '28px 0 0', fontSize: 11, letterSpacing: '0.08em', lineHeight: 1.7 }}>
