@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import ContentPage from '@/components/lootix/ContentPage';
+import { GIVEAWAY_ENABLED } from '@/config/flags';
 
 export const metadata: Metadata = {
   title: 'Returns & Refunds — Lootix',
@@ -25,13 +26,18 @@ export default function ReturnsPage() {
       <h2>Refunds</h2>
       <p>Approved refunds are issued to your original payment method via Stripe, typically within 5–10 business days.</p>
 
-      <h2>What happens to my giveaway entries?</h2>
-      <p>
-        A <strong>refund or chargeback voids the entries from that order</strong> — they stop counting in the draw, per the{' '}
-        <a href="/official-rules">Official Rules</a>. A <strong>size exchange keeps them</strong>: you still bought the gear, so
-        the entries stand. We ship to the United States only, and entries are earned only on orders shipped to eligible
-        U.S. addresses.
-      </p>
+      {/* Entry copy shows only while the giveaway is on (NEXT_PUBLIC_GIVEAWAY_ENABLED). */}
+      {GIVEAWAY_ENABLED && (
+        <>
+          <h2>What happens to my giveaway entries?</h2>
+          <p>
+            A <strong>refund or chargeback voids the entries from that order</strong> — they stop counting in the draw, per the{' '}
+            <a href="/official-rules">Official Rules</a>. A <strong>size exchange keeps them</strong>: you still bought the gear, so
+            the entries stand. We ship to the United States only, and entries are earned only on orders shipped to eligible
+            U.S. addresses.
+          </p>
+        </>
+      )}
 
       <h2>Questions?</h2>
       <p>Email <a href="mailto:hello@getlootix.com">hello@getlootix.com</a> and we&rsquo;ll help.</p>
