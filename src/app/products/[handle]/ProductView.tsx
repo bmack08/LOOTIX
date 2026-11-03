@@ -11,6 +11,7 @@ import Gallery from './Gallery';
 import type { SizeChart } from '@/config/size-charts';
 import { Accordions, ShippingBox, openSizeChart } from './ProductInfo';
 import StickyBar from './StickyBar';
+import Heart from '@/components/store/Heart';
 import { payLaterLine } from '@/config/pay-later';
 
 type Props = { group: ProductGroup; comingSoon: readonly string[]; chart: SizeChart };
@@ -96,6 +97,7 @@ export default function ProductView({ group, comingSoon, chart }: Props) {
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between gap-3">
             <span className="v2-eyebrow">{group.category} · Launch Collection</span>
+            <Heart handle={group.handle} color={cw.key} title={group.title} />
           </div>
           <h1 className="m-0 uppercase text-parchment" style={{ fontSize: 'clamp(26px,3.2vw,36px)', fontWeight: 900, letterSpacing: '-0.01em', lineHeight: 1.05 }}>
             {group.title}

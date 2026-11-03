@@ -7,6 +7,9 @@ import { SHOP_PRODUCTS } from '@/lib/site';
 import { isComingSoon } from '@/config/sizes';
 import { sizeChartFor } from '@/config/size-charts';
 import ProductView from './ProductView';
+import ProductCard from '@/components/store/ProductCard';
+import { toCard } from '@/config/collections';
+import { relatedProducts } from '@/config/product-groups';
 
 // Unknown handles are a real 404 (not-found.tsx), not a redirect.
 export const dynamicParams = false;
@@ -54,6 +57,11 @@ export default async function ProductPage({ params }: Params) {
   if (!g) notFound();
 
   const comingSoon = SHOP_PRODUCTS.filter((p) => isComingSoon(p)).map((p) => p.slug);
+  // Rows never show anything sold out (or coming soon) in every colour.
+  const buyable = (p: ProductGroup) => p.colourways.some((c) => c.available && !comingSoon.includes(c.slug));
+  const notBuyable = PRODUCT_GROUPS.filter((p) => !buyable(p)).map((p) => p.handle);
+  const styleWith = g.styleWith.map((h) => getProductGroup(h)).filter((p): p is ProductGroup => !!p && buyable(p)).slice(0, 4);
+  const alsoLike = relatedProducts(g.handle, 4, notBuyable);
   const url = `${SITE_ORIGIN}/products/${g.handle}`;
   const categoryHref = CATEGORY_HREF[g.category] ?? '/shop';
   // Product JSON-LD, one Offer per colour x size. No reviews / ratings.
@@ -107,6 +115,18 @@ export default async function ProductPage({ params }: Params) {
         </ol>
       </nav>
       <ProductView group={g} comingSoon={comingSoon} chart={sizeChartFor(g.blankId, g.sizes)} />
+      {styleWith.length > 0 && (
+        <section className="pdp-row" aria-labelledby="pdp-style-with">
+          <h2 id="pdp-style-with">Style with</h2>
+          <div className="pdp-row-grid">{styleWith.map((p) => <ProductCard key={p.handle} card={toCard(p)} />)}</div>
+        </section>
+      )}
+      {alsoLike.length >= 2 && (
+        <section className="pdp-row" aria-labelledby="pdp-also-like">
+          <h2 id="pdp-also-like">You may also like</h2>
+          <div className="pdp-row-grid">{alsoLike.map((p) => <ProductCard key={p.handle} card={toCard(p)} />)}</div>
+        </section>
+      )}
     </div>
   );
 }

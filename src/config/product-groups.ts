@@ -264,10 +264,15 @@ export function productHref(g: ProductGroup, colourKey?: string): string {
 }
 
 /** Other products, same category first. Excludes the product and its Style-with picks. */
-export function relatedProducts(handle: string, limit = 4): ProductGroup[] {
+export function relatedProducts(handle: string, limit = 4, skipHandles: readonly string[] = []): ProductGroup[] {
   const g = getProductGroup(handle);
   if (!g) return [];
-  const skip = new Set([handle, ...g.styleWith]);
-  const rest = PRODUCT_GROUPS.filter((p) => !skip.has(p.handle));
-  return [...rest.filter((p) => p.category === g.category), ...rest.filter((p) => p.category !== g.category)].slice(0, limit);
+  const skip = new Set([handle, ...g.styleWith, ...skipHandles]);
+  const rest = PRODUCT_GROUPS.filter((p) => !skip.has(p.handle) && p.colourways.some((c) => c.available));
+  const same = rest.filter((p) => p.category === g.category);
+  return [
+    ...same.filter((p) => p.design !== g.design),
+    ...same.filter((p) => p.design === g.design),
+    ...rest.filter((p) => p.category !== g.category),
+  ].slice(0, limit);
 }

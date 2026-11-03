@@ -3,6 +3,7 @@ import { Archivo, Space_Mono, IBM_Plex_Mono } from 'next/font/google';
 import '../styles/globals.css';
 import '../styles/store.css';
 import SiteHeader from '@/components/lootix/v2/SiteHeader';
+import Toaster from '@/components/store/Toaster';
 import { PRODUCT_GROUPS } from '@/config/product-groups';
 
 const FEATURE = (() => {
@@ -58,6 +59,7 @@ export default function RootLayout({
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <CartProvider>
           <SiteHeader feature={FEATURE} />
+          <Toaster />
           <main id="main-content">{children}</main>
           <SiteFooter />
         </CartProvider>

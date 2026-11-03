@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import type { Card } from '@/config/collections';
+import Heart from './Heart';
 
 /** Grid card: image, name, "From $X", up to 3 colour dots + "+N". No size buttons. */
 export default function ProductCard({ card, colour, priority = false }: { card: Card; colour?: string; priority?: boolean }) {
@@ -26,6 +27,7 @@ export default function ProductCard({ card, colour, priority = false }: { card: 
           </span>
         </div>
       </Link>
+      <Heart handle={card.handle} color={cw?.key ?? card.defaultColour} title={card.title} className="store-card-heart" />
     </div>
   );
 }
