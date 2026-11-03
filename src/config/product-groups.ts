@@ -1,6 +1,6 @@
 // Product layer over PRINTFUL_CATALOG. The catalog has one entry per
 // Printful product x garment colour (a "colourway"); the store front shows
-// one PRODUCT per design x garment, with its colourways and sizes as
+// one PRODUCT (/products/{handle}) per design x garment, with its colourways and sizes as
 // variants. Derived, not hand-kept: add a colourway to the catalog and it
 // appears here.
 //
@@ -10,6 +10,7 @@
 
 import { PRINTFUL_CATALOG, type CatalogEntry } from './printful-catalog';
 import GALLERY from './printful-gallery.json';
+import BLANKS from './printful-blanks.json';
 
 export type GalleryImage = {
   url: string;
@@ -23,6 +24,8 @@ export type ProductVariant = {
   size: string; // a size from the catalog, or 'ONE'
   /** Printful SYNC variant id. */
   printfulVariantId: number;
+  /** False when Printful reports the blank out of stock (read-only snapshot). */
+  available: boolean;
 };
 
 export type Colourway = {
@@ -35,6 +38,14 @@ export type Colourway = {
   ink: string | null;
   /** Swatch label: "Bone on Black" or just "Black". */
   label: string;
+  /** Spec label: "Black \u00b7 Bone ink" or just "Black". */
+  swatchLabel: string;
+  /** URL key for ?color= on the product page, unique within the product. */
+  key: string;
+  /** Garment hex from Printful's color_code (read-only snapshot). */
+  hex: string;
+  /** False when every size is out of stock. */
+  available: boolean;
   price: string;
   priceValue: number;
   printfulProductId: number;
@@ -43,8 +54,13 @@ export type Colourway = {
   images: readonly GalleryImage[];
 };
 
+export type Fit = 'mens' | 'womens' | 'cropped';
+export type Design = 'wordmark' | 'mark';
+
 export type ProductGroup = {
-  /** URL slug: /shop/{slug}. */
+  /** URL handle: /products/{handle}, e.g. "lootix-mark-box-tee". */
+  handle: string;
+  /** Older short slug (no "lootix-" prefix), kept for legacy redirects. */
   slug: string;
   title: string;
   sub: string;
@@ -55,7 +71,52 @@ export type ProductGroup = {
   /** Union of sizes across colourways, in picker order. */
   sizes: readonly string[] | null;
   colourways: readonly Colourway[];
+  /** Key of the colourway shown first. */
+  defaultColour: string;
+  /** Printful catalog (blank) product id: size chart + details source. */
+  blankId: number;
+  /** "Men's Box Tee | Cotton Heritage MC1087". */
+  blankTitle: string;
+  fit: readonly Fit[];
+  design: Design | null;
+  /** One-line fit note for the Details accordion. */
+  fitNote: string;
+  /** Fabric / weight bullets from the Printful blank description. */
+  fabric: readonly string[];
+  printMethod: string;
+  /** Handles of products to show under "Style with". */
+  styleWith: readonly string[];
 };
+
+type BlankVariant = { catalogProductId: number; catalogVariantId: number; availability: string; hex: string | null };
+type Blank = { title: string; description: string };
+const blankVariants = (BLANKS as unknown as { variants: Record<string, BlankVariant> }).variants;
+const blanks = (BLANKS as unknown as { blanks: Record<string, Blank> }).blanks;
+
+/** Hand-kept per blank: fit copy. Everything else is derived. */
+const FIT_NOTES: Record<number, string> = {
+  206: 'Low profile, unstructured, adjustable strap.',
+  317: 'Cropped fit with a raw hem. Size up for a longer body.',
+  360: 'Relaxed fit through the body.',
+  917: 'Boxy fit with a reinforced neckline.',
+  1420: 'Oversized fit in heavyweight fleece.',
+};
+
+/** Hand-kept "Style with" picks, by handle. Empty or missing hides the row. */
+const STYLE_WITH: Record<string, string[]> = {
+  'lootix-mark-oversized-hoodie': ['lootix-mark-box-tee', 'lootix-dad-hat'],
+  'lootix-wordmark-oversized-hoodie': ['lootix-wordmark-box-tee', 'lootix-dad-hat'],
+  'lootix-mark-box-tee': ['lootix-mark-oversized-hoodie', 'lootix-dad-hat'],
+  'lootix-wordmark-box-tee': ['lootix-wordmark-oversized-hoodie', 'lootix-dad-hat'],
+  'lootix-mark-womens-cropped-hoodie': ['lootix-mark-womens-relaxed-tee', 'lootix-dad-hat'],
+  'lootix-wordmark-womens-cropped-hoodie': ['lootix-wordmark-womens-relaxed-tee', 'lootix-dad-hat'],
+  'lootix-mark-womens-relaxed-tee': ['lootix-mark-womens-cropped-hoodie', 'lootix-dad-hat'],
+  'lootix-wordmark-womens-relaxed-tee': ['lootix-wordmark-womens-cropped-hoodie', 'lootix-dad-hat'],
+  'lootix-dad-hat': ['lootix-wordmark-box-tee', 'lootix-wordmark-oversized-hoodie'],
+};
+
+/** Preferred first colour per product (falls back to the first in stock). */
+const DEFAULT_COLOUR: Record<string, string> = {};
 
 const gallery = GALLERY as Record<string, GalleryImage[]>;
 
@@ -105,6 +166,16 @@ function build(): ProductGroup[] {
         priceValue: e.priceValue,
         sizes: e.sizes,
         colourways: [],
+        handle: slugify(title),
+        defaultColour: '',
+        blankId: 0,
+        blankTitle: '',
+        fit: [],
+        design: /wordmark/i.test(title + e.sub) ? 'wordmark' : /\bmark\b/i.test(title + e.sub) ? 'mark' : null,
+        fitNote: '',
+        fabric: [],
+        printMethod: '',
+        styleWith: [],
       };
       groups.set(slug, g);
     }
@@ -118,8 +189,19 @@ function build(): ProductGroup[] {
       const order = [...(g.sizes ?? []), ...e.sizes];
       g.sizes = order.filter((s, i) => have.has(s) && order.indexOf(s) === i);
     }
+    const variants = Object.entries(e.variants).map(([size, id]) => ({
+      size,
+      printfulVariantId: id,
+      available: (blankVariants[String(id)]?.availability ?? 'active') === 'active',
+    }));
+    const firstBlank = blankVariants[String(Object.values(e.variants)[0])];
+    if (firstBlank && !g.blankId) g.blankId = firstBlank.catalogProductId;
     g.colourways.push({
       slug: e.slug,
+      swatchLabel: ink ? `${e.colour} \u00b7 ${ink} ink` : e.colour,
+      key: '',
+      hex: firstBlank?.hex ?? '#3a3328',
+      available: variants.some((v) => v.available),
       name: e.name,
       colour: e.colour,
       ink,
@@ -128,17 +210,47 @@ function build(): ProductGroup[] {
       priceValue: e.priceValue,
       printfulProductId: e.printfulProductId,
       sizes: e.sizes,
-      variants: Object.entries(e.variants).map(([size, id]) => ({ size, printfulVariantId: id })),
+      variants,
       images: imagesFor(e),
     });
   }
+  for (const g of groups.values()) finish(g);
   return [...groups.values()];
+}
+
+function finish(g: ProductGroup & { colourways: Colourway[] }): void {
+  // ?color= key: the garment colour alone when unique, else colour + ink.
+  const count = new Map<string, number>();
+  for (const c of g.colourways) count.set(c.colour, (count.get(c.colour) ?? 0) + 1);
+  for (const c of g.colourways) {
+    c.key = count.get(c.colour)! > 1 && c.ink ? `${slugify(c.colour)}-${slugify(c.ink)}` : slugify(c.colour);
+  }
+  const pref = DEFAULT_COLOUR[g.handle];
+  g.defaultColour = (pref && g.colourways.find((c) => c.key === pref && c.available)?.key) ||
+    (g.colourways.find((c) => c.available) ?? g.colourways[0]).key;
+  const blank = blanks[String(g.blankId)];
+  g.blankTitle = blank?.title ?? '';
+  g.fabric = (blank?.description ?? '')
+    .split('\n')
+    .map((l) => l.replace(/^\u2022\s*/, '').trim())
+    .filter((l) => /^[0-9]+% |^fabric weight/i.test(l))
+    .slice(0, 3);
+  g.fitNote = FIT_NOTES[g.blankId] ?? '';
+  g.printMethod = g.category === 'Hats' || /embroider/i.test(g.sub) ? 'Embroidered.' : 'Direct-to-garment print.';
+  const t = g.title.toLowerCase();
+  g.fit = t.includes('women') ? (t.includes('cropped') ? ['womens', 'cropped'] : ['womens']) : g.category === 'Hats' ? [] : ['mens'];
+  g.styleWith = STYLE_WITH[g.handle] ?? [];
 }
 
 export const PRODUCT_GROUPS: readonly ProductGroup[] = build();
 
-export function getProductGroup(slug: string): ProductGroup | undefined {
-  return PRODUCT_GROUPS.find((g) => g.slug === slug);
+export function getProductGroup(handle: string): ProductGroup | undefined {
+  return PRODUCT_GROUPS.find((g) => g.handle === handle);
+}
+
+/** The colourway for a ?color= key, else the product default. */
+export function colourwayFor(g: ProductGroup, key: string | null | undefined): Colourway {
+  return g.colourways.find((c) => c.key === key) ?? g.colourways.find((c) => c.key === g.defaultColour)!;
 }
 
 /** The product a colourway (catalog / cart slug) belongs to. */
@@ -147,14 +259,15 @@ export function groupForColourway(colourwaySlug: string): ProductGroup | undefin
 }
 
 /** Product-page URL, optionally preselecting a colourway. */
-export function productHref(g: ProductGroup, colourwaySlug?: string): string {
-  return colourwaySlug && colourwaySlug !== g.colourways[0]?.slug ? `/shop/${g.slug}?c=${colourwaySlug}` : `/shop/${g.slug}`;
+export function productHref(g: ProductGroup, colourKey?: string): string {
+  return colourKey && colourKey !== g.defaultColour ? `/products/${g.handle}?color=${colourKey}` : `/products/${g.handle}`;
 }
 
-/** Other products, same category first. Data only; the UI waits on design. */
-export function relatedProducts(slug: string, limit = 4): ProductGroup[] {
-  const g = getProductGroup(slug);
+/** Other products, same category first. Excludes the product and its Style-with picks. */
+export function relatedProducts(handle: string, limit = 4): ProductGroup[] {
+  const g = getProductGroup(handle);
   if (!g) return [];
-  const rest = PRODUCT_GROUPS.filter((p) => p.slug !== slug);
+  const skip = new Set([handle, ...g.styleWith]);
+  const rest = PRODUCT_GROUPS.filter((p) => !skip.has(p.handle));
   return [...rest.filter((p) => p.category === g.category), ...rest.filter((p) => p.category !== g.category)].slice(0, limit);
 }

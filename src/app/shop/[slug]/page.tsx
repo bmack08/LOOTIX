@@ -17,7 +17,7 @@ type Params = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const { slug } = await params;
-  const g = getProductGroup(slug);
+  const g = PRODUCT_GROUPS.find((g) => g.slug === slug);
   if (!g) return {};
   const colours = [...new Set(g.colourways.map((c) => c.colour))];
   const description = `${g.title} \u2014 ${g.price}. ${g.sub}. Available in ${colours.join(', ')}. Ships to U.S. addresses only.`;
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Params) {
   const { slug } = await params;
-  const g = getProductGroup(slug);
+  const g = PRODUCT_GROUPS.find((g) => g.slug === slug);
   if (!g) notFound();
 
   const url = `${SITE_ORIGIN}/shop/${g.slug}`;
