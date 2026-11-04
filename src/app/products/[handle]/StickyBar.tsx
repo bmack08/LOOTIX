@@ -8,8 +8,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 
-export default function StickyBar({ title, detail, label, disabled, onAdd, sizes, size, sizeOk, onSize }: {
-  title: string; detail: string; label: string; disabled: boolean; onAdd: () => boolean | void;
+export default function StickyBar({ title, thumb, detail, label, disabled, onAdd, sizes, size, sizeOk, onSize }: {
+  title: string; thumb?: string; detail: string; label: string; disabled: boolean; onAdd: () => boolean | void;
   sizes: readonly string[] | null; size: string | null; sizeOk: (s: string) => boolean; onSize: (s: string) => void;
 }) {
   const [addGone, setAddGone] = useState(false);
@@ -45,6 +45,7 @@ export default function StickyBar({ title, detail, label, disabled, onAdd, sizes
 
   return (
     <div className="pdp-sticky" data-show={show || undefined} aria-hidden={!show}>
+      {thumb ? <img className="pdp-sticky-thumb" src={thumb} alt="" width={44} height={44} /> : null}
       <div className="pdp-sticky-text">
         <strong>{title}</strong>
         <span>{detail}</span>

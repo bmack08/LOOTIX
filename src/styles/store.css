@@ -247,3 +247,7 @@ html[data-sticky-bar] { scroll-padding-bottom: 88px; }
   .pdp-arrow, .pdp-count { display: none; }
   .pdp-thumbs { position: sticky; top: 88px; }
 }
+
+/* r4: desktop sticky-bar thumbnail (hidden <768 with the text) */
+.pdp-sticky-thumb { display: none; }
+@media (min-width: 768px) { .pdp-sticky-thumb { display: block; width: 44px; height: 44px; flex: none; object-fit: cover; background: #131009; border: 1px solid rgba(198,161,91,0.16); border-radius: 2px; } }

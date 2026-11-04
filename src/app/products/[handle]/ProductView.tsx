@@ -164,6 +164,7 @@ export default function ProductView({ group, comingSoon, chart }: Props) {
         <Accordions group={group} chart={chart} />
       </div>
       <StickyBar
+          thumb={cw.images[0]?.url}
         title={group.title}
         sizes={sized ? (cw.sizes ?? group.sizes ?? []) : null}
         size={size}
