@@ -86,7 +86,10 @@ export default function ProductView({ group, comingSoon, chart }: Props) {
     ? 'Sold out in this color'
     : size && !sizeOk(cw, size)
       ? `${size} sold out in this color`
-      : 'In stock. Printed to order.';
+      : (() => {
+          const out = (group.sizes ?? []).filter((s) => !sizeOk(cw, s));
+          return out.length ? `${out.join(', ')} sold out in this color. Other sizes printed to order.` : 'In stock. Printed to order.';
+        })();
 
   const buttonLabel = blocked(cw) ? 'Sold out in this color' : added ? 'Added \u2713' : `Add to cart \u00b7 ${cw.price}`;
 
