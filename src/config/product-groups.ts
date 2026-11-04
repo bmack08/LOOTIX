@@ -11,6 +11,7 @@
 import { PRINTFUL_CATALOG, type CatalogEntry } from './printful-catalog';
 import GALLERY from './printful-gallery.json';
 import BLANKS from './printful-blanks.json';
+import MOCKUPS from './printful-mockups.json';
 
 export type GalleryImage = {
   url: string;
@@ -141,7 +142,15 @@ function groupSlug(title: string): string {
   return s.startsWith('lootix-') && s.split('-').length > 3 && !s.includes('dad-hat') ? s.slice(7) : s;
 }
 
+// Extra Printful mockup-generator renders (back, detail, worn), saved as webp
+// under /public/products/mockups by scripts/printful-mockups.mjs.
+const mockups = MOCKUPS as Record<string, GalleryImage[]>;
+
 function imagesFor(e: CatalogEntry): GalleryImage[] {
+  return [...baseImages(e), ...(mockups[e.slug] ?? [])];
+}
+
+function baseImages(e: CatalogEntry): GalleryImage[] {
   const ids = Object.values(e.variants);
   for (const id of ids) {
     const imgs = gallery[String(id)];
