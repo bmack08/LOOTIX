@@ -24,10 +24,10 @@ export default function SiteFooter() {
             <a href={COMPANY.socials.tiktok} target="_blank" rel="noopener noreferrer" className="text-brass hover:text-brass-lit transition-colors">TikTok</a>
             <a href={COMPANY.socials.discord} target="_blank" rel="noopener noreferrer" className="text-brass hover:text-brass-lit transition-colors">Discord</a>
           </div>
-          <span className="font-plex text-ash" style={{ fontSize: 11, lineHeight: 1.7 }}>
+          <span className="font-plex text-stone" style={{ fontSize: 11, lineHeight: 1.7 }}>
             {COMPANY.address}
             <br />
-            <a href={`mailto:${COMPANY.email}`} className="text-ash hover:text-brass-lit transition-colors">{COMPANY.email}</a>
+            <a href={`mailto:${COMPANY.email}`} className="text-stone hover:text-brass-lit transition-colors">{COMPANY.email}</a>
           </span>
         </div>
 
@@ -44,17 +44,17 @@ export default function SiteFooter() {
       </div>
 
       <div className="flex justify-between items-center gap-6 flex-wrap" style={{ paddingTop: 28 }}>
-        <span className="font-plex text-ash" style={{ fontSize: 11 }}>© 2026 {COMPANY.legalName} · All rights reserved</span>
-        <PrivacyChoicesLink className="font-plex text-ash hover:text-brass-lit transition-colors" style={{ fontSize: 11 }} />
+        <span className="font-plex text-stone" style={{ fontSize: 11 }}>© 2026 {COMPANY.legalName} · All rights reserved</span>
+        <PrivacyChoicesLink className="font-plex text-stone hover:text-brass-lit transition-colors" style={{ fontSize: 11 }} />
         {/* Legal 2026-10-24: PRE-START (start and end dates not both set = !GIVEAWAY_DATES_SET) shows the
             pre-start text below; once the dates are set (LIVE, and before/after the window) the short Option B line. */}
         {!SHOW_GIVEAWAY_TEASERS ? null : GIVEAWAY_DATES_SET ? (
-          <NoPurchaseNotice as="span" line={ODDS_SHORT} className="text-ash" style={{ fontSize: 11, lineHeight: 1.7, maxWidth: 640 }}>
+          <NoPurchaseNotice as="span" line={ODDS_SHORT} className="text-stone" style={{ fontSize: 11, lineHeight: 1.7, maxWidth: 640 }}>
             Void where prohibited. Open to legal residents 18+. Odds depend on the number of entries. See the{' '}
             <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> for full details.
           </NoPurchaseNotice>
         ) : (
-          <span className="text-ash" style={{ fontSize: 11, lineHeight: 1.7, maxWidth: 640 }}>
+          <span className="text-stone" style={{ fontSize: 11, lineHeight: 1.7, maxWidth: 640 }}>
             No purchase necessary. The Lootix Launch Giveaway has not started and dates are not set yet.{' '}
             <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link> will apply once it opens.
           </span>

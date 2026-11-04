@@ -37,7 +37,10 @@ export default function Gallery({ title, colour, images }: { title: string; colo
     const next = (k + n) % n;
     setI(next);
     const t = track.current;
-    if (t) t.scrollTo({ left: next * t.clientWidth, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    const behavior = matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth';
+    // >=1024 the slides are stacked and the page scrolls past them (buy panel stays sticky).
+    if (t && matchMedia('(min-width: 1024px)').matches) (t.children[next] as HTMLElement | undefined)?.scrollIntoView({ behavior, block: 'start' });
+    else if (t) t.scrollTo({ left: next * t.clientWidth, behavior });
     if (focus) thumbs.current[next]?.focus();
   }, [n]);
 
@@ -74,7 +77,7 @@ export default function Gallery({ title, colour, images }: { title: string; colo
               className="pdp-slide"
               aria-label={`Zoom image ${k + 1} of ${n}: ${view(im)}`}
               tabIndex={k === i ? 0 : -1}
-              onClick={() => dialog.current?.showModal()}
+              onClick={() => { setI(k); dialog.current?.showModal(); }}
             >
               <Img im={im} alt={alt(im)} eager={k === 0} />
             </button>

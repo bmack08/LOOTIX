@@ -21,6 +21,7 @@ export default function ProductView({ group, comingSoon, chart }: Props) {
   const [key, setKey] = useState(group.defaultColour);
   const [size, setSize] = useState<string | null>(null);
   const [needSize, setNeedSize] = useState(false);
+  const [hover, setHover] = useState<string | null>(null);
   const [added, setAdded] = useState(false);
   const [announce, setAnnounce] = useState('');
   const sizesRef = useRef<HTMLDivElement>(null);
@@ -103,14 +104,17 @@ export default function ProductView({ group, comingSoon, chart }: Props) {
             {group.title}
           </h1>
           <span className="font-plex text-brass-lit" style={{ fontSize: 20, fontWeight: 600 }}>{cw.price}</span>
+          {!blocked(cw) && payLaterLine(cw.priceValue) ? (
+            <span className="font-plex text-sand" style={{ fontSize: 13 }}>{payLaterLine(cw.priceValue)}</span>
+          ) : null}
         </div>
 
         {/* COLOR */}
         <div className="flex flex-col gap-3">
           <span className="font-plex uppercase text-stone" style={{ fontSize: 11, letterSpacing: '0.1em' }}>
-            Color: <span className="text-parchment">{cw.swatchLabel}</span>
+            Color: <span className="text-parchment">{(group.colourways.find((c) => c.key === hover) ?? cw).swatchLabel}</span>
           </span>
-          <Swatches group={group} value={cw.key} blocked={blocked} onPick={pickColour} />
+          <Swatches group={group} value={cw.key} blocked={blocked} onPick={pickColour} onHover={setHover} />
         </div>
 
         {/* SIZE */}
@@ -151,9 +155,6 @@ export default function ProductView({ group, comingSoon, chart }: Props) {
         >
           {buttonLabel}
         </button>
-        {payLaterLine(cw.priceValue) ? (
-          <span className="font-plex text-sand" style={{ fontSize: 13 }}>{payLaterLine(cw.priceValue)}</span>
-        ) : null}
         <p className="sr-only" role="status" aria-live="polite">{announce}</p>
 
         <ShippingBox />
@@ -161,6 +162,10 @@ export default function ProductView({ group, comingSoon, chart }: Props) {
       </div>
       <StickyBar
         title={group.title}
+        sizes={sized ? (cw.sizes ?? group.sizes ?? []) : null}
+        size={size}
+        sizeOk={(s) => sizeOk(cw, s)}
+        onSize={pickSize}
         detail={`${cw.swatchLabel}${sized && size ? ` \u00b7 ${size}` : ''} \u00b7 ${cw.price}`}
         label={blocked(cw) ? 'Sold out' : added ? 'Added \u2713' : 'Add to cart'}
         disabled={blocked(cw)}
@@ -180,7 +185,9 @@ function onArrows(e: React.KeyboardEvent<HTMLDivElement>, count: number, at: num
   (e.currentTarget.children[i] as HTMLElement | undefined)?.focus();
 }
 
-function Swatches({ group, value, blocked, onPick }: { group: ProductGroup; value: string; blocked: (c: Colourway) => boolean; onPick: (k: string) => void }) {
+const INK_HEX: Record<string, string> = { Black: '#0C0A07', 'Blood Red': '#8E1B1B', Bone: '#E8DCC0', 'Loot Gold': '#C6A15B', White: '#FFFFFF' };
+
+function Swatches({ group, value, blocked, onPick, onHover }: { group: ProductGroup; value: string; blocked: (c: Colourway) => boolean; onPick: (k: string) => void; onHover: (k: string | null) => void }) {
   const at = Math.max(0, group.colourways.findIndex((c) => c.key === value));
   return (
     <div
@@ -188,6 +195,8 @@ function Swatches({ group, value, blocked, onPick }: { group: ProductGroup; valu
       aria-label="Color"
       className="pdp-swatches"
       onKeyDown={(e) => onArrows(e, group.colourways.length, at, (i) => onPick(group.colourways[i].key))}
+      onMouseLeave={() => onHover(null)}
+      onBlur={() => onHover(null)}
     >
       {group.colourways.map((c) => {
         const on = c.key === value;
@@ -202,11 +211,13 @@ function Swatches({ group, value, blocked, onPick }: { group: ProductGroup; valu
             title={c.swatchLabel}
             tabIndex={on ? 0 : -1}
             onClick={() => onPick(c.key)}
+            onMouseEnter={() => onHover(c.key)}
+            onFocus={() => onHover(c.key)}
             className="pdp-swatch"
             data-on={on || undefined}
             data-out={out || undefined}
           >
-            <span style={{ background: c.hex }} />
+            <span style={{ background: c.hex }}>{c.ink ? <i style={{ background: INK_HEX[c.ink] ?? '#C6A15B' }} /> : null}</span>
           </button>
         );
       })}

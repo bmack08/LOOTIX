@@ -46,7 +46,7 @@ const Icon = {
   close: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" strokeLinecap="round" /></svg>,
 };
 
-const Badge = ({ n }: { n: number }) => (n > 0 ? <span className="hdr-badge" aria-hidden="true">{n}</span> : null);
+const Badge = ({ n }: { n: number }) => <span className="hdr-badge" data-zero={n === 0 || undefined} aria-hidden="true">{n}</span>;
 
 export default function SiteHeader({ feature = null }: { feature?: { title: string; img: string; href: string } | null }) {
   const pathname = usePathname() || '/';
@@ -94,7 +94,8 @@ export default function SiteHeader({ feature = null }: { feature?: { title: stri
   );
 
   return (
-    <div>
+    // display:contents so the sticky header is positioned against <body>, not this wrapper.
+    <div className="contents">
       <Ticker />
       <header className="hdr">
         <div className="hdr-bar">
@@ -109,10 +110,10 @@ export default function SiteHeader({ feature = null }: { feature?: { title: stri
           </nav>
           <div className="hidden lg:block hdr-search-wrap"><SearchBox /></div>
           <div className="hdr-actions">
-            <button ref={searchBtn} type="button" className="hdr-icon lg:hidden" aria-label="Search" aria-expanded={searching} onClick={() => setSearching((s) => !s)}>{Icon.search}</button>
+            <button ref={searchBtn} type="button" className="hdr-icon hdr-mobile" aria-label="Search" aria-expanded={searching} onClick={() => setSearching((s) => !s)}>{Icon.search}</button>
             <Link href="/saved" className="hdr-icon" aria-label={`Saved items (${saved})`}>{Icon.heart}<Badge n={saved} /></Link>
             <Link href="/cart" className="hdr-icon" aria-label={`Cart (${cart} items)`}>{Icon.bag}<Badge n={cart} /></Link>
-            <button ref={menuBtn} type="button" className="hdr-icon lg:hidden" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>{Icon.menu}</button>
+            <button ref={menuBtn} type="button" className="hdr-icon hdr-mobile" aria-label="Open menu" aria-expanded={open} onClick={() => setOpen(true)}>{Icon.menu}</button>
           </div>
         </div>
         {searching && (

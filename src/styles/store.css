@@ -194,3 +194,56 @@
 .pdp-arrow:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 .pdp-arrow-prev { left: 10px; }
 .pdp-arrow-next { right: 10px; }
+
+/* ---- Design review r2 ---- */
+/* 1. Mobile gallery: thumbs off <768 (this rule must follow the base rule). */
+@media (max-width: 767px) { .pdp-thumbs { display: none; } }
+.pdp-page, .store-collection { overflow-x: clip; }
+
+/* 3. Sticky bar: 60px + safe area on mobile, size select + button only. */
+.pdp-sticky-size select { height: 44px; min-width: 96px; background: #131009; color: #EFE5CF; border: 1px solid rgba(198,161,91,.35); border-radius: 2px; padding: 0 10px; font-size: 14px; }
+@media (max-width: 767px) {
+  .pdp-sticky { height: calc(60px + env(safe-area-inset-bottom)); padding: 8px 16px calc(8px + env(safe-area-inset-bottom)); gap: 8px; }
+  .pdp-sticky-text { display: none; }
+  .pdp-sticky-size { flex: 1; } .pdp-sticky-size select { width: 100%; }
+  .pdp-sticky-btn { flex: 1.4; min-width: 0; height: 44px; }
+}
+html[data-sticky-bar] { scroll-padding-bottom: 88px; }
+.pdp-page :is(a, button, input, select, summary, [tabindex]) { scroll-margin-bottom: 88px; }
+
+/* 4. Tap targets >= 44px. */
+.store-chip { min-height: 44px; }
+.store-selects select { height: 44px; font-size: 14px; }
+.pdp-unit button { height: 44px; }
+.pdp-link { min-height: 44px; padding: 0 4px; }
+.pdp-size { min-width: 56px; min-height: 44px; }
+
+/* 5. Swatch = garment colour with an ink dot. */
+.pdp-swatch span { position: relative; display: block; }
+.pdp-swatch span i { position: absolute; right: -1px; bottom: -1px; width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 2px #0C0A07, inset 0 0 0 1px rgba(239,229,207,.3); }
+
+/* 6. Header: mobile-only icons hidden >=1024; badges always show a count. */
+@media (min-width: 1024px) { .hdr-icon.hdr-mobile { display: none; } }
+.hdr-badge[data-zero] { background: #2A2317; color: #B4A88C; }
+
+/* 7. Card colour dots: 2px line border. */
+.store-dots > span[style] { box-shadow: inset 0 0 0 2px rgba(239,229,207,.45); }
+
+/* 8. White-background mockups (hats) sit on the ink card. */
+.store-card-img, .pdp-slide, .pdp-thumbs button { background: #131009; }
+
+/* 11. Gallery arrows: ink-alt circle, parchment chevron, brass ring. */
+.pdp-arrow { background: rgba(15,12,8,.88); color: #EFE5CF; border: 1px solid rgba(198,161,91,.35); }
+.pdp-arrow:hover { background: #0F0C08; border-color: #C6A15B; }
+.pdp-arrow:focus-visible { outline: 2px solid #C6A15B; outline-offset: 2px; }
+.hdr-link { min-width: 44px; justify-content: center; }
+.hdr-bar > a.flex-none { display: flex; align-items: center; min-height: 44px; }
+
+/* 10. >=1024: stacked gallery scrolls with the page; buy panel stays sticky. */
+@media (min-width: 1024px) {
+  .pdp-stage { aspect-ratio: auto; overflow: visible; background: none; border: 0; }
+  .pdp-track { flex-direction: column; gap: 12px; height: auto; overflow: visible; scroll-snap-type: none; }
+  .pdp-slide { flex: none; aspect-ratio: 1 / 1; background: #131009; border: 1px solid rgba(198,161,91,.16); scroll-margin-top: 88px; }
+  .pdp-arrow, .pdp-count { display: none; }
+  .pdp-thumbs { position: sticky; top: 88px; }
+}

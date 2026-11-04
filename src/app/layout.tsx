@@ -54,7 +54,7 @@ export default function RootLayout({
       <body
         suppressHydrationWarning
         className={`${archivo.variable} ${spaceMono.variable} ${plexMono.variable} bg-ink text-parchment font-archivo`}
-        style={{ overflowX: 'hidden' }}
+        style={{ overflowX: 'clip' }}
       >
         <a href="#main-content" className="skip-link">Skip to main content</a>
         <CartProvider>
