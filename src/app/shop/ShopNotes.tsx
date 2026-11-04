@@ -5,7 +5,7 @@
 // shipping note shows.
 
 import Link from 'next/link';
-import { SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
+import { GIVEAWAY_ENABLED, SHOW_GIVEAWAY_TEASERS } from '@/config/flags';
 import NoPurchaseNotice from '@/components/NoPurchaseNotice';
 import { useEntryWindow } from '@/components/lootix/useEntryWindow';
 import { ENTRIES_LABEL, FREE_SHIPPING_THRESHOLD } from '@/config/giveaway';
@@ -16,8 +16,13 @@ export default function ShopNotes() {
   const windowOpen = useEntryWindow();
   const body = (
     <>
-      Ships to the US only · free shipping on orders of ${FREE_SHIPPING_THRESHOLD}+. See the{' '}
-      <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
+      Ships to the US only · free shipping on orders of ${FREE_SHIPPING_THRESHOLD}+.
+      {GIVEAWAY_ENABLED && (
+        <>
+          {' '}See the{' '}
+          <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.
+        </>
+      )}
     </>
   );
   return (
