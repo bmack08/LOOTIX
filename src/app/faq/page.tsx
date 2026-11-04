@@ -33,7 +33,10 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
       ) },
       { q: 'Does spending more improve my odds?', a: <>The free mail-in method is worth {MAIL_IN_ENTRIES} entries per card with no limit on how many cards you mail, so you can build entries without spending anything. <NoPurchaseNotice as="span" line={ODDS_LONG_MD} /></> },
       { q: 'What is the current prize?', a: 'The Lootix Launch Giveaway: $250 cash plus a custom Lootix hoodie and a custom Lootix tee. Item values and the total are still being finalized. Cash is paid by PayPal.' },
-      { q: 'What happens to my entries if I get a refund or exchange?', a: 'A refund, cancellation or chargeback voids the matching entries, in whole or in part. A size exchange of equal value keeps its entries. Replacing a damaged, defective or wrong item does not void entries either.' },
+      // Exchanges are size only (Terms). Entry wording only while the giveaway is on.
+      GIVEAWAY_ENABLED
+        ? { q: 'What happens to my entries if I get a refund or exchange?', a: 'Exchanges are size only: swap for a different size of the same item within 30 days of delivery. A size exchange of equal value keeps its entries. A refund, cancellation or chargeback voids the matching entries, in whole or in part. Replacing a damaged, defective or wrong item does not void entries either.' }
+        : { q: 'Can I exchange an item?', a: 'Exchanges are size only: swap for a different size of the same item within 30 days of delivery.' },
     ],
   },
   {
