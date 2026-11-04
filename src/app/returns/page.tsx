@@ -15,7 +15,7 @@ export default function ReturnsPage() {
       subtitle="Our gear is made-to-order — here's how returns, defects, and exchanges work."
     >
       <h2>Made-to-order</h2>
-      <p>Size or color exchanges are available within 30 days of delivery for an equal-value item.</p>
+      <p>30-day size exchange: swap for a different size of the same item within 30 days of delivery. Exchanges are size only.</p>
 
       <h2>Damaged or defective items</h2>
       <p>If your item arrives damaged, defective, or misprinted, we&rsquo;ll make it right. Email <a href="mailto:hello@getlootix.com">hello@getlootix.com</a> within <strong>14 days</strong> of delivery with your order number and clear photos of the issue. We&rsquo;ll arrange a free replacement or a refund.</p>
