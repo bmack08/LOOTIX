@@ -4,6 +4,11 @@
 
 import SNAP from './pay-later.json';
 
+/** Display switch, default hidden (design review r2). Stripe live config
+ *  pmc_1TueX9… has Klarna + Afterpay on (checked 2026-11-03), so this can be
+ *  flipped to true; the line then names only the providers the snapshot shows on. */
+export const PAY_LATER_ENABLED = false;
+
 type Snap = { mode?: string; klarna?: string; afterpay?: string };
 const s = SNAP as Snap;
 
@@ -11,7 +16,7 @@ export const PAY_LATER_PROVIDERS: string[] =
   s.mode === 'live' ? [s.klarna === 'on' && 'Klarna', s.afterpay === 'on' && 'Afterpay'].filter((x): x is string => !!x) : [];
 
 export function payLaterLine(priceValue: number): string | null {
-  if (!PAY_LATER_PROVIDERS.length) return null;
+  if (!PAY_LATER_ENABLED || !PAY_LATER_PROVIDERS.length) return null;
   const each = (Math.ceil((priceValue / 4) * 100) / 100).toFixed(2);
   return `Or 4 interest-free payments of $${each} with ${PAY_LATER_PROVIDERS.join(' or ')} at checkout.`;
 }
