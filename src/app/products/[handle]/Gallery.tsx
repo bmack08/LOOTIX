@@ -83,6 +83,8 @@ export default function Gallery({ title, colour, images }: { title: string; colo
         {n > 1 && (
           <>
             <span className="pdp-count" aria-hidden="true">{i + 1} / {n}</span>
+            <button type="button" className="pdp-arrow pdp-arrow-prev" onClick={() => go(i - 1)} aria-label="Previous image">&lsaquo;</button>
+            <button type="button" className="pdp-arrow pdp-arrow-next" onClick={() => go(i + 1)} aria-label="Next image">&rsaquo;</button>
             <div className="pdp-dots" aria-hidden="true">
               {images.map((im, k) => <span key={im.url} data-on={k === i || undefined} />)}
             </div>

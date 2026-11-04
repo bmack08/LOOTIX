@@ -186,3 +186,11 @@
 .pdp-row h2 { margin: 0 0 16px; font-size: 20px; font-weight: 900; text-transform: uppercase; color: #EFE5CF; }
 .pdp-row-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
 @media (max-width: 767px) { .pdp-row-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+
+/* Gallery stage prev/next (visible tap targets; WCAG 2.5.7 alternative to swipe). */
+.pdp-stage { position: relative; }
+.pdp-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 44px; height: 44px; border-radius: 50%; border: 1px solid rgba(0,0,0,.12); background: rgba(255,255,255,.88); color: #111; font-size: 26px; line-height: 1; display: grid; place-items: center; cursor: pointer; z-index: 2; }
+.pdp-arrow:hover { background: #fff; }
+.pdp-arrow:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
+.pdp-arrow-prev { left: 10px; }
+.pdp-arrow-next { right: 10px; }
