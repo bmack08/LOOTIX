@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 const HAIR = '1px solid rgba(198,161,91,0.16)';
 
-const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = [
+const ALL_GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = [
   {
     title: 'Giveaways & Entries',
     items: [
@@ -33,10 +33,8 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
       ) },
       { q: 'Does spending more improve my odds?', a: <>The free mail-in method is worth {MAIL_IN_ENTRIES} entries per card with no limit on how many cards you mail, so you can build entries without spending anything. <NoPurchaseNotice as="span" line={ODDS_LONG_MD} /></> },
       { q: 'What is the current prize?', a: 'The Lootix Launch Giveaway: $250 cash plus a custom Lootix hoodie and a custom Lootix tee. Item values and the total are still being finalized. Cash is paid by PayPal.' },
-      // Exchanges are size only (Terms). Entry wording only while the giveaway is on.
-      GIVEAWAY_ENABLED
-        ? { q: 'What happens to my entries if I get a refund or exchange?', a: 'Exchanges are size only: swap for a different size of the same item within 30 days of delivery. A size exchange of equal value keeps its entries. A refund, cancellation or chargeback voids the matching entries, in whole or in part. Replacing a damaged, defective or wrong item does not void entries either.' }
-        : { q: 'Can I exchange an item?', a: 'Exchanges are size only: swap for a different size of the same item within 30 days of delivery.' },
+      // Entry effect of refunds/exchanges ? only rendered while Giveaways section is shown (GIVEAWAY_ENABLED).
+      { q: 'What happens to my entries if I get a refund or exchange?', a: 'Exchanges are size only: swap for a different size of the same item within 30 days of delivery. A size exchange of equal value keeps its entries. A refund, cancellation or chargeback voids the matching entries, in whole or in part. Replacing a damaged, defective or wrong item does not void entries either.' },
     ],
   },
   {
@@ -53,11 +51,17 @@ const GROUPS: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
     items: [
       { q: 'How does shipping work?', a: <>We ship to US addresses only. Items are made to order, so see our <Link href="/shipping" className="text-brass hover:text-brass-lit transition-colors">Shipping Policy</Link> for production and delivery times.<span className="block" style={{ marginTop: 10 }}>Free U.S. shipping on orders of $100 or more, after discounts and before tax. Otherwise it&rsquo;s a flat $8.95 per order with a hoodie, or $5.95 for orders without a hoodie.<EntryGate fallback={null}>{' '}Giveaway entries count only on orders shipped to US addresses. See the <Link href="/official-rules" className="text-brass hover:text-brass-lit transition-colors">Official Rules</Link>.</EntryGate></span></> },
       { q: 'Can I return an item?', a: <>Made-to-order gear cannot be returned for change of mind. If an item arrives damaged, defective, or wrong, email hello@getlootix.com within 14 days of delivery for a replacement or refund; see the <Link href="/returns" className="text-brass hover:text-brass-lit transition-colors">Returns</Link> page. A refund voids the entries from that order, per the Official Rules.</> },
+      { q: 'Can I exchange an item?', a: 'Exchanges are size only: swap for a different size of the same item within 30 days of delivery.' },
+      
       { q: 'Is checkout secure?', a: 'Yes — payments run through Stripe. We never see or store your card details.' },
     ],
   },
 ];
 
+
+const GIVEAWAY_FAQ_TITLES = new Set(['Giveaways & Entries', 'The Draw']);
+/** FAQ groups shown on the page. Giveaway sections only while GIVEAWAY_ENABLED. */
+const GROUPS = ALL_GROUPS.filter((g) => GIVEAWAY_ENABLED || !GIVEAWAY_FAQ_TITLES.has(g.title));
 export default function FaqPage() {
   return (
     <div className="text-parchment">
